@@ -129,13 +129,6 @@
     }
   });
 
-  // src/.env/conf.json
-  var conf_default = {
-    google: {
-      gtag: "**"
-    }
-  };
-
   // node_modules/redux/dist/redux.mjs
   var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
   var symbol_observable_default = $$observable;
@@ -3619,22 +3612,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   };
   customElements.define("page-header", PageHeader);
-
-  // node_modules/@buyerjourney/bj-core/src/components/google.js
-  function withGoogleAnalytics(tagId) {
-    let script = document.createElement("script");
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${tagId}`;
-    let script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());    
-      gtag('config', '${tagId}');
-    `;
-    document.head.appendChild(script);
-    document.head.appendChild(script2);
-  }
 
   // node_modules/@buyerjourney/router/src/utils.js
   var Utils = class {
@@ -23057,9 +23034,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             url: "/images/buyerjourney_js.jpg"
           },
           classList: ["is-fullheight-with-navbar", " is-link"],
-          scrollButton: {
-            color: "white"
-          },
           title: {
             classList: ["is-size-1"],
             text: {
@@ -23168,7 +23142,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (rehydratedState.context.lang === "none") {
       store.dispatch(setLanguaje({ lang: getLang() }));
     }
-    withGoogleAnalytics(conf_default.google.gtag);
     App.run();
     whithAnimations();
   });
