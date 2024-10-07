@@ -1,0 +1,98 @@
+{
+    "props":{
+        "id":"BJ App",
+        "noCache":true,
+        "title":{
+            "es":"App|BuyerJourney.js",
+            "en":"App|BuyerJourney.js",
+            "fr":"App|BuyerJourney.js"
+
+        },
+        "description":{
+            "es":"Aplicación BJ Mínima",
+            "en":"Minimal BJ App",
+            "fr":"Application BJ Minimale"
+        },
+        "image":"/images/og.webp",
+        "type":"business.business",
+        "classList":["has-background-brand"],
+        "components":[
+            {
+                "id":"header",
+                "brand":{
+                    "src":"/images/Buyer Journey.png"
+                },
+                "i18n":{
+                    "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
+                }
+            },
+            {
+                "id":"attention",
+                "backgroundImage":{
+                    "url":"/images/buyerjourney_js.jpg"
+                },
+                "classList":["is-fullheight-with-navbar", " is-link"],
+                "title":{
+                    "classList":["is-size-1"],
+                    "text":{
+                        "es":"BuyerJourney.js",
+                        "en":"BuyerJourney.js",
+                        "fr":"BuyerJourney.js"
+                    },
+                    "animation":{
+                        "effect":"fadeIn"
+                    }
+                },
+                "subtitle":{
+                    "classList":["is-size-3"],
+                    "text":{
+                        "es":"Bibliotecas Javascript Vanilla de código abierto para crear páginas de destino, embudos de ventas, puntos de contacto y bucles de crecimiento.",
+                        "en":"Open Source Vanilla Javascript libraries to make landing pages, sales funnels, touch points and growth loops.",
+                        "fr":"Bibliothèques Javascript Open Source Vanilla pour créer des pages de destination, des entonnoirs de vente, des points de contact et des boucles de croissance."
+                    },
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }
+                },
+                "buttons":{
+                    "eventName":"attentionclick",
+                    "classList":["is-centered"],
+                    "buttons":[
+                        {
+                            "id":"atention-button",
+                            "text":{
+                             "es":"Me Interesa",
+                             "en":"I'm interested",
+                             "fr":"Je suis intéressé"
+                            },
+                            "classList":["is-rounded","is-success"]
+                         }
+                    ]
+                }
+            },
+            {
+                "id":"footer",
+                "brand":{
+                    "src":"/images/Buyer Journey.png"
+                },
+                "content":{
+                    "text":{
+                        "es":"Aplicación BJ Mínima",
+                        "en":"Minimal BJ App",
+                        "fr":"Application BJ minimale"
+                    }
+                },
+                "privacyPolicy":{
+                    "text":{
+                        "es":"Política de Privacidad",
+                        "en":"Privacy Policy",
+                        "fr":"Politique de confidentialité"
+                    },
+                    "url":"/"
+                }
+            }
+        ]       
+    }
+}
+    
