@@ -4,12 +4,16 @@ Template for creating bj applications
 [<img src="https://www.conference.com.mx/web/image/website/3/logo/Conference?unique=cb769b7">](https://www.conference.com.mx/comercializacion-digital)
 ## Install
 
- 1. create the .env folder inside the src folder,
- 2. create the conf.json file inside the .env folder,
- 3. Add ```{}``` inside the conf.json file
-4. Run the following commands:
+1. Install the dependencies
+2. Create the configuration directory,
+3. create the conf.json file inside the .env folder,
+4. Create css files
+5. Start the application
+
  ```
 npm install
+mkdir src/.env
+echo "{}" | cat > src/.env/conf.json
 npm run scss
 npm run watch
 ```
