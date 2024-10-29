@@ -1,11 +1,14 @@
 import { AppPage, PageHeader, PageFooter } from "@buyerjourney/bj-core";
 import { HeroBanner } from "@buyerjourney/bj-components";
-import { setLanguaje, setTheme } from "../store/slices/homeSlice";
+import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
+import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
 import data from "../data/home.json";
 
 export function home(req, router){
+
+    let counter = {etention:0, interest:0, desire:0, action:0, leavingapp:0, leavedapp:0 }
 
     let template =`
     <page-header id="header"></page-header>
@@ -38,7 +41,8 @@ export function home(req, router){
               }
         }
 
-    page.eventsToListen(["user:select-lang","user:select-theme"], pageEvents)
+    page.eventsToListen(["user:select-lang","user:select-theme", "viewedelement", 
+        "leavingapp", "leavedapp"], pageEvents)
 
     store.subscribe(handleChange);
 }

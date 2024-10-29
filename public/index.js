@@ -1640,11 +1640,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       preloadedState = void 0,
       enhancers = void 0
     } = options || {};
-    let rootReducer;
+    let rootReducer2;
     if (typeof reducer === "function") {
-      rootReducer = reducer;
+      rootReducer2 = reducer;
     } else if (isPlainObject(reducer)) {
-      rootReducer = combineReducers(reducer);
+      rootReducer2 = combineReducers(reducer);
     } else {
       throw new Error(false ? formatProdErrorMessage(1) : "`reducer` is a required argument, and must be a function or an object of functions that can be passed to combineReducers");
     }
@@ -1687,7 +1687,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       console.error("middlewares were provided, but middleware enhancer was not included in final enhancers - make sure to call `getDefaultEnhancers`");
     }
     const composedEnhancer = finalCompose(...storeEnhancers);
-    return createStore(rootReducer, preloadedState, composedEnhancer);
+    return createStore(rootReducer2, preloadedState, composedEnhancer);
   }
   function executeReducerBuilderCallback(builderCallback) {
     const actionsMap = {};
@@ -2873,29 +2873,43 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // src/app/store/store.js
   var import_storage = __toESM(require_storage());
 
-  // src/app/store/slices/homeSlice.js
-  var homeSlice = createSlice({
-    name: "home",
+  // src/app/store/slices/contextSlice.js
+  var contextSlice = createSlice({
+    name: "context",
     initialState: {
-      context: {
-        lang: "es"
-      },
-      journey: "attention",
-      stage: "idle"
+      lang: "es",
+      theme: "light"
     },
     reducers: {
       setLanguaje: (state, action) => {
-        console.log(action.payload);
-        state.context.lang = action.payload;
+        state.lang = action.payload;
       },
       setTheme: (state, action) => {
-        console.log("hiy", state.context.theme, action.payload);
-        state.context.theme = action.payload;
+        state.theme = action.payload;
         document.querySelector("html").setAttribute("data-theme", action.payload);
       }
     }
   });
-  var { setLanguaje, setTheme } = homeSlice.actions;
+  var { setLanguaje, setTheme } = contextSlice.actions;
+  var contextSlice_default = contextSlice.reducer;
+
+  // src/app/store/slices/homeSlice.js
+  var homeSlice = createSlice({
+    name: "home",
+    initialState: {
+      stage: "awaiting",
+      breadcrumb: []
+    },
+    reducers: {
+      setStage: (state, action) => {
+        state.stage = action.payload;
+      },
+      setBreadcrumb: (state, action) => {
+        state.breadcrumb = action.payload;
+      }
+    }
+  });
+  var { setStage, setBreadcrumb } = homeSlice.actions;
   var homeSlice_default = homeSlice.reducer;
 
   // src/app/store/store.js
@@ -2903,7 +2917,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     key: "root",
     storage: import_storage.default
   };
-  var persistedReducer = persistReducer(persistConfig, homeSlice_default);
+  var rootReducer = combineReducers({
+    context: contextSlice_default,
+    home: homeSlice_default
+  });
+  var persistedReducer = persistReducer(persistConfig, rootReducer);
   var store = configureStore({
     reducer: persistedReducer
   });
@@ -23063,6 +23081,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             buttons: [
               {
                 id: "atention-button",
+                href: "",
                 text: {
                   es: "Me Interesa",
                   en: "I'm interested",
@@ -23100,6 +23119,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // src/app/pages/home.js
   function home(req, router) {
+    let counter2 = { etention: 0, interest: 0, desire: 0, action: 0, leavingapp: 0, leavedapp: 0 };
     let template = `
     <page-header id="header"></page-header>
     <hero-banner id="attention"></hero-banner>
@@ -23127,7 +23147,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         homeUpdater(previousValue, currentValue);
       }
     }
-    page.eventsToListen(["user:select-lang", "user:select-theme"], pageEvents);
+    page.eventsToListen([
+      "user:select-lang",
+      "user:select-theme",
+      "viewedelement",
+      "leavingapp",
+      "leavedapp"
+    ], pageEvents);
     store.subscribe(handleChange);
   }
 

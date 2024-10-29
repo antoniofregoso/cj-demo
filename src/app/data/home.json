@@ -61,6 +61,7 @@
                     "buttons":[
                         {
                             "id":"atention-button",
+                            "href":"https://buyerjourney.ninja/usage-guide",
                             "text":{
                              "es":"Me Interesa",
                              "en":"I'm interested",
