@@ -61,16 +61,14 @@
           storage2.getItem(testKey);
           storage2.removeItem(testKey);
         } catch (e) {
-          if (true)
-            console.warn("redux-persist ".concat(storageType, " test failed, persistence will be disabled."));
+          if (true) console.warn("redux-persist ".concat(storageType, " test failed, persistence will be disabled."));
           return false;
         }
         return true;
       }
       function getStorage(type) {
         var storageType = "".concat(type, "Storage");
-        if (hasStorage(storageType))
-          return self[storageType];
+        if (hasStorage(storageType)) return self[storageType];
         else {
           if (true) {
             console.error("redux-persist failed to create sync storage. falling back to noop storage.");
@@ -126,6 +124,958 @@
       }
       var _default2 = (0, _createWebStorage.default)("local");
       exports.default = _default2;
+    }
+  });
+
+  // node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js
+  var require_react_development = __commonJS({
+    "node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js"(exports, module) {
+      "use strict";
+      (function() {
+        function defineDeprecationWarning(methodName, info) {
+          Object.defineProperty(Component.prototype, methodName, {
+            get: function() {
+              console.warn(
+                "%s(...) is deprecated in plain JavaScript React classes. %s",
+                info[0],
+                info[1]
+              );
+            }
+          });
+        }
+        function getIteratorFn(maybeIterable) {
+          if (null === maybeIterable || "object" !== typeof maybeIterable)
+            return null;
+          maybeIterable = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable["@@iterator"];
+          return "function" === typeof maybeIterable ? maybeIterable : null;
+        }
+        function warnNoop(publicInstance, callerName) {
+          publicInstance = (publicInstance = publicInstance.constructor) && (publicInstance.displayName || publicInstance.name) || "ReactClass";
+          var warningKey = publicInstance + "." + callerName;
+          didWarnStateUpdateForUnmountedComponent[warningKey] || (console.error(
+            "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
+            callerName,
+            publicInstance
+          ), didWarnStateUpdateForUnmountedComponent[warningKey] = true);
+        }
+        function Component(props, context2, updater) {
+          this.props = props;
+          this.context = context2;
+          this.refs = emptyObject;
+          this.updater = updater || ReactNoopUpdateQueue;
+        }
+        function ComponentDummy() {
+        }
+        function PureComponent(props, context2, updater) {
+          this.props = props;
+          this.context = context2;
+          this.refs = emptyObject;
+          this.updater = updater || ReactNoopUpdateQueue;
+        }
+        function testStringCoercion(value) {
+          return "" + value;
+        }
+        function checkKeyStringCoercion(value) {
+          try {
+            testStringCoercion(value);
+            var JSCompiler_inline_result = false;
+          } catch (e) {
+            JSCompiler_inline_result = true;
+          }
+          if (JSCompiler_inline_result) {
+            JSCompiler_inline_result = console;
+            var JSCompiler_temp_const = JSCompiler_inline_result.error;
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            JSCompiler_temp_const.call(
+              JSCompiler_inline_result,
+              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+              JSCompiler_inline_result$jscomp$0
+            );
+            return testStringCoercion(value);
+          }
+        }
+        function getComponentNameFromType(type) {
+          if (null == type) return null;
+          if ("function" === typeof type)
+            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+          if ("string" === typeof type) return type;
+          switch (type) {
+            case REACT_FRAGMENT_TYPE:
+              return "Fragment";
+            case REACT_PROFILER_TYPE:
+              return "Profiler";
+            case REACT_STRICT_MODE_TYPE:
+              return "StrictMode";
+            case REACT_SUSPENSE_TYPE:
+              return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+              return "SuspenseList";
+            case REACT_ACTIVITY_TYPE:
+              return "Activity";
+          }
+          if ("object" === typeof type)
+            switch ("number" === typeof type.tag && console.error(
+              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+            ), type.$$typeof) {
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_CONTEXT_TYPE:
+                return (type.displayName || "Context") + ".Provider";
+              case REACT_CONSUMER_TYPE:
+                return (type._context.displayName || "Context") + ".Consumer";
+              case REACT_FORWARD_REF_TYPE:
+                var innerType = type.render;
+                type = type.displayName;
+                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+                return type;
+              case REACT_MEMO_TYPE:
+                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+              case REACT_LAZY_TYPE:
+                innerType = type._payload;
+                type = type._init;
+                try {
+                  return getComponentNameFromType(type(innerType));
+                } catch (x2) {
+                }
+            }
+          return null;
+        }
+        function getTaskName(type) {
+          if (type === REACT_FRAGMENT_TYPE) return "<>";
+          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+            return "<...>";
+          try {
+            var name = getComponentNameFromType(type);
+            return name ? "<" + name + ">" : "<...>";
+          } catch (x2) {
+            return "<...>";
+          }
+        }
+        function getOwner() {
+          var dispatcher = ReactSharedInternals.A;
+          return null === dispatcher ? null : dispatcher.getOwner();
+        }
+        function UnknownOwner() {
+          return Error("react-stack-top-frame");
+        }
+        function hasValidKey(config3) {
+          if (hasOwnProperty.call(config3, "key")) {
+            var getter = Object.getOwnPropertyDescriptor(config3, "key").get;
+            if (getter && getter.isReactWarning) return false;
+          }
+          return void 0 !== config3.key;
+        }
+        function defineKeyPropWarningGetter(props, displayName) {
+          function warnAboutAccessingKey() {
+            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+              displayName
+            ));
+          }
+          warnAboutAccessingKey.isReactWarning = true;
+          Object.defineProperty(props, "key", {
+            get: warnAboutAccessingKey,
+            configurable: true
+          });
+        }
+        function elementRefGetterWithDeprecationWarning() {
+          var componentName = getComponentNameFromType(this.type);
+          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+          ));
+          componentName = this.props.ref;
+          return void 0 !== componentName ? componentName : null;
+        }
+        function ReactElement(type, key, self2, source, owner, props, debugStack, debugTask) {
+          self2 = props.ref;
+          type = {
+            $$typeof: REACT_ELEMENT_TYPE,
+            type,
+            key,
+            props,
+            _owner: owner
+          };
+          null !== (void 0 !== self2 ? self2 : null) ? Object.defineProperty(type, "ref", {
+            enumerable: false,
+            get: elementRefGetterWithDeprecationWarning
+          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+          type._store = {};
+          Object.defineProperty(type._store, "validated", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: 0
+          });
+          Object.defineProperty(type, "_debugInfo", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: null
+          });
+          Object.defineProperty(type, "_debugStack", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugStack
+          });
+          Object.defineProperty(type, "_debugTask", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugTask
+          });
+          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+          return type;
+        }
+        function cloneAndReplaceKey(oldElement, newKey) {
+          newKey = ReactElement(
+            oldElement.type,
+            newKey,
+            void 0,
+            void 0,
+            oldElement._owner,
+            oldElement.props,
+            oldElement._debugStack,
+            oldElement._debugTask
+          );
+          oldElement._store && (newKey._store.validated = oldElement._store.validated);
+          return newKey;
+        }
+        function isValidElement(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        function escape2(key) {
+          var escaperLookup = { "=": "=0", ":": "=2" };
+          return "$" + key.replace(/[=:]/g, function(match) {
+            return escaperLookup[match];
+          });
+        }
+        function getElementKey(element, index) {
+          return "object" === typeof element && null !== element && null != element.key ? (checkKeyStringCoercion(element.key), escape2("" + element.key)) : index.toString(36);
+        }
+        function noop$12() {
+        }
+        function resolveThenable(thenable) {
+          switch (thenable.status) {
+            case "fulfilled":
+              return thenable.value;
+            case "rejected":
+              throw thenable.reason;
+            default:
+              switch ("string" === typeof thenable.status ? thenable.then(noop$12, noop$12) : (thenable.status = "pending", thenable.then(
+                function(fulfilledValue) {
+                  "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
+                },
+                function(error) {
+                  "pending" === thenable.status && (thenable.status = "rejected", thenable.reason = error);
+                }
+              )), thenable.status) {
+                case "fulfilled":
+                  return thenable.value;
+                case "rejected":
+                  throw thenable.reason;
+              }
+          }
+          throw thenable;
+        }
+        function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+          var type = typeof children;
+          if ("undefined" === type || "boolean" === type) children = null;
+          var invokeCallback = false;
+          if (null === children) invokeCallback = true;
+          else
+            switch (type) {
+              case "bigint":
+              case "string":
+              case "number":
+                invokeCallback = true;
+                break;
+              case "object":
+                switch (children.$$typeof) {
+                  case REACT_ELEMENT_TYPE:
+                  case REACT_PORTAL_TYPE:
+                    invokeCallback = true;
+                    break;
+                  case REACT_LAZY_TYPE:
+                    return invokeCallback = children._init, mapIntoArray(
+                      invokeCallback(children._payload),
+                      array,
+                      escapedPrefix,
+                      nameSoFar,
+                      callback
+                    );
+                }
+            }
+          if (invokeCallback) {
+            invokeCallback = children;
+            callback = callback(invokeCallback);
+            var childKey = "" === nameSoFar ? "." + getElementKey(invokeCallback, 0) : nameSoFar;
+            isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array, escapedPrefix, "", function(c2) {
+              return c2;
+            })) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(
+              callback,
+              escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(
+                userProvidedKeyEscapeRegex,
+                "$&/"
+              ) + "/") + childKey
+            ), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
+            return 1;
+          }
+          invokeCallback = 0;
+          childKey = "" === nameSoFar ? "." : nameSoFar + ":";
+          if (isArrayImpl(children))
+            for (var i = 0; i < children.length; i++)
+              nameSoFar = children[i], type = childKey + getElementKey(nameSoFar, i), invokeCallback += mapIntoArray(
+                nameSoFar,
+                array,
+                escapedPrefix,
+                type,
+                callback
+              );
+          else if (i = getIteratorFn(children), "function" === typeof i)
+            for (i === children.entries && (didWarnAboutMaps || console.warn(
+              "Using Maps as children is not supported. Use an array of keyed ReactElements instead."
+            ), didWarnAboutMaps = true), children = i.call(children), i = 0; !(nameSoFar = children.next()).done; )
+              nameSoFar = nameSoFar.value, type = childKey + getElementKey(nameSoFar, i++), invokeCallback += mapIntoArray(
+                nameSoFar,
+                array,
+                escapedPrefix,
+                type,
+                callback
+              );
+          else if ("object" === type) {
+            if ("function" === typeof children.then)
+              return mapIntoArray(
+                resolveThenable(children),
+                array,
+                escapedPrefix,
+                nameSoFar,
+                callback
+              );
+            array = String(children);
+            throw Error(
+              "Objects are not valid as a React child (found: " + ("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) + "). If you meant to render a collection of children, use an array instead."
+            );
+          }
+          return invokeCallback;
+        }
+        function mapChildren(children, func, context2) {
+          if (null == children) return children;
+          var result = [], count = 0;
+          mapIntoArray(children, result, "", "", function(child) {
+            return func.call(context2, child, count++);
+          });
+          return result;
+        }
+        function lazyInitializer(payload) {
+          if (-1 === payload._status) {
+            var ctor = payload._result;
+            ctor = ctor();
+            ctor.then(
+              function(moduleObject) {
+                if (0 === payload._status || -1 === payload._status)
+                  payload._status = 1, payload._result = moduleObject;
+              },
+              function(error) {
+                if (0 === payload._status || -1 === payload._status)
+                  payload._status = 2, payload._result = error;
+              }
+            );
+            -1 === payload._status && (payload._status = 0, payload._result = ctor);
+          }
+          if (1 === payload._status)
+            return ctor = payload._result, void 0 === ctor && console.error(
+              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))\n\nDid you accidentally put curly braces around the import?",
+              ctor
+            ), "default" in ctor || console.error(
+              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))",
+              ctor
+            ), ctor.default;
+          throw payload._result;
+        }
+        function resolveDispatcher() {
+          var dispatcher = ReactSharedInternals.H;
+          null === dispatcher && console.error(
+            "Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem."
+          );
+          return dispatcher;
+        }
+        function noop3() {
+        }
+        function enqueueTask(task) {
+          if (null === enqueueTaskImpl)
+            try {
+              var requireString = ("require" + Math.random()).slice(0, 7);
+              enqueueTaskImpl = (module && module[requireString]).call(
+                module,
+                "timers"
+              ).setImmediate;
+            } catch (_err) {
+              enqueueTaskImpl = function(callback) {
+                false === didWarnAboutMessageChannel && (didWarnAboutMessageChannel = true, "undefined" === typeof MessageChannel && console.error(
+                  "This browser does not have a MessageChannel implementation, so enqueuing tasks via await act(async () => ...) will fail. Please file an issue at https://github.com/facebook/react/issues if you encounter this warning."
+                ));
+                var channel = new MessageChannel();
+                channel.port1.onmessage = callback;
+                channel.port2.postMessage(void 0);
+              };
+            }
+          return enqueueTaskImpl(task);
+        }
+        function aggregateErrors(errors2) {
+          return 1 < errors2.length && "function" === typeof AggregateError ? new AggregateError(errors2) : errors2[0];
+        }
+        function popActScope(prevActQueue, prevActScopeDepth) {
+          prevActScopeDepth !== actScopeDepth - 1 && console.error(
+            "You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. "
+          );
+          actScopeDepth = prevActScopeDepth;
+        }
+        function recursivelyFlushAsyncActWork(returnValue, resolve, reject) {
+          var queue = ReactSharedInternals.actQueue;
+          if (null !== queue)
+            if (0 !== queue.length)
+              try {
+                flushActQueue(queue);
+                enqueueTask(function() {
+                  return recursivelyFlushAsyncActWork(returnValue, resolve, reject);
+                });
+                return;
+              } catch (error) {
+                ReactSharedInternals.thrownErrors.push(error);
+              }
+            else ReactSharedInternals.actQueue = null;
+          0 < ReactSharedInternals.thrownErrors.length ? (queue = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, reject(queue)) : resolve(returnValue);
+        }
+        function flushActQueue(queue) {
+          if (!isFlushing) {
+            isFlushing = true;
+            var i = 0;
+            try {
+              for (; i < queue.length; i++) {
+                var callback = queue[i];
+                do {
+                  ReactSharedInternals.didUsePromise = false;
+                  var continuation = callback(false);
+                  if (null !== continuation) {
+                    if (ReactSharedInternals.didUsePromise) {
+                      queue[i] = callback;
+                      queue.splice(0, i);
+                      return;
+                    }
+                    callback = continuation;
+                  } else break;
+                } while (1);
+              }
+              queue.length = 0;
+            } catch (error) {
+              queue.splice(0, i + 1), ReactSharedInternals.thrownErrors.push(error);
+            } finally {
+              isFlushing = false;
+            }
+          }
+        }
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
+        var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+        Symbol.for("react.provider");
+        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, didWarnStateUpdateForUnmountedComponent = {}, ReactNoopUpdateQueue = {
+          isMounted: function() {
+            return false;
+          },
+          enqueueForceUpdate: function(publicInstance) {
+            warnNoop(publicInstance, "forceUpdate");
+          },
+          enqueueReplaceState: function(publicInstance) {
+            warnNoop(publicInstance, "replaceState");
+          },
+          enqueueSetState: function(publicInstance) {
+            warnNoop(publicInstance, "setState");
+          }
+        }, assign3 = Object.assign, emptyObject = {};
+        Object.freeze(emptyObject);
+        Component.prototype.isReactComponent = {};
+        Component.prototype.setState = function(partialState, callback) {
+          if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
+            throw Error(
+              "takes an object of state variables to update or a function which returns an object of state variables."
+            );
+          this.updater.enqueueSetState(this, partialState, callback, "setState");
+        };
+        Component.prototype.forceUpdate = function(callback) {
+          this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
+        };
+        var deprecatedAPIs = {
+          isMounted: [
+            "isMounted",
+            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
+          ],
+          replaceState: [
+            "replaceState",
+            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
+          ]
+        }, fnName;
+        for (fnName in deprecatedAPIs)
+          deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
+        ComponentDummy.prototype = Component.prototype;
+        deprecatedAPIs = PureComponent.prototype = new ComponentDummy();
+        deprecatedAPIs.constructor = PureComponent;
+        assign3(deprecatedAPIs, Component.prototype);
+        deprecatedAPIs.isPureReactComponent = true;
+        var isArrayImpl = Array.isArray, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = {
+          H: null,
+          A: null,
+          T: null,
+          S: null,
+          V: null,
+          actQueue: null,
+          isBatchingLegacy: false,
+          didScheduleLegacyUpdate: false,
+          didUsePromise: false,
+          thrownErrors: [],
+          getCurrentStack: null,
+          recentlyCreatedOwnerStacks: 0
+        }, hasOwnProperty = Object.prototype.hasOwnProperty, createTask = console.createTask ? console.createTask : function() {
+          return null;
+        };
+        deprecatedAPIs = {
+          "react-stack-bottom-frame": function(callStackForError) {
+            return callStackForError();
+          }
+        };
+        var specialPropKeyWarningShown, didWarnAboutOldJSXRuntime;
+        var didWarnAboutElementRef = {};
+        var unknownOwnerDebugStack = deprecatedAPIs["react-stack-bottom-frame"].bind(deprecatedAPIs, UnknownOwner)();
+        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+        var didWarnAboutMaps = false, userProvidedKeyEscapeRegex = /\/+/g, reportGlobalError = "function" === typeof reportError ? reportError : function(error) {
+          if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
+            var event = new window.ErrorEvent("error", {
+              bubbles: true,
+              cancelable: true,
+              message: "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error),
+              error
+            });
+            if (!window.dispatchEvent(event)) return;
+          } else if ("object" === typeof process && "function" === typeof process.emit) {
+            process.emit("uncaughtException", error);
+            return;
+          }
+          console.error(error);
+        }, didWarnAboutMessageChannel = false, enqueueTaskImpl = null, actScopeDepth = 0, didWarnNoAwaitAct = false, isFlushing = false, queueSeveralMicrotasks = "function" === typeof queueMicrotask ? function(callback) {
+          queueMicrotask(function() {
+            return queueMicrotask(callback);
+          });
+        } : enqueueTask;
+        deprecatedAPIs = Object.freeze({
+          __proto__: null,
+          c: function(size) {
+            return resolveDispatcher().useMemoCache(size);
+          }
+        });
+        exports.Children = {
+          map: mapChildren,
+          forEach: function(children, forEachFunc, forEachContext) {
+            mapChildren(
+              children,
+              function() {
+                forEachFunc.apply(this, arguments);
+              },
+              forEachContext
+            );
+          },
+          count: function(children) {
+            var n = 0;
+            mapChildren(children, function() {
+              n++;
+            });
+            return n;
+          },
+          toArray: function(children) {
+            return mapChildren(children, function(child) {
+              return child;
+            }) || [];
+          },
+          only: function(children) {
+            if (!isValidElement(children))
+              throw Error(
+                "React.Children.only expected to receive a single React element child."
+              );
+            return children;
+          }
+        };
+        exports.Component = Component;
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.Profiler = REACT_PROFILER_TYPE;
+        exports.PureComponent = PureComponent;
+        exports.StrictMode = REACT_STRICT_MODE_TYPE;
+        exports.Suspense = REACT_SUSPENSE_TYPE;
+        exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
+        exports.__COMPILER_RUNTIME = deprecatedAPIs;
+        exports.act = function(callback) {
+          var prevActQueue = ReactSharedInternals.actQueue, prevActScopeDepth = actScopeDepth;
+          actScopeDepth++;
+          var queue = ReactSharedInternals.actQueue = null !== prevActQueue ? prevActQueue : [], didAwaitActCall = false;
+          try {
+            var result = callback();
+          } catch (error) {
+            ReactSharedInternals.thrownErrors.push(error);
+          }
+          if (0 < ReactSharedInternals.thrownErrors.length)
+            throw popActScope(prevActQueue, prevActScopeDepth), callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
+          if (null !== result && "object" === typeof result && "function" === typeof result.then) {
+            var thenable = result;
+            queueSeveralMicrotasks(function() {
+              didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
+                "You called act(async () => ...) without await. This could lead to unexpected testing behaviour, interleaving multiple act calls and mixing their scopes. You should - await act(async () => ...);"
+              ));
+            });
+            return {
+              then: function(resolve, reject) {
+                didAwaitActCall = true;
+                thenable.then(
+                  function(returnValue) {
+                    popActScope(prevActQueue, prevActScopeDepth);
+                    if (0 === prevActScopeDepth) {
+                      try {
+                        flushActQueue(queue), enqueueTask(function() {
+                          return recursivelyFlushAsyncActWork(
+                            returnValue,
+                            resolve,
+                            reject
+                          );
+                        });
+                      } catch (error$0) {
+                        ReactSharedInternals.thrownErrors.push(error$0);
+                      }
+                      if (0 < ReactSharedInternals.thrownErrors.length) {
+                        var _thrownError = aggregateErrors(
+                          ReactSharedInternals.thrownErrors
+                        );
+                        ReactSharedInternals.thrownErrors.length = 0;
+                        reject(_thrownError);
+                      }
+                    } else resolve(returnValue);
+                  },
+                  function(error) {
+                    popActScope(prevActQueue, prevActScopeDepth);
+                    0 < ReactSharedInternals.thrownErrors.length ? (error = aggregateErrors(
+                      ReactSharedInternals.thrownErrors
+                    ), ReactSharedInternals.thrownErrors.length = 0, reject(error)) : reject(error);
+                  }
+                );
+              }
+            };
+          }
+          var returnValue$jscomp$0 = result;
+          popActScope(prevActQueue, prevActScopeDepth);
+          0 === prevActScopeDepth && (flushActQueue(queue), 0 !== queue.length && queueSeveralMicrotasks(function() {
+            didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
+              "A component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:\n\nawait act(() => ...)"
+            ));
+          }), ReactSharedInternals.actQueue = null);
+          if (0 < ReactSharedInternals.thrownErrors.length)
+            throw callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
+          return {
+            then: function(resolve, reject) {
+              didAwaitActCall = true;
+              0 === prevActScopeDepth ? (ReactSharedInternals.actQueue = queue, enqueueTask(function() {
+                return recursivelyFlushAsyncActWork(
+                  returnValue$jscomp$0,
+                  resolve,
+                  reject
+                );
+              })) : resolve(returnValue$jscomp$0);
+            }
+          };
+        };
+        exports.cache = function(fn) {
+          return function() {
+            return fn.apply(null, arguments);
+          };
+        };
+        exports.captureOwnerStack = function() {
+          var getCurrentStack = ReactSharedInternals.getCurrentStack;
+          return null === getCurrentStack ? null : getCurrentStack();
+        };
+        exports.cloneElement = function(element, config3, children) {
+          if (null === element || void 0 === element)
+            throw Error(
+              "The argument must be a React element, but you passed " + element + "."
+            );
+          var props = assign3({}, element.props), key = element.key, owner = element._owner;
+          if (null != config3) {
+            var JSCompiler_inline_result;
+            a: {
+              if (hasOwnProperty.call(config3, "ref") && (JSCompiler_inline_result = Object.getOwnPropertyDescriptor(
+                config3,
+                "ref"
+              ).get) && JSCompiler_inline_result.isReactWarning) {
+                JSCompiler_inline_result = false;
+                break a;
+              }
+              JSCompiler_inline_result = void 0 !== config3.ref;
+            }
+            JSCompiler_inline_result && (owner = getOwner());
+            hasValidKey(config3) && (checkKeyStringCoercion(config3.key), key = "" + config3.key);
+            for (propName in config3)
+              !hasOwnProperty.call(config3, propName) || "key" === propName || "__self" === propName || "__source" === propName || "ref" === propName && void 0 === config3.ref || (props[propName] = config3[propName]);
+          }
+          var propName = arguments.length - 2;
+          if (1 === propName) props.children = children;
+          else if (1 < propName) {
+            JSCompiler_inline_result = Array(propName);
+            for (var i = 0; i < propName; i++)
+              JSCompiler_inline_result[i] = arguments[i + 2];
+            props.children = JSCompiler_inline_result;
+          }
+          props = ReactElement(
+            element.type,
+            key,
+            void 0,
+            void 0,
+            owner,
+            props,
+            element._debugStack,
+            element._debugTask
+          );
+          for (key = 2; key < arguments.length; key++)
+            owner = arguments[key], isValidElement(owner) && owner._store && (owner._store.validated = 1);
+          return props;
+        };
+        exports.createContext = function(defaultValue) {
+          defaultValue = {
+            $$typeof: REACT_CONTEXT_TYPE,
+            _currentValue: defaultValue,
+            _currentValue2: defaultValue,
+            _threadCount: 0,
+            Provider: null,
+            Consumer: null
+          };
+          defaultValue.Provider = defaultValue;
+          defaultValue.Consumer = {
+            $$typeof: REACT_CONSUMER_TYPE,
+            _context: defaultValue
+          };
+          defaultValue._currentRenderer = null;
+          defaultValue._currentRenderer2 = null;
+          return defaultValue;
+        };
+        exports.createElement = function(type, config3, children) {
+          for (var i = 2; i < arguments.length; i++) {
+            var node = arguments[i];
+            isValidElement(node) && node._store && (node._store.validated = 1);
+          }
+          i = {};
+          node = null;
+          if (null != config3)
+            for (propName in didWarnAboutOldJSXRuntime || !("__self" in config3) || "key" in config3 || (didWarnAboutOldJSXRuntime = true, console.warn(
+              "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
+            )), hasValidKey(config3) && (checkKeyStringCoercion(config3.key), node = "" + config3.key), config3)
+              hasOwnProperty.call(config3, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config3[propName]);
+          var childrenLength = arguments.length - 2;
+          if (1 === childrenLength) i.children = children;
+          else if (1 < childrenLength) {
+            for (var childArray = Array(childrenLength), _i = 0; _i < childrenLength; _i++)
+              childArray[_i] = arguments[_i + 2];
+            Object.freeze && Object.freeze(childArray);
+            i.children = childArray;
+          }
+          if (type && type.defaultProps)
+            for (propName in childrenLength = type.defaultProps, childrenLength)
+              void 0 === i[propName] && (i[propName] = childrenLength[propName]);
+          node && defineKeyPropWarningGetter(
+            i,
+            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+          );
+          var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return ReactElement(
+            type,
+            node,
+            void 0,
+            void 0,
+            getOwner(),
+            i,
+            propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+        exports.createRef = function() {
+          var refObject = { current: null };
+          Object.seal(refObject);
+          return refObject;
+        };
+        exports.forwardRef = function(render2) {
+          null != render2 && render2.$$typeof === REACT_MEMO_TYPE ? console.error(
+            "forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...))."
+          ) : "function" !== typeof render2 ? console.error(
+            "forwardRef requires a render function but was given %s.",
+            null === render2 ? "null" : typeof render2
+          ) : 0 !== render2.length && 2 !== render2.length && console.error(
+            "forwardRef render functions accept exactly two parameters: props and ref. %s",
+            1 === render2.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."
+          );
+          null != render2 && null != render2.defaultProps && console.error(
+            "forwardRef render functions do not support defaultProps. Did you accidentally pass a React component?"
+          );
+          var elementType = { $$typeof: REACT_FORWARD_REF_TYPE, render: render2 }, ownName;
+          Object.defineProperty(elementType, "displayName", {
+            enumerable: false,
+            configurable: true,
+            get: function() {
+              return ownName;
+            },
+            set: function(name) {
+              ownName = name;
+              render2.name || render2.displayName || (Object.defineProperty(render2, "name", { value: name }), render2.displayName = name);
+            }
+          });
+          return elementType;
+        };
+        exports.isValidElement = isValidElement;
+        exports.lazy = function(ctor) {
+          return {
+            $$typeof: REACT_LAZY_TYPE,
+            _payload: { _status: -1, _result: ctor },
+            _init: lazyInitializer
+          };
+        };
+        exports.memo = function(type, compare) {
+          null == type && console.error(
+            "memo: The first argument must be a component. Instead received: %s",
+            null === type ? "null" : typeof type
+          );
+          compare = {
+            $$typeof: REACT_MEMO_TYPE,
+            type,
+            compare: void 0 === compare ? null : compare
+          };
+          var ownName;
+          Object.defineProperty(compare, "displayName", {
+            enumerable: false,
+            configurable: true,
+            get: function() {
+              return ownName;
+            },
+            set: function(name) {
+              ownName = name;
+              type.name || type.displayName || (Object.defineProperty(type, "name", { value: name }), type.displayName = name);
+            }
+          });
+          return compare;
+        };
+        exports.startTransition = function(scope) {
+          var prevTransition = ReactSharedInternals.T, currentTransition = {};
+          ReactSharedInternals.T = currentTransition;
+          currentTransition._updatedFibers = /* @__PURE__ */ new Set();
+          try {
+            var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
+            null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && returnValue.then(noop3, reportGlobalError);
+          } catch (error) {
+            reportGlobalError(error);
+          } finally {
+            null === prevTransition && currentTransition._updatedFibers && (scope = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < scope && console.warn(
+              "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
+            )), ReactSharedInternals.T = prevTransition;
+          }
+        };
+        exports.unstable_useCacheRefresh = function() {
+          return resolveDispatcher().useCacheRefresh();
+        };
+        exports.use = function(usable) {
+          return resolveDispatcher().use(usable);
+        };
+        exports.useActionState = function(action, initialState2, permalink) {
+          return resolveDispatcher().useActionState(
+            action,
+            initialState2,
+            permalink
+          );
+        };
+        exports.useCallback = function(callback, deps) {
+          return resolveDispatcher().useCallback(callback, deps);
+        };
+        exports.useContext = function(Context) {
+          var dispatcher = resolveDispatcher();
+          Context.$$typeof === REACT_CONSUMER_TYPE && console.error(
+            "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
+          );
+          return dispatcher.useContext(Context);
+        };
+        exports.useDebugValue = function(value, formatterFn) {
+          return resolveDispatcher().useDebugValue(value, formatterFn);
+        };
+        exports.useDeferredValue = function(value, initialValue) {
+          return resolveDispatcher().useDeferredValue(value, initialValue);
+        };
+        exports.useEffect = function(create, createDeps, update) {
+          null == create && console.warn(
+            "React Hook useEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          var dispatcher = resolveDispatcher();
+          if ("function" === typeof update)
+            throw Error(
+              "useEffect CRUD overload is not enabled in this build of React."
+            );
+          return dispatcher.useEffect(create, createDeps);
+        };
+        exports.useId = function() {
+          return resolveDispatcher().useId();
+        };
+        exports.useImperativeHandle = function(ref, create, deps) {
+          return resolveDispatcher().useImperativeHandle(ref, create, deps);
+        };
+        exports.useInsertionEffect = function(create, deps) {
+          null == create && console.warn(
+            "React Hook useInsertionEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          return resolveDispatcher().useInsertionEffect(create, deps);
+        };
+        exports.useLayoutEffect = function(create, deps) {
+          null == create && console.warn(
+            "React Hook useLayoutEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          return resolveDispatcher().useLayoutEffect(create, deps);
+        };
+        exports.useMemo = function(create, deps) {
+          return resolveDispatcher().useMemo(create, deps);
+        };
+        exports.useOptimistic = function(passthrough, reducer) {
+          return resolveDispatcher().useOptimistic(passthrough, reducer);
+        };
+        exports.useReducer = function(reducer, initialArg, init) {
+          return resolveDispatcher().useReducer(reducer, initialArg, init);
+        };
+        exports.useRef = function(initialValue) {
+          return resolveDispatcher().useRef(initialValue);
+        };
+        exports.useState = function(initialState2) {
+          return resolveDispatcher().useState(initialState2);
+        };
+        exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
+          return resolveDispatcher().useSyncExternalStore(
+            subscribe,
+            getSnapshot,
+            getServerSnapshot
+          );
+        };
+        exports.useTransition = function() {
+          return resolveDispatcher().useTransition();
+        };
+        exports.version = "19.1.0";
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
+      })();
+    }
+  });
+
+  // node_modules/@customerjourney/cj-components/node_modules/react/index.js
+  var require_react = __commonJS({
+    "node_modules/@customerjourney/cj-components/node_modules/react/index.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_development();
+      }
     }
   });
 
@@ -385,8 +1335,8 @@
   function combineReducers(reducers) {
     const reducerKeys = Object.keys(reducers);
     const finalReducers = {};
-    for (let i2 = 0; i2 < reducerKeys.length; i2++) {
-      const key = reducerKeys[i2];
+    for (let i = 0; i < reducerKeys.length; i++) {
+      const key = reducerKeys[i];
       if (true) {
         if (typeof reducers[key] === "undefined") {
           warning(`No reducer provided for key "${key}"`);
@@ -419,8 +1369,8 @@
       }
       let hasChanged = false;
       const nextState = {};
-      for (let i2 = 0; i2 < finalReducerKeys.length; i2++) {
-        const key = finalReducerKeys[i2];
+      for (let i = 0; i < finalReducerKeys.length; i++) {
+        const key = finalReducerKeys[i];
         const reducer = finalReducers[key];
         const previousStateForKey = state[key];
         const nextStateForKey = reducer(previousStateForKey, action);
@@ -442,7 +1392,7 @@
     if (funcs.length === 1) {
       return funcs[0];
     }
-    return funcs.reduce((a3, b) => (...args) => a3(b(...args)));
+    return funcs.reduce((a2, b2) => (...args) => a2(b2(...args)));
   }
   function applyMiddleware(...middlewares) {
     return (createStore2) => (reducer, preloadedState) => {
@@ -558,11 +1508,11 @@
     } else
       thing[propOrOldValue] = value;
   }
-  function is(x, y2) {
-    if (x === y2) {
-      return x !== 0 || 1 / x === 1 / y2;
+  function is(x2, y2) {
+    if (x2 === y2) {
+      return x2 !== 0 || 1 / x2 === 1 / y2;
     } else {
-      return x !== x && y2 !== y2;
+      return x2 !== x2 && y2 !== y2;
     }
   }
   function isMap(target) {
@@ -588,8 +1538,8 @@
       const descriptors = Object.getOwnPropertyDescriptors(base);
       delete descriptors[DRAFT_STATE];
       let keys = Reflect.ownKeys(descriptors);
-      for (let i2 = 0; i2 < keys.length; i2++) {
-        const key = keys[i2];
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
         const desc = descriptors[key];
         if (desc.writable === false) {
           desc.writable = true;
@@ -1010,10 +1960,10 @@
           if (this.autoFreeze_)
             freeze(result, true);
           if (patchListener) {
-            const p2 = [];
+            const p = [];
             const ip = [];
-            getPlugin("Patches").generateReplacementPatches_(base, result, p2, ip);
-            patchListener(p2, ip);
+            getPlugin("Patches").generateReplacementPatches_(base, result, p, ip);
+            patchListener(p, ip);
           }
           return result;
         } else
@@ -1024,8 +1974,8 @@
           return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
         }
         let patches, inversePatches;
-        const result = this.produce(base, recipe, (p2, ip) => {
-          patches = p2;
+        const result = this.produce(base, recipe, (p, ip) => {
+          patches = p;
           inversePatches = ip;
         });
         return [result, patches, inversePatches];
@@ -1071,16 +2021,16 @@
       this.useStrictShallowCopy_ = value;
     }
     applyPatches(base, patches) {
-      let i2;
-      for (i2 = patches.length - 1; i2 >= 0; i2--) {
-        const patch = patches[i2];
+      let i;
+      for (i = patches.length - 1; i >= 0; i--) {
+        const patch = patches[i];
         if (patch.path.length === 0 && patch.op === "replace") {
           base = patch.value;
           break;
         }
       }
-      if (i2 > -1) {
-        patches = patches.slice(i2 + 1);
+      if (i > -1) {
+        patches = patches.slice(i + 1);
       }
       const applyPatchesImpl = getPlugin("Patches").applyPatches_;
       if (isDraft(base)) {
@@ -1150,10 +2100,8 @@
 
   // node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs
   var composeWithDevTools = typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : function() {
-    if (arguments.length === 0)
-      return void 0;
-    if (typeof arguments[0] === "object")
-      return compose;
+    if (arguments.length === 0) return void 0;
+    if (typeof arguments[0] === "object") return compose;
     return compose.apply(null, arguments);
   };
   var devToolsEnhancer = typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__ : function() {
@@ -1161,8 +2109,8 @@
       return noop3;
     };
   };
-  var hasMatchFunction = (v) => {
-    return v && typeof v.match === "function";
+  var hasMatchFunction = (v2) => {
+    return v2 && typeof v2.match === "function";
   };
   function createAction(type, prepareAction) {
     function actionCreator(...args) {
@@ -1268,8 +2216,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
       }
       return value;
     }
-    if (!handler.insert)
-      throw new Error(false ? formatProdErrorMessage(10) : "No insert provided for key not already in map");
+    if (!handler.insert) throw new Error(false ? formatProdErrorMessage(10) : "No insert provided for key not already in map");
     const inserted = handler.insert(key, map);
     map.set(key, inserted);
     return inserted;
@@ -1354,21 +2301,17 @@ It is disabled in production builds, so you don't need to worry about that.`);
         return JSON.stringify(obj, getSerialize2(serializer, decycler), indent);
       }, getSerialize2 = function(serializer, decycler) {
         let stack = [], keys = [];
-        if (!decycler)
-          decycler = function(_, value) {
-            if (stack[0] === value)
-              return "[Circular ~]";
-            return "[Circular ~." + keys.slice(0, stack.indexOf(value)).join(".") + "]";
-          };
+        if (!decycler) decycler = function(_, value) {
+          if (stack[0] === value) return "[Circular ~]";
+          return "[Circular ~." + keys.slice(0, stack.indexOf(value)).join(".") + "]";
+        };
         return function(key, value) {
           if (stack.length > 0) {
             var thisPos = stack.indexOf(this);
             ~thisPos ? stack.splice(thisPos + 1) : stack.push(this);
             ~thisPos ? keys.splice(thisPos, Infinity, key) : keys.push(key);
-            if (~stack.indexOf(value))
-              value = decycler.call(this, key, value);
-          } else
-            stack.push(value);
+            if (~stack.indexOf(value)) value = decycler.call(this, key, value);
+          } else stack.push(value);
           return serializer == null ? value : serializer.call(this, key, value);
         };
       };
@@ -1425,8 +2368,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
     if (typeof value !== "object" || value === null) {
       return false;
     }
-    if (cache?.has(value))
-      return false;
+    if (cache?.has(value)) return false;
     const entries = getEntries != null ? getEntries(value) : Object.entries(value);
     const hasIgnoredPaths = ignoredPaths.length > 0;
     for (const [key, nestedValue] of entries) {
@@ -1455,18 +2397,14 @@ It is disabled in production builds, so you don't need to worry about that.`);
         }
       }
     }
-    if (cache && isNestedFrozen(value))
-      cache.add(value);
+    if (cache && isNestedFrozen(value)) cache.add(value);
     return false;
   }
   function isNestedFrozen(value) {
-    if (!Object.isFrozen(value))
-      return false;
+    if (!Object.isFrozen(value)) return false;
     for (const nestedValue of Object.values(value)) {
-      if (typeof nestedValue !== "object" || nestedValue === null)
-        continue;
-      if (!isNestedFrozen(nestedValue))
-        return false;
+      if (typeof nestedValue !== "object" || nestedValue === null) continue;
+      if (!isNestedFrozen(nestedValue)) return false;
     }
     return true;
   }
@@ -1524,8 +2462,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   }
-  function isBoolean(x) {
-    return typeof x === "boolean";
+  function isBoolean(x2) {
+    return typeof x2 === "boolean";
   }
   var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options) {
     const {
@@ -1587,7 +2525,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
         shouldNotifyAtEndOfTick = false;
-        listeners.forEach((l2) => l2());
+        listeners.forEach((l) => l());
       }
     };
     return Object.assign({}, store2, {
@@ -1738,8 +2676,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     builderCallback(builder);
     return [actionsMap, actionMatchers, defaultCaseReducer];
   }
-  function isStateFunction(x) {
-    return typeof x === "function";
+  function isStateFunction(x2) {
+    return typeof x2 === "function";
   }
   function createReducer(initialState2, mapOrBuilderCallback) {
     if (true) {
@@ -1809,8 +2747,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var urlAlphabet = "ModuleSymbhasOwnPr-0123456789ABCDEFGHNRVfgctiUvz_KqYTJkLxpZXIjQW";
   var nanoid = (size = 21) => {
     let id = "";
-    let i2 = size;
-    while (i2--) {
+    let i = size;
+    while (i--) {
       id += urlAlphabet[Math.random() * 64 | 0];
     }
     return id;
@@ -2098,13 +3036,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const injectedSelectorCache = /* @__PURE__ */ new Map();
       let _reducer;
       function reducer(state, action) {
-        if (!_reducer)
-          _reducer = buildReducer();
+        if (!_reducer) _reducer = buildReducer();
         return _reducer(state, action);
       }
       function getInitialState() {
-        if (!_reducer)
-          _reducer = buildReducer();
+        if (!_reducer) _reducer = buildReducer();
         return _reducer.getInitialState();
       }
       function makeSelectorProps(reducerPath2, injected = false) {
@@ -2324,18 +3260,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly)
-        symbols = symbols.filter(function(sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
+      if (enumerableOnly) symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
       keys.push.apply(keys, symbols);
     }
     return keys;
   }
   function _objectSpread(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2] != null ? arguments[i2] : {};
-      if (i2 % 2) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      if (i % 2) {
         ownKeys(source, true).forEach(function(key) {
           _defineProperty(target, key, source[key]);
         });
@@ -2362,18 +3297,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var newState = _objectSpread({}, reducedState);
     if (inboundState && _typeof(inboundState) === "object") {
       Object.keys(inboundState).forEach(function(key) {
-        if (key === "_persist")
-          return;
+        if (key === "_persist") return;
         if (originalState[key] !== reducedState[key]) {
-          if (debug)
-            console.log("redux-persist/stateReconciler: sub state for key `%s` modified, skipping.", key);
+          if (debug) console.log("redux-persist/stateReconciler: sub state for key `%s` modified, skipping.", key);
           return;
         }
         newState[key] = inboundState[key];
       });
     }
-    if (debug && inboundState && _typeof(inboundState) === "object")
-      console.log("redux-persist/stateReconciler: rehydrated keys '".concat(Object.keys(inboundState).join(", "), "'"));
+    if (debug && inboundState && _typeof(inboundState) === "object") console.log("redux-persist/stateReconciler: rehydrated keys '".concat(Object.keys(inboundState).join(", "), "'"));
     return newState;
   }
 
@@ -2387,8 +3319,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var storage2 = config3.storage;
     var serialize;
     if (config3.serialize === false) {
-      serialize = function serialize2(x) {
-        return x;
+      serialize = function serialize2(x2) {
+        return x2;
       };
     } else if (typeof config3.serialize === "function") {
       serialize = config3.serialize;
@@ -2403,12 +3335,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var writePromise = null;
     var update = function update2(state) {
       Object.keys(state).forEach(function(key) {
-        if (!passWhitelistBlacklist(key))
-          return;
-        if (lastState[key] === state[key])
-          return;
-        if (keysToProcess.indexOf(key) !== -1)
-          return;
+        if (!passWhitelistBlacklist(key)) return;
+        if (lastState[key] === state[key]) return;
+        if (keysToProcess.indexOf(key) !== -1) return;
         keysToProcess.push(key);
       });
       Object.keys(lastState).forEach(function(key) {
@@ -2423,8 +3352,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
     function processNextKey() {
       if (keysToProcess.length === 0) {
-        if (timeIterator)
-          clearInterval(timeIterator);
+        if (timeIterator) clearInterval(timeIterator);
         timeIterator = null;
         return;
       }
@@ -2454,15 +3382,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       writePromise = storage2.setItem(storageKey, serialize(stagedState)).catch(onWriteFail);
     }
     function passWhitelistBlacklist(key) {
-      if (whitelist && whitelist.indexOf(key) === -1 && key !== "_persist")
-        return false;
-      if (blacklist && blacklist.indexOf(key) !== -1)
-        return false;
+      if (whitelist && whitelist.indexOf(key) === -1 && key !== "_persist") return false;
+      if (blacklist && blacklist.indexOf(key) !== -1) return false;
       return true;
     }
     function onWriteFail(err) {
-      if (writeFailHandler)
-        writeFailHandler(err);
+      if (writeFailHandler) writeFailHandler(err);
       if (err && true) {
         console.error("Error storing data", err);
       }
@@ -2490,8 +3415,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var debug = config3.debug;
     var deserialize;
     if (config3.deserialize === false) {
-      deserialize = function deserialize2(x) {
-        return x;
+      deserialize = function deserialize2(x2) {
+        return x2;
       };
     } else if (typeof config3.deserialize === "function") {
       deserialize = config3.deserialize;
@@ -2499,8 +3424,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       deserialize = defaultDeserialize;
     }
     return storage2.getItem(storageKey).then(function(serialized) {
-      if (!serialized)
-        return void 0;
+      if (!serialized) return void 0;
       else {
         try {
           var state = {};
@@ -2512,8 +3436,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           });
           return state;
         } catch (err) {
-          if (debug)
-            console.log("redux-persist/getStoredState: Error restoring data ".concat(serialized), err);
+          if (debug) console.log("redux-persist/getStoredState: Error restoring data ".concat(serialized), err);
           throw err;
         }
       }
@@ -2540,18 +3463,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly)
-        symbols = symbols.filter(function(sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
+      if (enumerableOnly) symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
       keys.push.apply(keys, symbols);
     }
     return keys;
   }
   function _objectSpread2(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2] != null ? arguments[i2] : {};
-      if (i2 % 2) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      if (i % 2) {
         ownKeys2(source, true).forEach(function(key) {
           _defineProperty2(target, key, source[key]);
         });
@@ -2574,33 +3496,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return obj;
   }
   function _objectWithoutProperties(source, excluded) {
-    if (source == null)
-      return {};
+    if (source == null) return {};
     var target = _objectWithoutPropertiesLoose(source, excluded);
-    var key, i2;
+    var key, i;
     if (Object.getOwnPropertySymbols) {
       var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-      for (i2 = 0; i2 < sourceSymbolKeys.length; i2++) {
-        key = sourceSymbolKeys[i2];
-        if (excluded.indexOf(key) >= 0)
-          continue;
-        if (!Object.prototype.propertyIsEnumerable.call(source, key))
-          continue;
+      for (i = 0; i < sourceSymbolKeys.length; i++) {
+        key = sourceSymbolKeys[i];
+        if (excluded.indexOf(key) >= 0) continue;
+        if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
         target[key] = source[key];
       }
     }
     return target;
   }
   function _objectWithoutPropertiesLoose(source, excluded) {
-    if (source == null)
-      return {};
+    if (source == null) return {};
     var target = {};
     var sourceKeys = Object.keys(source);
-    var key, i2;
-    for (i2 = 0; i2 < sourceKeys.length; i2++) {
-      key = sourceKeys[i2];
-      if (excluded.indexOf(key) >= 0)
-        continue;
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
       target[key] = source[key];
     }
     return target;
@@ -2608,12 +3525,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var DEFAULT_TIMEOUT = 5e3;
   function persistReducer(config3, baseReducer) {
     if (true) {
-      if (!config3)
-        throw new Error("config is required for persistReducer");
-      if (!config3.key)
-        throw new Error("key is required in persistor config");
-      if (!config3.storage)
-        throw new Error("redux-persist: config.storage is required. Try using one of the provided storage engines `import storage from 'redux-persist/lib/storage'`");
+      if (!config3) throw new Error("config is required for persistReducer");
+      if (!config3.key) throw new Error("key is required in persistor config");
+      if (!config3.storage) throw new Error("redux-persist: config.storage is required. Try using one of the provided storage engines `import storage from 'redux-persist/lib/storage'`");
     }
     var version = config3.version !== void 0 ? config3.version : DEFAULT_VERSION;
     var debug = config3.debug || false;
@@ -2633,8 +3547,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (action.type === PERSIST) {
         var _sealed = false;
         var _rehydrate = function _rehydrate2(payload, err) {
-          if (_sealed)
-            console.error('redux-persist: rehydrate for "'.concat(config3.key, '" called after timeout.'), payload, err);
+          if (_sealed) console.error('redux-persist: rehydrate for "'.concat(config3.key, '" called after timeout.'), payload, err);
           if (!_sealed) {
             action.rehydrate(config3.key, payload, err);
             _sealed = true;
@@ -2644,25 +3557,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           !_sealed && _rehydrate(void 0, new Error('redux-persist: persist timed out for persist key "'.concat(config3.key, '"')));
         }, timeout);
         _paused = false;
-        if (!_persistoid)
-          _persistoid = createPersistoid(config3);
+        if (!_persistoid) _persistoid = createPersistoid(config3);
         if (_persist) {
           return _objectSpread2({}, baseReducer(restState, action), {
             _persist
           });
         }
-        if (typeof action.rehydrate !== "function" || typeof action.register !== "function")
-          throw new Error("redux-persist: either rehydrate or register is not a function on the PERSIST action. This can happen if the action is being replayed. This is an unexplored use case, please open an issue and we will figure out a resolution.");
+        if (typeof action.rehydrate !== "function" || typeof action.register !== "function") throw new Error("redux-persist: either rehydrate or register is not a function on the PERSIST action. This can happen if the action is being replayed. This is an unexplored use case, please open an issue and we will figure out a resolution.");
         action.register(config3.key);
         getStoredState2(config3).then(function(restoredState) {
-          var migrate = config3.migrate || function(s, v) {
+          var migrate = config3.migrate || function(s, v2) {
             return Promise.resolve(s);
           };
           migrate(restoredState, version).then(function(migratedState) {
             _rehydrate(migratedState);
           }, function(migrateErr) {
-            if (migrateErr)
-              console.error("redux-persist: migration error", migrateErr);
+            if (migrateErr) console.error("redux-persist: migration error", migrateErr);
             _rehydrate(void 0, migrateErr);
           });
         }, function(err) {
@@ -2688,13 +3598,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       } else if (action.type === PAUSE) {
         _paused = true;
       } else if (action.type === REHYDRATE) {
-        if (_purge)
-          return _objectSpread2({}, restState, {
-            _persist: _objectSpread2({}, _persist, {
-              rehydrated: true
-            })
-            // @NOTE if key does not match, will continue to default else below
-          });
+        if (_purge) return _objectSpread2({}, restState, {
+          _persist: _objectSpread2({}, _persist, {
+            rehydrated: true
+          })
+          // @NOTE if key does not match, will continue to default else below
+        });
         if (action.key === config3.key) {
           var reducedState = baseReducer(restState, action);
           var inboundState = action.payload;
@@ -2707,11 +3616,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           return conditionalUpdate(_newState);
         }
       }
-      if (!_persist)
-        return baseReducer(state, action);
+      if (!_persist) return baseReducer(state, action);
       var newState = baseReducer(restState, action);
-      if (newState === restState)
-        return state;
+      if (newState === restState) return state;
       return conditionalUpdate(_objectSpread2({}, newState, {
         _persist
       }));
@@ -2726,13 +3633,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     throw new TypeError("Invalid attempt to spread non-iterable instance");
   }
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]")
-      return Array.from(iter);
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
   }
   function _arrayWithoutHoles(arr) {
     if (Array.isArray(arr)) {
-      for (var i2 = 0, arr2 = new Array(arr.length); i2 < arr.length; i2++) {
-        arr2[i2] = arr[i2];
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
       }
       return arr2;
     }
@@ -2741,18 +3647,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly)
-        symbols = symbols.filter(function(sym) {
-          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-        });
+      if (enumerableOnly) symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      });
       keys.push.apply(keys, symbols);
     }
     return keys;
   }
   function _objectSpread3(target) {
-    for (var i2 = 1; i2 < arguments.length; i2++) {
-      var source = arguments[i2] != null ? arguments[i2] : {};
-      if (i2 % 2) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+      if (i % 2) {
         ownKeys3(source, true).forEach(function(key) {
           _defineProperty3(target, key, source[key]);
         });
@@ -2802,9 +3707,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (true) {
       var optionsToTest = options || {};
       var bannedKeys = ["blacklist", "whitelist", "transforms", "storage", "keyPrefix", "migrate"];
-      bannedKeys.forEach(function(k) {
-        if (!!optionsToTest[k])
-          console.error('redux-persist: invalid option passed to persistStore: "'.concat(k, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
+      bannedKeys.forEach(function(k2) {
+        if (!!optionsToTest[k2]) console.error('redux-persist: invalid option passed to persistStore: "'.concat(k2, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
       });
     }
     var boostrappedCb = cb || false;
@@ -2886,7 +3790,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       },
       setTheme: (state, action) => {
         state.theme = action.payload;
-        document.querySelector("html").setAttribute("data-theme", action.payload);
+        document.documentElement.setAttribute("data-theme", action.payload);
       }
     }
   });
@@ -2927,7 +3831,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
   var persistor = persistStore(store);
 
-  // node_modules/@buyerjourney/bj-core/src/components/AppElement.js
+  // node_modules/@customerjourney/cj-core/src/components/AppElement.js
   var AppElement = class extends HTMLElement {
     #default = {};
     /**
@@ -2980,7 +3884,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      * @returns  {String}
      */
     camelCase2attribute(camelCase) {
-      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c3) => c3.toUpperCase());
+      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c2) => c2.toUpperCase());
     }
     /**
      * Initializes the component state and renders it.
@@ -3123,8 +4027,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           buttons += `<${el.href != void 0 ? "a" : "button"} id="${el.id}" ${this.getClasses(["button"], el.classList)} ${el.href != void 0 ? `href="${el.href}"` : ""}>${el?.text[this.state.context.lang]}</${el.href != void 0 ? "a" : "button"}>`;
         });
         return buttons;
-      } else
-        return "";
+      } else return "";
     }
     /**
      * Generate the CTA button container and insert the buttons described in the props
@@ -3141,8 +4044,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             `
         );
         return buttons;
-      } else
-        return "";
+      } else return "";
     }
     /**
      * Render the component
@@ -3167,7 +4069,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("app-element", AppElement);
 
-  // node_modules/@buyerjourney/bj-core/src/components/AppPage.js
+  // node_modules/@customerjourney/cj-core/src/components/AppPage.js
   var AppPage = class extends AppElement {
     #default = {
       events: {
@@ -3433,7 +4335,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("app-page", AppPage);
 
-  // node_modules/@buyerjourney/bj-core/src/components/utils.js
+  // node_modules/@customerjourney/cj-core/src/components/utils.js
   function slugify(input) {
     if (!input)
       return "";
@@ -3444,7 +4346,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return slug;
   }
 
-  // node_modules/@buyerjourney/bj-core/src/components/ux.js
+  // node_modules/@customerjourney/cj-core/src/components/ux.js
   function whithAnimations() {
     let objs = document.querySelectorAll("[data-animation]");
     let options = { threshold: 0.1 };
@@ -3491,7 +4393,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     document.body.innerHTML += `<div class="pageloader ${props?.color != void 0 ? props.color : `is-light`} ${dir != void 0 ? dir : ""} is-active"><span class="title">${props.message != void 0 ? props.message : "Loading..."}</span></div>`;
   }
 
-  // node_modules/@buyerjourney/bj-core/src/components/PageFooter.js
+  // node_modules/@customerjourney/cj-core/src/components/PageFooter.js
   var PageFooter = class extends AppElement {
     #default = {};
     constructor(props = {}) {
@@ -3517,4635 +4419,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("page-footer", PageFooter);
 
-  // node_modules/@buyerjourney/bj-core/src/components/PageHeader.js
-  var PageHeader = class extends AppElement {
-    #default = { brandSrc: "https://bulma.io/images/bulma-logo.png" };
-    constructor(props = {}) {
-      super();
-      this.state = this.initState(this.#default, props);
-      this.getAttribute("id") || this.setAttribute("id", this.state.id || `header-${Math.floor(Math.random() * 100)}`);
-      this.setAttribute("i18n", this.state.context?.lang);
-      this.setAttribute("theme", this.state.context?.theme);
-    }
-    handleEvent(event) {
-      if (event.type === "click") {
-        if (event.target.id === "btn-theme") {
-          const selectTheme = new CustomEvent("user:select-theme", {
-            detail: this.#setTheme(),
-            bubbles: true,
-            composed: true
-          });
-          this.dispatchEvent(selectTheme);
-        } else {
-          const selectLang = new CustomEvent("user:select-lang", {
-            detail: event.target.id.slice(4),
-            bubbles: true,
-            composed: true
-          });
-          this.dispatchEvent(selectLang);
-        }
-      }
-    }
-    static get observedAttributes() {
-      return ["i18n", "theme"];
-    }
-    attributeChangedCallback(name, old, now) {
-    }
-    #getButtons() {
-      let lngButtons = ``;
-      Object.entries(this.state.i18n.lang).forEach(([key, value]) => {
-        let focus = ["button"];
-        if (key === this.state.context.lang) {
-          focus.push("is-focused");
-        }
-        lngButtons += `<button id="btn-${key}" ${this.getClasses(focus, this.state.i18n?.classList)}">${value}</button>`;
-      });
-      return lngButtons;
-    }
-    addEvents() {
-      this.querySelector("#btn-theme").addEventListener("click", this);
-      if (this.state.i18n?.lang != void 0) {
-        Object.entries(this.state.i18n.lang).forEach(([key, value]) => {
-          this.querySelector(`#btn-${key}`).addEventListener("click", this);
-        });
-      }
-    }
-    #setTheme() {
-      if (this.state.context.theme == "dark") {
-        return "light";
-      } else {
-        return "dark";
-      }
-    }
-    #getThemeIcon() {
-      if (this.state.context?.theme === "dark") {
-        return "\u{1F505}";
-      } else {
-        return "\u{1F319}";
-      }
-    }
-    render() {
-      this.innerHTML = /* html */
-      `
-            <header>
-            <nav ${this.getClasses(["navbar"], this.state.classList)} role="navigation" aria-label="main navigation">
-                <div class="navbar-brand">
-                <img class="navbar-item"  src="${this.state.context?.theme === "light" ? this.state.brand?.src : this.state.brand?.srcDark === void 0 ? this.state.brand?.src : this.state.brand?.srcDark}" width="180" height="28">
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-                </div>
-                <div class="navbar-menu">
-                <div class="navbar-start">
-                <div class="navbar-item">
-                	<div class="buttons are-small">
-                	<button id="btn-theme" ${this.getClasses(["button"], this.state.i18n?.classList)}>
-                	${this.#getThemeIcon()}
-                	</button>
-                	</div>
-                </div>		
-                </div>
-                ${this.state.i18n === void 0 ? "" : `
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons are-small">
-                            ${this.#getButtons()}
-                        </div>
-                    </div>
-                </div>
-                `}
-                </div>
-            </nav>
-        </header>
-        `;
-      this.addEvents();
-      let burger = this.querySelector(".navbar-burger");
-      let menu = this.querySelector(".navbar-menu");
-      burger.addEventListener("click", () => {
-        burger.classList.toggle("is-active");
-        menu.classList.toggle("is-active");
-      });
-    }
-  };
-  customElements.define("page-header", PageHeader);
-
-  // node_modules/@buyerjourney/router/src/utils.js
-  var Utils = class {
-    isString(variable) {
-      return Object.prototype.toString.call(variable) === "[object String]";
-    }
-    isNumber(variable) {
-      return Object.prototype.toString.call(variable) === "[object Number]";
-    }
-    isRegExp(variable) {
-      return Object.prototype.toString.call(variable) === "[object RegExp]";
-    }
-    isArray(variable) {
-      return Object.prototype.toString.call(variable) === "[object Array]";
-    }
-    isObject(variable) {
-      return Object.prototype.toString.call(variable) === "[object Object]";
-    }
-    isFunction(variable) {
-      return Object.prototype.toString.call(variable) === "[object Function]";
-    }
-    isBoolean(variable) {
-      return Object.prototype.toString.call(variable) === "[object Boolean]";
-    }
-    isNull(variable) {
-      return Object.prototype.toString.call(variable) === "[object Null]";
-    }
-    isUndefined(variable) {
-      return Object.prototype.toString.call(variable) === "[object Undefined]";
-    }
-    isEmpty(variable) {
-      return this.isUndefined(variable) || this.isNull(variable) || variable === 0 || variable === false || (this.isString(variable) || this.isArray(variable)) && variable.length === 0 || this.isObject(variable) && Object.getOwnPropertyNames(variable).length === 0;
-    }
-    isSet(variable) {
-      return !this.isUndefined(variable) && !this.isNull(variable);
-    }
-  };
-  Utils = new Utils();
-  function ArgumentNotFoundError(argName) {
-    let name = "ArgumentNotFoundError";
-    let message = Utils.isSet(argName) ? `${argName} argument is required. None found` : "Required argument was not found";
-    let instance = new Error(message);
-    instance.name = name;
-    instance.message = message;
-    instance.toString = function() {
-      return instace.message;
-    };
-    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(instance, ArgumentNotFoundError);
-    }
-    return instance;
-  }
-  function ArgumentTypeError(argName, argType, argValue) {
-    argType = Utils.isSet(argType) ? argType.toString() : typeof argType;
-    let name = "ArgumentTypeError";
-    let message = Utils.isSet(argName) ? `typeof ${argName.toString()} argument must be equal to ${argType}. ${typeof argValue} found.` : "Invalid argument type found";
-    let instance = new Error(message);
-    instance.name = name;
-    instance.message = message;
-    instance.toString = function() {
-      return this.message;
-    };
-    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(instance, ArgumentTypeError);
-    }
-    return instance;
-  }
-  ArgumentNotFoundError.prototype = Object.create(Error.prototype, {
-    constructor: {
-      value: Error,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  ArgumentTypeError.prototype = Object.create(Error.prototype, {
-    constructor: {
-      value: Error,
-      enumerable: false,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (Object.setPrototypeOf) {
-    Object.setPrototypeOf(ArgumentNotFoundError, Error);
-    Object.setPrototypeOf(ArgumentTypeError, Error);
-  } else {
-    ArgumentNotFoundError.__proto__ = Error;
-    ArgumentTypeError.__proto__ = Error;
-  }
-
-  // node_modules/@buyerjourney/router/src/bjrouter.js
-  var bjRouter = class {
-    notFoundHandler = null;
-    store = null;
-    dispatch = null;
-    /**
-     * 
-     * @param {Object} options 
-     *  @param {boolean} [optioms.hashSensitive=false] - If set to true the router will respond to the #hashe in the urls
-     *  @param {boolean} [options.caseInsensitive=true] - If set to false, uri matching will be case sensitive.
-     * @example
-     * const App = new bjRouter({hashSensitive:true});
-     */
-    constructor(options) {
-      this.routes = [];
-      this.default = {
-        hashSensitive: false,
-        caseInsensitive: true
-      };
-      this.config = { ...this.default, ...options };
-    }
-    /**
-     * Th on  method is used in assigning routes to your application
-     * @method
-     * @param {string} uri - uri route to be matched
-     * @param {function} callback callback a callback function to be invoked if the route has been matched.
-     * @example
-     * App.on('/', home);
-     * App.on('/#blog', blog);
-     */
-    on(uri, callback) {
-      if (!Utils.isSet(uri))
-        throw new ArgumentNotFoundError("uri");
-      if (!Utils.isSet(callback))
-        throw new ArgumentNotFoundError("callback");
-      if (!Utils.isString(uri))
-        throw new ArgumentTypeError("uri", "string", uri);
-      if (!Utils.isFunction(callback))
-        throw new ArgumentTypeError("callback", "function", callback);
-      let route = {
-        uri: null,
-        callback: null,
-        parameters: null,
-        regExp: null,
-        name: null,
-        current: false
-      };
-      if (this._caseInsensitive) {
-        uri = uri.toLowerCase();
-      }
-      ;
-      uri = uri.startsWith("/") ? uri : `/${uri}`;
-      this.routes.forEach((route2) => {
-        if (route2.uri === uri)
-          throw new Error(`the uri ${route2.uri} already exists`);
-      });
-      route.uri = uri;
-      route.callback = callback;
-      route.parameters = this.#proccessParameters(route);
-      this.routes.push(route);
-      return this;
-    }
-    /**
-     * By default bjRouter generates a 404 error page, but it can be customized by a Callback function passed to App.onNotFound.
-     * @method
-     * @param {function} page - Callback function to render on error 404
-     * @example
-     * App.onNotFound(notFound);
-     */
-    onNotFound(page2) {
-      if (typeof page2 !== "function")
-        throw new TypeError("typeof callback must be a function");
-      this.notFoundHandler = page2;
-    }
-    setContext(props, context2 = {}) {
-      if (props != void 0) {
-        props.context = context2;
-      } else {
-        props = {};
-        console.error("router.setContext error: There are no props to assign context. Review the data that you send to the component.");
-      }
-      return props;
-    }
-    /**
-     * @method
-     * @param {string} url - Name of page not found
-     */
-    notFoundDefault(url) {
-      document.title = "Error 404 | Funnels Router";
-      document.body.innerHTML = /* html */
-      `
-        <h2>Sorry!</h2>
-        <h1>Error 404</h1>
-        <p>The page ${url} could not be found.</p>
-        `;
-    }
-    /**
-     * 
-     * @returns {string}  - Browser language in 3 character format
-     */
-    #getLang() {
-      if (navigator.languages != void 0)
-        return navigator.languages[0].substring(0, 2);
-      return navigator.language.substring(0, 2);
-    }
-    /**
-     * @method
-     * Create the routing table as an array
-     * @example
-     * const App = new bjRouter({hashSensitive:true});
-     * App.on("/", homeCallback);
-     * App.on("/about", aboutCallback).setName("about");
-     * App.on("/contact", contactCallback).setName("contact");
-     * App.on.notFoundHandler(myNotFoundHandler);
-     * App.run();
-     */
-    route() {
-      this.routes.forEach((route) => {
-        this.#proccessRegExp(route);
-      }, this);
-      let found = false;
-      let key = null;
-      let qs = null;
-      let routerObj = {
-        i18n: this.#getLang(),
-        setContext: this.setContext,
-        pathFor: (name, parameter) => {
-          return this.pathFor(name, parameter);
-        }
-      };
-      if (location.hash && this.config.hashSensitive) {
-        let hash = location.hash;
-        const i2 = hash.indexOf("?");
-        if (hash.indexOf("?") === -1) {
-          key = hash;
-          qs = null;
-        } else {
-          key = hash.substring(0, i2);
-          qs = hash.substring(hash.indexOf("?"), hash.length);
-        }
-      } else {
-        key = location.pathname;
-        location.search === "" ? qs = null : qs = location.search;
-      }
-      key = key.startsWith("/") ? key : `/${key}`;
-      this.routes.some((route) => {
-        if (key.match(route.regExp)) {
-          found = true;
-          let request = {};
-          request.uri = key;
-          request.referrer = document.referrer;
-          qs === null ? request.query = null : request.query = Object.fromEntries(new URLSearchParams(qs));
-          request.params = this.#processRequestParameters(route, key);
-          return route.callback.call(this, request, routerObj);
-        }
-      });
-      if (!found) {
-        let request = {};
-        request.uri = key;
-        if (this.notFoundHandler === null) {
-          return this.notFoundDefault(key);
-        } else {
-          return this.notFoundHandler(key);
-        }
-      }
-    }
-    /**
-     * Initialize the router and if the -hashSensitive- option is activated add the -hashchange- event
-     */
-    run() {
-      this.route();
-      if (this.config.hashSensitive) {
-        window.addEventListener("hashchange", () => {
-          this.route();
-        });
-      }
-    }
-    /**
-     * @method
-     * @param {string} name -route name
-     * @example     * 
-     * const App = new bjRouter();
-     * App.on("/user/login", Callback).setName("user-login");
-     * ....
-     * function Callback(req, router){
-     *  console.log(App.pathFor("user-login")) // output: /user/login
-     * }
-     */
-    setName(name) {
-      if (!Utils.isSet(name))
-        throw new ArgumentNotFoundError("name");
-      if (!Utils.isString(name))
-        throw new ArgumentTypeError("name", "string", name);
-      let targetRoute = this.routes[this.routes.length - 1];
-      this.routes.forEach((route) => {
-        if (route.name === name)
-          throw new Error(`Duplicate naming. A route with name ${name} already exists`);
-      });
-      targetRoute.name = name;
-      return this;
-    }
-    /**
-     * 
-     * @param {*} name 
-     * @param {*} parameters 
-     * @example
-     * App.on("/user/home", homeCallback).setName("user-home");
-     * App.on("/user/login", loginCallback).setName("user-login");
-     * ....
-     * function loginCallback(req, router){
-     *  onsole.log(router.pathFor("user-home")) // outputs: /user/home
-     *  console.log(router.pathFor("user-login")) // outputs: /user/login
-     * }
-     */
-    pathFor(name, parameters = {}) {
-      if (!Utils.isSet(name))
-        throw new ArgumentNotFoundError("name");
-      if (!Utils.isString(name))
-        throw new ArgumentTypeError("name", "string", string);
-      if (Utils.isEmpty(name))
-        throw new TypeError("name cannot be empty");
-      let nameFound = false;
-      let uri;
-      this.routes.some((route) => {
-        if (route.name === name) {
-          nameFound = true;
-          uri = route.uri;
-          if (this.#containsParameter(uri)) {
-            if (!Utils.isSet(parameters))
-              throw new ArgumentNotFoundError("parameters");
-            if (!Utils.isObject(parameters))
-              throw new ArgumentTypeError("parameters", "object", parameters);
-            if (Utils.isEmpty(parameters))
-              throw new TypeError("parameters cannot be empty");
-            let array = [];
-            for (let value of route.uri.match(/\{(\w+)\}/g)) {
-              value = value.replace("{", "");
-              value = value.replace("}", "");
-              array.push(value);
-            }
-            if (array.length !== Object.getOwnPropertyNames(parameters).length)
-              throw new Error(`The route with name [${name}] contains ${array.length} parameters. ${Object.getOwnPropertyNames(parameters).length} given`);
-            for (let parameter in parameters) {
-              if (!array.includes(parameter))
-                throw new Error(`Invalid parameter name [${parameter}]`);
-              let r3 = new RegExp(`{${parameter}}`, "g");
-              uri = uri.replace(r3, parameters[parameter]);
-            }
-          }
-        } else {
-          uri = false;
-        }
-      });
-      return uri;
-    }
-    #proccessParameters(route) {
-      let parameters = [];
-      let sn = 0;
-      if (this.#containsParameter(route.uri)) {
-        route.uri.replace(/\{\w+\}/g, (parameter) => {
-          sn++;
-          parameter.replace(/\w+/, (parameterName) => {
-            let obj = {};
-            obj[parameterName] = {
-              sn,
-              regExp: "([^\\/]+)",
-              // catch any word except '/' forward slash
-              value: null
-            };
-            parameters.push(obj);
-          });
-        });
-      }
-      return parameters;
-    }
-    #containsParameter(uri) {
-      return uri.search(/{\w+}/g) >= 0;
-    }
-    #processRequestParameters(route, key) {
-      let routeMatched = key.match(route.regExp);
-      if (!routeMatched)
-        return;
-      let param = {};
-      routeMatched.forEach((value, index) => {
-        if (index !== 0) {
-          let key2 = Object.getOwnPropertyNames(route.parameters[index - 1]);
-          param[key2] = value;
-        }
-      });
-      return param;
-    }
-    #proccessRegExp(route) {
-      let regExp = route.uri;
-      regExp = regExp.replace(/\//g, "\\/");
-      regExp = regExp.replace(/\./g, "\\.");
-      regExp = regExp.replace("/", "/?");
-      if (this.#containsParameter(route.uri)) {
-        regExp.replace(/{\w+}/g, (parameter) => {
-          let parameterName = parameter.replace("{", "");
-          parameterName = parameterName.replace("}", "");
-          route.parameters.some((i2) => {
-            if (i2[parameterName] !== void 0) {
-              regExp = regExp.replace(parameter, i2[parameterName].regExp);
-              return regExp;
-            }
-          });
-          return parameter;
-        });
-      }
-      regExp = `^${regExp}$`;
-      route.regExp = new RegExp(regExp);
-      return route;
-    }
-  };
-
-  // node_modules/remarkable/dist/esm/index.browser.js
-  var textarea;
-  function decodeEntity(name) {
-    textarea = textarea || document.createElement("textarea");
-    textarea.innerHTML = "&" + name + ";";
-    return textarea.value;
-  }
-  var hasOwn = Object.prototype.hasOwnProperty;
-  function has2(object, key) {
-    return object ? hasOwn.call(object, key) : false;
-  }
-  function assign2(obj) {
-    var sources = [].slice.call(arguments, 1);
-    sources.forEach(function(source) {
-      if (!source) {
-        return;
-      }
-      if (typeof source !== "object") {
-        throw new TypeError(source + "must be object");
-      }
-      Object.keys(source).forEach(function(key) {
-        obj[key] = source[key];
-      });
-    });
-    return obj;
-  }
-  var UNESCAPE_MD_RE = /\\([\\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
-  function unescapeMd(str) {
-    if (str.indexOf("\\") < 0) {
-      return str;
-    }
-    return str.replace(UNESCAPE_MD_RE, "$1");
-  }
-  function isValidEntityCode(c3) {
-    if (c3 >= 55296 && c3 <= 57343) {
-      return false;
-    }
-    if (c3 >= 64976 && c3 <= 65007) {
-      return false;
-    }
-    if ((c3 & 65535) === 65535 || (c3 & 65535) === 65534) {
-      return false;
-    }
-    if (c3 >= 0 && c3 <= 8) {
-      return false;
-    }
-    if (c3 === 11) {
-      return false;
-    }
-    if (c3 >= 14 && c3 <= 31) {
-      return false;
-    }
-    if (c3 >= 127 && c3 <= 159) {
-      return false;
-    }
-    if (c3 > 1114111) {
-      return false;
-    }
-    return true;
-  }
-  function fromCodePoint(c3) {
-    if (c3 > 65535) {
-      c3 -= 65536;
-      var surrogate1 = 55296 + (c3 >> 10), surrogate2 = 56320 + (c3 & 1023);
-      return String.fromCharCode(surrogate1, surrogate2);
-    }
-    return String.fromCharCode(c3);
-  }
-  var NAMED_ENTITY_RE = /&([a-z#][a-z0-9]{1,31});/gi;
-  var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
-  function replaceEntityPattern(match, name) {
-    var code2 = 0;
-    var decoded = decodeEntity(name);
-    if (name !== decoded) {
-      return decoded;
-    } else if (name.charCodeAt(0) === 35 && DIGITAL_ENTITY_TEST_RE.test(name)) {
-      code2 = name[1].toLowerCase() === "x" ? parseInt(name.slice(2), 16) : parseInt(name.slice(1), 10);
-      if (isValidEntityCode(code2)) {
-        return fromCodePoint(code2);
-      }
-    }
-    return match;
-  }
-  function replaceEntities(str) {
-    if (str.indexOf("&") < 0) {
-      return str;
-    }
-    return str.replace(NAMED_ENTITY_RE, replaceEntityPattern);
-  }
-  var HTML_ESCAPE_TEST_RE = /[&<>"]/;
-  var HTML_ESCAPE_REPLACE_RE = /[&<>"]/g;
-  var HTML_REPLACEMENTS = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;"
-  };
-  function replaceUnsafeChar(ch) {
-    return HTML_REPLACEMENTS[ch];
-  }
-  function escapeHtml(str) {
-    if (HTML_ESCAPE_TEST_RE.test(str)) {
-      return str.replace(HTML_ESCAPE_REPLACE_RE, replaceUnsafeChar);
-    }
-    return str;
-  }
-  var rules = {};
-  rules.blockquote_open = function() {
-    return "<blockquote>\n";
-  };
-  rules.blockquote_close = function(tokens, idx) {
-    return "</blockquote>" + getBreak(tokens, idx);
-  };
-  rules.code = function(tokens, idx) {
-    if (tokens[idx].block) {
-      return "<pre><code>" + escapeHtml(tokens[idx].content) + "</code></pre>" + getBreak(tokens, idx);
-    }
-    return "<code>" + escapeHtml(tokens[idx].content) + "</code>";
-  };
-  rules.fence = function(tokens, idx, options, env, instance) {
-    var token = tokens[idx];
-    var langClass = "";
-    var langPrefix = options.langPrefix;
-    var langName = "", fences2, fenceName;
-    var highlighted;
-    if (token.params) {
-      fences2 = token.params.split(/\s+/g);
-      fenceName = fences2.join(" ");
-      if (has2(instance.rules.fence_custom, fences2[0])) {
-        return instance.rules.fence_custom[fences2[0]](tokens, idx, options, env, instance);
-      }
-      langName = escapeHtml(replaceEntities(unescapeMd(fenceName)));
-      langClass = ' class="' + langPrefix + langName + '"';
-    }
-    if (options.highlight) {
-      highlighted = options.highlight.apply(options.highlight, [token.content].concat(fences2)) || escapeHtml(token.content);
-    } else {
-      highlighted = escapeHtml(token.content);
-    }
-    return "<pre><code" + langClass + ">" + highlighted + "</code></pre>" + getBreak(tokens, idx);
-  };
-  rules.fence_custom = {};
-  rules.heading_open = function(tokens, idx) {
-    return "<h" + tokens[idx].hLevel + ">";
-  };
-  rules.heading_close = function(tokens, idx) {
-    return "</h" + tokens[idx].hLevel + ">\n";
-  };
-  rules.hr = function(tokens, idx, options) {
-    return (options.xhtmlOut ? "<hr />" : "<hr>") + getBreak(tokens, idx);
-  };
-  rules.bullet_list_open = function() {
-    return "<ul>\n";
-  };
-  rules.bullet_list_close = function(tokens, idx) {
-    return "</ul>" + getBreak(tokens, idx);
-  };
-  rules.list_item_open = function() {
-    return "<li>";
-  };
-  rules.list_item_close = function() {
-    return "</li>\n";
-  };
-  rules.ordered_list_open = function(tokens, idx) {
-    var token = tokens[idx];
-    var order = token.order > 1 ? ' start="' + token.order + '"' : "";
-    return "<ol" + order + ">\n";
-  };
-  rules.ordered_list_close = function(tokens, idx) {
-    return "</ol>" + getBreak(tokens, idx);
-  };
-  rules.paragraph_open = function(tokens, idx) {
-    return tokens[idx].tight ? "" : "<p>";
-  };
-  rules.paragraph_close = function(tokens, idx) {
-    var addBreak = !(tokens[idx].tight && idx && tokens[idx - 1].type === "inline" && !tokens[idx - 1].content);
-    return (tokens[idx].tight ? "" : "</p>") + (addBreak ? getBreak(tokens, idx) : "");
-  };
-  rules.link_open = function(tokens, idx, options) {
-    var title = tokens[idx].title ? ' title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '"' : "";
-    var target = options.linkTarget ? ' target="' + options.linkTarget + '"' : "";
-    return '<a href="' + escapeHtml(tokens[idx].href) + '"' + title + target + ">";
-  };
-  rules.link_close = function() {
-    return "</a>";
-  };
-  rules.image = function(tokens, idx, options) {
-    var src = ' src="' + escapeHtml(tokens[idx].src) + '"';
-    var title = tokens[idx].title ? ' title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '"' : "";
-    var alt = ' alt="' + (tokens[idx].alt ? escapeHtml(replaceEntities(unescapeMd(tokens[idx].alt))) : "") + '"';
-    var suffix = options.xhtmlOut ? " /" : "";
-    return "<img" + src + alt + title + suffix + ">";
-  };
-  rules.table_open = function() {
-    return "<table>\n";
-  };
-  rules.table_close = function() {
-    return "</table>\n";
-  };
-  rules.thead_open = function() {
-    return "<thead>\n";
-  };
-  rules.thead_close = function() {
-    return "</thead>\n";
-  };
-  rules.tbody_open = function() {
-    return "<tbody>\n";
-  };
-  rules.tbody_close = function() {
-    return "</tbody>\n";
-  };
-  rules.tr_open = function() {
-    return "<tr>";
-  };
-  rules.tr_close = function() {
-    return "</tr>\n";
-  };
-  rules.th_open = function(tokens, idx) {
-    var token = tokens[idx];
-    return "<th" + (token.align ? ' style="text-align:' + token.align + '"' : "") + ">";
-  };
-  rules.th_close = function() {
-    return "</th>";
-  };
-  rules.td_open = function(tokens, idx) {
-    var token = tokens[idx];
-    return "<td" + (token.align ? ' style="text-align:' + token.align + '"' : "") + ">";
-  };
-  rules.td_close = function() {
-    return "</td>";
-  };
-  rules.strong_open = function() {
-    return "<strong>";
-  };
-  rules.strong_close = function() {
-    return "</strong>";
-  };
-  rules.em_open = function() {
-    return "<em>";
-  };
-  rules.em_close = function() {
-    return "</em>";
-  };
-  rules.del_open = function() {
-    return "<del>";
-  };
-  rules.del_close = function() {
-    return "</del>";
-  };
-  rules.ins_open = function() {
-    return "<ins>";
-  };
-  rules.ins_close = function() {
-    return "</ins>";
-  };
-  rules.mark_open = function() {
-    return "<mark>";
-  };
-  rules.mark_close = function() {
-    return "</mark>";
-  };
-  rules.sub = function(tokens, idx) {
-    return "<sub>" + escapeHtml(tokens[idx].content) + "</sub>";
-  };
-  rules.sup = function(tokens, idx) {
-    return "<sup>" + escapeHtml(tokens[idx].content) + "</sup>";
-  };
-  rules.hardbreak = function(tokens, idx, options) {
-    return options.xhtmlOut ? "<br />\n" : "<br>\n";
-  };
-  rules.softbreak = function(tokens, idx, options) {
-    return options.breaks ? options.xhtmlOut ? "<br />\n" : "<br>\n" : "\n";
-  };
-  rules.text = function(tokens, idx) {
-    return escapeHtml(tokens[idx].content);
-  };
-  rules.htmlblock = function(tokens, idx) {
-    return tokens[idx].content;
-  };
-  rules.htmltag = function(tokens, idx) {
-    return tokens[idx].content;
-  };
-  rules.abbr_open = function(tokens, idx) {
-    return '<abbr title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '">';
-  };
-  rules.abbr_close = function() {
-    return "</abbr>";
-  };
-  rules.footnote_ref = function(tokens, idx) {
-    var n2 = Number(tokens[idx].id + 1).toString();
-    var id = "fnref" + n2;
-    if (tokens[idx].subId > 0) {
-      id += ":" + tokens[idx].subId;
-    }
-    return '<sup class="footnote-ref"><a href="#fn' + n2 + '" id="' + id + '">[' + n2 + "]</a></sup>";
-  };
-  rules.footnote_block_open = function(tokens, idx, options) {
-    var hr2 = options.xhtmlOut ? '<hr class="footnotes-sep" />\n' : '<hr class="footnotes-sep">\n';
-    return hr2 + '<section class="footnotes">\n<ol class="footnotes-list">\n';
-  };
-  rules.footnote_block_close = function() {
-    return "</ol>\n</section>\n";
-  };
-  rules.footnote_open = function(tokens, idx) {
-    var id = Number(tokens[idx].id + 1).toString();
-    return '<li id="fn' + id + '"  class="footnote-item">';
-  };
-  rules.footnote_close = function() {
-    return "</li>\n";
-  };
-  rules.footnote_anchor = function(tokens, idx) {
-    var n2 = Number(tokens[idx].id + 1).toString();
-    var id = "fnref" + n2;
-    if (tokens[idx].subId > 0) {
-      id += ":" + tokens[idx].subId;
-    }
-    return ' <a href="#' + id + '" class="footnote-backref">\u21A9</a>';
-  };
-  rules.dl_open = function() {
-    return "<dl>\n";
-  };
-  rules.dt_open = function() {
-    return "<dt>";
-  };
-  rules.dd_open = function() {
-    return "<dd>";
-  };
-  rules.dl_close = function() {
-    return "</dl>\n";
-  };
-  rules.dt_close = function() {
-    return "</dt>\n";
-  };
-  rules.dd_close = function() {
-    return "</dd>\n";
-  };
-  function nextToken(tokens, idx) {
-    if (++idx >= tokens.length - 2) {
-      return idx;
-    }
-    if (tokens[idx].type === "paragraph_open" && tokens[idx].tight && (tokens[idx + 1].type === "inline" && tokens[idx + 1].content.length === 0) && (tokens[idx + 2].type === "paragraph_close" && tokens[idx + 2].tight)) {
-      return nextToken(tokens, idx + 2);
-    }
-    return idx;
-  }
-  var getBreak = rules.getBreak = function getBreak2(tokens, idx) {
-    idx = nextToken(tokens, idx);
-    if (idx < tokens.length && tokens[idx].type === "list_item_close") {
-      return "";
-    }
-    return "\n";
-  };
-  function Renderer() {
-    this.rules = assign2({}, rules);
-    this.getBreak = rules.getBreak;
-  }
-  Renderer.prototype.renderInline = function(tokens, options, env) {
-    var _rules2 = this.rules;
-    var len = tokens.length, i2 = 0;
-    var result = "";
-    while (len--) {
-      result += _rules2[tokens[i2].type](tokens, i2++, options, env, this);
-    }
-    return result;
-  };
-  Renderer.prototype.render = function(tokens, options, env) {
-    var _rules2 = this.rules;
-    var len = tokens.length, i2 = -1;
-    var result = "";
-    while (++i2 < len) {
-      if (tokens[i2].type === "inline") {
-        result += this.renderInline(tokens[i2].children, options, env);
-      } else {
-        result += _rules2[tokens[i2].type](tokens, i2, options, env, this);
-      }
-    }
-    return result;
-  };
-  function Ruler() {
-    this.__rules__ = [];
-    this.__cache__ = null;
-  }
-  Ruler.prototype.__find__ = function(name) {
-    var len = this.__rules__.length;
-    var i2 = -1;
-    while (len--) {
-      if (this.__rules__[++i2].name === name) {
-        return i2;
-      }
-    }
-    return -1;
-  };
-  Ruler.prototype.__compile__ = function() {
-    var self2 = this;
-    var chains = [""];
-    self2.__rules__.forEach(function(rule) {
-      if (!rule.enabled) {
-        return;
-      }
-      rule.alt.forEach(function(altName) {
-        if (chains.indexOf(altName) < 0) {
-          chains.push(altName);
-        }
-      });
-    });
-    self2.__cache__ = {};
-    chains.forEach(function(chain) {
-      self2.__cache__[chain] = [];
-      self2.__rules__.forEach(function(rule) {
-        if (!rule.enabled) {
-          return;
-        }
-        if (chain && rule.alt.indexOf(chain) < 0) {
-          return;
-        }
-        self2.__cache__[chain].push(rule.fn);
-      });
-    });
-  };
-  Ruler.prototype.at = function(name, fn, options) {
-    var idx = this.__find__(name);
-    var opt = options || {};
-    if (idx === -1) {
-      throw new Error("Parser rule not found: " + name);
-    }
-    this.__rules__[idx].fn = fn;
-    this.__rules__[idx].alt = opt.alt || [];
-    this.__cache__ = null;
-  };
-  Ruler.prototype.before = function(beforeName, ruleName, fn, options) {
-    var idx = this.__find__(beforeName);
-    var opt = options || {};
-    if (idx === -1) {
-      throw new Error("Parser rule not found: " + beforeName);
-    }
-    this.__rules__.splice(idx, 0, {
-      name: ruleName,
-      enabled: true,
-      fn,
-      alt: opt.alt || []
-    });
-    this.__cache__ = null;
-  };
-  Ruler.prototype.after = function(afterName, ruleName, fn, options) {
-    var idx = this.__find__(afterName);
-    var opt = options || {};
-    if (idx === -1) {
-      throw new Error("Parser rule not found: " + afterName);
-    }
-    this.__rules__.splice(idx + 1, 0, {
-      name: ruleName,
-      enabled: true,
-      fn,
-      alt: opt.alt || []
-    });
-    this.__cache__ = null;
-  };
-  Ruler.prototype.push = function(ruleName, fn, options) {
-    var opt = options || {};
-    this.__rules__.push({
-      name: ruleName,
-      enabled: true,
-      fn,
-      alt: opt.alt || []
-    });
-    this.__cache__ = null;
-  };
-  Ruler.prototype.enable = function(list2, strict) {
-    list2 = !Array.isArray(list2) ? [list2] : list2;
-    if (strict) {
-      this.__rules__.forEach(function(rule) {
-        rule.enabled = false;
-      });
-    }
-    list2.forEach(function(name) {
-      var idx = this.__find__(name);
-      if (idx < 0) {
-        throw new Error("Rules manager: invalid rule name " + name);
-      }
-      this.__rules__[idx].enabled = true;
-    }, this);
-    this.__cache__ = null;
-  };
-  Ruler.prototype.disable = function(list2) {
-    list2 = !Array.isArray(list2) ? [list2] : list2;
-    list2.forEach(function(name) {
-      var idx = this.__find__(name);
-      if (idx < 0) {
-        throw new Error("Rules manager: invalid rule name " + name);
-      }
-      this.__rules__[idx].enabled = false;
-    }, this);
-    this.__cache__ = null;
-  };
-  Ruler.prototype.getRules = function(chainName) {
-    if (this.__cache__ === null) {
-      this.__compile__();
-    }
-    return this.__cache__[chainName] || [];
-  };
-  function block(state) {
-    if (state.inlineMode) {
-      state.tokens.push({
-        type: "inline",
-        content: state.src.replace(/\n/g, " ").trim(),
-        level: 0,
-        lines: [0, 1],
-        children: []
-      });
-    } else {
-      state.block.parse(state.src, state.options, state.env, state.tokens);
-    }
-  }
-  function StateInline(src, parserInline, options, env, outTokens) {
-    this.src = src;
-    this.env = env;
-    this.options = options;
-    this.parser = parserInline;
-    this.tokens = outTokens;
-    this.pos = 0;
-    this.posMax = this.src.length;
-    this.level = 0;
-    this.pending = "";
-    this.pendingLevel = 0;
-    this.cache = [];
-    this.isInLabel = false;
-    this.linkLevel = 0;
-    this.linkContent = "";
-    this.labelUnmatchedScopes = 0;
-  }
-  StateInline.prototype.pushPending = function() {
-    this.tokens.push({
-      type: "text",
-      content: this.pending,
-      level: this.pendingLevel
-    });
-    this.pending = "";
-  };
-  StateInline.prototype.push = function(token) {
-    if (this.pending) {
-      this.pushPending();
-    }
-    this.tokens.push(token);
-    this.pendingLevel = this.level;
-  };
-  StateInline.prototype.cacheSet = function(key, val) {
-    for (var i2 = this.cache.length; i2 <= key; i2++) {
-      this.cache.push(0);
-    }
-    this.cache[key] = val;
-  };
-  StateInline.prototype.cacheGet = function(key) {
-    return key < this.cache.length ? this.cache[key] : 0;
-  };
-  function parseLinkLabel(state, start) {
-    var level, found, marker, labelEnd = -1, max = state.posMax, oldPos = state.pos, oldFlag = state.isInLabel;
-    if (state.isInLabel) {
-      return -1;
-    }
-    if (state.labelUnmatchedScopes) {
-      state.labelUnmatchedScopes--;
-      return -1;
-    }
-    state.pos = start + 1;
-    state.isInLabel = true;
-    level = 1;
-    while (state.pos < max) {
-      marker = state.src.charCodeAt(state.pos);
-      if (marker === 91) {
-        level++;
-      } else if (marker === 93) {
-        level--;
-        if (level === 0) {
-          found = true;
-          break;
-        }
-      }
-      state.parser.skipToken(state);
-    }
-    if (found) {
-      labelEnd = state.pos;
-      state.labelUnmatchedScopes = 0;
-    } else {
-      state.labelUnmatchedScopes = level - 1;
-    }
-    state.pos = oldPos;
-    state.isInLabel = oldFlag;
-    return labelEnd;
-  }
-  function parseAbbr(str, parserInline, options, env) {
-    var state, labelEnd, pos, max, label, title;
-    if (str.charCodeAt(0) !== 42) {
-      return -1;
-    }
-    if (str.charCodeAt(1) !== 91) {
-      return -1;
-    }
-    if (str.indexOf("]:") === -1) {
-      return -1;
-    }
-    state = new StateInline(str, parserInline, options, env, []);
-    labelEnd = parseLinkLabel(state, 1);
-    if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
-      return -1;
-    }
-    max = state.posMax;
-    for (pos = labelEnd + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 10) {
-        break;
-      }
-    }
-    label = str.slice(2, labelEnd);
-    title = str.slice(labelEnd + 2, pos).trim();
-    if (title.length === 0) {
-      return -1;
-    }
-    if (!env.abbreviations) {
-      env.abbreviations = {};
-    }
-    if (typeof env.abbreviations[":" + label] === "undefined") {
-      env.abbreviations[":" + label] = title;
-    }
-    return pos;
-  }
-  function abbr(state) {
-    var tokens = state.tokens, i2, l2, content, pos;
-    if (state.inlineMode) {
-      return;
-    }
-    for (i2 = 1, l2 = tokens.length - 1; i2 < l2; i2++) {
-      if (tokens[i2 - 1].type === "paragraph_open" && tokens[i2].type === "inline" && tokens[i2 + 1].type === "paragraph_close") {
-        content = tokens[i2].content;
-        while (content.length) {
-          pos = parseAbbr(content, state.inline, state.options, state.env);
-          if (pos < 0) {
-            break;
-          }
-          content = content.slice(pos).trim();
-        }
-        tokens[i2].content = content;
-        if (!content.length) {
-          tokens[i2 - 1].tight = true;
-          tokens[i2 + 1].tight = true;
-        }
-      }
-    }
-  }
-  function normalizeLink(url) {
-    var normalized = replaceEntities(url);
-    try {
-      normalized = decodeURI(normalized);
-    } catch (err) {
-    }
-    return encodeURI(normalized);
-  }
-  function parseLinkDestination(state, pos) {
-    var code2, level, link, start = pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) === 60) {
-      pos++;
-      while (pos < max) {
-        code2 = state.src.charCodeAt(pos);
-        if (code2 === 10) {
-          return false;
-        }
-        if (code2 === 62) {
-          link = normalizeLink(unescapeMd(state.src.slice(start + 1, pos)));
-          if (!state.parser.validateLink(link)) {
-            return false;
-          }
-          state.pos = pos + 1;
-          state.linkContent = link;
-          return true;
-        }
-        if (code2 === 92 && pos + 1 < max) {
-          pos += 2;
-          continue;
-        }
-        pos++;
-      }
-      return false;
-    }
-    level = 0;
-    while (pos < max) {
-      code2 = state.src.charCodeAt(pos);
-      if (code2 === 32) {
-        break;
-      }
-      if (code2 < 32 || code2 === 127) {
-        break;
-      }
-      if (code2 === 92 && pos + 1 < max) {
-        pos += 2;
-        continue;
-      }
-      if (code2 === 40) {
-        level++;
-        if (level > 1) {
-          break;
-        }
-      }
-      if (code2 === 41) {
-        level--;
-        if (level < 0) {
-          break;
-        }
-      }
-      pos++;
-    }
-    if (start === pos) {
-      return false;
-    }
-    link = unescapeMd(state.src.slice(start, pos));
-    if (!state.parser.validateLink(link)) {
-      return false;
-    }
-    state.linkContent = link;
-    state.pos = pos;
-    return true;
-  }
-  function parseLinkTitle(state, pos) {
-    var code2, start = pos, max = state.posMax, marker = state.src.charCodeAt(pos);
-    if (marker !== 34 && marker !== 39 && marker !== 40) {
-      return false;
-    }
-    pos++;
-    if (marker === 40) {
-      marker = 41;
-    }
-    while (pos < max) {
-      code2 = state.src.charCodeAt(pos);
-      if (code2 === marker) {
-        state.pos = pos + 1;
-        state.linkContent = unescapeMd(state.src.slice(start + 1, pos));
-        return true;
-      }
-      if (code2 === 92 && pos + 1 < max) {
-        pos += 2;
-        continue;
-      }
-      pos++;
-    }
-    return false;
-  }
-  function normalizeReference(str) {
-    return str.trim().replace(/\s+/g, " ").toUpperCase();
-  }
-  function parseReference(str, parser, options, env) {
-    var state, labelEnd, pos, max, code2, start, href, title, label;
-    if (str.charCodeAt(0) !== 91) {
-      return -1;
-    }
-    if (str.indexOf("]:") === -1) {
-      return -1;
-    }
-    state = new StateInline(str, parser, options, env, []);
-    labelEnd = parseLinkLabel(state, 0);
-    if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
-      return -1;
-    }
-    max = state.posMax;
-    for (pos = labelEnd + 2; pos < max; pos++) {
-      code2 = state.src.charCodeAt(pos);
-      if (code2 !== 32 && code2 !== 10) {
-        break;
-      }
-    }
-    if (!parseLinkDestination(state, pos)) {
-      return -1;
-    }
-    href = state.linkContent;
-    pos = state.pos;
-    start = pos;
-    for (pos = pos + 1; pos < max; pos++) {
-      code2 = state.src.charCodeAt(pos);
-      if (code2 !== 32 && code2 !== 10) {
-        break;
-      }
-    }
-    if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
-      title = state.linkContent;
-      pos = state.pos;
-    } else {
-      title = "";
-      pos = start;
-    }
-    while (pos < max && state.src.charCodeAt(pos) === 32) {
-      pos++;
-    }
-    if (pos < max && state.src.charCodeAt(pos) !== 10) {
-      return -1;
-    }
-    label = normalizeReference(str.slice(1, labelEnd));
-    if (typeof env.references[label] === "undefined") {
-      env.references[label] = { title, href };
-    }
-    return pos;
-  }
-  function references(state) {
-    var tokens = state.tokens, i2, l2, content, pos;
-    state.env.references = state.env.references || {};
-    if (state.inlineMode) {
-      return;
-    }
-    for (i2 = 1, l2 = tokens.length - 1; i2 < l2; i2++) {
-      if (tokens[i2].type === "inline" && tokens[i2 - 1].type === "paragraph_open" && tokens[i2 + 1].type === "paragraph_close") {
-        content = tokens[i2].content;
-        while (content.length) {
-          pos = parseReference(content, state.inline, state.options, state.env);
-          if (pos < 0) {
-            break;
-          }
-          content = content.slice(pos).trim();
-        }
-        tokens[i2].content = content;
-        if (!content.length) {
-          tokens[i2 - 1].tight = true;
-          tokens[i2 + 1].tight = true;
-        }
-      }
-    }
-  }
-  function inline(state) {
-    var tokens = state.tokens, tok, i2, l2;
-    for (i2 = 0, l2 = tokens.length; i2 < l2; i2++) {
-      tok = tokens[i2];
-      if (tok.type === "inline") {
-        state.inline.parse(tok.content, state.options, state.env, tok.children);
-      }
-    }
-  }
-  function footnote_block(state) {
-    var i2, l2, j, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
-    if (!state.env.footnotes) {
-      return;
-    }
-    state.tokens = state.tokens.filter(function(tok) {
-      if (tok.type === "footnote_reference_open") {
-        insideRef = true;
-        current2 = [];
-        currentLabel = tok.label;
-        return false;
-      }
-      if (tok.type === "footnote_reference_close") {
-        insideRef = false;
-        refTokens[":" + currentLabel] = current2;
-        return false;
-      }
-      if (insideRef) {
-        current2.push(tok);
-      }
-      return !insideRef;
-    });
-    if (!state.env.footnotes.list) {
-      return;
-    }
-    list2 = state.env.footnotes.list;
-    state.tokens.push({
-      type: "footnote_block_open",
-      level: level++
-    });
-    for (i2 = 0, l2 = list2.length; i2 < l2; i2++) {
-      state.tokens.push({
-        type: "footnote_open",
-        id: i2,
-        level: level++
-      });
-      if (list2[i2].tokens) {
-        tokens = [];
-        tokens.push({
-          type: "paragraph_open",
-          tight: false,
-          level: level++
-        });
-        tokens.push({
-          type: "inline",
-          content: "",
-          level,
-          children: list2[i2].tokens
-        });
-        tokens.push({
-          type: "paragraph_close",
-          tight: false,
-          level: --level
-        });
-      } else if (list2[i2].label) {
-        tokens = refTokens[":" + list2[i2].label];
-      }
-      state.tokens = state.tokens.concat(tokens);
-      if (state.tokens[state.tokens.length - 1].type === "paragraph_close") {
-        lastParagraph = state.tokens.pop();
-      } else {
-        lastParagraph = null;
-      }
-      t2 = list2[i2].count > 0 ? list2[i2].count : 1;
-      for (j = 0; j < t2; j++) {
-        state.tokens.push({
-          type: "footnote_anchor",
-          id: i2,
-          subId: j,
-          level
-        });
-      }
-      if (lastParagraph) {
-        state.tokens.push(lastParagraph);
-      }
-      state.tokens.push({
-        type: "footnote_close",
-        level: --level
-      });
-    }
-    state.tokens.push({
-      type: "footnote_block_close",
-      level: --level
-    });
-  }
-  var PUNCT_CHARS = ` 
-()[]'".,!?-`;
-  function regEscape(s) {
-    return s.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
-  }
-  function abbr2(state) {
-    var i2, j, l2, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state.tokens;
-    if (!state.env.abbreviations) {
-      return;
-    }
-    if (!state.env.abbrRegExp) {
-      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state.env.abbreviations).map(function(x) {
-        return x.substr(1);
-      }).sort(function(a3, b) {
-        return b.length - a3.length;
-      }).map(regEscape).join("|") + ")($|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])";
-      state.env.abbrRegExp = new RegExp(regText, "g");
-    }
-    reg = state.env.abbrRegExp;
-    for (j = 0, l2 = blockTokens.length; j < l2; j++) {
-      if (blockTokens[j].type !== "inline") {
-        continue;
-      }
-      tokens = blockTokens[j].children;
-      for (i2 = tokens.length - 1; i2 >= 0; i2--) {
-        token = tokens[i2];
-        if (token.type !== "text") {
-          continue;
-        }
-        pos = 0;
-        text3 = token.content;
-        reg.lastIndex = 0;
-        level = token.level;
-        nodes = [];
-        while (m2 = reg.exec(text3)) {
-          if (reg.lastIndex > pos) {
-            nodes.push({
-              type: "text",
-              content: text3.slice(pos, m2.index + m2[1].length),
-              level
-            });
-          }
-          nodes.push({
-            type: "abbr_open",
-            title: state.env.abbreviations[":" + m2[2]],
-            level: level++
-          });
-          nodes.push({
-            type: "text",
-            content: m2[2],
-            level
-          });
-          nodes.push({
-            type: "abbr_close",
-            level: --level
-          });
-          pos = reg.lastIndex - m2[3].length;
-        }
-        if (!nodes.length) {
-          continue;
-        }
-        if (pos < text3.length) {
-          nodes.push({
-            type: "text",
-            content: text3.slice(pos),
-            level
-          });
-        }
-        blockTokens[j].children = tokens = [].concat(tokens.slice(0, i2), nodes, tokens.slice(i2 + 1));
-      }
-    }
-  }
-  var RARE_RE = /\+-|\.\.|\?\?\?\?|!!!!|,,|--/;
-  var SCOPED_ABBR_RE = /\((c|tm|r|p)\)/ig;
-  var SCOPED_ABBR = {
-    "c": "\xA9",
-    "r": "\xAE",
-    "p": "\xA7",
-    "tm": "\u2122"
-  };
-  function replaceScopedAbbr(str) {
-    if (str.indexOf("(") < 0) {
-      return str;
-    }
-    return str.replace(SCOPED_ABBR_RE, function(match, name) {
-      return SCOPED_ABBR[name.toLowerCase()];
-    });
-  }
-  function replace(state) {
-    var i2, token, text3, inlineTokens, blkIdx;
-    if (!state.options.typographer) {
-      return;
-    }
-    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
-      if (state.tokens[blkIdx].type !== "inline") {
-        continue;
-      }
-      inlineTokens = state.tokens[blkIdx].children;
-      for (i2 = inlineTokens.length - 1; i2 >= 0; i2--) {
-        token = inlineTokens[i2];
-        if (token.type === "text") {
-          text3 = token.content;
-          text3 = replaceScopedAbbr(text3);
-          if (RARE_RE.test(text3)) {
-            text3 = text3.replace(/\+-/g, "\xB1").replace(/\.{2,}/g, "\u2026").replace(/([?!])…/g, "$1..").replace(/([?!]){4,}/g, "$1$1$1").replace(/,{2,}/g, ",").replace(/(^|[^-])---([^-]|$)/mg, "$1\u2014$2").replace(/(^|\s)--(\s|$)/mg, "$1\u2013$2").replace(/(^|[^-\s])--([^-\s]|$)/mg, "$1\u2013$2");
-          }
-          token.content = text3;
-        }
-      }
-    }
-  }
-  var QUOTE_TEST_RE = /['"]/;
-  var QUOTE_RE = /['"]/g;
-  var PUNCT_RE = /[-\s()\[\]]/;
-  var APOSTROPHE = "\u2019";
-  function isLetter(str, pos) {
-    if (pos < 0 || pos >= str.length) {
-      return false;
-    }
-    return !PUNCT_RE.test(str[pos]);
-  }
-  function replaceAt(str, index, ch) {
-    return str.substr(0, index) + ch + str.substr(index + 1);
-  }
-  function smartquotes(state) {
-    var i2, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j, isSingle, blkIdx, tokens, stack;
-    if (!state.options.typographer) {
-      return;
-    }
-    stack = [];
-    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
-      if (state.tokens[blkIdx].type !== "inline") {
-        continue;
-      }
-      tokens = state.tokens[blkIdx].children;
-      stack.length = 0;
-      for (i2 = 0; i2 < tokens.length; i2++) {
-        token = tokens[i2];
-        if (token.type !== "text" || QUOTE_TEST_RE.test(token.text)) {
-          continue;
-        }
-        thisLevel = tokens[i2].level;
-        for (j = stack.length - 1; j >= 0; j--) {
-          if (stack[j].level <= thisLevel) {
-            break;
-          }
-        }
-        stack.length = j + 1;
-        text3 = token.content;
-        pos = 0;
-        max = text3.length;
-        OUTER:
-          while (pos < max) {
-            QUOTE_RE.lastIndex = pos;
-            t2 = QUOTE_RE.exec(text3);
-            if (!t2) {
-              break;
-            }
-            lastSpace = !isLetter(text3, t2.index - 1);
-            pos = t2.index + 1;
-            isSingle = t2[0] === "'";
-            nextSpace = !isLetter(text3, pos);
-            if (!nextSpace && !lastSpace) {
-              if (isSingle) {
-                token.content = replaceAt(token.content, t2.index, APOSTROPHE);
-              }
-              continue;
-            }
-            canOpen = !nextSpace;
-            canClose = !lastSpace;
-            if (canClose) {
-              for (j = stack.length - 1; j >= 0; j--) {
-                item = stack[j];
-                if (stack[j].level < thisLevel) {
-                  break;
-                }
-                if (item.single === isSingle && stack[j].level === thisLevel) {
-                  item = stack[j];
-                  if (isSingle) {
-                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[2]);
-                    token.content = replaceAt(token.content, t2.index, state.options.quotes[3]);
-                  } else {
-                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[0]);
-                    token.content = replaceAt(token.content, t2.index, state.options.quotes[1]);
-                  }
-                  stack.length = j;
-                  continue OUTER;
-                }
-              }
-            }
-            if (canOpen) {
-              stack.push({
-                token: i2,
-                pos: t2.index,
-                single: isSingle,
-                level: thisLevel
-              });
-            } else if (canClose && isSingle) {
-              token.content = replaceAt(token.content, t2.index, APOSTROPHE);
-            }
-          }
-      }
-    }
-  }
-  var _rules = [
-    ["block", block],
-    ["abbr", abbr],
-    ["references", references],
-    ["inline", inline],
-    ["footnote_tail", footnote_block],
-    ["abbr2", abbr2],
-    ["replacements", replace],
-    ["smartquotes", smartquotes]
-  ];
-  function Core() {
-    this.options = {};
-    this.ruler = new Ruler();
-    for (var i2 = 0; i2 < _rules.length; i2++) {
-      this.ruler.push(_rules[i2][0], _rules[i2][1]);
-    }
-  }
-  Core.prototype.process = function(state) {
-    var i2, l2, rules2;
-    rules2 = this.ruler.getRules("");
-    for (i2 = 0, l2 = rules2.length; i2 < l2; i2++) {
-      rules2[i2](state);
-    }
-  };
-  function StateBlock(src, parser, options, env, tokens) {
-    var ch, s, start, pos, len, indent, indent_found;
-    this.src = src;
-    this.parser = parser;
-    this.options = options;
-    this.env = env;
-    this.tokens = tokens;
-    this.bMarks = [];
-    this.eMarks = [];
-    this.tShift = [];
-    this.blkIndent = 0;
-    this.line = 0;
-    this.lineMax = 0;
-    this.tight = false;
-    this.parentType = "root";
-    this.ddIndent = -1;
-    this.level = 0;
-    this.result = "";
-    s = this.src;
-    indent = 0;
-    indent_found = false;
-    for (start = pos = indent = 0, len = s.length; pos < len; pos++) {
-      ch = s.charCodeAt(pos);
-      if (!indent_found) {
-        if (ch === 32) {
-          indent++;
-          continue;
-        } else {
-          indent_found = true;
-        }
-      }
-      if (ch === 10 || pos === len - 1) {
-        if (ch !== 10) {
-          pos++;
-        }
-        this.bMarks.push(start);
-        this.eMarks.push(pos);
-        this.tShift.push(indent);
-        indent_found = false;
-        indent = 0;
-        start = pos + 1;
-      }
-    }
-    this.bMarks.push(s.length);
-    this.eMarks.push(s.length);
-    this.tShift.push(0);
-    this.lineMax = this.bMarks.length - 1;
-  }
-  StateBlock.prototype.isEmpty = function isEmpty(line) {
-    return this.bMarks[line] + this.tShift[line] >= this.eMarks[line];
-  };
-  StateBlock.prototype.skipEmptyLines = function skipEmptyLines(from) {
-    for (var max = this.lineMax; from < max; from++) {
-      if (this.bMarks[from] + this.tShift[from] < this.eMarks[from]) {
-        break;
-      }
-    }
-    return from;
-  };
-  StateBlock.prototype.skipSpaces = function skipSpaces(pos) {
-    for (var max = this.src.length; pos < max; pos++) {
-      if (this.src.charCodeAt(pos) !== 32) {
-        break;
-      }
-    }
-    return pos;
-  };
-  StateBlock.prototype.skipChars = function skipChars(pos, code2) {
-    for (var max = this.src.length; pos < max; pos++) {
-      if (this.src.charCodeAt(pos) !== code2) {
-        break;
-      }
-    }
-    return pos;
-  };
-  StateBlock.prototype.skipCharsBack = function skipCharsBack(pos, code2, min) {
-    if (pos <= min) {
-      return pos;
-    }
-    while (pos > min) {
-      if (code2 !== this.src.charCodeAt(--pos)) {
-        return pos + 1;
-      }
-    }
-    return pos;
-  };
-  StateBlock.prototype.getLines = function getLines(begin2, end2, indent, keepLastLF) {
-    var i2, first, last, queue, shift, line = begin2;
-    if (begin2 >= end2) {
-      return "";
-    }
-    if (line + 1 === end2) {
-      first = this.bMarks[line] + Math.min(this.tShift[line], indent);
-      last = keepLastLF ? this.eMarks[line] + 1 : this.eMarks[line];
-      return this.src.slice(first, last);
-    }
-    queue = new Array(end2 - begin2);
-    for (i2 = 0; line < end2; line++, i2++) {
-      shift = this.tShift[line];
-      if (shift > indent) {
-        shift = indent;
-      }
-      if (shift < 0) {
-        shift = 0;
-      }
-      first = this.bMarks[line] + shift;
-      if (line + 1 < end2 || keepLastLF) {
-        last = this.eMarks[line] + 1;
-      } else {
-        last = this.eMarks[line];
-      }
-      queue[i2] = this.src.slice(first, last);
-    }
-    return queue.join("");
-  };
-  function code(state, startLine, endLine) {
-    var nextLine, last;
-    if (state.tShift[startLine] - state.blkIndent < 4) {
-      return false;
-    }
-    last = nextLine = startLine + 1;
-    while (nextLine < endLine) {
-      if (state.isEmpty(nextLine)) {
-        nextLine++;
-        continue;
-      }
-      if (state.tShift[nextLine] - state.blkIndent >= 4) {
-        nextLine++;
-        last = nextLine;
-        continue;
-      }
-      break;
-    }
-    state.line = nextLine;
-    state.tokens.push({
-      type: "code",
-      content: state.getLines(startLine, last, 4 + state.blkIndent, true),
-      block: true,
-      lines: [startLine, state.line],
-      level: state.level
-    });
-    return true;
-  }
-  function fences(state, startLine, endLine, silent) {
-    var marker, len, params, nextLine, mem, haveEndMarker = false, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
-    if (pos + 3 > max) {
-      return false;
-    }
-    marker = state.src.charCodeAt(pos);
-    if (marker !== 126 && marker !== 96) {
-      return false;
-    }
-    mem = pos;
-    pos = state.skipChars(pos, marker);
-    len = pos - mem;
-    if (len < 3) {
-      return false;
-    }
-    params = state.src.slice(pos, max).trim();
-    if (params.indexOf("`") >= 0) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    nextLine = startLine;
-    for (; ; ) {
-      nextLine++;
-      if (nextLine >= endLine) {
-        break;
-      }
-      pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-      if (pos < max && state.tShift[nextLine] < state.blkIndent) {
-        break;
-      }
-      if (state.src.charCodeAt(pos) !== marker) {
-        continue;
-      }
-      if (state.tShift[nextLine] - state.blkIndent >= 4) {
-        continue;
-      }
-      pos = state.skipChars(pos, marker);
-      if (pos - mem < len) {
-        continue;
-      }
-      pos = state.skipSpaces(pos);
-      if (pos < max) {
-        continue;
-      }
-      haveEndMarker = true;
-      break;
-    }
-    len = state.tShift[startLine];
-    state.line = nextLine + (haveEndMarker ? 1 : 0);
-    state.tokens.push({
-      type: "fence",
-      params,
-      content: state.getLines(startLine + 1, nextLine, len, true),
-      lines: [startLine, state.line],
-      level: state.level
-    });
-    return true;
-  }
-  function blockquote(state, startLine, endLine, silent) {
-    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i2, l2, terminate, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
-    if (pos > max) {
-      return false;
-    }
-    if (state.src.charCodeAt(pos++) !== 62) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    if (state.src.charCodeAt(pos) === 32) {
-      pos++;
-    }
-    oldIndent = state.blkIndent;
-    state.blkIndent = 0;
-    oldBMarks = [state.bMarks[startLine]];
-    state.bMarks[startLine] = pos;
-    pos = pos < max ? state.skipSpaces(pos) : pos;
-    lastLineEmpty = pos >= max;
-    oldTShift = [state.tShift[startLine]];
-    state.tShift[startLine] = pos - state.bMarks[startLine];
-    terminatorRules = state.parser.ruler.getRules("blockquote");
-    for (nextLine = startLine + 1; nextLine < endLine; nextLine++) {
-      pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-      if (pos >= max) {
-        break;
-      }
-      if (state.src.charCodeAt(pos++) === 62) {
-        if (state.src.charCodeAt(pos) === 32) {
-          pos++;
-        }
-        oldBMarks.push(state.bMarks[nextLine]);
-        state.bMarks[nextLine] = pos;
-        pos = pos < max ? state.skipSpaces(pos) : pos;
-        lastLineEmpty = pos >= max;
-        oldTShift.push(state.tShift[nextLine]);
-        state.tShift[nextLine] = pos - state.bMarks[nextLine];
-        continue;
-      }
-      if (lastLineEmpty) {
-        break;
-      }
-      terminate = false;
-      for (i2 = 0, l2 = terminatorRules.length; i2 < l2; i2++) {
-        if (terminatorRules[i2](state, nextLine, endLine, true)) {
-          terminate = true;
-          break;
-        }
-      }
-      if (terminate) {
-        break;
-      }
-      oldBMarks.push(state.bMarks[nextLine]);
-      oldTShift.push(state.tShift[nextLine]);
-      state.tShift[nextLine] = -1337;
-    }
-    oldParentType = state.parentType;
-    state.parentType = "blockquote";
-    state.tokens.push({
-      type: "blockquote_open",
-      lines: lines = [startLine, 0],
-      level: state.level++
-    });
-    state.parser.tokenize(state, startLine, nextLine);
-    state.tokens.push({
-      type: "blockquote_close",
-      level: --state.level
-    });
-    state.parentType = oldParentType;
-    lines[1] = state.line;
-    for (i2 = 0; i2 < oldTShift.length; i2++) {
-      state.bMarks[i2 + startLine] = oldBMarks[i2];
-      state.tShift[i2 + startLine] = oldTShift[i2];
-    }
-    state.blkIndent = oldIndent;
-    return true;
-  }
-  function hr(state, startLine, endLine, silent) {
-    var marker, cnt, ch, pos = state.bMarks[startLine], max = state.eMarks[startLine];
-    pos += state.tShift[startLine];
-    if (pos > max) {
-      return false;
-    }
-    marker = state.src.charCodeAt(pos++);
-    if (marker !== 42 && marker !== 45 && marker !== 95) {
-      return false;
-    }
-    cnt = 1;
-    while (pos < max) {
-      ch = state.src.charCodeAt(pos++);
-      if (ch !== marker && ch !== 32) {
-        return false;
-      }
-      if (ch === marker) {
-        cnt++;
-      }
-    }
-    if (cnt < 3) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    state.line = startLine + 1;
-    state.tokens.push({
-      type: "hr",
-      lines: [startLine, state.line],
-      level: state.level
-    });
-    return true;
-  }
-  function skipBulletListMarker(state, startLine) {
-    var marker, pos, max;
-    pos = state.bMarks[startLine] + state.tShift[startLine];
-    max = state.eMarks[startLine];
-    if (pos >= max) {
-      return -1;
-    }
-    marker = state.src.charCodeAt(pos++);
-    if (marker !== 42 && marker !== 45 && marker !== 43) {
-      return -1;
-    }
-    if (pos < max && state.src.charCodeAt(pos) !== 32) {
-      return -1;
-    }
-    return pos;
-  }
-  function skipOrderedListMarker(state, startLine) {
-    var ch, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
-    if (pos + 1 >= max) {
-      return -1;
-    }
-    ch = state.src.charCodeAt(pos++);
-    if (ch < 48 || ch > 57) {
-      return -1;
-    }
-    for (; ; ) {
-      if (pos >= max) {
-        return -1;
-      }
-      ch = state.src.charCodeAt(pos++);
-      if (ch >= 48 && ch <= 57) {
-        continue;
-      }
-      if (ch === 41 || ch === 46) {
-        break;
-      }
-      return -1;
-    }
-    if (pos < max && state.src.charCodeAt(pos) !== 32) {
-      return -1;
-    }
-    return pos;
-  }
-  function markTightParagraphs(state, idx) {
-    var i2, l2, level = state.level + 2;
-    for (i2 = idx + 2, l2 = state.tokens.length - 2; i2 < l2; i2++) {
-      if (state.tokens[i2].level === level && state.tokens[i2].type === "paragraph_open") {
-        state.tokens[i2 + 2].tight = true;
-        state.tokens[i2].tight = true;
-        i2 += 2;
-      }
-    }
-  }
-  function list(state, startLine, endLine, silent) {
-    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i2, l2, terminate;
-    if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
-      isOrdered = true;
-    } else if ((posAfterMarker = skipBulletListMarker(state, startLine)) >= 0) {
-      isOrdered = false;
-    } else {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    markerCharCode = state.src.charCodeAt(posAfterMarker - 1);
-    if (silent) {
-      return true;
-    }
-    listTokIdx = state.tokens.length;
-    if (isOrdered) {
-      start = state.bMarks[startLine] + state.tShift[startLine];
-      markerValue = Number(state.src.substr(start, posAfterMarker - start - 1));
-      state.tokens.push({
-        type: "ordered_list_open",
-        order: markerValue,
-        lines: listLines = [startLine, 0],
-        level: state.level++
-      });
-    } else {
-      state.tokens.push({
-        type: "bullet_list_open",
-        lines: listLines = [startLine, 0],
-        level: state.level++
-      });
-    }
-    nextLine = startLine;
-    prevEmptyEnd = false;
-    terminatorRules = state.parser.ruler.getRules("list");
-    while (nextLine < endLine) {
-      contentStart = state.skipSpaces(posAfterMarker);
-      max = state.eMarks[nextLine];
-      if (contentStart >= max) {
-        indentAfterMarker = 1;
-      } else {
-        indentAfterMarker = contentStart - posAfterMarker;
-      }
-      if (indentAfterMarker > 4) {
-        indentAfterMarker = 1;
-      }
-      if (indentAfterMarker < 1) {
-        indentAfterMarker = 1;
-      }
-      indent = posAfterMarker - state.bMarks[nextLine] + indentAfterMarker;
-      state.tokens.push({
-        type: "list_item_open",
-        lines: itemLines = [startLine, 0],
-        level: state.level++
-      });
-      oldIndent = state.blkIndent;
-      oldTight = state.tight;
-      oldTShift = state.tShift[startLine];
-      oldParentType = state.parentType;
-      state.tShift[startLine] = contentStart - state.bMarks[startLine];
-      state.blkIndent = indent;
-      state.tight = true;
-      state.parentType = "list";
-      state.parser.tokenize(state, startLine, endLine, true);
-      if (!state.tight || prevEmptyEnd) {
-        tight = false;
-      }
-      prevEmptyEnd = state.line - startLine > 1 && state.isEmpty(state.line - 1);
-      state.blkIndent = oldIndent;
-      state.tShift[startLine] = oldTShift;
-      state.tight = oldTight;
-      state.parentType = oldParentType;
-      state.tokens.push({
-        type: "list_item_close",
-        level: --state.level
-      });
-      nextLine = startLine = state.line;
-      itemLines[1] = nextLine;
-      contentStart = state.bMarks[startLine];
-      if (nextLine >= endLine) {
-        break;
-      }
-      if (state.isEmpty(nextLine)) {
-        break;
-      }
-      if (state.tShift[nextLine] < state.blkIndent) {
-        break;
-      }
-      terminate = false;
-      for (i2 = 0, l2 = terminatorRules.length; i2 < l2; i2++) {
-        if (terminatorRules[i2](state, nextLine, endLine, true)) {
-          terminate = true;
-          break;
-        }
-      }
-      if (terminate) {
-        break;
-      }
-      if (isOrdered) {
-        posAfterMarker = skipOrderedListMarker(state, nextLine);
-        if (posAfterMarker < 0) {
-          break;
-        }
-      } else {
-        posAfterMarker = skipBulletListMarker(state, nextLine);
-        if (posAfterMarker < 0) {
-          break;
-        }
-      }
-      if (markerCharCode !== state.src.charCodeAt(posAfterMarker - 1)) {
-        break;
-      }
-    }
-    state.tokens.push({
-      type: isOrdered ? "ordered_list_close" : "bullet_list_close",
-      level: --state.level
-    });
-    listLines[1] = nextLine;
-    state.line = nextLine;
-    if (tight) {
-      markTightParagraphs(state, listTokIdx);
-    }
-    return true;
-  }
-  function footnote(state, startLine, endLine, silent) {
-    var oldBMark, oldTShift, oldParentType, pos, label, start = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
-    if (start + 4 > max) {
-      return false;
-    }
-    if (state.src.charCodeAt(start) !== 91) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 94) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    for (pos = start + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 32) {
-        return false;
-      }
-      if (state.src.charCodeAt(pos) === 93) {
-        break;
-      }
-    }
-    if (pos === start + 2) {
-      return false;
-    }
-    if (pos + 1 >= max || state.src.charCodeAt(++pos) !== 58) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    pos++;
-    if (!state.env.footnotes) {
-      state.env.footnotes = {};
-    }
-    if (!state.env.footnotes.refs) {
-      state.env.footnotes.refs = {};
-    }
-    label = state.src.slice(start + 2, pos - 2);
-    state.env.footnotes.refs[":" + label] = -1;
-    state.tokens.push({
-      type: "footnote_reference_open",
-      label,
-      level: state.level++
-    });
-    oldBMark = state.bMarks[startLine];
-    oldTShift = state.tShift[startLine];
-    oldParentType = state.parentType;
-    state.tShift[startLine] = state.skipSpaces(pos) - pos;
-    state.bMarks[startLine] = pos;
-    state.blkIndent += 4;
-    state.parentType = "footnote";
-    if (state.tShift[startLine] < state.blkIndent) {
-      state.tShift[startLine] += state.blkIndent;
-      state.bMarks[startLine] -= state.blkIndent;
-    }
-    state.parser.tokenize(state, startLine, endLine, true);
-    state.parentType = oldParentType;
-    state.blkIndent -= 4;
-    state.tShift[startLine] = oldTShift;
-    state.bMarks[startLine] = oldBMark;
-    state.tokens.push({
-      type: "footnote_reference_close",
-      level: --state.level
-    });
-    return true;
-  }
-  function heading(state, startLine, endLine, silent) {
-    var ch, level, tmp, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
-    if (pos >= max) {
-      return false;
-    }
-    ch = state.src.charCodeAt(pos);
-    if (ch !== 35 || pos >= max) {
-      return false;
-    }
-    level = 1;
-    ch = state.src.charCodeAt(++pos);
-    while (ch === 35 && pos < max && level <= 6) {
-      level++;
-      ch = state.src.charCodeAt(++pos);
-    }
-    if (level > 6 || pos < max && ch !== 32) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    max = state.skipCharsBack(max, 32, pos);
-    tmp = state.skipCharsBack(max, 35, pos);
-    if (tmp > pos && state.src.charCodeAt(tmp - 1) === 32) {
-      max = tmp;
-    }
-    state.line = startLine + 1;
-    state.tokens.push({
-      type: "heading_open",
-      hLevel: level,
-      lines: [startLine, state.line],
-      level: state.level
-    });
-    if (pos < max) {
-      state.tokens.push({
-        type: "inline",
-        content: state.src.slice(pos, max).trim(),
-        level: state.level + 1,
-        lines: [startLine, state.line],
-        children: []
-      });
-    }
-    state.tokens.push({ type: "heading_close", hLevel: level, level: state.level });
-    return true;
-  }
-  function lheading(state, startLine, endLine) {
-    var marker, pos, max, next = startLine + 1;
-    if (next >= endLine) {
-      return false;
-    }
-    if (state.tShift[next] < state.blkIndent) {
-      return false;
-    }
-    if (state.tShift[next] - state.blkIndent > 3) {
-      return false;
-    }
-    pos = state.bMarks[next] + state.tShift[next];
-    max = state.eMarks[next];
-    if (pos >= max) {
-      return false;
-    }
-    marker = state.src.charCodeAt(pos);
-    if (marker !== 45 && marker !== 61) {
-      return false;
-    }
-    pos = state.skipChars(pos, marker);
-    pos = state.skipSpaces(pos);
-    if (pos < max) {
-      return false;
-    }
-    pos = state.bMarks[startLine] + state.tShift[startLine];
-    state.line = next + 1;
-    state.tokens.push({
-      type: "heading_open",
-      hLevel: marker === 61 ? 1 : 2,
-      lines: [startLine, state.line],
-      level: state.level
-    });
-    state.tokens.push({
-      type: "inline",
-      content: state.src.slice(pos, state.eMarks[startLine]).trim(),
-      level: state.level + 1,
-      lines: [startLine, state.line - 1],
-      children: []
-    });
-    state.tokens.push({
-      type: "heading_close",
-      hLevel: marker === 61 ? 1 : 2,
-      level: state.level
-    });
-    return true;
-  }
-  var html_blocks = {};
-  [
-    "article",
-    "aside",
-    "button",
-    "blockquote",
-    "body",
-    "canvas",
-    "caption",
-    "col",
-    "colgroup",
-    "dd",
-    "div",
-    "dl",
-    "dt",
-    "embed",
-    "fieldset",
-    "figcaption",
-    "figure",
-    "footer",
-    "form",
-    "h1",
-    "h2",
-    "h3",
-    "h4",
-    "h5",
-    "h6",
-    "header",
-    "hgroup",
-    "hr",
-    "iframe",
-    "li",
-    "map",
-    "object",
-    "ol",
-    "output",
-    "p",
-    "pre",
-    "progress",
-    "script",
-    "section",
-    "style",
-    "table",
-    "tbody",
-    "td",
-    "textarea",
-    "tfoot",
-    "th",
-    "tr",
-    "thead",
-    "ul",
-    "video"
-  ].forEach(function(name) {
-    html_blocks[name] = true;
-  });
-  var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
-  var HTML_TAG_CLOSE_RE = /^<\/([a-zA-Z]{1,15})[\s>]/;
-  function isLetter$1(ch) {
-    var lc = ch | 32;
-    return lc >= 97 && lc <= 122;
-  }
-  function htmlblock(state, startLine, endLine, silent) {
-    var ch, match, nextLine, pos = state.bMarks[startLine], max = state.eMarks[startLine], shift = state.tShift[startLine];
-    pos += shift;
-    if (!state.options.html) {
-      return false;
-    }
-    if (shift > 3 || pos + 2 >= max) {
-      return false;
-    }
-    if (state.src.charCodeAt(pos) !== 60) {
-      return false;
-    }
-    ch = state.src.charCodeAt(pos + 1);
-    if (ch === 33 || ch === 63) {
-      if (silent) {
-        return true;
-      }
-    } else if (ch === 47 || isLetter$1(ch)) {
-      if (ch === 47) {
-        match = state.src.slice(pos, max).match(HTML_TAG_CLOSE_RE);
-        if (!match) {
-          return false;
-        }
-      } else {
-        match = state.src.slice(pos, max).match(HTML_TAG_OPEN_RE);
-        if (!match) {
-          return false;
-        }
-      }
-      if (html_blocks[match[1].toLowerCase()] !== true) {
-        return false;
-      }
-      if (silent) {
-        return true;
-      }
-    } else {
-      return false;
-    }
-    nextLine = startLine + 1;
-    while (nextLine < state.lineMax && !state.isEmpty(nextLine)) {
-      nextLine++;
-    }
-    state.line = nextLine;
-    state.tokens.push({
-      type: "htmlblock",
-      level: state.level,
-      lines: [startLine, state.line],
-      content: state.getLines(startLine, nextLine, 0, true)
-    });
-    return true;
-  }
-  function getLine(state, line) {
-    var pos = state.bMarks[line] + state.blkIndent, max = state.eMarks[line];
-    return state.src.substr(pos, max - pos);
-  }
-  function table(state, startLine, endLine, silent) {
-    var ch, lineText, pos, i2, nextLine, rows, cell, aligns, t2, tableLines, tbodyLines;
-    if (startLine + 2 > endLine) {
-      return false;
-    }
-    nextLine = startLine + 1;
-    if (state.tShift[nextLine] < state.blkIndent) {
-      return false;
-    }
-    pos = state.bMarks[nextLine] + state.tShift[nextLine];
-    if (pos >= state.eMarks[nextLine]) {
-      return false;
-    }
-    ch = state.src.charCodeAt(pos);
-    if (ch !== 124 && ch !== 45 && ch !== 58) {
-      return false;
-    }
-    lineText = getLine(state, startLine + 1);
-    if (!/^[-:| ]+$/.test(lineText)) {
-      return false;
-    }
-    rows = lineText.split("|");
-    if (rows <= 2) {
-      return false;
-    }
-    aligns = [];
-    for (i2 = 0; i2 < rows.length; i2++) {
-      t2 = rows[i2].trim();
-      if (!t2) {
-        if (i2 === 0 || i2 === rows.length - 1) {
-          continue;
-        } else {
-          return false;
-        }
-      }
-      if (!/^:?-+:?$/.test(t2)) {
-        return false;
-      }
-      if (t2.charCodeAt(t2.length - 1) === 58) {
-        aligns.push(t2.charCodeAt(0) === 58 ? "center" : "right");
-      } else if (t2.charCodeAt(0) === 58) {
-        aligns.push("left");
-      } else {
-        aligns.push("");
-      }
-    }
-    lineText = getLine(state, startLine).trim();
-    if (lineText.indexOf("|") === -1) {
-      return false;
-    }
-    rows = lineText.replace(/^\||\|$/g, "").split("|");
-    if (aligns.length !== rows.length) {
-      return false;
-    }
-    if (silent) {
-      return true;
-    }
-    state.tokens.push({
-      type: "table_open",
-      lines: tableLines = [startLine, 0],
-      level: state.level++
-    });
-    state.tokens.push({
-      type: "thead_open",
-      lines: [startLine, startLine + 1],
-      level: state.level++
-    });
-    state.tokens.push({
-      type: "tr_open",
-      lines: [startLine, startLine + 1],
-      level: state.level++
-    });
-    for (i2 = 0; i2 < rows.length; i2++) {
-      state.tokens.push({
-        type: "th_open",
-        align: aligns[i2],
-        lines: [startLine, startLine + 1],
-        level: state.level++
-      });
-      state.tokens.push({
-        type: "inline",
-        content: rows[i2].trim(),
-        lines: [startLine, startLine + 1],
-        level: state.level,
-        children: []
-      });
-      state.tokens.push({ type: "th_close", level: --state.level });
-    }
-    state.tokens.push({ type: "tr_close", level: --state.level });
-    state.tokens.push({ type: "thead_close", level: --state.level });
-    state.tokens.push({
-      type: "tbody_open",
-      lines: tbodyLines = [startLine + 2, 0],
-      level: state.level++
-    });
-    for (nextLine = startLine + 2; nextLine < endLine; nextLine++) {
-      if (state.tShift[nextLine] < state.blkIndent) {
-        break;
-      }
-      lineText = getLine(state, nextLine).trim();
-      if (lineText.indexOf("|") === -1) {
-        break;
-      }
-      rows = lineText.replace(/^\||\|$/g, "").split("|");
-      state.tokens.push({ type: "tr_open", level: state.level++ });
-      for (i2 = 0; i2 < rows.length; i2++) {
-        state.tokens.push({ type: "td_open", align: aligns[i2], level: state.level++ });
-        cell = rows[i2].substring(
-          rows[i2].charCodeAt(0) === 124 ? 1 : 0,
-          rows[i2].charCodeAt(rows[i2].length - 1) === 124 ? rows[i2].length - 1 : rows[i2].length
-        ).trim();
-        state.tokens.push({
-          type: "inline",
-          content: cell,
-          level: state.level,
-          children: []
-        });
-        state.tokens.push({ type: "td_close", level: --state.level });
-      }
-      state.tokens.push({ type: "tr_close", level: --state.level });
-    }
-    state.tokens.push({ type: "tbody_close", level: --state.level });
-    state.tokens.push({ type: "table_close", level: --state.level });
-    tableLines[1] = tbodyLines[1] = nextLine;
-    state.line = nextLine;
-    return true;
-  }
-  function skipMarker(state, line) {
-    var pos, marker, start = state.bMarks[line] + state.tShift[line], max = state.eMarks[line];
-    if (start >= max) {
-      return -1;
-    }
-    marker = state.src.charCodeAt(start++);
-    if (marker !== 126 && marker !== 58) {
-      return -1;
-    }
-    pos = state.skipSpaces(start);
-    if (start === pos) {
-      return -1;
-    }
-    if (pos >= max) {
-      return -1;
-    }
-    return pos;
-  }
-  function markTightParagraphs$1(state, idx) {
-    var i2, l2, level = state.level + 2;
-    for (i2 = idx + 2, l2 = state.tokens.length - 2; i2 < l2; i2++) {
-      if (state.tokens[i2].level === level && state.tokens[i2].type === "paragraph_open") {
-        state.tokens[i2 + 2].tight = true;
-        state.tokens[i2].tight = true;
-        i2 += 2;
-      }
-    }
-  }
-  function deflist(state, startLine, endLine, silent) {
-    var contentStart, ddLine, dtLine, itemLines, listLines, listTokIdx, nextLine, oldIndent, oldDDIndent, oldParentType, oldTShift, oldTight, prevEmptyEnd, tight;
-    if (silent) {
-      if (state.ddIndent < 0) {
-        return false;
-      }
-      return skipMarker(state, startLine) >= 0;
-    }
-    nextLine = startLine + 1;
-    if (state.isEmpty(nextLine)) {
-      if (++nextLine > endLine) {
-        return false;
-      }
-    }
-    if (state.tShift[nextLine] < state.blkIndent) {
-      return false;
-    }
-    contentStart = skipMarker(state, nextLine);
-    if (contentStart < 0) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    listTokIdx = state.tokens.length;
-    state.tokens.push({
-      type: "dl_open",
-      lines: listLines = [startLine, 0],
-      level: state.level++
-    });
-    dtLine = startLine;
-    ddLine = nextLine;
-    OUTER:
-      for (; ; ) {
-        tight = true;
-        prevEmptyEnd = false;
-        state.tokens.push({
-          type: "dt_open",
-          lines: [dtLine, dtLine],
-          level: state.level++
-        });
-        state.tokens.push({
-          type: "inline",
-          content: state.getLines(dtLine, dtLine + 1, state.blkIndent, false).trim(),
-          level: state.level + 1,
-          lines: [dtLine, dtLine],
-          children: []
-        });
-        state.tokens.push({
-          type: "dt_close",
-          level: --state.level
-        });
-        for (; ; ) {
-          state.tokens.push({
-            type: "dd_open",
-            lines: itemLines = [nextLine, 0],
-            level: state.level++
-          });
-          oldTight = state.tight;
-          oldDDIndent = state.ddIndent;
-          oldIndent = state.blkIndent;
-          oldTShift = state.tShift[ddLine];
-          oldParentType = state.parentType;
-          state.blkIndent = state.ddIndent = state.tShift[ddLine] + 2;
-          state.tShift[ddLine] = contentStart - state.bMarks[ddLine];
-          state.tight = true;
-          state.parentType = "deflist";
-          state.parser.tokenize(state, ddLine, endLine, true);
-          if (!state.tight || prevEmptyEnd) {
-            tight = false;
-          }
-          prevEmptyEnd = state.line - ddLine > 1 && state.isEmpty(state.line - 1);
-          state.tShift[ddLine] = oldTShift;
-          state.tight = oldTight;
-          state.parentType = oldParentType;
-          state.blkIndent = oldIndent;
-          state.ddIndent = oldDDIndent;
-          state.tokens.push({
-            type: "dd_close",
-            level: --state.level
-          });
-          itemLines[1] = nextLine = state.line;
-          if (nextLine >= endLine) {
-            break OUTER;
-          }
-          if (state.tShift[nextLine] < state.blkIndent) {
-            break OUTER;
-          }
-          contentStart = skipMarker(state, nextLine);
-          if (contentStart < 0) {
-            break;
-          }
-          ddLine = nextLine;
-        }
-        if (nextLine >= endLine) {
-          break;
-        }
-        dtLine = nextLine;
-        if (state.isEmpty(dtLine)) {
-          break;
-        }
-        if (state.tShift[dtLine] < state.blkIndent) {
-          break;
-        }
-        ddLine = dtLine + 1;
-        if (ddLine >= endLine) {
-          break;
-        }
-        if (state.isEmpty(ddLine)) {
-          ddLine++;
-        }
-        if (ddLine >= endLine) {
-          break;
-        }
-        if (state.tShift[ddLine] < state.blkIndent) {
-          break;
-        }
-        contentStart = skipMarker(state, ddLine);
-        if (contentStart < 0) {
-          break;
-        }
-      }
-    state.tokens.push({
-      type: "dl_close",
-      level: --state.level
-    });
-    listLines[1] = nextLine;
-    state.line = nextLine;
-    if (tight) {
-      markTightParagraphs$1(state, listTokIdx);
-    }
-    return true;
-  }
-  function paragraph(state, startLine) {
-    var endLine, content, terminate, i2, l2, nextLine = startLine + 1, terminatorRules;
-    endLine = state.lineMax;
-    if (nextLine < endLine && !state.isEmpty(nextLine)) {
-      terminatorRules = state.parser.ruler.getRules("paragraph");
-      for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
-        if (state.tShift[nextLine] - state.blkIndent > 3) {
-          continue;
-        }
-        terminate = false;
-        for (i2 = 0, l2 = terminatorRules.length; i2 < l2; i2++) {
-          if (terminatorRules[i2](state, nextLine, endLine, true)) {
-            terminate = true;
-            break;
-          }
-        }
-        if (terminate) {
-          break;
-        }
-      }
-    }
-    content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
-    state.line = nextLine;
-    if (content.length) {
-      state.tokens.push({
-        type: "paragraph_open",
-        tight: false,
-        lines: [startLine, state.line],
-        level: state.level
-      });
-      state.tokens.push({
-        type: "inline",
-        content,
-        level: state.level + 1,
-        lines: [startLine, state.line],
-        children: []
-      });
-      state.tokens.push({
-        type: "paragraph_close",
-        tight: false,
-        level: state.level
-      });
-    }
-    return true;
-  }
-  var _rules$1 = [
-    ["code", code],
-    ["fences", fences, ["paragraph", "blockquote", "list"]],
-    ["blockquote", blockquote, ["paragraph", "blockquote", "list"]],
-    ["hr", hr, ["paragraph", "blockquote", "list"]],
-    ["list", list, ["paragraph", "blockquote"]],
-    ["footnote", footnote, ["paragraph"]],
-    ["heading", heading, ["paragraph", "blockquote"]],
-    ["lheading", lheading],
-    ["htmlblock", htmlblock, ["paragraph", "blockquote"]],
-    ["table", table, ["paragraph"]],
-    ["deflist", deflist, ["paragraph"]],
-    ["paragraph", paragraph]
-  ];
-  function ParserBlock() {
-    this.ruler = new Ruler();
-    for (var i2 = 0; i2 < _rules$1.length; i2++) {
-      this.ruler.push(_rules$1[i2][0], _rules$1[i2][1], {
-        alt: (_rules$1[i2][2] || []).slice()
-      });
-    }
-  }
-  ParserBlock.prototype.tokenize = function(state, startLine, endLine) {
-    var rules2 = this.ruler.getRules("");
-    var len = rules2.length;
-    var line = startLine;
-    var hasEmptyLines = false;
-    var ok, i2;
-    while (line < endLine) {
-      state.line = line = state.skipEmptyLines(line);
-      if (line >= endLine) {
-        break;
-      }
-      if (state.tShift[line] < state.blkIndent) {
-        break;
-      }
-      for (i2 = 0; i2 < len; i2++) {
-        ok = rules2[i2](state, line, endLine, false);
-        if (ok) {
-          break;
-        }
-      }
-      state.tight = !hasEmptyLines;
-      if (state.isEmpty(state.line - 1)) {
-        hasEmptyLines = true;
-      }
-      line = state.line;
-      if (line < endLine && state.isEmpty(line)) {
-        hasEmptyLines = true;
-        line++;
-        if (line < endLine && state.parentType === "list" && state.isEmpty(line)) {
-          break;
-        }
-        state.line = line;
-      }
-    }
-  };
-  var TABS_SCAN_RE = /[\n\t]/g;
-  var NEWLINES_RE = /\r[\n\u0085]|[\u2424\u2028\u0085]/g;
-  var SPACES_RE = /\u00a0/g;
-  ParserBlock.prototype.parse = function(str, options, env, outTokens) {
-    var state, lineStart = 0, lastTabPos = 0;
-    if (!str) {
-      return [];
-    }
-    str = str.replace(SPACES_RE, " ");
-    str = str.replace(NEWLINES_RE, "\n");
-    if (str.indexOf("	") >= 0) {
-      str = str.replace(TABS_SCAN_RE, function(match, offset) {
-        var result;
-        if (str.charCodeAt(offset) === 10) {
-          lineStart = offset + 1;
-          lastTabPos = 0;
-          return match;
-        }
-        result = "    ".slice((offset - lineStart - lastTabPos) % 4);
-        lastTabPos = offset - lineStart + 1;
-        return result;
-      });
-    }
-    state = new StateBlock(str, this, options, env, outTokens);
-    this.tokenize(state, state.line, state.lineMax);
-  };
-  function isTerminatorChar(ch) {
-    switch (ch) {
-      case 10:
-      case 92:
-      case 96:
-      case 42:
-      case 95:
-      case 94:
-      case 91:
-      case 93:
-      case 33:
-      case 38:
-      case 60:
-      case 62:
-      case 123:
-      case 125:
-      case 36:
-      case 37:
-      case 64:
-      case 126:
-      case 43:
-      case 61:
-      case 58:
-        return true;
-      default:
-        return false;
-    }
-  }
-  function text(state, silent) {
-    var pos = state.pos;
-    while (pos < state.posMax && !isTerminatorChar(state.src.charCodeAt(pos))) {
-      pos++;
-    }
-    if (pos === state.pos) {
-      return false;
-    }
-    if (!silent) {
-      state.pending += state.src.slice(state.pos, pos);
-    }
-    state.pos = pos;
-    return true;
-  }
-  function newline(state, silent) {
-    var pmax, max, pos = state.pos;
-    if (state.src.charCodeAt(pos) !== 10) {
-      return false;
-    }
-    pmax = state.pending.length - 1;
-    max = state.posMax;
-    if (!silent) {
-      if (pmax >= 0 && state.pending.charCodeAt(pmax) === 32) {
-        if (pmax >= 1 && state.pending.charCodeAt(pmax - 1) === 32) {
-          for (var i2 = pmax - 2; i2 >= 0; i2--) {
-            if (state.pending.charCodeAt(i2) !== 32) {
-              state.pending = state.pending.substring(0, i2 + 1);
-              break;
-            }
-          }
-          state.push({
-            type: "hardbreak",
-            level: state.level
-          });
-        } else {
-          state.pending = state.pending.slice(0, -1);
-          state.push({
-            type: "softbreak",
-            level: state.level
-          });
-        }
-      } else {
-        state.push({
-          type: "softbreak",
-          level: state.level
-        });
-      }
-    }
-    pos++;
-    while (pos < max && state.src.charCodeAt(pos) === 32) {
-      pos++;
-    }
-    state.pos = pos;
-    return true;
-  }
-  var ESCAPED = [];
-  for (i2 = 0; i2 < 256; i2++) {
-    ESCAPED.push(0);
-  }
-  var i2;
-  "\\!\"#$%&'()*+,./:;<=>?@[]^_`{|}~-".split("").forEach(function(ch) {
-    ESCAPED[ch.charCodeAt(0)] = 1;
-  });
-  function escape(state, silent) {
-    var ch, pos = state.pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 92) {
-      return false;
-    }
-    pos++;
-    if (pos < max) {
-      ch = state.src.charCodeAt(pos);
-      if (ch < 256 && ESCAPED[ch] !== 0) {
-        if (!silent) {
-          state.pending += state.src[pos];
-        }
-        state.pos += 2;
-        return true;
-      }
-      if (ch === 10) {
-        if (!silent) {
-          state.push({
-            type: "hardbreak",
-            level: state.level
-          });
-        }
-        pos++;
-        while (pos < max && state.src.charCodeAt(pos) === 32) {
-          pos++;
-        }
-        state.pos = pos;
-        return true;
-      }
-    }
-    if (!silent) {
-      state.pending += "\\";
-    }
-    state.pos++;
-    return true;
-  }
-  function backticks(state, silent) {
-    var start, max, marker, matchStart, matchEnd, pos = state.pos, ch = state.src.charCodeAt(pos);
-    if (ch !== 96) {
-      return false;
-    }
-    start = pos;
-    pos++;
-    max = state.posMax;
-    while (pos < max && state.src.charCodeAt(pos) === 96) {
-      pos++;
-    }
-    marker = state.src.slice(start, pos);
-    matchStart = matchEnd = pos;
-    while ((matchStart = state.src.indexOf("`", matchEnd)) !== -1) {
-      matchEnd = matchStart + 1;
-      while (matchEnd < max && state.src.charCodeAt(matchEnd) === 96) {
-        matchEnd++;
-      }
-      if (matchEnd - matchStart === marker.length) {
-        if (!silent) {
-          state.push({
-            type: "code",
-            content: state.src.slice(pos, matchStart).replace(/[ \n]+/g, " ").trim(),
-            block: false,
-            level: state.level
-          });
-        }
-        state.pos = matchEnd;
-        return true;
-      }
-    }
-    if (!silent) {
-      state.pending += marker;
-    }
-    state.pos += marker.length;
-    return true;
-  }
-  function del(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 126) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    if (start + 4 >= max) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 126) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
-    if (lastChar === 126) {
-      return false;
-    }
-    if (nextChar === 126) {
-      return false;
-    }
-    if (nextChar === 32 || nextChar === 10) {
-      return false;
-    }
-    pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 126) {
-      pos++;
-    }
-    if (pos > start + 3) {
-      state.pos += pos - start;
-      if (!silent) {
-        state.pending += state.src.slice(start, pos);
-      }
-      return true;
-    }
-    state.pos = start + 2;
-    stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 126) {
-        if (state.src.charCodeAt(state.pos + 1) === 126) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
-          if (nextChar !== 126 && lastChar !== 126) {
-            if (lastChar !== 32 && lastChar !== 10) {
-              stack--;
-            } else if (nextChar !== 32 && nextChar !== 10) {
-              stack++;
-            }
-            if (stack <= 0) {
-              found = true;
-              break;
-            }
-          }
-        }
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + 2;
-    if (!silent) {
-      state.push({ type: "del_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "del_close", level: --state.level });
-    }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
-    return true;
-  }
-  function ins(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 43) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    if (start + 4 >= max) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 43) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
-    if (lastChar === 43) {
-      return false;
-    }
-    if (nextChar === 43) {
-      return false;
-    }
-    if (nextChar === 32 || nextChar === 10) {
-      return false;
-    }
-    pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 43) {
-      pos++;
-    }
-    if (pos !== start + 2) {
-      state.pos += pos - start;
-      if (!silent) {
-        state.pending += state.src.slice(start, pos);
-      }
-      return true;
-    }
-    state.pos = start + 2;
-    stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 43) {
-        if (state.src.charCodeAt(state.pos + 1) === 43) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
-          if (nextChar !== 43 && lastChar !== 43) {
-            if (lastChar !== 32 && lastChar !== 10) {
-              stack--;
-            } else if (nextChar !== 32 && nextChar !== 10) {
-              stack++;
-            }
-            if (stack <= 0) {
-              found = true;
-              break;
-            }
-          }
-        }
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + 2;
-    if (!silent) {
-      state.push({ type: "ins_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "ins_close", level: --state.level });
-    }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
-    return true;
-  }
-  function mark(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 61) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    if (start + 4 >= max) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 61) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
-    if (lastChar === 61) {
-      return false;
-    }
-    if (nextChar === 61) {
-      return false;
-    }
-    if (nextChar === 32 || nextChar === 10) {
-      return false;
-    }
-    pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 61) {
-      pos++;
-    }
-    if (pos !== start + 2) {
-      state.pos += pos - start;
-      if (!silent) {
-        state.pending += state.src.slice(start, pos);
-      }
-      return true;
-    }
-    state.pos = start + 2;
-    stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 61) {
-        if (state.src.charCodeAt(state.pos + 1) === 61) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
-          if (nextChar !== 61 && lastChar !== 61) {
-            if (lastChar !== 32 && lastChar !== 10) {
-              stack--;
-            } else if (nextChar !== 32 && nextChar !== 10) {
-              stack++;
-            }
-            if (stack <= 0) {
-              found = true;
-              break;
-            }
-          }
-        }
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + 2;
-    if (!silent) {
-      state.push({ type: "mark_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "mark_close", level: --state.level });
-    }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
-    return true;
-  }
-  function isAlphaNum(code2) {
-    return code2 >= 48 && code2 <= 57 || code2 >= 65 && code2 <= 90 || code2 >= 97 && code2 <= 122;
-  }
-  function scanDelims(state, start) {
-    var pos = start, lastChar, nextChar, count, can_open = true, can_close = true, max = state.posMax, marker = state.src.charCodeAt(start);
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    while (pos < max && state.src.charCodeAt(pos) === marker) {
-      pos++;
-    }
-    if (pos >= max) {
-      can_open = false;
-    }
-    count = pos - start;
-    if (count >= 4) {
-      can_open = can_close = false;
-    } else {
-      nextChar = pos < max ? state.src.charCodeAt(pos) : -1;
-      if (nextChar === 32 || nextChar === 10) {
-        can_open = false;
-      }
-      if (lastChar === 32 || lastChar === 10) {
-        can_close = false;
-      }
-      if (marker === 95) {
-        if (isAlphaNum(lastChar)) {
-          can_open = false;
-        }
-        if (isAlphaNum(nextChar)) {
-          can_close = false;
-        }
-      }
-    }
-    return {
-      can_open,
-      can_close,
-      delims: count
-    };
-  }
-  function emphasis(state, silent) {
-    var startCount, count, found, oldCount, newCount, stack, res, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
-    if (marker !== 95 && marker !== 42) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    res = scanDelims(state, start);
-    startCount = res.delims;
-    if (!res.can_open) {
-      state.pos += startCount;
-      if (!silent) {
-        state.pending += state.src.slice(start, state.pos);
-      }
-      return true;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    state.pos = start + startCount;
-    stack = [startCount];
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === marker) {
-        res = scanDelims(state, state.pos);
-        count = res.delims;
-        if (res.can_close) {
-          oldCount = stack.pop();
-          newCount = count;
-          while (oldCount !== newCount) {
-            if (newCount < oldCount) {
-              stack.push(oldCount - newCount);
-              break;
-            }
-            newCount -= oldCount;
-            if (stack.length === 0) {
-              break;
-            }
-            state.pos += oldCount;
-            oldCount = stack.pop();
-          }
-          if (stack.length === 0) {
-            startCount = oldCount;
-            found = true;
-            break;
-          }
-          state.pos += count;
-          continue;
-        }
-        if (res.can_open) {
-          stack.push(count);
-        }
-        state.pos += count;
-        continue;
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + startCount;
-    if (!silent) {
-      if (startCount === 2 || startCount === 3) {
-        state.push({ type: "strong_open", level: state.level++ });
-      }
-      if (startCount === 1 || startCount === 3) {
-        state.push({ type: "em_open", level: state.level++ });
-      }
-      state.parser.tokenize(state);
-      if (startCount === 1 || startCount === 3) {
-        state.push({ type: "em_close", level: --state.level });
-      }
-      if (startCount === 2 || startCount === 3) {
-        state.push({ type: "strong_close", level: --state.level });
-      }
-    }
-    state.pos = state.posMax + startCount;
-    state.posMax = max;
-    return true;
-  }
-  var UNESCAPE_RE = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
-  function sub(state, silent) {
-    var found, content, max = state.posMax, start = state.pos;
-    if (state.src.charCodeAt(start) !== 126) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    if (start + 2 >= max) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    state.pos = start + 1;
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === 126) {
-        found = true;
-        break;
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found || start + 1 === state.pos) {
-      state.pos = start;
-      return false;
-    }
-    content = state.src.slice(start + 1, state.pos);
-    if (content.match(/(^|[^\\])(\\\\)*\s/)) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + 1;
-    if (!silent) {
-      state.push({
-        type: "sub",
-        level: state.level,
-        content: content.replace(UNESCAPE_RE, "$1")
-      });
-    }
-    state.pos = state.posMax + 1;
-    state.posMax = max;
-    return true;
-  }
-  var UNESCAPE_RE$1 = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
-  function sup(state, silent) {
-    var found, content, max = state.posMax, start = state.pos;
-    if (state.src.charCodeAt(start) !== 94) {
-      return false;
-    }
-    if (silent) {
-      return false;
-    }
-    if (start + 2 >= max) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    state.pos = start + 1;
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === 94) {
-        found = true;
-        break;
-      }
-      state.parser.skipToken(state);
-    }
-    if (!found || start + 1 === state.pos) {
-      state.pos = start;
-      return false;
-    }
-    content = state.src.slice(start + 1, state.pos);
-    if (content.match(/(^|[^\\])(\\\\)*\s/)) {
-      state.pos = start;
-      return false;
-    }
-    state.posMax = state.pos;
-    state.pos = start + 1;
-    if (!silent) {
-      state.push({
-        type: "sup",
-        level: state.level,
-        content: content.replace(UNESCAPE_RE$1, "$1")
-      });
-    }
-    state.pos = state.posMax + 1;
-    state.posMax = max;
-    return true;
-  }
-  function links(state, silent) {
-    var labelStart, labelEnd, label, href, title, pos, ref, code2, isImage = false, oldPos = state.pos, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
-    if (marker === 33) {
-      isImage = true;
-      marker = state.src.charCodeAt(++start);
-    }
-    if (marker !== 91) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    labelStart = start + 1;
-    labelEnd = parseLinkLabel(state, start);
-    if (labelEnd < 0) {
-      return false;
-    }
-    pos = labelEnd + 1;
-    if (pos < max && state.src.charCodeAt(pos) === 40) {
-      pos++;
-      for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
-        if (code2 !== 32 && code2 !== 10) {
-          break;
-        }
-      }
-      if (pos >= max) {
-        return false;
-      }
-      start = pos;
-      if (parseLinkDestination(state, pos)) {
-        href = state.linkContent;
-        pos = state.pos;
-      } else {
-        href = "";
-      }
-      start = pos;
-      for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
-        if (code2 !== 32 && code2 !== 10) {
-          break;
-        }
-      }
-      if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
-        title = state.linkContent;
-        pos = state.pos;
-        for (; pos < max; pos++) {
-          code2 = state.src.charCodeAt(pos);
-          if (code2 !== 32 && code2 !== 10) {
-            break;
-          }
-        }
-      } else {
-        title = "";
-      }
-      if (pos >= max || state.src.charCodeAt(pos) !== 41) {
-        state.pos = oldPos;
-        return false;
-      }
-      pos++;
-    } else {
-      if (state.linkLevel > 0) {
-        return false;
-      }
-      for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
-        if (code2 !== 32 && code2 !== 10) {
-          break;
-        }
-      }
-      if (pos < max && state.src.charCodeAt(pos) === 91) {
-        start = pos + 1;
-        pos = parseLinkLabel(state, pos);
-        if (pos >= 0) {
-          label = state.src.slice(start, pos++);
-        } else {
-          pos = start - 1;
-        }
-      }
-      if (!label) {
-        if (typeof label === "undefined") {
-          pos = labelEnd + 1;
-        }
-        label = state.src.slice(labelStart, labelEnd);
-      }
-      ref = state.env.references[normalizeReference(label)];
-      if (!ref) {
-        state.pos = oldPos;
-        return false;
-      }
-      href = ref.href;
-      title = ref.title;
-    }
-    if (!silent) {
-      state.pos = labelStart;
-      state.posMax = labelEnd;
-      if (isImage) {
-        state.push({
-          type: "image",
-          src: href,
-          title,
-          alt: state.src.substr(labelStart, labelEnd - labelStart),
-          level: state.level
-        });
-      } else {
-        state.push({
-          type: "link_open",
-          href,
-          title,
-          level: state.level++
-        });
-        state.linkLevel++;
-        state.parser.tokenize(state);
-        state.linkLevel--;
-        state.push({ type: "link_close", level: --state.level });
-      }
-    }
-    state.pos = pos;
-    state.posMax = max;
-    return true;
-  }
-  function footnote_inline(state, silent) {
-    var labelStart, labelEnd, footnoteId, oldLength, max = state.posMax, start = state.pos;
-    if (start + 2 >= max) {
-      return false;
-    }
-    if (state.src.charCodeAt(start) !== 94) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 91) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    labelStart = start + 2;
-    labelEnd = parseLinkLabel(state, start + 1);
-    if (labelEnd < 0) {
-      return false;
-    }
-    if (!silent) {
-      if (!state.env.footnotes) {
-        state.env.footnotes = {};
-      }
-      if (!state.env.footnotes.list) {
-        state.env.footnotes.list = [];
-      }
-      footnoteId = state.env.footnotes.list.length;
-      state.pos = labelStart;
-      state.posMax = labelEnd;
-      state.push({
-        type: "footnote_ref",
-        id: footnoteId,
-        level: state.level
-      });
-      state.linkLevel++;
-      oldLength = state.tokens.length;
-      state.parser.tokenize(state);
-      state.env.footnotes.list[footnoteId] = { tokens: state.tokens.splice(oldLength) };
-      state.linkLevel--;
-    }
-    state.pos = labelEnd + 1;
-    state.posMax = max;
-    return true;
-  }
-  function footnote_ref(state, silent) {
-    var label, pos, footnoteId, footnoteSubId, max = state.posMax, start = state.pos;
-    if (start + 3 > max) {
-      return false;
-    }
-    if (!state.env.footnotes || !state.env.footnotes.refs) {
-      return false;
-    }
-    if (state.src.charCodeAt(start) !== 91) {
-      return false;
-    }
-    if (state.src.charCodeAt(start + 1) !== 94) {
-      return false;
-    }
-    if (state.level >= state.options.maxNesting) {
-      return false;
-    }
-    for (pos = start + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 32) {
-        return false;
-      }
-      if (state.src.charCodeAt(pos) === 10) {
-        return false;
-      }
-      if (state.src.charCodeAt(pos) === 93) {
-        break;
-      }
-    }
-    if (pos === start + 2) {
-      return false;
-    }
-    if (pos >= max) {
-      return false;
-    }
-    pos++;
-    label = state.src.slice(start + 2, pos - 1);
-    if (typeof state.env.footnotes.refs[":" + label] === "undefined") {
-      return false;
-    }
-    if (!silent) {
-      if (!state.env.footnotes.list) {
-        state.env.footnotes.list = [];
-      }
-      if (state.env.footnotes.refs[":" + label] < 0) {
-        footnoteId = state.env.footnotes.list.length;
-        state.env.footnotes.list[footnoteId] = { label, count: 0 };
-        state.env.footnotes.refs[":" + label] = footnoteId;
-      } else {
-        footnoteId = state.env.footnotes.refs[":" + label];
-      }
-      footnoteSubId = state.env.footnotes.list[footnoteId].count;
-      state.env.footnotes.list[footnoteId].count++;
-      state.push({
-        type: "footnote_ref",
-        id: footnoteId,
-        subId: footnoteSubId,
-        level: state.level
-      });
-    }
-    state.pos = pos;
-    state.posMax = max;
-    return true;
-  }
-  var url_schemas = [
-    "coap",
-    "doi",
-    "javascript",
-    "aaa",
-    "aaas",
-    "about",
-    "acap",
-    "cap",
-    "cid",
-    "crid",
-    "data",
-    "dav",
-    "dict",
-    "dns",
-    "file",
-    "ftp",
-    "geo",
-    "go",
-    "gopher",
-    "h323",
-    "http",
-    "https",
-    "iax",
-    "icap",
-    "im",
-    "imap",
-    "info",
-    "ipp",
-    "iris",
-    "iris.beep",
-    "iris.xpc",
-    "iris.xpcs",
-    "iris.lwz",
-    "ldap",
-    "mailto",
-    "mid",
-    "msrp",
-    "msrps",
-    "mtqp",
-    "mupdate",
-    "news",
-    "nfs",
-    "ni",
-    "nih",
-    "nntp",
-    "opaquelocktoken",
-    "pop",
-    "pres",
-    "rtsp",
-    "service",
-    "session",
-    "shttp",
-    "sieve",
-    "sip",
-    "sips",
-    "sms",
-    "snmp",
-    "soap.beep",
-    "soap.beeps",
-    "tag",
-    "tel",
-    "telnet",
-    "tftp",
-    "thismessage",
-    "tn3270",
-    "tip",
-    "tv",
-    "urn",
-    "vemmi",
-    "ws",
-    "wss",
-    "xcon",
-    "xcon-userid",
-    "xmlrpc.beep",
-    "xmlrpc.beeps",
-    "xmpp",
-    "z39.50r",
-    "z39.50s",
-    "adiumxtra",
-    "afp",
-    "afs",
-    "aim",
-    "apt",
-    "attachment",
-    "aw",
-    "beshare",
-    "bitcoin",
-    "bolo",
-    "callto",
-    "chrome",
-    "chrome-extension",
-    "com-eventbrite-attendee",
-    "content",
-    "cvs",
-    "dlna-playsingle",
-    "dlna-playcontainer",
-    "dtn",
-    "dvb",
-    "ed2k",
-    "facetime",
-    "feed",
-    "finger",
-    "fish",
-    "gg",
-    "git",
-    "gizmoproject",
-    "gtalk",
-    "hcp",
-    "icon",
-    "ipn",
-    "irc",
-    "irc6",
-    "ircs",
-    "itms",
-    "jar",
-    "jms",
-    "keyparc",
-    "lastfm",
-    "ldaps",
-    "magnet",
-    "maps",
-    "market",
-    "message",
-    "mms",
-    "ms-help",
-    "msnim",
-    "mumble",
-    "mvn",
-    "notes",
-    "oid",
-    "palm",
-    "paparazzi",
-    "platform",
-    "proxy",
-    "psyc",
-    "query",
-    "res",
-    "resource",
-    "rmi",
-    "rsync",
-    "rtmp",
-    "secondlife",
-    "sftp",
-    "sgn",
-    "skype",
-    "smb",
-    "soldat",
-    "spotify",
-    "ssh",
-    "steam",
-    "svn",
-    "teamspeak",
-    "things",
-    "udp",
-    "unreal",
-    "ut2004",
-    "ventrilo",
-    "view-source",
-    "webcal",
-    "wtai",
-    "wyciwyg",
-    "xfire",
-    "xri",
-    "ymsgr"
-  ];
-  var EMAIL_RE = /^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
-  var AUTOLINK_RE = /^<([a-zA-Z.\-]{1,25}):([^<>\x00-\x20]*)>/;
-  function autolink(state, silent) {
-    var tail, linkMatch, emailMatch, url, fullUrl, pos = state.pos;
-    if (state.src.charCodeAt(pos) !== 60) {
-      return false;
-    }
-    tail = state.src.slice(pos);
-    if (tail.indexOf(">") < 0) {
-      return false;
-    }
-    linkMatch = tail.match(AUTOLINK_RE);
-    if (linkMatch) {
-      if (url_schemas.indexOf(linkMatch[1].toLowerCase()) < 0) {
-        return false;
-      }
-      url = linkMatch[0].slice(1, -1);
-      fullUrl = normalizeLink(url);
-      if (!state.parser.validateLink(url)) {
-        return false;
-      }
-      if (!silent) {
-        state.push({
-          type: "link_open",
-          href: fullUrl,
-          level: state.level
-        });
-        state.push({
-          type: "text",
-          content: url,
-          level: state.level + 1
-        });
-        state.push({ type: "link_close", level: state.level });
-      }
-      state.pos += linkMatch[0].length;
-      return true;
-    }
-    emailMatch = tail.match(EMAIL_RE);
-    if (emailMatch) {
-      url = emailMatch[0].slice(1, -1);
-      fullUrl = normalizeLink("mailto:" + url);
-      if (!state.parser.validateLink(fullUrl)) {
-        return false;
-      }
-      if (!silent) {
-        state.push({
-          type: "link_open",
-          href: fullUrl,
-          level: state.level
-        });
-        state.push({
-          type: "text",
-          content: url,
-          level: state.level + 1
-        });
-        state.push({ type: "link_close", level: state.level });
-      }
-      state.pos += emailMatch[0].length;
-      return true;
-    }
-    return false;
-  }
-  function replace$1(regex, options) {
-    regex = regex.source;
-    options = options || "";
-    return function self2(name, val) {
-      if (!name) {
-        return new RegExp(regex, options);
-      }
-      val = val.source || val;
-      regex = regex.replace(name, val);
-      return self2;
-    };
-  }
-  var attr_name = /[a-zA-Z_:][a-zA-Z0-9:._-]*/;
-  var unquoted = /[^"'=<>`\x00-\x20]+/;
-  var single_quoted = /'[^']*'/;
-  var double_quoted = /"[^"]*"/;
-  var attr_value = replace$1(/(?:unquoted|single_quoted|double_quoted)/)("unquoted", unquoted)("single_quoted", single_quoted)("double_quoted", double_quoted)();
-  var attribute = replace$1(/(?:\s+attr_name(?:\s*=\s*attr_value)?)/)("attr_name", attr_name)("attr_value", attr_value)();
-  var open_tag = replace$1(/<[A-Za-z][A-Za-z0-9]*attribute*\s*\/?>/)("attribute", attribute)();
-  var close_tag = /<\/[A-Za-z][A-Za-z0-9]*\s*>/;
-  var comment = /<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->/;
-  var processing = /<[?].*?[?]>/;
-  var declaration = /<![A-Z]+\s+[^>]*>/;
-  var cdata = /<!\[CDATA\[[\s\S]*?\]\]>/;
-  var HTML_TAG_RE = replace$1(/^(?:open_tag|close_tag|comment|processing|declaration|cdata)/)("open_tag", open_tag)("close_tag", close_tag)("comment", comment)("processing", processing)("declaration", declaration)("cdata", cdata)();
-  function isLetter$2(ch) {
-    var lc = ch | 32;
-    return lc >= 97 && lc <= 122;
-  }
-  function htmltag(state, silent) {
-    var ch, match, max, pos = state.pos;
-    if (!state.options.html) {
-      return false;
-    }
-    max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 60 || pos + 2 >= max) {
-      return false;
-    }
-    ch = state.src.charCodeAt(pos + 1);
-    if (ch !== 33 && ch !== 63 && ch !== 47 && !isLetter$2(ch)) {
-      return false;
-    }
-    match = state.src.slice(pos).match(HTML_TAG_RE);
-    if (!match) {
-      return false;
-    }
-    if (!silent) {
-      state.push({
-        type: "htmltag",
-        content: state.src.slice(pos, pos + match[0].length),
-        level: state.level
-      });
-    }
-    state.pos += match[0].length;
-    return true;
-  }
-  var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
-  var NAMED_RE = /^&([a-z][a-z0-9]{1,31});/i;
-  function entity(state, silent) {
-    var ch, code2, match, pos = state.pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 38) {
-      return false;
-    }
-    if (pos + 1 < max) {
-      ch = state.src.charCodeAt(pos + 1);
-      if (ch === 35) {
-        match = state.src.slice(pos).match(DIGITAL_RE);
-        if (match) {
-          if (!silent) {
-            code2 = match[1][0].toLowerCase() === "x" ? parseInt(match[1].slice(1), 16) : parseInt(match[1], 10);
-            state.pending += isValidEntityCode(code2) ? fromCodePoint(code2) : fromCodePoint(65533);
-          }
-          state.pos += match[0].length;
-          return true;
-        }
-      } else {
-        match = state.src.slice(pos).match(NAMED_RE);
-        if (match) {
-          var decoded = decodeEntity(match[1]);
-          if (match[1] !== decoded) {
-            if (!silent) {
-              state.pending += decoded;
-            }
-            state.pos += match[0].length;
-            return true;
-          }
-        }
-      }
-    }
-    if (!silent) {
-      state.pending += "&";
-    }
-    state.pos++;
-    return true;
-  }
-  var _rules$2 = [
-    ["text", text],
-    ["newline", newline],
-    ["escape", escape],
-    ["backticks", backticks],
-    ["del", del],
-    ["ins", ins],
-    ["mark", mark],
-    ["emphasis", emphasis],
-    ["sub", sub],
-    ["sup", sup],
-    ["links", links],
-    ["footnote_inline", footnote_inline],
-    ["footnote_ref", footnote_ref],
-    ["autolink", autolink],
-    ["htmltag", htmltag],
-    ["entity", entity]
-  ];
-  function ParserInline() {
-    this.ruler = new Ruler();
-    for (var i2 = 0; i2 < _rules$2.length; i2++) {
-      this.ruler.push(_rules$2[i2][0], _rules$2[i2][1]);
-    }
-    this.validateLink = validateLink;
-  }
-  ParserInline.prototype.skipToken = function(state) {
-    var rules2 = this.ruler.getRules("");
-    var len = rules2.length;
-    var pos = state.pos;
-    var i2, cached_pos;
-    if ((cached_pos = state.cacheGet(pos)) > 0) {
-      state.pos = cached_pos;
-      return;
-    }
-    for (i2 = 0; i2 < len; i2++) {
-      if (rules2[i2](state, true)) {
-        state.cacheSet(pos, state.pos);
-        return;
-      }
-    }
-    state.pos++;
-    state.cacheSet(pos, state.pos);
-  };
-  ParserInline.prototype.tokenize = function(state) {
-    var rules2 = this.ruler.getRules("");
-    var len = rules2.length;
-    var end2 = state.posMax;
-    var ok, i2;
-    while (state.pos < end2) {
-      for (i2 = 0; i2 < len; i2++) {
-        ok = rules2[i2](state, false);
-        if (ok) {
-          break;
-        }
-      }
-      if (ok) {
-        if (state.pos >= end2) {
-          break;
-        }
-        continue;
-      }
-      state.pending += state.src[state.pos++];
-    }
-    if (state.pending) {
-      state.pushPending();
-    }
-  };
-  ParserInline.prototype.parse = function(str, options, env, outTokens) {
-    var state = new StateInline(str, this, options, env, outTokens);
-    this.tokenize(state);
-  };
-  function validateLink(url) {
-    var BAD_PROTOCOLS = ["vbscript", "javascript", "file", "data"];
-    var str = url.trim().toLowerCase();
-    str = replaceEntities(str);
-    if (str.indexOf(":") !== -1 && BAD_PROTOCOLS.indexOf(str.split(":")[0]) !== -1) {
-      return false;
-    }
-    return true;
-  }
-  var defaultConfig = {
-    options: {
-      html: false,
-      // Enable HTML tags in source
-      xhtmlOut: false,
-      // Use '/' to close single tags (<br />)
-      breaks: false,
-      // Convert '\n' in paragraphs into <br>
-      langPrefix: "language-",
-      // CSS language prefix for fenced blocks
-      linkTarget: "",
-      // set target to open link in
-      // Enable some language-neutral replacements + quotes beautification
-      typographer: false,
-      // Double + single quotes replacement pairs, when typographer enabled,
-      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-      quotes: "\u201C\u201D\u2018\u2019",
-      // Highlighter function. Should return escaped HTML,
-      // or '' if input not changed
-      //
-      // function (/*str, lang*/) { return ''; }
-      //
-      highlight: null,
-      maxNesting: 20
-      // Internal protection, recursion limit
-    },
-    components: {
-      core: {
-        rules: [
-          "block",
-          "inline",
-          "references",
-          "replacements",
-          "smartquotes",
-          "references",
-          "abbr2",
-          "footnote_tail"
-        ]
-      },
-      block: {
-        rules: [
-          "blockquote",
-          "code",
-          "fences",
-          "footnote",
-          "heading",
-          "hr",
-          "htmlblock",
-          "lheading",
-          "list",
-          "paragraph",
-          "table"
-        ]
-      },
-      inline: {
-        rules: [
-          "autolink",
-          "backticks",
-          "del",
-          "emphasis",
-          "entity",
-          "escape",
-          "footnote_ref",
-          "htmltag",
-          "links",
-          "newline",
-          "text"
-        ]
-      }
-    }
-  };
-  var fullConfig = {
-    options: {
-      html: false,
-      // Enable HTML tags in source
-      xhtmlOut: false,
-      // Use '/' to close single tags (<br />)
-      breaks: false,
-      // Convert '\n' in paragraphs into <br>
-      langPrefix: "language-",
-      // CSS language prefix for fenced blocks
-      linkTarget: "",
-      // set target to open link in
-      // Enable some language-neutral replacements + quotes beautification
-      typographer: false,
-      // Double + single quotes replacement pairs, when typographer enabled,
-      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-      quotes: "\u201C\u201D\u2018\u2019",
-      // Highlighter function. Should return escaped HTML,
-      // or '' if input not changed
-      //
-      // function (/*str, lang*/) { return ''; }
-      //
-      highlight: null,
-      maxNesting: 20
-      // Internal protection, recursion limit
-    },
-    components: {
-      // Don't restrict core/block/inline rules
-      core: {},
-      block: {},
-      inline: {}
-    }
-  };
-  var commonmarkConfig = {
-    options: {
-      html: true,
-      // Enable HTML tags in source
-      xhtmlOut: true,
-      // Use '/' to close single tags (<br />)
-      breaks: false,
-      // Convert '\n' in paragraphs into <br>
-      langPrefix: "language-",
-      // CSS language prefix for fenced blocks
-      linkTarget: "",
-      // set target to open link in
-      // Enable some language-neutral replacements + quotes beautification
-      typographer: false,
-      // Double + single quotes replacement pairs, when typographer enabled,
-      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
-      quotes: "\u201C\u201D\u2018\u2019",
-      // Highlighter function. Should return escaped HTML,
-      // or '' if input not changed
-      //
-      // function (/*str, lang*/) { return ''; }
-      //
-      highlight: null,
-      maxNesting: 20
-      // Internal protection, recursion limit
-    },
-    components: {
-      core: {
-        rules: [
-          "block",
-          "inline",
-          "references",
-          "abbr2"
-        ]
-      },
-      block: {
-        rules: [
-          "blockquote",
-          "code",
-          "fences",
-          "heading",
-          "hr",
-          "htmlblock",
-          "lheading",
-          "list",
-          "paragraph"
-        ]
-      },
-      inline: {
-        rules: [
-          "autolink",
-          "backticks",
-          "emphasis",
-          "entity",
-          "escape",
-          "htmltag",
-          "links",
-          "newline",
-          "text"
-        ]
-      }
-    }
-  };
-  var config = {
-    "default": defaultConfig,
-    "full": fullConfig,
-    "commonmark": commonmarkConfig
-  };
-  function StateCore(instance, str, env) {
-    this.src = str;
-    this.env = env;
-    this.options = instance.options;
-    this.tokens = [];
-    this.inlineMode = false;
-    this.inline = instance.inline;
-    this.block = instance.block;
-    this.renderer = instance.renderer;
-    this.typographer = instance.typographer;
-  }
-  function Remarkable(preset, options) {
-    if (typeof preset !== "string") {
-      options = preset;
-      preset = "default";
-    }
-    if (options && options.linkify != null) {
-      console.warn(
-        "linkify option is removed. Use linkify plugin instead:\n\nimport Remarkable from 'remarkable';\nimport linkify from 'remarkable/linkify';\nnew Remarkable().use(linkify)\n"
-      );
-    }
-    this.inline = new ParserInline();
-    this.block = new ParserBlock();
-    this.core = new Core();
-    this.renderer = new Renderer();
-    this.ruler = new Ruler();
-    this.options = {};
-    this.configure(config[preset]);
-    this.set(options || {});
-  }
-  Remarkable.prototype.set = function(options) {
-    assign2(this.options, options);
-  };
-  Remarkable.prototype.configure = function(presets) {
-    var self2 = this;
-    if (!presets) {
-      throw new Error("Wrong `remarkable` preset, check name/content");
-    }
-    if (presets.options) {
-      self2.set(presets.options);
-    }
-    if (presets.components) {
-      Object.keys(presets.components).forEach(function(name) {
-        if (presets.components[name].rules) {
-          self2[name].ruler.enable(presets.components[name].rules, true);
-        }
-      });
-    }
-  };
-  Remarkable.prototype.use = function(plugin, options) {
-    plugin(this, options);
-    return this;
-  };
-  Remarkable.prototype.parse = function(str, env) {
-    var state = new StateCore(this, str, env);
-    this.core.process(state);
-    return state.tokens;
-  };
-  Remarkable.prototype.render = function(str, env) {
-    env = env || {};
-    return this.renderer.render(this.parse(str, env), this.options, env);
-  };
-  Remarkable.prototype.parseInline = function(str, env) {
-    var state = new StateCore(this, str, env);
-    state.inlineMode = true;
-    this.core.process(state);
-    return state.tokens;
-  };
-  Remarkable.prototype.renderInline = function(str, env) {
-    env = env || {};
-    return this.renderer.render(this.parseInline(str, env), this.options, env);
-  };
-
-  // node_modules/@buyerjourney/bj-components/src/components/CardsList.js
-  var CardsList = class extends AppElement {
-    #default = {
-      cardsWidth: "is-4",
-      context: {
-        lang: "en"
-      }
-    };
-    constructor(props = {}) {
-      super();
-      this.eventName = "user:click-cards-list";
-      this.state = this.initState(this.#default, props);
-      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
-      this.md = new Remarkable();
-    }
-    #card(props) {
-      let card = (
-        /* html */
-        `
-        <div class="column ${this.state.cardsWidth}">
-            <div ${this.getClasses(["card"], props.classList)}  ${this.setAnimation(props.animation)}>                
-                ${props.header?.text != void 0 ? `<header ${this.getClasses(["card-header"], props.header?.classList)} ${this.setAnimation(props.header?.animation)}>
-                    <p class="card-header-title" >
-                    ${props.header.text[this.state.context.lang]}
-                    </p>
-                </header>` : ""}
-                ${props.image?.src != void 0 ? `<div ${this.getClasses(["card-image"], props.image.classList)} ${this.setAnimation(props.image?.animation)}>
-                        <figure class="image is-4by3">
-                            <img src="${props.image.src}" ${props.image.alt != void 0 ? `alt="${props.image.alt[this.state.context.lang]}"` : ""} >
-                        </figure>
-                    </div>` : ""}
-                ${props.content != void 0 ? `
-                    <div ${this.getClasses(["card-content"], props.content.classList)} ${this.setAnimation(props.content.animation)}>
-                        ${props.content.title?.text[this.state.context.lang] != void 0 ? `
-                        <p ${this.getClasses(["title"], props.content.title.classList)}  ${this.setAnimation(props.content.title.animation)}>
-                        ${props.content.title.text[this.state.context.lang]}
-                        </p>` : ""}
-                        ${props.content.subtitle?.text[this.state.context.lang] != void 0 ? `
-                        <p ${this.getClasses(["subtitle"], props.content.subtitle.classList)} ${props.content?.subtitle?.classList != void 0 ? props.content.subtitle.classList : ""}" ${this.setAnimation(props.content.subtitle.animation)}>
-                        ${props.content.subtitle.text[this.state.context.lang]}
-                        </p>` : ""}
-                        ${props.content.description?.text[this.state.context.lang] != void 0 ? `
-                        <div ${this.getClasses(["content"], props.content.description?.classList)}  ${props.content.description?.classList != void 0 ? props.content.description?.classList : ""}" ${this.setAnimation(props.content.description?.animation)}>
-                        ${this.md.render(props.content.description.text[this.state.context.lang])}
-                        </div>` : ""}
-                    ` : ""}
-                ${props.content != void 0 ? `</div>` : ""}
-                ${props.footer?.buttons != void 0 ? `<footer ${this.getClasses(["card-footer"], props.footer.classList)} ${this.setAnimation(props.footer.animation)}>
-                    ${this.#getFooter(props.footer.buttons)}
-                </footer>` : ""}
-            </div>
-        </div>
-        `
-      );
-      return card;
-    }
-    #getFooter(props) {
-      if (props != void 0) {
-        let render2 = "";
-        Object.entries(props).forEach(([key, value]) => {
-          render2 += `<button class="card-footer-item"  id="${props[key]["id"]}" ${this.setAnimation(props[key]["animation"])}>
-                    ${props[key]["text"][this.state.context.lang]}
-                </button>`;
-        });
-        return render2;
-      } else
-        return "";
-    }
-    #getCards() {
-      let cardsHtml = ``;
-      if (this.state.cards != void 0) {
-        this.state.cards.forEach((card) => {
-          cardsHtml += this.#card(card);
-        });
-      }
-      return cardsHtml;
-    }
-    render() {
-      this.innerHTML = /* html */
-      `
-       <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
-            <div class="container py-4">
-                ${this.getTitles(this.state)}
-                <div class="columns is-multiline mx-4">
-                    ${this.#getCards()}
-                </div>
-            </div>
-        </div>`;
-      this.addEvents();
-    }
-  };
-  customElements.define("cards-list", CardsList);
-
-  // node_modules/@buyerjourney/bj-components/src/components/CtaBanner.js
-  var CtaBanner = class extends AppElement {
-    #default = {
-      context: {
-        lang: "en"
-      }
-    };
-    constructor(props = {}) {
-      super();
-      this.state = this.initState(this.#default, props);
-      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
-      this.md = new Remarkable();
-    }
-    static get observedAttributes() {
-      return [];
-    }
-    attributeChangedCallback(name, old, now) {
-      this.render();
-    }
-    handleEvent(event) {
-    }
-    render() {
-      this.innerHTML = /* html */
-      `
-      <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
-            <div class="container py-4">
-              <div class="columns is-vcentered">
-                <div class="column ${this.state.content?.size != void 0 ? this.state.content.size : "is-6"}">
-                   <div ${this.getClasses(["content"], this.state.content?.classList)} ${this.setAnimation(this.state.content?.animation)}>
-                   ${this.state.content?.text[this.state.context.lang] != void 0 ? this.md.render(this.state.content.text[this.state.context.lang]) : ""}
-                    </div>
-                </div>
-                <div class="column">
-                    ${this.state.buttons != void 0 ? this.buttonsRender(this.state.buttons) : ""} 
-                </div>
-              </div>
-            </div>
-    </section>
-      `;
-      this.addEvents();
-    }
-  };
-  customElements.define("cta-banner", CtaBanner);
-
-  // node_modules/@buyerjourney/bj-components/src/components/CountdownTimer.js
-  var CountdownTimer = class extends AppElement {
-    #default = {
-      count: {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-      },
-      days: {
-        text: {
-          es: "d\xEDas",
-          en: "days",
-          fr: "jours"
-        }
-      },
-      hours: {
-        text: {
-          es: "horas",
-          en: "hours",
-          fr: "heures"
-        }
-      },
-      minutes: {
-        text: {
-          es: "minutos",
-          en: "minutes",
-          fr: "minutes"
-        }
-      },
-      seconds: {
-        text: {
-          es: "segundos",
-          en: "seconds",
-          fr: "secondes"
-        }
-      },
-      message: {
-        text: {
-          en: "We are very sorry. The promotion has expired"
-        }
-      },
-      context: {
-        lang: "en"
-      }
-    };
-    constructor(props = {}) {
-      super();
-      this.eventName = "timer:time-out";
-      this.state = this.initState(this.#default, props);
-      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
-      const presentDate = /* @__PURE__ */ new Date();
-      const presentTime = presentDate.getTime();
-      const dueDate = this.#getStart(this.getAttribute("start"));
-      this.timeRemaining = dueDate - presentTime;
-      this.start();
-    }
-    #getStart() {
-      try {
-        let dueDate = new Date(this.getAttribute("start"));
-        return dueDate;
-      } catch (error) {
-        console.error(error);
-        return new dateString("2024-07-12T10:00:00");
-      }
-    }
-    getTime() {
-      return {
-        days: Math.floor(this.timeRemaining / 1e3 / 60 / 60 / 24),
-        hours: Math.floor(this.timeRemaining / 1e3 / 60 / 60) % 24,
-        minutes: Math.floor(this.timeRemaining / 1e3 / 60) % 60,
-        seconds: Math.floor(this.timeRemaining / 1e3) % 60
-      };
-    }
-    update() {
-      this.state.count = this.getTime();
-      this.render();
-    }
-    start() {
-      if (this.timeRemaining > 0) {
-        this.setAttribute("value", "running");
-        let intervalId = setInterval(() => {
-          let eventName;
-          this.timeRemaining -= 1e3;
-          if (0 > this.timeRemaining) {
-            this.setAttribute("value", "timed-out");
-            if (this.state.eventName != void 0) {
-              eventName = this.state.eventName;
-            }
-            const timeOut = new CustomEvent(eventName, {
-              detail: { timeOut: this.id },
-              bubbles: true,
-              composed: true
-            });
-            clearInterval(intervalId);
-            this.dispatchEvent(timeOut);
-            this.querySelector(".notification").classList.remove("is-hidden");
-          } else {
-            this.update();
-          }
-        }, 1e3);
-      } else {
-        this.state.count = {
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        };
-        this.setAttribute("value", "stopped");
-        this.render();
-      }
-    }
-    render() {
-      this.innerHTML = /* html */
-      `
-        <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
-            <div class="container">
-                ${this.getTitles()}
-                <div class="columns is-centered">
-                    <div class="column is-4">
-                        <div class="level is-mobile" ${this.setAnimation(this.state.animation)}>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                <p class="title">${this.state.count?.days === void 0 ? 0 : this.state.count.days}</p>
-                                <p class="heading">${this.state.days?.text[this.state.context.lang] != void 0 ? this.state.days.text[this.state.context.lang] : `days`}</p>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                <p class="title">${this.state.count?.hours === void 0 ? 0 : this.state.count.hours}</p>
-                                <p class="heading">${this.state.hours?.text[this.state.context.lang] != void 0 ? this.state.hours.text[this.state.context.lang] : `hours`}</p>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                <p class="title">${this.state.count?.minutes === void 0 ? 0 : this.state.count.minutes}</p>
-                                <p class="heading">${this.state.minutes?.text[this.state.context.lang] != void 0 ? this.state.minutes.text[this.state.context.lang] : `minutes`}</p>
-                                </div>
-                            </div>
-                            <div class="level-item has-text-centered">
-                                <div>
-                                <p class="title" >${this.state.count?.seconds === void 0 ? 0 : this.state.count.seconds}</p>
-                                <p class="heading">${this.state.seconds?.text[this.state.context.lang] != void 0 ? this.state.seconds.text[this.state.context.lang] : `seconds`}</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div  ${this.getClasses(["notification", "has-text-centered", "is-hidden"], this.state.message?.classList)} ${this.setAnimation(this.state.message.animation)}>
-                            ${this.state.message.text[this.state.context.lang]}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        `;
-      if (this.getAttribute("value") === "stopped") {
-        this.querySelector(".notification").classList.remove("is-hidden");
-      }
-    }
-  };
-  customElements.define("countdown-timer", CountdownTimer);
-
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
   var noop2 = () => {
   };
@@ -8157,14 +4430,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     measure: noop2
   };
   try {
-    if (typeof window !== "undefined")
-      _WINDOW = window;
-    if (typeof document !== "undefined")
-      _DOCUMENT = document;
-    if (typeof MutationObserver !== "undefined")
-      _MUTATION_OBSERVER = MutationObserver;
-    if (typeof performance !== "undefined")
-      _PERFORMANCE = performance;
+    if (typeof window !== "undefined") _WINDOW = window;
+    if (typeof document !== "undefined") _DOCUMENT = document;
+    if (typeof MutationObserver !== "undefined") _MUTATION_OBSERVER = MutationObserver;
+    if (typeof performance !== "undefined") _PERFORMANCE = performance;
   } catch (e) {
   }
   var {
@@ -8484,12 +4753,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function coerce(val) {
-    if (val === "")
-      return true;
-    if (val === "false")
-      return false;
-    if (val === "true")
-      return true;
+    if (val === "") return true;
+    if (val === "false") return false;
+    if (val === "true") return true;
     return val;
   }
   if (DOCUMENT && typeof DOCUMENT.querySelector === "function") {
@@ -8524,32 +4790,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     ..._default,
     ...initial
   };
-  if (!_config.autoReplaceSvg)
-    _config.observeMutations = false;
-  var config2 = {};
+  if (!_config.autoReplaceSvg) _config.observeMutations = false;
+  var config = {};
   Object.keys(_default).forEach((key) => {
-    Object.defineProperty(config2, key, {
+    Object.defineProperty(config, key, {
       enumerable: true,
       set: function(val) {
         _config[key] = val;
-        _onChangeCb.forEach((cb) => cb(config2));
+        _onChangeCb.forEach((cb) => cb(config));
       },
       get: function() {
         return _config[key];
       }
     });
   });
-  Object.defineProperty(config2, "familyPrefix", {
+  Object.defineProperty(config, "familyPrefix", {
     enumerable: true,
     set: function(val) {
       _config.cssPrefix = val;
-      _onChangeCb.forEach((cb) => cb(config2));
+      _onChangeCb.forEach((cb) => cb(config));
     },
     get: function() {
       return _config.cssPrefix;
     }
   });
-  WINDOW.FontAwesomeConfig = config2;
+  WINDOW.FontAwesomeConfig = config;
   var _onChangeCb = [];
   function onChange(cb) {
     _onChangeCb.push(cb);
@@ -8575,8 +4840,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     style.innerHTML = css2;
     const headChildren = DOCUMENT.head.childNodes;
     let beforeChild = null;
-    for (let i2 = headChildren.length - 1; i2 > -1; i2--) {
-      const child = headChildren[i2];
+    for (let i = headChildren.length - 1; i > -1; i--) {
+      const child = headChildren[i];
       const tagName = (child.tagName || "").toUpperCase();
       if (["STYLE", "LINK"].indexOf(tagName) > -1) {
         beforeChild = child;
@@ -8596,8 +4861,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   function toArray(obj) {
     const array = [];
-    for (let i2 = (obj || []).length >>> 0; i2--; ) {
-      array[i2] = obj[i2];
+    for (let i = (obj || []).length >>> 0; i--; ) {
+      array[i] = obj[i];
     }
     return array;
   }
@@ -8605,7 +4870,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (node.classList) {
       return toArray(node.classList);
     } else {
-      return (node.getAttribute("class") || "").split(" ").filter((i2) => i2);
+      return (node.getAttribute("class") || "").split(" ").filter((i) => i);
     }
   }
   function htmlEscape(str) {
@@ -8671,8 +4936,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function css() {
     const dcp = DEFAULT_CSS_PREFIX;
     const drc = DEFAULT_REPLACEMENT_CLASS;
-    const fp = config2.cssPrefix;
-    const rc = config2.replacementClass;
+    const fp = config.cssPrefix;
+    const rc = config.replacementClass;
     let s = baseStyles;
     if (fp !== dcp || rc !== drc) {
       const dPatt = new RegExp("\\.".concat(dcp, "\\-"), "g");
@@ -8684,7 +4949,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   var _cssInserted = false;
   function ensureCss() {
-    if (config2.autoAddCss && !_cssInserted) {
+    if (config.autoAddCss && !_cssInserted) {
       insertCss(css());
       _cssInserted = true;
     }
@@ -8710,14 +4975,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   };
   var w$1 = WINDOW || {};
-  if (!w$1[NAMESPACE_IDENTIFIER])
-    w$1[NAMESPACE_IDENTIFIER] = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].styles)
-    w$1[NAMESPACE_IDENTIFIER].styles = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].hooks)
-    w$1[NAMESPACE_IDENTIFIER].hooks = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].shims)
-    w$1[NAMESPACE_IDENTIFIER].shims = [];
+  if (!w$1[NAMESPACE_IDENTIFIER]) w$1[NAMESPACE_IDENTIFIER] = {};
+  if (!w$1[NAMESPACE_IDENTIFIER].styles) w$1[NAMESPACE_IDENTIFIER].styles = {};
+  if (!w$1[NAMESPACE_IDENTIFIER].hooks) w$1[NAMESPACE_IDENTIFIER].hooks = {};
+  if (!w$1[NAMESPACE_IDENTIFIER].shims) w$1[NAMESPACE_IDENTIFIER].shims = [];
   var namespace = w$1[NAMESPACE_IDENTIFIER];
   var functions = [];
   var listener2 = function() {
@@ -8728,12 +4989,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var loaded = false;
   if (IS_DOM) {
     loaded = (DOCUMENT.documentElement.doScroll ? /^loaded|^c/ : /^loaded|^i|^c/).test(DOCUMENT.readyState);
-    if (!loaded)
-      DOCUMENT.addEventListener("DOMContentLoaded", listener2);
+    if (!loaded) DOCUMENT.addEventListener("DOMContentLoaded", listener2);
   }
   function domready(fn) {
-    if (!IS_DOM)
-      return;
+    if (!IS_DOM) return;
     loaded ? setTimeout(fn, 0) : functions.push(fn);
   }
   function toHtml(abstractNodes) {
@@ -8758,21 +5017,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   var bindInternal4 = function bindInternal42(func, thisContext) {
-    return function(a3, b, c3, d2) {
-      return func.call(thisContext, a3, b, c3, d2);
+    return function(a2, b2, c2, d) {
+      return func.call(thisContext, a2, b2, c2, d);
     };
   };
   var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
-    var keys = Object.keys(subject), length = keys.length, iterator = thisContext !== void 0 ? bindInternal4(fn, thisContext) : fn, i2, key, result;
+    var keys = Object.keys(subject), length = keys.length, iterator = thisContext !== void 0 ? bindInternal4(fn, thisContext) : fn, i, key, result;
     if (initialValue === void 0) {
-      i2 = 1;
+      i = 1;
       result = subject[keys[0]];
     } else {
-      i2 = 0;
+      i = 0;
       result = initialValue;
     }
-    for (; i2 < length; i2++) {
-      key = keys[i2];
+    for (; i < length; i++) {
+      key = keys[i];
       result = iterator(result, subject[key], key, subject);
     }
     return result;
@@ -8917,7 +5176,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
       return acc;
     });
-    const hasRegular = "far" in styles || config2.autoFetchSvg;
+    const hasRegular = "far" in styles || config.autoFetchSvg;
     const shimLookups = reduce(shims, (acc, shim) => {
       const maybeNameMaybeUnicode = shim[0];
       let prefix = shim[1];
@@ -8944,13 +5203,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
     _byOldName = shimLookups.names;
     _byOldUnicode = shimLookups.unicodes;
-    _defaultUsablePrefix = getCanonicalPrefix(config2.styleDefault, {
-      family: config2.familyDefault
+    _defaultUsablePrefix = getCanonicalPrefix(config.styleDefault, {
+      family: config.familyDefault
     });
   };
   onChange((c$$1) => {
     _defaultUsablePrefix = getCanonicalPrefix(c$$1.styleDefault, {
-      family: config2.familyDefault
+      family: config.familyDefault
     });
   });
   build();
@@ -9012,9 +5271,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       skipLookups = false
     } = params;
     const famProps = {
-      [a]: "".concat(config2.cssPrefix, "-").concat(a),
-      [r]: "".concat(config2.cssPrefix, "-").concat(r),
-      [o]: "".concat(config2.cssPrefix, "-").concat(o)
+      [a]: "".concat(config.cssPrefix, "-").concat(a),
+      [r]: "".concat(config.cssPrefix, "-").concat(r),
+      [o]: "".concat(config.cssPrefix, "-").concat(o)
     };
     let givenPrefix = null;
     let family = a;
@@ -9025,7 +5284,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     });
     const canonical = values.reduce((acc, cls) => {
-      const iconName = getIconName(config2.cssPrefix, cls);
+      const iconName = getIconName(config.cssPrefix, cls);
       if (styles[cls]) {
         cls = LONG_STYLE[family].includes(cls) ? LONG_STYLE_TO_PREFIX[family][cls] : cls;
         givenPrefix = cls;
@@ -9037,7 +5296,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       } else if (iconName) {
         acc.iconName = iconName;
-      } else if (cls !== config2.replacementClass && !nonDuotoneFamilyIds.some((familyName) => cls === famProps[familyName])) {
+      } else if (cls !== config.replacementClass && !nonDuotoneFamilyIds.some((familyName) => cls === famProps[familyName])) {
         acc.rest.push(cls);
       }
       if (!skipLookups && acc.prefix && acc.iconName) {
@@ -9048,7 +5307,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
         acc.iconName = shim.iconName || aliasIconName || acc.iconName;
         acc.prefix = shim.prefix || acc.prefix;
-        if (acc.prefix === "far" && !styles["far"] && styles["fas"] && !config2.autoFetchSvg) {
+        if (acc.prefix === "far" && !styles["far"] && styles["fas"] && !config.autoFetchSvg) {
           acc.prefix = "fas";
         }
       }
@@ -9060,11 +5319,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (values.includes("fa-duotone") || values.includes("fad")) {
       canonical.prefix = "fad";
     }
-    if (!canonical.prefix && family === r && (styles["fass"] || config2.autoFetchSvg)) {
+    if (!canonical.prefix && family === r && (styles["fass"] || config.autoFetchSvg)) {
       canonical.prefix = "fass";
       canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
     }
-    if (!canonical.prefix && family === o && (styles["fasds"] || config2.autoFetchSvg)) {
+    if (!canonical.prefix && family === o && (styles["fasds"] || config.autoFetchSvg)) {
       canonical.prefix = "fasds";
       canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
     }
@@ -9089,8 +5348,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
         defineIcons(key, additions[key]);
         const longPrefix = PREFIX_TO_LONG_STYLE[a][key];
-        if (longPrefix)
-          defineIcons(longPrefix, additions[key]);
+        if (longPrefix) defineIcons(longPrefix, additions[key]);
         build();
       });
     }
@@ -9108,8 +5366,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           icon: icon2
         } = normalized[key];
         const aliases = icon2[2];
-        if (!additions[prefix])
-          additions[prefix] = {};
+        if (!additions[prefix]) additions[prefix] = {};
         if (aliases.length > 0) {
           aliases.forEach((alias) => {
             if (typeof alias === "string") {
@@ -9132,9 +5389,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } = _ref;
     _plugins = nextPlugins;
     _hooks = {};
-    Object.keys(providers).forEach((k) => {
-      if (defaultProviderKeys.indexOf(k) === -1) {
-        delete providers[k];
+    Object.keys(providers).forEach((k2) => {
+      if (defaultProviderKeys.indexOf(k2) === -1) {
+        delete providers[k2];
       }
     });
     _plugins.forEach((plugin) => {
@@ -9200,15 +5457,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       iconName
     } = iconLookup;
     const prefix = iconLookup.prefix || getDefaultUsablePrefix();
-    if (!iconName)
-      return;
+    if (!iconName) return;
     iconName = byAlias(prefix, iconName) || iconName;
     return iconFromMapping(library.definitions, prefix, iconName) || iconFromMapping(namespace.styles, prefix, iconName);
   }
   var library = new Library();
   var noAuto = () => {
-    config2.autoReplaceSvg = false;
-    config2.observeMutations = false;
+    config.autoReplaceSvg = false;
+    config.observeMutations = false;
     callHooks("noAuto");
   };
   var dom = {
@@ -9227,10 +5483,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const {
         autoReplaceSvgRoot
       } = params;
-      if (config2.autoReplaceSvg === false) {
-        config2.autoReplaceSvg = true;
+      if (config.autoReplaceSvg === false) {
+        config.autoReplaceSvg = true;
       }
-      config2.observeMutations = true;
+      config.observeMutations = true;
       domready(() => {
         autoReplace({
           autoReplaceSvgRoot
@@ -9258,7 +5514,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           iconName: byAlias(prefix, iconName) || iconName
         };
       }
-      if (typeof icon2 === "string" && (icon2.indexOf("".concat(config2.cssPrefix, "-")) > -1 || icon2.match(ICON_SELECTION_SYNTAX_PATTERN))) {
+      if (typeof icon2 === "string" && (icon2.indexOf("".concat(config.cssPrefix, "-")) > -1 || icon2.match(ICON_SELECTION_SYNTAX_PATTERN))) {
         const canonicalIcon = getCanonicalIcon(icon2.split(" "), {
           skipLookups: true
         });
@@ -9278,7 +5534,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var api = {
     noAuto,
-    config: config2,
+    config,
     dom,
     parse,
     library,
@@ -9290,10 +5546,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const {
       autoReplaceSvgRoot = DOCUMENT
     } = params;
-    if ((Object.keys(namespace.styles).length > 0 || config2.autoFetchSvg) && IS_DOM && config2.autoReplaceSvg)
-      api.dom.i2svg({
-        node: autoReplaceSvgRoot
-      });
+    if ((Object.keys(namespace.styles).length > 0 || config.autoFetchSvg) && IS_DOM && config.autoReplaceSvg) api.dom.i2svg({
+      node: autoReplaceSvgRoot
+    });
   };
   function domVariants(val, abstractCreator) {
     Object.defineProperty(val, "abstract", {
@@ -9301,13 +5556,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
     Object.defineProperty(val, "html", {
       get: function() {
-        return val.abstract.map((a3) => toHtml(a3));
+        return val.abstract.map((a2) => toHtml(a2));
       }
     });
     Object.defineProperty(val, "node", {
       get: function() {
-        if (!IS_DOM)
-          return;
+        if (!IS_DOM) return;
         const container = DOCUMENT.createElement("div");
         container.innerHTML = val.html;
         return container.children;
@@ -9352,7 +5606,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       attributes,
       symbol
     } = _ref;
-    const id = symbol === true ? "".concat(prefix, "-").concat(config2.cssPrefix, "-").concat(iconName) : symbol;
+    const id = symbol === true ? "".concat(prefix, "-").concat(config.cssPrefix, "-").concat(iconName) : symbol;
     return [{
       tag: "svg",
       attributes: {
@@ -9389,7 +5643,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       height
     } = mask.found ? mask : main;
     const isUploadedIcon = prefix === "fak";
-    const attrClass = [config2.replacementClass, iconName ? "".concat(config2.cssPrefix, "-").concat(iconName) : ""].filter((c3) => extra.classes.indexOf(c3) === -1).filter((c3) => c3 !== "" || !!c3).concat(extra.classes).join(" ");
+    const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter((c2) => extra.classes.indexOf(c2) === -1).filter((c2) => c2 !== "" || !!c2).concat(extra.classes).join(" ");
     let content = {
       children: [],
       attributes: {
@@ -9549,19 +5803,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       element = {
         tag: "g",
         attributes: {
-          class: "".concat(config2.cssPrefix, "-").concat(DUOTONE_CLASSES.GROUP)
+          class: "".concat(config.cssPrefix, "-").concat(DUOTONE_CLASSES.GROUP)
         },
         children: [{
           tag: "path",
           attributes: {
-            class: "".concat(config2.cssPrefix, "-").concat(DUOTONE_CLASSES.SECONDARY),
+            class: "".concat(config.cssPrefix, "-").concat(DUOTONE_CLASSES.SECONDARY),
             fill: "currentColor",
             d: vectorData[0]
           }
         }, {
           tag: "path",
           attributes: {
-            class: "".concat(config2.cssPrefix, "-").concat(DUOTONE_CLASSES.PRIMARY),
+            class: "".concat(config.cssPrefix, "-").concat(DUOTONE_CLASSES.PRIMARY),
             fill: "currentColor",
             d: vectorData[1]
           }
@@ -9589,13 +5843,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     height: 512
   };
   function maybeNotifyMissing(iconName, prefix) {
-    if (!PRODUCTION && !config2.showMissingIcons && iconName) {
+    if (!PRODUCTION && !config.showMissingIcons && iconName) {
       console.error('Icon with name "'.concat(iconName, '" and prefix "').concat(prefix, '" is missing.'));
     }
   }
   function findIcon(iconName, prefix) {
     let givenPrefix = prefix;
-    if (prefix === "fa" && config2.styleDefault !== null) {
+    if (prefix === "fa" && config.styleDefault !== null) {
       prefix = getDefaultUsablePrefix();
     }
     return new Promise((resolve, reject) => {
@@ -9611,13 +5865,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       maybeNotifyMissing(iconName, prefix);
       resolve({
         ...missingIconResolutionMixin,
-        icon: config2.showMissingIcons && iconName ? callProvided("missingIconAbstract") || {} : {}
+        icon: config.showMissingIcons && iconName ? callProvided("missingIconAbstract") || {} : {}
       });
     });
   }
   var noop$1 = () => {
   };
-  var p$2 = config2.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
+  var p$2 = config.measurePerformance && PERFORMANCE && PERFORMANCE.mark && PERFORMANCE.measure ? PERFORMANCE : {
     mark: noop$1,
     measure: noop$1
   };
@@ -9646,13 +5900,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return prefix && icon2;
   }
   function hasBeenReplaced(node) {
-    return node && node.classList && node.classList.contains && node.classList.contains(config2.replacementClass);
+    return node && node.classList && node.classList.contains && node.classList.contains(config.replacementClass);
   }
   function getMutator() {
-    if (config2.autoReplaceSvg === true) {
+    if (config.autoReplaceSvg === true) {
       return mutators.replace;
     }
-    const mutator = mutators[config2.autoReplaceSvg];
+    const mutator = mutators[config.autoReplaceSvg];
     return mutator || mutators.replace;
   }
   function createElementNS(tag) {
@@ -9693,7 +5947,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         mutation[1].forEach((abstract) => {
           node.parentNode.insertBefore(convertSVG(abstract), node);
         });
-        if (node.getAttribute(DATA_FA_I2SVG) === null && config2.keepOriginalSource) {
+        if (node.getAttribute(DATA_FA_I2SVG) === null && config.keepOriginalSource) {
           let comment2 = DOCUMENT.createComment(nodeAsComment(node));
           node.parentNode.replaceChild(comment2, node);
         } else {
@@ -9704,14 +5958,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     nest: function(mutation) {
       const node = mutation[0];
       const abstract = mutation[1];
-      if (~classArray(node).indexOf(config2.replacementClass)) {
+      if (~classArray(node).indexOf(config.replacementClass)) {
         return mutators.replace(mutation);
       }
-      const forSvg = new RegExp("".concat(config2.cssPrefix, "-.*"));
+      const forSvg = new RegExp("".concat(config.cssPrefix, "-.*"));
       delete abstract[0].attributes.id;
       if (abstract[0].attributes.class) {
         const splitClasses = abstract[0].attributes.class.split(" ").reduce((acc, cls) => {
-          if (cls === config2.replacementClass || cls.match(forSvg)) {
+          if (cls === config.replacementClass || cls.match(forSvg)) {
             acc.toSvg.push(cls);
           } else {
             acc.toNode.push(cls);
@@ -9728,7 +5982,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           node.setAttribute("class", splitClasses.toNode.join(" "));
         }
       }
-      const newInnerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
+      const newInnerHTML = abstract.map((a2) => toHtml(a2)).join("\n");
       node.setAttribute(DATA_FA_I2SVG, "");
       node.innerHTML = newInnerHTML;
     }
@@ -9742,7 +5996,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       callbackFunction();
     } else {
       let frame = performOperationSync;
-      if (config2.mutateApproach === MUTATION_APPROACH_ASYNC) {
+      if (config.mutateApproach === MUTATION_APPROACH_ASYNC) {
         frame = WINDOW.requestAnimationFrame || performOperationSync;
       }
       frame(() => {
@@ -9766,7 +6020,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!MUTATION_OBSERVER) {
       return;
     }
-    if (!config2.observeMutations) {
+    if (!config.observeMutations) {
       return;
     }
     const {
@@ -9776,17 +6030,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       observeMutationsRoot = DOCUMENT
     } = options;
     mo$1 = new MUTATION_OBSERVER((objects) => {
-      if (disabled)
-        return;
+      if (disabled) return;
       const defaultPrefix = getDefaultUsablePrefix();
       toArray(objects).forEach((mutationRecord) => {
         if (mutationRecord.type === "childList" && mutationRecord.addedNodes.length > 0 && !isWatched(mutationRecord.addedNodes[0])) {
-          if (config2.searchPseudoElements) {
+          if (config.searchPseudoElements) {
             pseudoElementsCallback(mutationRecord.target);
           }
           treeCallback(mutationRecord.target);
         }
-        if (mutationRecord.type === "attributes" && mutationRecord.target.parentNode && config2.searchPseudoElements) {
+        if (mutationRecord.type === "attributes" && mutationRecord.target.parentNode && config.searchPseudoElements) {
           pseudoElementsCallback(mutationRecord.target.parentNode);
         }
         if (mutationRecord.type === "attributes" && isWatched(mutationRecord.target) && ~ATTRIBUTES_WATCHED_FOR_MUTATION.indexOf(mutationRecord.attributeName)) {
@@ -9796,16 +6049,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               iconName
             } = getCanonicalIcon(classArray(mutationRecord.target));
             mutationRecord.target.setAttribute(DATA_PREFIX, prefix || defaultPrefix);
-            if (iconName)
-              mutationRecord.target.setAttribute(DATA_ICON, iconName);
+            if (iconName) mutationRecord.target.setAttribute(DATA_ICON, iconName);
           } else if (hasBeenReplaced(mutationRecord.target)) {
             nodeCallback(mutationRecord.target);
           }
         }
       });
     });
-    if (!IS_DOM)
-      return;
+    if (!IS_DOM) return;
     mo$1.observe(observeMutationsRoot, {
       childList: true,
       attributes: true,
@@ -9814,8 +6065,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
   }
   function disconnect() {
-    if (!mo$1)
-      return;
+    if (!mo$1) return;
     mo$1.disconnect();
   }
   function styleParser(node) {
@@ -9852,7 +6102,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (val.prefix && innerText.length > 0) {
       val.iconName = byLigature(val.prefix, node.innerText) || byUnicode(val.prefix, toHex(node.innerText));
     }
-    if (!val.iconName && config2.autoFetchSvg && node.firstChild && node.firstChild.nodeType === Node.TEXT_NODE) {
+    if (!val.iconName && config.autoFetchSvg && node.firstChild && node.firstChild.nodeType === Node.TEXT_NODE) {
       val.iconName = node.firstChild.data;
     }
     return val;
@@ -9866,9 +6116,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, {});
     const title = node.getAttribute("title");
     const titleId = node.getAttribute("data-fa-title-id");
-    if (config2.autoA11y) {
+    if (config.autoA11y) {
       if (title) {
-        extraAttributes["aria-labelledby"] = "".concat(config2.replacementClass, "-title-").concat(titleId || nextUniqueId());
+        extraAttributes["aria-labelledby"] = "".concat(config.replacementClass, "-title-").concat(titleId || nextUniqueId());
       } else {
         extraAttributes["aria-hidden"] = "true";
         extraAttributes["focusable"] = "false";
@@ -9934,7 +6184,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     styles: styles$2
   } = namespace;
   function generateMutation(node) {
-    const nodeMeta = config2.autoReplaceSvg === "nest" ? parseMeta(node, {
+    const nodeMeta = config.autoReplaceSvg === "nest" ? parseMeta(node, {
       styleParser: false
     }) : parseMeta(node);
     if (~nodeMeta.extra.classes.indexOf(LAYERS_TEXT_CLASSNAME)) {
@@ -9953,12 +6203,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   knownPrefixes = [...knownPrefixes];
   function onTree(root) {
     let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
-    if (!IS_DOM)
-      return Promise.resolve();
+    if (!IS_DOM) return Promise.resolve();
     const htmlClassList = DOCUMENT.documentElement.classList;
     const hclAdd = (suffix) => htmlClassList.add("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
     const hclRemove = (suffix) => htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
-    const prefixes2 = config2.autoFetchSvg ? knownPrefixes : FAMILIES.map((f$$1) => "fa-".concat(f$$1)).concat(Object.keys(styles$2));
+    const prefixes2 = config.autoFetchSvg ? knownPrefixes : FAMILIES.map((f$$1) => "fa-".concat(f$$1)).concat(Object.keys(styles$2));
     if (!prefixes2.includes("fa")) {
       prefixes2.push("fa");
     }
@@ -9999,8 +6248,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           hclAdd("active");
           hclAdd("complete");
           hclRemove("pending");
-          if (typeof callback === "function")
-            callback();
+          if (typeof callback === "function") callback();
           mark2();
           resolve();
         });
@@ -10047,8 +6295,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       attributes = {},
       styles: styles2 = {}
     } = params;
-    if (!iconDefinition)
-      return;
+    if (!iconDefinition) return;
     const {
       prefix,
       iconName,
@@ -10062,9 +6309,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         iconDefinition,
         params
       });
-      if (config2.autoA11y) {
+      if (config.autoA11y) {
         if (title) {
-          attributes["aria-labelledby"] = "".concat(config2.replacementClass, "-title-").concat(titleId || nextUniqueId());
+          attributes["aria-labelledby"] = "".concat(config.replacementClass, "-title-").concat(titleId || nextUniqueId());
         } else {
           attributes["aria-hidden"] = "true";
           attributes["focusable"] = "false";
@@ -10206,14 +6453,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             });
             let children = [];
             assembler((args) => {
-              Array.isArray(args) ? args.map((a3) => {
-                children = children.concat(a3.abstract);
+              Array.isArray(args) ? args.map((a2) => {
+                children = children.concat(a2.abstract);
               }) : children = children.concat(args.abstract);
             });
             return [{
               tag: "span",
               attributes: {
-                class: ["".concat(config2.cssPrefix, "-layers"), ...classes].join(" ")
+                class: ["".concat(config.cssPrefix, "-layers"), ...classes].join(" ")
               },
               children
             }];
@@ -10247,7 +6494,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               extra: {
                 attributes,
                 styles: styles2,
-                classes: ["".concat(config2.cssPrefix, "-layers-counter"), ...classes]
+                classes: ["".concat(config.cssPrefix, "-layers-counter"), ...classes]
               }
             });
           });
@@ -10285,7 +6532,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               extra: {
                 attributes,
                 styles: styles2,
-                classes: ["".concat(config2.cssPrefix, "-layers-text"), ...classes]
+                classes: ["".concat(config.cssPrefix, "-layers-text"), ...classes]
               }
             });
           });
@@ -10307,7 +6554,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           width = boundingClientRect.width / computedFontSize;
           height = boundingClientRect.height / computedFontSize;
         }
-        if (config2.autoA11y && !title) {
+        if (config.autoA11y && !title) {
           extra.attributes["aria-hidden"] = "true";
         }
         return Promise.resolve([node, makeLayersTextAbstract({
@@ -10367,7 +6614,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return resolve();
       }
       const children = toArray(node.children);
-      const alreadyProcessedPseudoElement = children.filter((c3) => c3.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
+      const alreadyProcessedPseudoElement = children.filter((c2) => c2.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
       const styles2 = WINDOW.getComputedStyle(node, position);
       const fontFamily = styles2.getPropertyValue("font-family");
       const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
@@ -10421,7 +6668,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             } else {
               node.appendChild(element);
             }
-            element.outerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
+            element.outerHTML = abstract.map((a2) => toHtml(a2)).join("\n");
             node.removeAttribute(pendingAttribute);
             resolve();
           }).catch(reject);
@@ -10433,17 +6680,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     });
   }
-  function replace2(node) {
+  function replace(node) {
     return Promise.all([replaceForPosition(node, "::before"), replaceForPosition(node, "::after")]);
   }
   function processable(node) {
     return node.parentNode !== document.head && !~TAGNAMES_TO_SKIP_FOR_PSEUDOELEMENTS.indexOf(node.tagName.toUpperCase()) && !node.getAttribute(DATA_FA_PSEUDO_ELEMENT) && (!node.parentNode || node.parentNode.tagName !== "svg");
   }
   function searchPseudoElements(root) {
-    if (!IS_DOM)
-      return;
+    if (!IS_DOM) return;
     return new Promise((resolve, reject) => {
-      const operations = toArray(root.querySelectorAll("*")).filter(processable).map(replace2);
+      const operations = toArray(root.querySelectorAll("*")).filter(processable).map(replace);
       const end2 = perf.begin("searchPseudoElements");
       disableObservation();
       Promise.all(operations).then(() => {
@@ -10471,7 +6717,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         const {
           node = DOCUMENT
         } = params;
-        if (config2.searchPseudoElements) {
+        if (config.searchPseudoElements) {
           searchPseudoElements(node);
         }
       };
@@ -10521,8 +6767,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       flipY: false,
       rotate: 0
     };
-    return transformString.toLowerCase().split(" ").reduce((acc, n2) => {
-      const parts = n2.toLowerCase().split("-");
+    return transformString.toLowerCase().split(" ").reduce((acc, n) => {
+      const parts = n.toLowerCase().split("-");
       const first = parts[0];
       let rest = parts.slice(1).join("-");
       if (first && rest === "h") {
@@ -10657,7 +6903,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return {
         parseNodeAttributes(accumulator, node) {
           const maskData = node.getAttribute("data-fa-mask");
-          const mask = !maskData ? emptyCanonicalIcon() : getCanonicalIcon(maskData.split(" ").map((i2) => i2.trim()));
+          const mask = !maskData ? emptyCanonicalIcon() : getCanonicalIcon(maskData.split(" ").map((i) => i.trim()));
           if (!mask.prefix) {
             mask.prefix = getDefaultUsablePrefix();
           }
@@ -10880,7 +7126,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var toHtml$1 = api.toHtml;
   var icon = api.icon;
   var layer = api.layer;
-  var text2 = api.text;
+  var text = api.text;
   var counter = api.counter;
 
   // node_modules/@fortawesome/free-solid-svg-icons/index.mjs
@@ -20385,7 +16631,4686 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faLevelUpAlt
   };
 
-  // node_modules/@buyerjourney/bj-components/src/components/HeroBanner.js
+  // node_modules/@customerjourney/cj-core/src/components/PageHeader.js
+  var PageHeader = class extends AppElement {
+    #default = {
+      brand: {
+        src: "https://customerjourney.ninja/assets/images/cj-js.png"
+      },
+      theme: {
+        text: {
+          es: "Tema",
+          en: "Theme",
+          fr: "Th\xE8me"
+        }
+      },
+      themeValues: {
+        light: {
+          text: {
+            es: "Claro",
+            en: "Light",
+            fr: "Clair"
+          }
+        },
+        dark: {
+          text: {
+            es: "Oscuro",
+            en: "Dark",
+            fr: "Sombre"
+          }
+        },
+        system: {
+          text: {
+            es: "Sistema",
+            en: "System",
+            fr: "Syst\xE8me"
+          }
+        }
+      }
+    };
+    #sunIcon = icon(faSun, { classes: ["fa-1x", "has-text-warning"] }).html[0];
+    #moonIcon = icon(faMoon, { classes: ["fa-1x", "has-text-grey-light"] }).html[0];
+    #desktopIcon = icon(faDesktop, { classes: ["fa-1x", "has-text-info"] }).html[0];
+    constructor(props = {}) {
+      super();
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `header-${Math.floor(Math.random() * 100)}`);
+      this.setAttribute("i18n", this.state.context?.lang);
+      this.setAttribute("theme", this.state.context?.theme);
+    }
+    handleEvent(event) {
+      if (event.type === "click") {
+        let theme = "";
+        switch (event.currentTarget.id) {
+          case "themes":
+            let themes = document.getElementById(event.currentTarget.id);
+            themes.parentNode.classList.toggle("is-active");
+            break;
+          case "light-theme":
+            document.getElementById("themes").parentNode.classList.toggle("is-active");
+            document.documentElement.setAttribute("data-theme", "light");
+            theme = "light";
+            break;
+          case "dark-theme":
+            document.getElementById("themes").parentNode.classList.toggle("is-active");
+            document.documentElement.setAttribute("data-theme", "dark");
+            document.documentElement.classList.add("cc--darkmode");
+            theme = "dark";
+            break;
+          case "system-theme":
+            document.getElementById("themes").parentNode.classList.toggle("is-active");
+            document.documentElement.removeAttribute("data-theme");
+            theme = "system";
+            break;
+          default:
+            const selectLang = new CustomEvent("user:select-lang", {
+              detail: event.target.id.slice(4),
+              bubbles: true,
+              composed: true
+            });
+            this.dispatchEvent(selectLang);
+            break;
+        }
+        if (theme !== "") {
+          const selectTheme = new CustomEvent("user:select-theme", {
+            detail: theme,
+            bubbles: true,
+            composed: true
+          });
+          this.dispatchEvent(selectTheme);
+        }
+      }
+    }
+    #getButtons() {
+      let lngButtons = ``;
+      Object.entries(this.state.i18n.lang).forEach(([key, value]) => {
+        let focus = ["button"];
+        if (key === this.state.context.lang) {
+          focus.push("is-focused");
+        }
+        lngButtons += `<button id="btn-${key}" ${this.getClasses(focus, this.state.i18n?.classList)}">${value}</button>`;
+      });
+      return lngButtons;
+    }
+    addEvents() {
+      let themes = document.querySelector("#themes");
+      themes.addEventListener("click", this);
+      let lightTheme = document.querySelector("#light-theme");
+      lightTheme.addEventListener("click", this);
+      let darkTheme = document.querySelector("#dark-theme");
+      darkTheme.addEventListener("click", this);
+      let systemTheme = document.querySelector("#system-theme");
+      systemTheme.addEventListener("click", this);
+      if (this.state.i18n?.lang != void 0) {
+        Object.entries(this.state.i18n.lang).forEach(([key, value]) => {
+          this.querySelector(`#btn-${key}`).addEventListener("click", this);
+        });
+      }
+    }
+    #setTheme() {
+      switch (this.state.context.theme) {
+        case "light":
+          return this.#sunIcon;
+          break;
+        case "dark":
+          return this.#moonIcon;
+          break;
+        default:
+          return this.#desktopIcon;
+          break;
+      }
+    }
+    render() {
+      this.innerHTML = /* html */
+      `
+            <header>
+            <nav ${this.getClasses(["navbar"], this.state.classList)} role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                <img class="navbar-item"  src="${this.state.context?.theme === "light" ? this.state.brand?.src : this.state.brand?.srcDark === void 0 ? this.state.brand?.src : this.state.brand?.srcDark}" width="180" height="28">
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+                </div>
+                <div class="navbar-menu">
+                <div class="navbar-start">
+                <div class="navbar-item has-dropdown">
+                    <a id="themes" class="navbar-link is-arrowless">
+                        ${this.state.theme?.text[this.state.context.lang]} ${this.#setTheme()}
+                    </a>
+                    <div class="navbar-dropdown">                   
+                        <a id="light-theme" class="navbar-item">
+                            ${this.#sunIcon} ${this.state.themeValues.light.text[this.state.context.lang]}
+                        </a>
+                        <a id="dark-theme" class="navbar-item">
+                            ${this.#moonIcon} ${this.state.themeValues.dark.text[this.state.context.lang]}
+                        </a>
+                        <a id="system-theme" class="navbar-item">
+                            ${this.#desktopIcon} ${this.state.themeValues.system.text[this.state.context.lang]}
+                        </a>
+                    </div>
+                </div>
+                </div>
+                ${this.state.i18n === void 0 ? "" : `
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons are-small">
+                            ${this.#getButtons()}
+                        </div>
+                    </div>
+                </div>
+                `}
+                </div>
+            </nav>
+        </header>
+        `;
+      this.addEvents();
+      let burger = this.querySelector(".navbar-burger");
+      let menu = this.querySelector(".navbar-menu");
+      burger.addEventListener("click", () => {
+        burger.classList.toggle("is-active");
+        menu.classList.toggle("is-active");
+      });
+    }
+  };
+  customElements.define("page-header", PageHeader);
+
+  // node_modules/@customerjourney/cj-router/src/utils.js
+  var Utils = class {
+    isString(variable) {
+      return Object.prototype.toString.call(variable) === "[object String]";
+    }
+    isNumber(variable) {
+      return Object.prototype.toString.call(variable) === "[object Number]";
+    }
+    isRegExp(variable) {
+      return Object.prototype.toString.call(variable) === "[object RegExp]";
+    }
+    isArray(variable) {
+      return Object.prototype.toString.call(variable) === "[object Array]";
+    }
+    isObject(variable) {
+      return Object.prototype.toString.call(variable) === "[object Object]";
+    }
+    isFunction(variable) {
+      return Object.prototype.toString.call(variable) === "[object Function]";
+    }
+    isBoolean(variable) {
+      return Object.prototype.toString.call(variable) === "[object Boolean]";
+    }
+    isNull(variable) {
+      return Object.prototype.toString.call(variable) === "[object Null]";
+    }
+    isUndefined(variable) {
+      return Object.prototype.toString.call(variable) === "[object Undefined]";
+    }
+    isEmpty(variable) {
+      return this.isUndefined(variable) || this.isNull(variable) || variable === 0 || variable === false || (this.isString(variable) || this.isArray(variable)) && variable.length === 0 || this.isObject(variable) && Object.getOwnPropertyNames(variable).length === 0;
+    }
+    isSet(variable) {
+      return !this.isUndefined(variable) && !this.isNull(variable);
+    }
+  };
+  Utils = new Utils();
+  function ArgumentNotFoundError(argName) {
+    let name = "ArgumentNotFoundError";
+    let message = Utils.isSet(argName) ? `${argName} argument is required. None found` : "Required argument was not found";
+    let instance = new Error(message);
+    instance.name = name;
+    instance.message = message;
+    instance.toString = function() {
+      return instace.message;
+    };
+    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(instance, ArgumentNotFoundError);
+    }
+    return instance;
+  }
+  function ArgumentTypeError(argName, argType, argValue) {
+    argType = Utils.isSet(argType) ? argType.toString() : typeof argType;
+    let name = "ArgumentTypeError";
+    let message = Utils.isSet(argName) ? `typeof ${argName.toString()} argument must be equal to ${argType}. ${typeof argValue} found.` : "Invalid argument type found";
+    let instance = new Error(message);
+    instance.name = name;
+    instance.message = message;
+    instance.toString = function() {
+      return this.message;
+    };
+    Object.setPrototypeOf(instance, Object.getPrototypeOf(this));
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(instance, ArgumentTypeError);
+    }
+    return instance;
+  }
+  ArgumentNotFoundError.prototype = Object.create(Error.prototype, {
+    constructor: {
+      value: Error,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  ArgumentTypeError.prototype = Object.create(Error.prototype, {
+    constructor: {
+      value: Error,
+      enumerable: false,
+      writable: true,
+      configurable: true
+    }
+  });
+  if (Object.setPrototypeOf) {
+    Object.setPrototypeOf(ArgumentNotFoundError, Error);
+    Object.setPrototypeOf(ArgumentTypeError, Error);
+  } else {
+    ArgumentNotFoundError.__proto__ = Error;
+    ArgumentTypeError.__proto__ = Error;
+  }
+
+  // node_modules/@customerjourney/cj-router/src/Router.js
+  var Router = class {
+    notFoundHandler = null;
+    store = null;
+    dispatch = null;
+    /**
+     * 
+     * @param {Object} options 
+     *  @param {boolean} [optioms.hashSensitive=false] - If set to true the router will respond to the #hashe in the urls
+     *  @param {boolean} [options.caseInsensitive=true] - If set to false, uri matching will be case sensitive.
+     * @example
+     * const App = new bjRouter({hashSensitive:true});
+     */
+    constructor(options) {
+      this.routes = [];
+      this.default = {
+        hashSensitive: false,
+        caseInsensitive: true
+      };
+      this.config = { ...this.default, ...options };
+    }
+    /**
+     * Th on  method is used in assigning routes to your application
+     * @method
+     * @param {string} uri - uri route to be matched
+     * @param {function} callback callback a callback function to be invoked if the route has been matched.
+     * @example
+     * App.on('/', home);
+     * App.on('/#blog', blog);
+     */
+    on(uri, callback) {
+      if (!Utils.isSet(uri)) throw new ArgumentNotFoundError("uri");
+      if (!Utils.isSet(callback)) throw new ArgumentNotFoundError("callback");
+      if (!Utils.isString(uri)) throw new ArgumentTypeError("uri", "string", uri);
+      if (!Utils.isFunction(callback)) throw new ArgumentTypeError("callback", "function", callback);
+      let route = {
+        uri: null,
+        callback: null,
+        parameters: null,
+        regExp: null,
+        name: null,
+        current: false
+      };
+      if (this._caseInsensitive) {
+        uri = uri.toLowerCase();
+      }
+      ;
+      uri = uri.startsWith("/") ? uri : `/${uri}`;
+      this.routes.forEach((route2) => {
+        if (route2.uri === uri) throw new Error(`the uri ${route2.uri} already exists`);
+      });
+      route.uri = uri;
+      route.callback = callback;
+      route.parameters = this.#proccessParameters(route);
+      this.routes.push(route);
+      return this;
+    }
+    /**
+     * By default bjRouter generates a 404 error page, but it can be customized by a Callback function passed to App.onNotFound.
+     * @method
+     * @param {function} page - Callback function to render on error 404
+     * @example
+     * App.onNotFound(notFound);
+     */
+    onNotFound(page2) {
+      if (typeof page2 !== "function") throw new TypeError("typeof callback must be a function");
+      this.notFoundHandler = page2;
+    }
+    setContext(props, context2 = {}) {
+      if (props != void 0) {
+        props.context = context2;
+      } else {
+        props = {};
+        console.error("router.setContext error: There are no props to assign context. Review the data that you send to the component.");
+      }
+      return props;
+    }
+    /**
+     * @method
+     * @param {string} url - Name of page not found
+     */
+    notFoundDefault(url) {
+      document.title = "Error 404 | Funnels Router";
+      document.body.innerHTML = /* html */
+      `
+        <h2>Sorry!</h2>
+        <h1>Error 404</h1>
+        <p>The page ${url} could not be found.</p>
+        `;
+    }
+    /**
+     * 
+     * @returns {string}  - Browser language in 3 character format
+     */
+    #getLang() {
+      if (navigator.languages != void 0)
+        return navigator.languages[0].substring(0, 2);
+      return navigator.language.substring(0, 2);
+    }
+    /**
+     * @method
+     * Create the routing table as an array
+     * @example
+     * const App = new bjRouter({hashSensitive:true});
+     * App.on("/", homeCallback);
+     * App.on("/about", aboutCallback).setName("about");
+     * App.on("/contact", contactCallback).setName("contact");
+     * App.on.notFoundHandler(myNotFoundHandler);
+     * App.run();
+     */
+    route() {
+      this.routes.forEach((route) => {
+        this.#proccessRegExp(route);
+      }, this);
+      let found = false;
+      let key = null;
+      let qs = null;
+      let routerObj = {
+        i18n: this.#getLang(),
+        setContext: this.setContext,
+        pathFor: (name, parameter) => {
+          return this.pathFor(name, parameter);
+        }
+      };
+      if (location.hash && this.config.hashSensitive) {
+        let hash = location.hash;
+        const i = hash.indexOf("?");
+        if (hash.indexOf("?") === -1) {
+          key = hash;
+          qs = null;
+        } else {
+          key = hash.substring(0, i);
+          qs = hash.substring(hash.indexOf("?"), hash.length);
+        }
+      } else {
+        key = location.pathname;
+        location.search === "" ? qs = null : qs = location.search;
+      }
+      key = key.startsWith("/") ? key : `/${key}`;
+      this.routes.some((route) => {
+        if (key.match(route.regExp)) {
+          found = true;
+          let request = {};
+          request.uri = key;
+          request.referrer = document.referrer;
+          qs === null ? request.query = null : request.query = Object.fromEntries(new URLSearchParams(qs));
+          request.params = this.#processRequestParameters(route, key);
+          return route.callback.call(this, request, routerObj);
+        }
+      });
+      if (!found) {
+        let request = {};
+        request.uri = key;
+        if (this.notFoundHandler === null) {
+          return this.notFoundDefault(key);
+        } else {
+          return this.notFoundHandler(key);
+        }
+      }
+    }
+    /**
+     * Initialize the router and if the -hashSensitive- option is activated add the -hashchange- event
+     */
+    run() {
+      this.route();
+      if (this.config.hashSensitive) {
+        window.addEventListener("hashchange", () => {
+          this.route();
+        });
+      }
+    }
+    /**
+     * @method
+     * @param {string} name -route name
+     * @example     * 
+     * const App = new bjRouter();
+     * App.on("/user/login", Callback).setName("user-login");
+     * ....
+     * function Callback(req, router){
+     *  console.log(App.pathFor("user-login")) // output: /user/login
+     * }
+     */
+    setName(name) {
+      if (!Utils.isSet(name)) throw new ArgumentNotFoundError("name");
+      if (!Utils.isString(name)) throw new ArgumentTypeError("name", "string", name);
+      let targetRoute = this.routes[this.routes.length - 1];
+      this.routes.forEach((route) => {
+        if (route.name === name) throw new Error(`Duplicate naming. A route with name ${name} already exists`);
+      });
+      targetRoute.name = name;
+      return this;
+    }
+    /**
+     * 
+     * @param {*} name 
+     * @param {*} parameters 
+     * @example
+     * App.on("/user/home", homeCallback).setName("user-home");
+     * App.on("/user/login", loginCallback).setName("user-login");
+     * ....
+     * function loginCallback(req, router){
+     *  onsole.log(router.pathFor("user-home")) // outputs: /user/home
+     *  console.log(router.pathFor("user-login")) // outputs: /user/login
+     * }
+     */
+    pathFor(name, parameters = {}) {
+      if (!Utils.isSet(name)) throw new ArgumentNotFoundError("name");
+      if (!Utils.isString(name)) throw new ArgumentTypeError("name", "string", string);
+      if (Utils.isEmpty(name)) throw new TypeError("name cannot be empty");
+      let nameFound = false;
+      let uri;
+      this.routes.some((route) => {
+        if (route.name === name) {
+          nameFound = true;
+          uri = route.uri;
+          if (this.#containsParameter(uri)) {
+            if (!Utils.isSet(parameters)) throw new ArgumentNotFoundError("parameters");
+            if (!Utils.isObject(parameters)) throw new ArgumentTypeError("parameters", "object", parameters);
+            if (Utils.isEmpty(parameters)) throw new TypeError("parameters cannot be empty");
+            let array = [];
+            for (let value of route.uri.match(/\{(\w+)\}/g)) {
+              value = value.replace("{", "");
+              value = value.replace("}", "");
+              array.push(value);
+            }
+            if (array.length !== Object.getOwnPropertyNames(parameters).length) throw new Error(`The route with name [${name}] contains ${array.length} parameters. ${Object.getOwnPropertyNames(parameters).length} given`);
+            for (let parameter in parameters) {
+              if (!array.includes(parameter)) throw new Error(`Invalid parameter name [${parameter}]`);
+              let r2 = new RegExp(`{${parameter}}`, "g");
+              uri = uri.replace(r2, parameters[parameter]);
+            }
+          }
+        } else {
+          uri = false;
+        }
+      });
+      return uri;
+    }
+    #proccessParameters(route) {
+      let parameters = [];
+      let sn = 0;
+      if (this.#containsParameter(route.uri)) {
+        route.uri.replace(/\{\w+\}/g, (parameter) => {
+          sn++;
+          parameter.replace(/\w+/, (parameterName) => {
+            let obj = {};
+            obj[parameterName] = {
+              sn,
+              regExp: "([^\\/]+)",
+              // catch any word except '/' forward slash
+              value: null
+            };
+            parameters.push(obj);
+          });
+        });
+      }
+      return parameters;
+    }
+    #containsParameter(uri) {
+      return uri.search(/{\w+}/g) >= 0;
+    }
+    #processRequestParameters(route, key) {
+      let routeMatched = key.match(route.regExp);
+      if (!routeMatched) return;
+      let param = {};
+      routeMatched.forEach((value, index) => {
+        if (index !== 0) {
+          let key2 = Object.getOwnPropertyNames(route.parameters[index - 1]);
+          param[key2] = value;
+        }
+      });
+      return param;
+    }
+    #proccessRegExp(route) {
+      let regExp = route.uri;
+      regExp = regExp.replace(/\//g, "\\/");
+      regExp = regExp.replace(/\./g, "\\.");
+      regExp = regExp.replace("/", "/?");
+      if (this.#containsParameter(route.uri)) {
+        regExp.replace(/{\w+}/g, (parameter) => {
+          let parameterName = parameter.replace("{", "");
+          parameterName = parameterName.replace("}", "");
+          route.parameters.some((i) => {
+            if (i[parameterName] !== void 0) {
+              regExp = regExp.replace(parameter, i[parameterName].regExp);
+              return regExp;
+            }
+          });
+          return parameter;
+        });
+      }
+      regExp = `^${regExp}$`;
+      route.regExp = new RegExp(regExp);
+      return route;
+    }
+  };
+
+  // node_modules/remarkable/dist/esm/index.browser.js
+  var textarea;
+  function decodeEntity(name) {
+    textarea = textarea || document.createElement("textarea");
+    textarea.innerHTML = "&" + name + ";";
+    return textarea.value;
+  }
+  var hasOwn = Object.prototype.hasOwnProperty;
+  function has2(object, key) {
+    return object ? hasOwn.call(object, key) : false;
+  }
+  function assign2(obj) {
+    var sources = [].slice.call(arguments, 1);
+    sources.forEach(function(source) {
+      if (!source) {
+        return;
+      }
+      if (typeof source !== "object") {
+        throw new TypeError(source + "must be object");
+      }
+      Object.keys(source).forEach(function(key) {
+        obj[key] = source[key];
+      });
+    });
+    return obj;
+  }
+  var UNESCAPE_MD_RE = /\\([\\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
+  function unescapeMd(str) {
+    if (str.indexOf("\\") < 0) {
+      return str;
+    }
+    return str.replace(UNESCAPE_MD_RE, "$1");
+  }
+  function isValidEntityCode(c2) {
+    if (c2 >= 55296 && c2 <= 57343) {
+      return false;
+    }
+    if (c2 >= 64976 && c2 <= 65007) {
+      return false;
+    }
+    if ((c2 & 65535) === 65535 || (c2 & 65535) === 65534) {
+      return false;
+    }
+    if (c2 >= 0 && c2 <= 8) {
+      return false;
+    }
+    if (c2 === 11) {
+      return false;
+    }
+    if (c2 >= 14 && c2 <= 31) {
+      return false;
+    }
+    if (c2 >= 127 && c2 <= 159) {
+      return false;
+    }
+    if (c2 > 1114111) {
+      return false;
+    }
+    return true;
+  }
+  function fromCodePoint(c2) {
+    if (c2 > 65535) {
+      c2 -= 65536;
+      var surrogate1 = 55296 + (c2 >> 10), surrogate2 = 56320 + (c2 & 1023);
+      return String.fromCharCode(surrogate1, surrogate2);
+    }
+    return String.fromCharCode(c2);
+  }
+  var NAMED_ENTITY_RE = /&([a-z#][a-z0-9]{1,31});/gi;
+  var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
+  function replaceEntityPattern(match, name) {
+    var code2 = 0;
+    var decoded = decodeEntity(name);
+    if (name !== decoded) {
+      return decoded;
+    } else if (name.charCodeAt(0) === 35 && DIGITAL_ENTITY_TEST_RE.test(name)) {
+      code2 = name[1].toLowerCase() === "x" ? parseInt(name.slice(2), 16) : parseInt(name.slice(1), 10);
+      if (isValidEntityCode(code2)) {
+        return fromCodePoint(code2);
+      }
+    }
+    return match;
+  }
+  function replaceEntities(str) {
+    if (str.indexOf("&") < 0) {
+      return str;
+    }
+    return str.replace(NAMED_ENTITY_RE, replaceEntityPattern);
+  }
+  var HTML_ESCAPE_TEST_RE = /[&<>"]/;
+  var HTML_ESCAPE_REPLACE_RE = /[&<>"]/g;
+  var HTML_REPLACEMENTS = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;"
+  };
+  function replaceUnsafeChar(ch) {
+    return HTML_REPLACEMENTS[ch];
+  }
+  function escapeHtml(str) {
+    if (HTML_ESCAPE_TEST_RE.test(str)) {
+      return str.replace(HTML_ESCAPE_REPLACE_RE, replaceUnsafeChar);
+    }
+    return str;
+  }
+  var rules = {};
+  rules.blockquote_open = function() {
+    return "<blockquote>\n";
+  };
+  rules.blockquote_close = function(tokens, idx) {
+    return "</blockquote>" + getBreak(tokens, idx);
+  };
+  rules.code = function(tokens, idx) {
+    if (tokens[idx].block) {
+      return "<pre><code>" + escapeHtml(tokens[idx].content) + "</code></pre>" + getBreak(tokens, idx);
+    }
+    return "<code>" + escapeHtml(tokens[idx].content) + "</code>";
+  };
+  rules.fence = function(tokens, idx, options, env, instance) {
+    var token = tokens[idx];
+    var langClass = "";
+    var langPrefix = options.langPrefix;
+    var langName = "", fences2, fenceName;
+    var highlighted;
+    if (token.params) {
+      fences2 = token.params.split(/\s+/g);
+      fenceName = fences2.join(" ");
+      if (has2(instance.rules.fence_custom, fences2[0])) {
+        return instance.rules.fence_custom[fences2[0]](tokens, idx, options, env, instance);
+      }
+      langName = escapeHtml(replaceEntities(unescapeMd(fenceName)));
+      langClass = ' class="' + langPrefix + langName + '"';
+    }
+    if (options.highlight) {
+      highlighted = options.highlight.apply(options.highlight, [token.content].concat(fences2)) || escapeHtml(token.content);
+    } else {
+      highlighted = escapeHtml(token.content);
+    }
+    return "<pre><code" + langClass + ">" + highlighted + "</code></pre>" + getBreak(tokens, idx);
+  };
+  rules.fence_custom = {};
+  rules.heading_open = function(tokens, idx) {
+    return "<h" + tokens[idx].hLevel + ">";
+  };
+  rules.heading_close = function(tokens, idx) {
+    return "</h" + tokens[idx].hLevel + ">\n";
+  };
+  rules.hr = function(tokens, idx, options) {
+    return (options.xhtmlOut ? "<hr />" : "<hr>") + getBreak(tokens, idx);
+  };
+  rules.bullet_list_open = function() {
+    return "<ul>\n";
+  };
+  rules.bullet_list_close = function(tokens, idx) {
+    return "</ul>" + getBreak(tokens, idx);
+  };
+  rules.list_item_open = function() {
+    return "<li>";
+  };
+  rules.list_item_close = function() {
+    return "</li>\n";
+  };
+  rules.ordered_list_open = function(tokens, idx) {
+    var token = tokens[idx];
+    var order = token.order > 1 ? ' start="' + token.order + '"' : "";
+    return "<ol" + order + ">\n";
+  };
+  rules.ordered_list_close = function(tokens, idx) {
+    return "</ol>" + getBreak(tokens, idx);
+  };
+  rules.paragraph_open = function(tokens, idx) {
+    return tokens[idx].tight ? "" : "<p>";
+  };
+  rules.paragraph_close = function(tokens, idx) {
+    var addBreak = !(tokens[idx].tight && idx && tokens[idx - 1].type === "inline" && !tokens[idx - 1].content);
+    return (tokens[idx].tight ? "" : "</p>") + (addBreak ? getBreak(tokens, idx) : "");
+  };
+  rules.link_open = function(tokens, idx, options) {
+    var title = tokens[idx].title ? ' title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '"' : "";
+    var target = options.linkTarget ? ' target="' + options.linkTarget + '"' : "";
+    return '<a href="' + escapeHtml(tokens[idx].href) + '"' + title + target + ">";
+  };
+  rules.link_close = function() {
+    return "</a>";
+  };
+  rules.image = function(tokens, idx, options) {
+    var src = ' src="' + escapeHtml(tokens[idx].src) + '"';
+    var title = tokens[idx].title ? ' title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '"' : "";
+    var alt = ' alt="' + (tokens[idx].alt ? escapeHtml(replaceEntities(unescapeMd(tokens[idx].alt))) : "") + '"';
+    var suffix = options.xhtmlOut ? " /" : "";
+    return "<img" + src + alt + title + suffix + ">";
+  };
+  rules.table_open = function() {
+    return "<table>\n";
+  };
+  rules.table_close = function() {
+    return "</table>\n";
+  };
+  rules.thead_open = function() {
+    return "<thead>\n";
+  };
+  rules.thead_close = function() {
+    return "</thead>\n";
+  };
+  rules.tbody_open = function() {
+    return "<tbody>\n";
+  };
+  rules.tbody_close = function() {
+    return "</tbody>\n";
+  };
+  rules.tr_open = function() {
+    return "<tr>";
+  };
+  rules.tr_close = function() {
+    return "</tr>\n";
+  };
+  rules.th_open = function(tokens, idx) {
+    var token = tokens[idx];
+    return "<th" + (token.align ? ' style="text-align:' + token.align + '"' : "") + ">";
+  };
+  rules.th_close = function() {
+    return "</th>";
+  };
+  rules.td_open = function(tokens, idx) {
+    var token = tokens[idx];
+    return "<td" + (token.align ? ' style="text-align:' + token.align + '"' : "") + ">";
+  };
+  rules.td_close = function() {
+    return "</td>";
+  };
+  rules.strong_open = function() {
+    return "<strong>";
+  };
+  rules.strong_close = function() {
+    return "</strong>";
+  };
+  rules.em_open = function() {
+    return "<em>";
+  };
+  rules.em_close = function() {
+    return "</em>";
+  };
+  rules.del_open = function() {
+    return "<del>";
+  };
+  rules.del_close = function() {
+    return "</del>";
+  };
+  rules.ins_open = function() {
+    return "<ins>";
+  };
+  rules.ins_close = function() {
+    return "</ins>";
+  };
+  rules.mark_open = function() {
+    return "<mark>";
+  };
+  rules.mark_close = function() {
+    return "</mark>";
+  };
+  rules.sub = function(tokens, idx) {
+    return "<sub>" + escapeHtml(tokens[idx].content) + "</sub>";
+  };
+  rules.sup = function(tokens, idx) {
+    return "<sup>" + escapeHtml(tokens[idx].content) + "</sup>";
+  };
+  rules.hardbreak = function(tokens, idx, options) {
+    return options.xhtmlOut ? "<br />\n" : "<br>\n";
+  };
+  rules.softbreak = function(tokens, idx, options) {
+    return options.breaks ? options.xhtmlOut ? "<br />\n" : "<br>\n" : "\n";
+  };
+  rules.text = function(tokens, idx) {
+    return escapeHtml(tokens[idx].content);
+  };
+  rules.htmlblock = function(tokens, idx) {
+    return tokens[idx].content;
+  };
+  rules.htmltag = function(tokens, idx) {
+    return tokens[idx].content;
+  };
+  rules.abbr_open = function(tokens, idx) {
+    return '<abbr title="' + escapeHtml(replaceEntities(tokens[idx].title)) + '">';
+  };
+  rules.abbr_close = function() {
+    return "</abbr>";
+  };
+  rules.footnote_ref = function(tokens, idx) {
+    var n = Number(tokens[idx].id + 1).toString();
+    var id = "fnref" + n;
+    if (tokens[idx].subId > 0) {
+      id += ":" + tokens[idx].subId;
+    }
+    return '<sup class="footnote-ref"><a href="#fn' + n + '" id="' + id + '">[' + n + "]</a></sup>";
+  };
+  rules.footnote_block_open = function(tokens, idx, options) {
+    var hr2 = options.xhtmlOut ? '<hr class="footnotes-sep" />\n' : '<hr class="footnotes-sep">\n';
+    return hr2 + '<section class="footnotes">\n<ol class="footnotes-list">\n';
+  };
+  rules.footnote_block_close = function() {
+    return "</ol>\n</section>\n";
+  };
+  rules.footnote_open = function(tokens, idx) {
+    var id = Number(tokens[idx].id + 1).toString();
+    return '<li id="fn' + id + '"  class="footnote-item">';
+  };
+  rules.footnote_close = function() {
+    return "</li>\n";
+  };
+  rules.footnote_anchor = function(tokens, idx) {
+    var n = Number(tokens[idx].id + 1).toString();
+    var id = "fnref" + n;
+    if (tokens[idx].subId > 0) {
+      id += ":" + tokens[idx].subId;
+    }
+    return ' <a href="#' + id + '" class="footnote-backref">\u21A9</a>';
+  };
+  rules.dl_open = function() {
+    return "<dl>\n";
+  };
+  rules.dt_open = function() {
+    return "<dt>";
+  };
+  rules.dd_open = function() {
+    return "<dd>";
+  };
+  rules.dl_close = function() {
+    return "</dl>\n";
+  };
+  rules.dt_close = function() {
+    return "</dt>\n";
+  };
+  rules.dd_close = function() {
+    return "</dd>\n";
+  };
+  function nextToken(tokens, idx) {
+    if (++idx >= tokens.length - 2) {
+      return idx;
+    }
+    if (tokens[idx].type === "paragraph_open" && tokens[idx].tight && (tokens[idx + 1].type === "inline" && tokens[idx + 1].content.length === 0) && (tokens[idx + 2].type === "paragraph_close" && tokens[idx + 2].tight)) {
+      return nextToken(tokens, idx + 2);
+    }
+    return idx;
+  }
+  var getBreak = rules.getBreak = function getBreak2(tokens, idx) {
+    idx = nextToken(tokens, idx);
+    if (idx < tokens.length && tokens[idx].type === "list_item_close") {
+      return "";
+    }
+    return "\n";
+  };
+  function Renderer() {
+    this.rules = assign2({}, rules);
+    this.getBreak = rules.getBreak;
+  }
+  Renderer.prototype.renderInline = function(tokens, options, env) {
+    var _rules2 = this.rules;
+    var len = tokens.length, i = 0;
+    var result = "";
+    while (len--) {
+      result += _rules2[tokens[i].type](tokens, i++, options, env, this);
+    }
+    return result;
+  };
+  Renderer.prototype.render = function(tokens, options, env) {
+    var _rules2 = this.rules;
+    var len = tokens.length, i = -1;
+    var result = "";
+    while (++i < len) {
+      if (tokens[i].type === "inline") {
+        result += this.renderInline(tokens[i].children, options, env);
+      } else {
+        result += _rules2[tokens[i].type](tokens, i, options, env, this);
+      }
+    }
+    return result;
+  };
+  function Ruler() {
+    this.__rules__ = [];
+    this.__cache__ = null;
+  }
+  Ruler.prototype.__find__ = function(name) {
+    var len = this.__rules__.length;
+    var i = -1;
+    while (len--) {
+      if (this.__rules__[++i].name === name) {
+        return i;
+      }
+    }
+    return -1;
+  };
+  Ruler.prototype.__compile__ = function() {
+    var self2 = this;
+    var chains = [""];
+    self2.__rules__.forEach(function(rule) {
+      if (!rule.enabled) {
+        return;
+      }
+      rule.alt.forEach(function(altName) {
+        if (chains.indexOf(altName) < 0) {
+          chains.push(altName);
+        }
+      });
+    });
+    self2.__cache__ = {};
+    chains.forEach(function(chain) {
+      self2.__cache__[chain] = [];
+      self2.__rules__.forEach(function(rule) {
+        if (!rule.enabled) {
+          return;
+        }
+        if (chain && rule.alt.indexOf(chain) < 0) {
+          return;
+        }
+        self2.__cache__[chain].push(rule.fn);
+      });
+    });
+  };
+  Ruler.prototype.at = function(name, fn, options) {
+    var idx = this.__find__(name);
+    var opt = options || {};
+    if (idx === -1) {
+      throw new Error("Parser rule not found: " + name);
+    }
+    this.__rules__[idx].fn = fn;
+    this.__rules__[idx].alt = opt.alt || [];
+    this.__cache__ = null;
+  };
+  Ruler.prototype.before = function(beforeName, ruleName, fn, options) {
+    var idx = this.__find__(beforeName);
+    var opt = options || {};
+    if (idx === -1) {
+      throw new Error("Parser rule not found: " + beforeName);
+    }
+    this.__rules__.splice(idx, 0, {
+      name: ruleName,
+      enabled: true,
+      fn,
+      alt: opt.alt || []
+    });
+    this.__cache__ = null;
+  };
+  Ruler.prototype.after = function(afterName, ruleName, fn, options) {
+    var idx = this.__find__(afterName);
+    var opt = options || {};
+    if (idx === -1) {
+      throw new Error("Parser rule not found: " + afterName);
+    }
+    this.__rules__.splice(idx + 1, 0, {
+      name: ruleName,
+      enabled: true,
+      fn,
+      alt: opt.alt || []
+    });
+    this.__cache__ = null;
+  };
+  Ruler.prototype.push = function(ruleName, fn, options) {
+    var opt = options || {};
+    this.__rules__.push({
+      name: ruleName,
+      enabled: true,
+      fn,
+      alt: opt.alt || []
+    });
+    this.__cache__ = null;
+  };
+  Ruler.prototype.enable = function(list2, strict) {
+    list2 = !Array.isArray(list2) ? [list2] : list2;
+    if (strict) {
+      this.__rules__.forEach(function(rule) {
+        rule.enabled = false;
+      });
+    }
+    list2.forEach(function(name) {
+      var idx = this.__find__(name);
+      if (idx < 0) {
+        throw new Error("Rules manager: invalid rule name " + name);
+      }
+      this.__rules__[idx].enabled = true;
+    }, this);
+    this.__cache__ = null;
+  };
+  Ruler.prototype.disable = function(list2) {
+    list2 = !Array.isArray(list2) ? [list2] : list2;
+    list2.forEach(function(name) {
+      var idx = this.__find__(name);
+      if (idx < 0) {
+        throw new Error("Rules manager: invalid rule name " + name);
+      }
+      this.__rules__[idx].enabled = false;
+    }, this);
+    this.__cache__ = null;
+  };
+  Ruler.prototype.getRules = function(chainName) {
+    if (this.__cache__ === null) {
+      this.__compile__();
+    }
+    return this.__cache__[chainName] || [];
+  };
+  function block(state) {
+    if (state.inlineMode) {
+      state.tokens.push({
+        type: "inline",
+        content: state.src.replace(/\n/g, " ").trim(),
+        level: 0,
+        lines: [0, 1],
+        children: []
+      });
+    } else {
+      state.block.parse(state.src, state.options, state.env, state.tokens);
+    }
+  }
+  function StateInline(src, parserInline, options, env, outTokens) {
+    this.src = src;
+    this.env = env;
+    this.options = options;
+    this.parser = parserInline;
+    this.tokens = outTokens;
+    this.pos = 0;
+    this.posMax = this.src.length;
+    this.level = 0;
+    this.pending = "";
+    this.pendingLevel = 0;
+    this.cache = [];
+    this.isInLabel = false;
+    this.linkLevel = 0;
+    this.linkContent = "";
+    this.labelUnmatchedScopes = 0;
+  }
+  StateInline.prototype.pushPending = function() {
+    this.tokens.push({
+      type: "text",
+      content: this.pending,
+      level: this.pendingLevel
+    });
+    this.pending = "";
+  };
+  StateInline.prototype.push = function(token) {
+    if (this.pending) {
+      this.pushPending();
+    }
+    this.tokens.push(token);
+    this.pendingLevel = this.level;
+  };
+  StateInline.prototype.cacheSet = function(key, val) {
+    for (var i = this.cache.length; i <= key; i++) {
+      this.cache.push(0);
+    }
+    this.cache[key] = val;
+  };
+  StateInline.prototype.cacheGet = function(key) {
+    return key < this.cache.length ? this.cache[key] : 0;
+  };
+  function parseLinkLabel(state, start) {
+    var level, found, marker, labelEnd = -1, max = state.posMax, oldPos = state.pos, oldFlag = state.isInLabel;
+    if (state.isInLabel) {
+      return -1;
+    }
+    if (state.labelUnmatchedScopes) {
+      state.labelUnmatchedScopes--;
+      return -1;
+    }
+    state.pos = start + 1;
+    state.isInLabel = true;
+    level = 1;
+    while (state.pos < max) {
+      marker = state.src.charCodeAt(state.pos);
+      if (marker === 91) {
+        level++;
+      } else if (marker === 93) {
+        level--;
+        if (level === 0) {
+          found = true;
+          break;
+        }
+      }
+      state.parser.skipToken(state);
+    }
+    if (found) {
+      labelEnd = state.pos;
+      state.labelUnmatchedScopes = 0;
+    } else {
+      state.labelUnmatchedScopes = level - 1;
+    }
+    state.pos = oldPos;
+    state.isInLabel = oldFlag;
+    return labelEnd;
+  }
+  function parseAbbr(str, parserInline, options, env) {
+    var state, labelEnd, pos, max, label, title;
+    if (str.charCodeAt(0) !== 42) {
+      return -1;
+    }
+    if (str.charCodeAt(1) !== 91) {
+      return -1;
+    }
+    if (str.indexOf("]:") === -1) {
+      return -1;
+    }
+    state = new StateInline(str, parserInline, options, env, []);
+    labelEnd = parseLinkLabel(state, 1);
+    if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
+      return -1;
+    }
+    max = state.posMax;
+    for (pos = labelEnd + 2; pos < max; pos++) {
+      if (state.src.charCodeAt(pos) === 10) {
+        break;
+      }
+    }
+    label = str.slice(2, labelEnd);
+    title = str.slice(labelEnd + 2, pos).trim();
+    if (title.length === 0) {
+      return -1;
+    }
+    if (!env.abbreviations) {
+      env.abbreviations = {};
+    }
+    if (typeof env.abbreviations[":" + label] === "undefined") {
+      env.abbreviations[":" + label] = title;
+    }
+    return pos;
+  }
+  function abbr(state) {
+    var tokens = state.tokens, i, l, content, pos;
+    if (state.inlineMode) {
+      return;
+    }
+    for (i = 1, l = tokens.length - 1; i < l; i++) {
+      if (tokens[i - 1].type === "paragraph_open" && tokens[i].type === "inline" && tokens[i + 1].type === "paragraph_close") {
+        content = tokens[i].content;
+        while (content.length) {
+          pos = parseAbbr(content, state.inline, state.options, state.env);
+          if (pos < 0) {
+            break;
+          }
+          content = content.slice(pos).trim();
+        }
+        tokens[i].content = content;
+        if (!content.length) {
+          tokens[i - 1].tight = true;
+          tokens[i + 1].tight = true;
+        }
+      }
+    }
+  }
+  function normalizeLink(url) {
+    var normalized = replaceEntities(url);
+    try {
+      normalized = decodeURI(normalized);
+    } catch (err) {
+    }
+    return encodeURI(normalized);
+  }
+  function parseLinkDestination(state, pos) {
+    var code2, level, link, start = pos, max = state.posMax;
+    if (state.src.charCodeAt(pos) === 60) {
+      pos++;
+      while (pos < max) {
+        code2 = state.src.charCodeAt(pos);
+        if (code2 === 10) {
+          return false;
+        }
+        if (code2 === 62) {
+          link = normalizeLink(unescapeMd(state.src.slice(start + 1, pos)));
+          if (!state.parser.validateLink(link)) {
+            return false;
+          }
+          state.pos = pos + 1;
+          state.linkContent = link;
+          return true;
+        }
+        if (code2 === 92 && pos + 1 < max) {
+          pos += 2;
+          continue;
+        }
+        pos++;
+      }
+      return false;
+    }
+    level = 0;
+    while (pos < max) {
+      code2 = state.src.charCodeAt(pos);
+      if (code2 === 32) {
+        break;
+      }
+      if (code2 < 32 || code2 === 127) {
+        break;
+      }
+      if (code2 === 92 && pos + 1 < max) {
+        pos += 2;
+        continue;
+      }
+      if (code2 === 40) {
+        level++;
+        if (level > 1) {
+          break;
+        }
+      }
+      if (code2 === 41) {
+        level--;
+        if (level < 0) {
+          break;
+        }
+      }
+      pos++;
+    }
+    if (start === pos) {
+      return false;
+    }
+    link = unescapeMd(state.src.slice(start, pos));
+    if (!state.parser.validateLink(link)) {
+      return false;
+    }
+    state.linkContent = link;
+    state.pos = pos;
+    return true;
+  }
+  function parseLinkTitle(state, pos) {
+    var code2, start = pos, max = state.posMax, marker = state.src.charCodeAt(pos);
+    if (marker !== 34 && marker !== 39 && marker !== 40) {
+      return false;
+    }
+    pos++;
+    if (marker === 40) {
+      marker = 41;
+    }
+    while (pos < max) {
+      code2 = state.src.charCodeAt(pos);
+      if (code2 === marker) {
+        state.pos = pos + 1;
+        state.linkContent = unescapeMd(state.src.slice(start + 1, pos));
+        return true;
+      }
+      if (code2 === 92 && pos + 1 < max) {
+        pos += 2;
+        continue;
+      }
+      pos++;
+    }
+    return false;
+  }
+  function normalizeReference(str) {
+    return str.trim().replace(/\s+/g, " ").toUpperCase();
+  }
+  function parseReference(str, parser, options, env) {
+    var state, labelEnd, pos, max, code2, start, href, title, label;
+    if (str.charCodeAt(0) !== 91) {
+      return -1;
+    }
+    if (str.indexOf("]:") === -1) {
+      return -1;
+    }
+    state = new StateInline(str, parser, options, env, []);
+    labelEnd = parseLinkLabel(state, 0);
+    if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
+      return -1;
+    }
+    max = state.posMax;
+    for (pos = labelEnd + 2; pos < max; pos++) {
+      code2 = state.src.charCodeAt(pos);
+      if (code2 !== 32 && code2 !== 10) {
+        break;
+      }
+    }
+    if (!parseLinkDestination(state, pos)) {
+      return -1;
+    }
+    href = state.linkContent;
+    pos = state.pos;
+    start = pos;
+    for (pos = pos + 1; pos < max; pos++) {
+      code2 = state.src.charCodeAt(pos);
+      if (code2 !== 32 && code2 !== 10) {
+        break;
+      }
+    }
+    if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
+      title = state.linkContent;
+      pos = state.pos;
+    } else {
+      title = "";
+      pos = start;
+    }
+    while (pos < max && state.src.charCodeAt(pos) === 32) {
+      pos++;
+    }
+    if (pos < max && state.src.charCodeAt(pos) !== 10) {
+      return -1;
+    }
+    label = normalizeReference(str.slice(1, labelEnd));
+    if (typeof env.references[label] === "undefined") {
+      env.references[label] = { title, href };
+    }
+    return pos;
+  }
+  function references(state) {
+    var tokens = state.tokens, i, l, content, pos;
+    state.env.references = state.env.references || {};
+    if (state.inlineMode) {
+      return;
+    }
+    for (i = 1, l = tokens.length - 1; i < l; i++) {
+      if (tokens[i].type === "inline" && tokens[i - 1].type === "paragraph_open" && tokens[i + 1].type === "paragraph_close") {
+        content = tokens[i].content;
+        while (content.length) {
+          pos = parseReference(content, state.inline, state.options, state.env);
+          if (pos < 0) {
+            break;
+          }
+          content = content.slice(pos).trim();
+        }
+        tokens[i].content = content;
+        if (!content.length) {
+          tokens[i - 1].tight = true;
+          tokens[i + 1].tight = true;
+        }
+      }
+    }
+  }
+  function inline(state) {
+    var tokens = state.tokens, tok, i, l;
+    for (i = 0, l = tokens.length; i < l; i++) {
+      tok = tokens[i];
+      if (tok.type === "inline") {
+        state.inline.parse(tok.content, state.options, state.env, tok.children);
+      }
+    }
+  }
+  function footnote_block(state) {
+    var i, l, j2, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
+    if (!state.env.footnotes) {
+      return;
+    }
+    state.tokens = state.tokens.filter(function(tok) {
+      if (tok.type === "footnote_reference_open") {
+        insideRef = true;
+        current2 = [];
+        currentLabel = tok.label;
+        return false;
+      }
+      if (tok.type === "footnote_reference_close") {
+        insideRef = false;
+        refTokens[":" + currentLabel] = current2;
+        return false;
+      }
+      if (insideRef) {
+        current2.push(tok);
+      }
+      return !insideRef;
+    });
+    if (!state.env.footnotes.list) {
+      return;
+    }
+    list2 = state.env.footnotes.list;
+    state.tokens.push({
+      type: "footnote_block_open",
+      level: level++
+    });
+    for (i = 0, l = list2.length; i < l; i++) {
+      state.tokens.push({
+        type: "footnote_open",
+        id: i,
+        level: level++
+      });
+      if (list2[i].tokens) {
+        tokens = [];
+        tokens.push({
+          type: "paragraph_open",
+          tight: false,
+          level: level++
+        });
+        tokens.push({
+          type: "inline",
+          content: "",
+          level,
+          children: list2[i].tokens
+        });
+        tokens.push({
+          type: "paragraph_close",
+          tight: false,
+          level: --level
+        });
+      } else if (list2[i].label) {
+        tokens = refTokens[":" + list2[i].label];
+      }
+      state.tokens = state.tokens.concat(tokens);
+      if (state.tokens[state.tokens.length - 1].type === "paragraph_close") {
+        lastParagraph = state.tokens.pop();
+      } else {
+        lastParagraph = null;
+      }
+      t2 = list2[i].count > 0 ? list2[i].count : 1;
+      for (j2 = 0; j2 < t2; j2++) {
+        state.tokens.push({
+          type: "footnote_anchor",
+          id: i,
+          subId: j2,
+          level
+        });
+      }
+      if (lastParagraph) {
+        state.tokens.push(lastParagraph);
+      }
+      state.tokens.push({
+        type: "footnote_close",
+        level: --level
+      });
+    }
+    state.tokens.push({
+      type: "footnote_block_close",
+      level: --level
+    });
+  }
+  var PUNCT_CHARS = ` 
+()[]'".,!?-`;
+  function regEscape(s) {
+    return s.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
+  }
+  function abbr2(state) {
+    var i, j2, l, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state.tokens;
+    if (!state.env.abbreviations) {
+      return;
+    }
+    if (!state.env.abbrRegExp) {
+      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state.env.abbreviations).map(function(x2) {
+        return x2.substr(1);
+      }).sort(function(a2, b2) {
+        return b2.length - a2.length;
+      }).map(regEscape).join("|") + ")($|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])";
+      state.env.abbrRegExp = new RegExp(regText, "g");
+    }
+    reg = state.env.abbrRegExp;
+    for (j2 = 0, l = blockTokens.length; j2 < l; j2++) {
+      if (blockTokens[j2].type !== "inline") {
+        continue;
+      }
+      tokens = blockTokens[j2].children;
+      for (i = tokens.length - 1; i >= 0; i--) {
+        token = tokens[i];
+        if (token.type !== "text") {
+          continue;
+        }
+        pos = 0;
+        text3 = token.content;
+        reg.lastIndex = 0;
+        level = token.level;
+        nodes = [];
+        while (m2 = reg.exec(text3)) {
+          if (reg.lastIndex > pos) {
+            nodes.push({
+              type: "text",
+              content: text3.slice(pos, m2.index + m2[1].length),
+              level
+            });
+          }
+          nodes.push({
+            type: "abbr_open",
+            title: state.env.abbreviations[":" + m2[2]],
+            level: level++
+          });
+          nodes.push({
+            type: "text",
+            content: m2[2],
+            level
+          });
+          nodes.push({
+            type: "abbr_close",
+            level: --level
+          });
+          pos = reg.lastIndex - m2[3].length;
+        }
+        if (!nodes.length) {
+          continue;
+        }
+        if (pos < text3.length) {
+          nodes.push({
+            type: "text",
+            content: text3.slice(pos),
+            level
+          });
+        }
+        blockTokens[j2].children = tokens = [].concat(tokens.slice(0, i), nodes, tokens.slice(i + 1));
+      }
+    }
+  }
+  var RARE_RE = /\+-|\.\.|\?\?\?\?|!!!!|,,|--/;
+  var SCOPED_ABBR_RE = /\((c|tm|r|p)\)/ig;
+  var SCOPED_ABBR = {
+    "c": "\xA9",
+    "r": "\xAE",
+    "p": "\xA7",
+    "tm": "\u2122"
+  };
+  function replaceScopedAbbr(str) {
+    if (str.indexOf("(") < 0) {
+      return str;
+    }
+    return str.replace(SCOPED_ABBR_RE, function(match, name) {
+      return SCOPED_ABBR[name.toLowerCase()];
+    });
+  }
+  function replace2(state) {
+    var i, token, text3, inlineTokens, blkIdx;
+    if (!state.options.typographer) {
+      return;
+    }
+    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+      if (state.tokens[blkIdx].type !== "inline") {
+        continue;
+      }
+      inlineTokens = state.tokens[blkIdx].children;
+      for (i = inlineTokens.length - 1; i >= 0; i--) {
+        token = inlineTokens[i];
+        if (token.type === "text") {
+          text3 = token.content;
+          text3 = replaceScopedAbbr(text3);
+          if (RARE_RE.test(text3)) {
+            text3 = text3.replace(/\+-/g, "\xB1").replace(/\.{2,}/g, "\u2026").replace(/([?!])…/g, "$1..").replace(/([?!]){4,}/g, "$1$1$1").replace(/,{2,}/g, ",").replace(/(^|[^-])---([^-]|$)/mg, "$1\u2014$2").replace(/(^|\s)--(\s|$)/mg, "$1\u2013$2").replace(/(^|[^-\s])--([^-\s]|$)/mg, "$1\u2013$2");
+          }
+          token.content = text3;
+        }
+      }
+    }
+  }
+  var QUOTE_TEST_RE = /['"]/;
+  var QUOTE_RE = /['"]/g;
+  var PUNCT_RE = /[-\s()\[\]]/;
+  var APOSTROPHE = "\u2019";
+  function isLetter(str, pos) {
+    if (pos < 0 || pos >= str.length) {
+      return false;
+    }
+    return !PUNCT_RE.test(str[pos]);
+  }
+  function replaceAt(str, index, ch) {
+    return str.substr(0, index) + ch + str.substr(index + 1);
+  }
+  function smartquotes(state) {
+    var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j2, isSingle, blkIdx, tokens, stack;
+    if (!state.options.typographer) {
+      return;
+    }
+    stack = [];
+    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+      if (state.tokens[blkIdx].type !== "inline") {
+        continue;
+      }
+      tokens = state.tokens[blkIdx].children;
+      stack.length = 0;
+      for (i = 0; i < tokens.length; i++) {
+        token = tokens[i];
+        if (token.type !== "text" || QUOTE_TEST_RE.test(token.text)) {
+          continue;
+        }
+        thisLevel = tokens[i].level;
+        for (j2 = stack.length - 1; j2 >= 0; j2--) {
+          if (stack[j2].level <= thisLevel) {
+            break;
+          }
+        }
+        stack.length = j2 + 1;
+        text3 = token.content;
+        pos = 0;
+        max = text3.length;
+        OUTER:
+          while (pos < max) {
+            QUOTE_RE.lastIndex = pos;
+            t2 = QUOTE_RE.exec(text3);
+            if (!t2) {
+              break;
+            }
+            lastSpace = !isLetter(text3, t2.index - 1);
+            pos = t2.index + 1;
+            isSingle = t2[0] === "'";
+            nextSpace = !isLetter(text3, pos);
+            if (!nextSpace && !lastSpace) {
+              if (isSingle) {
+                token.content = replaceAt(token.content, t2.index, APOSTROPHE);
+              }
+              continue;
+            }
+            canOpen = !nextSpace;
+            canClose = !lastSpace;
+            if (canClose) {
+              for (j2 = stack.length - 1; j2 >= 0; j2--) {
+                item = stack[j2];
+                if (stack[j2].level < thisLevel) {
+                  break;
+                }
+                if (item.single === isSingle && stack[j2].level === thisLevel) {
+                  item = stack[j2];
+                  if (isSingle) {
+                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[2]);
+                    token.content = replaceAt(token.content, t2.index, state.options.quotes[3]);
+                  } else {
+                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[0]);
+                    token.content = replaceAt(token.content, t2.index, state.options.quotes[1]);
+                  }
+                  stack.length = j2;
+                  continue OUTER;
+                }
+              }
+            }
+            if (canOpen) {
+              stack.push({
+                token: i,
+                pos: t2.index,
+                single: isSingle,
+                level: thisLevel
+              });
+            } else if (canClose && isSingle) {
+              token.content = replaceAt(token.content, t2.index, APOSTROPHE);
+            }
+          }
+      }
+    }
+  }
+  var _rules = [
+    ["block", block],
+    ["abbr", abbr],
+    ["references", references],
+    ["inline", inline],
+    ["footnote_tail", footnote_block],
+    ["abbr2", abbr2],
+    ["replacements", replace2],
+    ["smartquotes", smartquotes]
+  ];
+  function Core() {
+    this.options = {};
+    this.ruler = new Ruler();
+    for (var i = 0; i < _rules.length; i++) {
+      this.ruler.push(_rules[i][0], _rules[i][1]);
+    }
+  }
+  Core.prototype.process = function(state) {
+    var i, l, rules2;
+    rules2 = this.ruler.getRules("");
+    for (i = 0, l = rules2.length; i < l; i++) {
+      rules2[i](state);
+    }
+  };
+  function StateBlock(src, parser, options, env, tokens) {
+    var ch, s, start, pos, len, indent, indent_found;
+    this.src = src;
+    this.parser = parser;
+    this.options = options;
+    this.env = env;
+    this.tokens = tokens;
+    this.bMarks = [];
+    this.eMarks = [];
+    this.tShift = [];
+    this.blkIndent = 0;
+    this.line = 0;
+    this.lineMax = 0;
+    this.tight = false;
+    this.parentType = "root";
+    this.ddIndent = -1;
+    this.level = 0;
+    this.result = "";
+    s = this.src;
+    indent = 0;
+    indent_found = false;
+    for (start = pos = indent = 0, len = s.length; pos < len; pos++) {
+      ch = s.charCodeAt(pos);
+      if (!indent_found) {
+        if (ch === 32) {
+          indent++;
+          continue;
+        } else {
+          indent_found = true;
+        }
+      }
+      if (ch === 10 || pos === len - 1) {
+        if (ch !== 10) {
+          pos++;
+        }
+        this.bMarks.push(start);
+        this.eMarks.push(pos);
+        this.tShift.push(indent);
+        indent_found = false;
+        indent = 0;
+        start = pos + 1;
+      }
+    }
+    this.bMarks.push(s.length);
+    this.eMarks.push(s.length);
+    this.tShift.push(0);
+    this.lineMax = this.bMarks.length - 1;
+  }
+  StateBlock.prototype.isEmpty = function isEmpty(line) {
+    return this.bMarks[line] + this.tShift[line] >= this.eMarks[line];
+  };
+  StateBlock.prototype.skipEmptyLines = function skipEmptyLines(from) {
+    for (var max = this.lineMax; from < max; from++) {
+      if (this.bMarks[from] + this.tShift[from] < this.eMarks[from]) {
+        break;
+      }
+    }
+    return from;
+  };
+  StateBlock.prototype.skipSpaces = function skipSpaces(pos) {
+    for (var max = this.src.length; pos < max; pos++) {
+      if (this.src.charCodeAt(pos) !== 32) {
+        break;
+      }
+    }
+    return pos;
+  };
+  StateBlock.prototype.skipChars = function skipChars(pos, code2) {
+    for (var max = this.src.length; pos < max; pos++) {
+      if (this.src.charCodeAt(pos) !== code2) {
+        break;
+      }
+    }
+    return pos;
+  };
+  StateBlock.prototype.skipCharsBack = function skipCharsBack(pos, code2, min) {
+    if (pos <= min) {
+      return pos;
+    }
+    while (pos > min) {
+      if (code2 !== this.src.charCodeAt(--pos)) {
+        return pos + 1;
+      }
+    }
+    return pos;
+  };
+  StateBlock.prototype.getLines = function getLines(begin2, end2, indent, keepLastLF) {
+    var i, first, last, queue, shift, line = begin2;
+    if (begin2 >= end2) {
+      return "";
+    }
+    if (line + 1 === end2) {
+      first = this.bMarks[line] + Math.min(this.tShift[line], indent);
+      last = keepLastLF ? this.eMarks[line] + 1 : this.eMarks[line];
+      return this.src.slice(first, last);
+    }
+    queue = new Array(end2 - begin2);
+    for (i = 0; line < end2; line++, i++) {
+      shift = this.tShift[line];
+      if (shift > indent) {
+        shift = indent;
+      }
+      if (shift < 0) {
+        shift = 0;
+      }
+      first = this.bMarks[line] + shift;
+      if (line + 1 < end2 || keepLastLF) {
+        last = this.eMarks[line] + 1;
+      } else {
+        last = this.eMarks[line];
+      }
+      queue[i] = this.src.slice(first, last);
+    }
+    return queue.join("");
+  };
+  function code(state, startLine, endLine) {
+    var nextLine, last;
+    if (state.tShift[startLine] - state.blkIndent < 4) {
+      return false;
+    }
+    last = nextLine = startLine + 1;
+    while (nextLine < endLine) {
+      if (state.isEmpty(nextLine)) {
+        nextLine++;
+        continue;
+      }
+      if (state.tShift[nextLine] - state.blkIndent >= 4) {
+        nextLine++;
+        last = nextLine;
+        continue;
+      }
+      break;
+    }
+    state.line = nextLine;
+    state.tokens.push({
+      type: "code",
+      content: state.getLines(startLine, last, 4 + state.blkIndent, true),
+      block: true,
+      lines: [startLine, state.line],
+      level: state.level
+    });
+    return true;
+  }
+  function fences(state, startLine, endLine, silent) {
+    var marker, len, params, nextLine, mem, haveEndMarker = false, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    if (pos + 3 > max) {
+      return false;
+    }
+    marker = state.src.charCodeAt(pos);
+    if (marker !== 126 && marker !== 96) {
+      return false;
+    }
+    mem = pos;
+    pos = state.skipChars(pos, marker);
+    len = pos - mem;
+    if (len < 3) {
+      return false;
+    }
+    params = state.src.slice(pos, max).trim();
+    if (params.indexOf("`") >= 0) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    nextLine = startLine;
+    for (; ; ) {
+      nextLine++;
+      if (nextLine >= endLine) {
+        break;
+      }
+      pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
+      max = state.eMarks[nextLine];
+      if (pos < max && state.tShift[nextLine] < state.blkIndent) {
+        break;
+      }
+      if (state.src.charCodeAt(pos) !== marker) {
+        continue;
+      }
+      if (state.tShift[nextLine] - state.blkIndent >= 4) {
+        continue;
+      }
+      pos = state.skipChars(pos, marker);
+      if (pos - mem < len) {
+        continue;
+      }
+      pos = state.skipSpaces(pos);
+      if (pos < max) {
+        continue;
+      }
+      haveEndMarker = true;
+      break;
+    }
+    len = state.tShift[startLine];
+    state.line = nextLine + (haveEndMarker ? 1 : 0);
+    state.tokens.push({
+      type: "fence",
+      params,
+      content: state.getLines(startLine + 1, nextLine, len, true),
+      lines: [startLine, state.line],
+      level: state.level
+    });
+    return true;
+  }
+  function blockquote(state, startLine, endLine, silent) {
+    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l, terminate, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    if (pos > max) {
+      return false;
+    }
+    if (state.src.charCodeAt(pos++) !== 62) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    if (state.src.charCodeAt(pos) === 32) {
+      pos++;
+    }
+    oldIndent = state.blkIndent;
+    state.blkIndent = 0;
+    oldBMarks = [state.bMarks[startLine]];
+    state.bMarks[startLine] = pos;
+    pos = pos < max ? state.skipSpaces(pos) : pos;
+    lastLineEmpty = pos >= max;
+    oldTShift = [state.tShift[startLine]];
+    state.tShift[startLine] = pos - state.bMarks[startLine];
+    terminatorRules = state.parser.ruler.getRules("blockquote");
+    for (nextLine = startLine + 1; nextLine < endLine; nextLine++) {
+      pos = state.bMarks[nextLine] + state.tShift[nextLine];
+      max = state.eMarks[nextLine];
+      if (pos >= max) {
+        break;
+      }
+      if (state.src.charCodeAt(pos++) === 62) {
+        if (state.src.charCodeAt(pos) === 32) {
+          pos++;
+        }
+        oldBMarks.push(state.bMarks[nextLine]);
+        state.bMarks[nextLine] = pos;
+        pos = pos < max ? state.skipSpaces(pos) : pos;
+        lastLineEmpty = pos >= max;
+        oldTShift.push(state.tShift[nextLine]);
+        state.tShift[nextLine] = pos - state.bMarks[nextLine];
+        continue;
+      }
+      if (lastLineEmpty) {
+        break;
+      }
+      terminate = false;
+      for (i = 0, l = terminatorRules.length; i < l; i++) {
+        if (terminatorRules[i](state, nextLine, endLine, true)) {
+          terminate = true;
+          break;
+        }
+      }
+      if (terminate) {
+        break;
+      }
+      oldBMarks.push(state.bMarks[nextLine]);
+      oldTShift.push(state.tShift[nextLine]);
+      state.tShift[nextLine] = -1337;
+    }
+    oldParentType = state.parentType;
+    state.parentType = "blockquote";
+    state.tokens.push({
+      type: "blockquote_open",
+      lines: lines = [startLine, 0],
+      level: state.level++
+    });
+    state.parser.tokenize(state, startLine, nextLine);
+    state.tokens.push({
+      type: "blockquote_close",
+      level: --state.level
+    });
+    state.parentType = oldParentType;
+    lines[1] = state.line;
+    for (i = 0; i < oldTShift.length; i++) {
+      state.bMarks[i + startLine] = oldBMarks[i];
+      state.tShift[i + startLine] = oldTShift[i];
+    }
+    state.blkIndent = oldIndent;
+    return true;
+  }
+  function hr(state, startLine, endLine, silent) {
+    var marker, cnt, ch, pos = state.bMarks[startLine], max = state.eMarks[startLine];
+    pos += state.tShift[startLine];
+    if (pos > max) {
+      return false;
+    }
+    marker = state.src.charCodeAt(pos++);
+    if (marker !== 42 && marker !== 45 && marker !== 95) {
+      return false;
+    }
+    cnt = 1;
+    while (pos < max) {
+      ch = state.src.charCodeAt(pos++);
+      if (ch !== marker && ch !== 32) {
+        return false;
+      }
+      if (ch === marker) {
+        cnt++;
+      }
+    }
+    if (cnt < 3) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    state.line = startLine + 1;
+    state.tokens.push({
+      type: "hr",
+      lines: [startLine, state.line],
+      level: state.level
+    });
+    return true;
+  }
+  function skipBulletListMarker(state, startLine) {
+    var marker, pos, max;
+    pos = state.bMarks[startLine] + state.tShift[startLine];
+    max = state.eMarks[startLine];
+    if (pos >= max) {
+      return -1;
+    }
+    marker = state.src.charCodeAt(pos++);
+    if (marker !== 42 && marker !== 45 && marker !== 43) {
+      return -1;
+    }
+    if (pos < max && state.src.charCodeAt(pos) !== 32) {
+      return -1;
+    }
+    return pos;
+  }
+  function skipOrderedListMarker(state, startLine) {
+    var ch, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    if (pos + 1 >= max) {
+      return -1;
+    }
+    ch = state.src.charCodeAt(pos++);
+    if (ch < 48 || ch > 57) {
+      return -1;
+    }
+    for (; ; ) {
+      if (pos >= max) {
+        return -1;
+      }
+      ch = state.src.charCodeAt(pos++);
+      if (ch >= 48 && ch <= 57) {
+        continue;
+      }
+      if (ch === 41 || ch === 46) {
+        break;
+      }
+      return -1;
+    }
+    if (pos < max && state.src.charCodeAt(pos) !== 32) {
+      return -1;
+    }
+    return pos;
+  }
+  function markTightParagraphs(state, idx) {
+    var i, l, level = state.level + 2;
+    for (i = idx + 2, l = state.tokens.length - 2; i < l; i++) {
+      if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
+        state.tokens[i + 2].tight = true;
+        state.tokens[i].tight = true;
+        i += 2;
+      }
+    }
+  }
+  function list(state, startLine, endLine, silent) {
+    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l, terminate;
+    if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
+      isOrdered = true;
+    } else if ((posAfterMarker = skipBulletListMarker(state, startLine)) >= 0) {
+      isOrdered = false;
+    } else {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    markerCharCode = state.src.charCodeAt(posAfterMarker - 1);
+    if (silent) {
+      return true;
+    }
+    listTokIdx = state.tokens.length;
+    if (isOrdered) {
+      start = state.bMarks[startLine] + state.tShift[startLine];
+      markerValue = Number(state.src.substr(start, posAfterMarker - start - 1));
+      state.tokens.push({
+        type: "ordered_list_open",
+        order: markerValue,
+        lines: listLines = [startLine, 0],
+        level: state.level++
+      });
+    } else {
+      state.tokens.push({
+        type: "bullet_list_open",
+        lines: listLines = [startLine, 0],
+        level: state.level++
+      });
+    }
+    nextLine = startLine;
+    prevEmptyEnd = false;
+    terminatorRules = state.parser.ruler.getRules("list");
+    while (nextLine < endLine) {
+      contentStart = state.skipSpaces(posAfterMarker);
+      max = state.eMarks[nextLine];
+      if (contentStart >= max) {
+        indentAfterMarker = 1;
+      } else {
+        indentAfterMarker = contentStart - posAfterMarker;
+      }
+      if (indentAfterMarker > 4) {
+        indentAfterMarker = 1;
+      }
+      if (indentAfterMarker < 1) {
+        indentAfterMarker = 1;
+      }
+      indent = posAfterMarker - state.bMarks[nextLine] + indentAfterMarker;
+      state.tokens.push({
+        type: "list_item_open",
+        lines: itemLines = [startLine, 0],
+        level: state.level++
+      });
+      oldIndent = state.blkIndent;
+      oldTight = state.tight;
+      oldTShift = state.tShift[startLine];
+      oldParentType = state.parentType;
+      state.tShift[startLine] = contentStart - state.bMarks[startLine];
+      state.blkIndent = indent;
+      state.tight = true;
+      state.parentType = "list";
+      state.parser.tokenize(state, startLine, endLine, true);
+      if (!state.tight || prevEmptyEnd) {
+        tight = false;
+      }
+      prevEmptyEnd = state.line - startLine > 1 && state.isEmpty(state.line - 1);
+      state.blkIndent = oldIndent;
+      state.tShift[startLine] = oldTShift;
+      state.tight = oldTight;
+      state.parentType = oldParentType;
+      state.tokens.push({
+        type: "list_item_close",
+        level: --state.level
+      });
+      nextLine = startLine = state.line;
+      itemLines[1] = nextLine;
+      contentStart = state.bMarks[startLine];
+      if (nextLine >= endLine) {
+        break;
+      }
+      if (state.isEmpty(nextLine)) {
+        break;
+      }
+      if (state.tShift[nextLine] < state.blkIndent) {
+        break;
+      }
+      terminate = false;
+      for (i = 0, l = terminatorRules.length; i < l; i++) {
+        if (terminatorRules[i](state, nextLine, endLine, true)) {
+          terminate = true;
+          break;
+        }
+      }
+      if (terminate) {
+        break;
+      }
+      if (isOrdered) {
+        posAfterMarker = skipOrderedListMarker(state, nextLine);
+        if (posAfterMarker < 0) {
+          break;
+        }
+      } else {
+        posAfterMarker = skipBulletListMarker(state, nextLine);
+        if (posAfterMarker < 0) {
+          break;
+        }
+      }
+      if (markerCharCode !== state.src.charCodeAt(posAfterMarker - 1)) {
+        break;
+      }
+    }
+    state.tokens.push({
+      type: isOrdered ? "ordered_list_close" : "bullet_list_close",
+      level: --state.level
+    });
+    listLines[1] = nextLine;
+    state.line = nextLine;
+    if (tight) {
+      markTightParagraphs(state, listTokIdx);
+    }
+    return true;
+  }
+  function footnote(state, startLine, endLine, silent) {
+    var oldBMark, oldTShift, oldParentType, pos, label, start = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    if (start + 4 > max) {
+      return false;
+    }
+    if (state.src.charCodeAt(start) !== 91) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 94) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    for (pos = start + 2; pos < max; pos++) {
+      if (state.src.charCodeAt(pos) === 32) {
+        return false;
+      }
+      if (state.src.charCodeAt(pos) === 93) {
+        break;
+      }
+    }
+    if (pos === start + 2) {
+      return false;
+    }
+    if (pos + 1 >= max || state.src.charCodeAt(++pos) !== 58) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    pos++;
+    if (!state.env.footnotes) {
+      state.env.footnotes = {};
+    }
+    if (!state.env.footnotes.refs) {
+      state.env.footnotes.refs = {};
+    }
+    label = state.src.slice(start + 2, pos - 2);
+    state.env.footnotes.refs[":" + label] = -1;
+    state.tokens.push({
+      type: "footnote_reference_open",
+      label,
+      level: state.level++
+    });
+    oldBMark = state.bMarks[startLine];
+    oldTShift = state.tShift[startLine];
+    oldParentType = state.parentType;
+    state.tShift[startLine] = state.skipSpaces(pos) - pos;
+    state.bMarks[startLine] = pos;
+    state.blkIndent += 4;
+    state.parentType = "footnote";
+    if (state.tShift[startLine] < state.blkIndent) {
+      state.tShift[startLine] += state.blkIndent;
+      state.bMarks[startLine] -= state.blkIndent;
+    }
+    state.parser.tokenize(state, startLine, endLine, true);
+    state.parentType = oldParentType;
+    state.blkIndent -= 4;
+    state.tShift[startLine] = oldTShift;
+    state.bMarks[startLine] = oldBMark;
+    state.tokens.push({
+      type: "footnote_reference_close",
+      level: --state.level
+    });
+    return true;
+  }
+  function heading(state, startLine, endLine, silent) {
+    var ch, level, tmp, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    if (pos >= max) {
+      return false;
+    }
+    ch = state.src.charCodeAt(pos);
+    if (ch !== 35 || pos >= max) {
+      return false;
+    }
+    level = 1;
+    ch = state.src.charCodeAt(++pos);
+    while (ch === 35 && pos < max && level <= 6) {
+      level++;
+      ch = state.src.charCodeAt(++pos);
+    }
+    if (level > 6 || pos < max && ch !== 32) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    max = state.skipCharsBack(max, 32, pos);
+    tmp = state.skipCharsBack(max, 35, pos);
+    if (tmp > pos && state.src.charCodeAt(tmp - 1) === 32) {
+      max = tmp;
+    }
+    state.line = startLine + 1;
+    state.tokens.push({
+      type: "heading_open",
+      hLevel: level,
+      lines: [startLine, state.line],
+      level: state.level
+    });
+    if (pos < max) {
+      state.tokens.push({
+        type: "inline",
+        content: state.src.slice(pos, max).trim(),
+        level: state.level + 1,
+        lines: [startLine, state.line],
+        children: []
+      });
+    }
+    state.tokens.push({ type: "heading_close", hLevel: level, level: state.level });
+    return true;
+  }
+  function lheading(state, startLine, endLine) {
+    var marker, pos, max, next = startLine + 1;
+    if (next >= endLine) {
+      return false;
+    }
+    if (state.tShift[next] < state.blkIndent) {
+      return false;
+    }
+    if (state.tShift[next] - state.blkIndent > 3) {
+      return false;
+    }
+    pos = state.bMarks[next] + state.tShift[next];
+    max = state.eMarks[next];
+    if (pos >= max) {
+      return false;
+    }
+    marker = state.src.charCodeAt(pos);
+    if (marker !== 45 && marker !== 61) {
+      return false;
+    }
+    pos = state.skipChars(pos, marker);
+    pos = state.skipSpaces(pos);
+    if (pos < max) {
+      return false;
+    }
+    pos = state.bMarks[startLine] + state.tShift[startLine];
+    state.line = next + 1;
+    state.tokens.push({
+      type: "heading_open",
+      hLevel: marker === 61 ? 1 : 2,
+      lines: [startLine, state.line],
+      level: state.level
+    });
+    state.tokens.push({
+      type: "inline",
+      content: state.src.slice(pos, state.eMarks[startLine]).trim(),
+      level: state.level + 1,
+      lines: [startLine, state.line - 1],
+      children: []
+    });
+    state.tokens.push({
+      type: "heading_close",
+      hLevel: marker === 61 ? 1 : 2,
+      level: state.level
+    });
+    return true;
+  }
+  var html_blocks = {};
+  [
+    "article",
+    "aside",
+    "button",
+    "blockquote",
+    "body",
+    "canvas",
+    "caption",
+    "col",
+    "colgroup",
+    "dd",
+    "div",
+    "dl",
+    "dt",
+    "embed",
+    "fieldset",
+    "figcaption",
+    "figure",
+    "footer",
+    "form",
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "header",
+    "hgroup",
+    "hr",
+    "iframe",
+    "li",
+    "map",
+    "object",
+    "ol",
+    "output",
+    "p",
+    "pre",
+    "progress",
+    "script",
+    "section",
+    "style",
+    "table",
+    "tbody",
+    "td",
+    "textarea",
+    "tfoot",
+    "th",
+    "tr",
+    "thead",
+    "ul",
+    "video"
+  ].forEach(function(name) {
+    html_blocks[name] = true;
+  });
+  var HTML_TAG_OPEN_RE = /^<([a-zA-Z]{1,15})[\s\/>]/;
+  var HTML_TAG_CLOSE_RE = /^<\/([a-zA-Z]{1,15})[\s>]/;
+  function isLetter$1(ch) {
+    var lc = ch | 32;
+    return lc >= 97 && lc <= 122;
+  }
+  function htmlblock(state, startLine, endLine, silent) {
+    var ch, match, nextLine, pos = state.bMarks[startLine], max = state.eMarks[startLine], shift = state.tShift[startLine];
+    pos += shift;
+    if (!state.options.html) {
+      return false;
+    }
+    if (shift > 3 || pos + 2 >= max) {
+      return false;
+    }
+    if (state.src.charCodeAt(pos) !== 60) {
+      return false;
+    }
+    ch = state.src.charCodeAt(pos + 1);
+    if (ch === 33 || ch === 63) {
+      if (silent) {
+        return true;
+      }
+    } else if (ch === 47 || isLetter$1(ch)) {
+      if (ch === 47) {
+        match = state.src.slice(pos, max).match(HTML_TAG_CLOSE_RE);
+        if (!match) {
+          return false;
+        }
+      } else {
+        match = state.src.slice(pos, max).match(HTML_TAG_OPEN_RE);
+        if (!match) {
+          return false;
+        }
+      }
+      if (html_blocks[match[1].toLowerCase()] !== true) {
+        return false;
+      }
+      if (silent) {
+        return true;
+      }
+    } else {
+      return false;
+    }
+    nextLine = startLine + 1;
+    while (nextLine < state.lineMax && !state.isEmpty(nextLine)) {
+      nextLine++;
+    }
+    state.line = nextLine;
+    state.tokens.push({
+      type: "htmlblock",
+      level: state.level,
+      lines: [startLine, state.line],
+      content: state.getLines(startLine, nextLine, 0, true)
+    });
+    return true;
+  }
+  function getLine(state, line) {
+    var pos = state.bMarks[line] + state.blkIndent, max = state.eMarks[line];
+    return state.src.substr(pos, max - pos);
+  }
+  function table(state, startLine, endLine, silent) {
+    var ch, lineText, pos, i, nextLine, rows, cell, aligns, t2, tableLines, tbodyLines;
+    if (startLine + 2 > endLine) {
+      return false;
+    }
+    nextLine = startLine + 1;
+    if (state.tShift[nextLine] < state.blkIndent) {
+      return false;
+    }
+    pos = state.bMarks[nextLine] + state.tShift[nextLine];
+    if (pos >= state.eMarks[nextLine]) {
+      return false;
+    }
+    ch = state.src.charCodeAt(pos);
+    if (ch !== 124 && ch !== 45 && ch !== 58) {
+      return false;
+    }
+    lineText = getLine(state, startLine + 1);
+    if (!/^[-:| ]+$/.test(lineText)) {
+      return false;
+    }
+    rows = lineText.split("|");
+    if (rows <= 2) {
+      return false;
+    }
+    aligns = [];
+    for (i = 0; i < rows.length; i++) {
+      t2 = rows[i].trim();
+      if (!t2) {
+        if (i === 0 || i === rows.length - 1) {
+          continue;
+        } else {
+          return false;
+        }
+      }
+      if (!/^:?-+:?$/.test(t2)) {
+        return false;
+      }
+      if (t2.charCodeAt(t2.length - 1) === 58) {
+        aligns.push(t2.charCodeAt(0) === 58 ? "center" : "right");
+      } else if (t2.charCodeAt(0) === 58) {
+        aligns.push("left");
+      } else {
+        aligns.push("");
+      }
+    }
+    lineText = getLine(state, startLine).trim();
+    if (lineText.indexOf("|") === -1) {
+      return false;
+    }
+    rows = lineText.replace(/^\||\|$/g, "").split("|");
+    if (aligns.length !== rows.length) {
+      return false;
+    }
+    if (silent) {
+      return true;
+    }
+    state.tokens.push({
+      type: "table_open",
+      lines: tableLines = [startLine, 0],
+      level: state.level++
+    });
+    state.tokens.push({
+      type: "thead_open",
+      lines: [startLine, startLine + 1],
+      level: state.level++
+    });
+    state.tokens.push({
+      type: "tr_open",
+      lines: [startLine, startLine + 1],
+      level: state.level++
+    });
+    for (i = 0; i < rows.length; i++) {
+      state.tokens.push({
+        type: "th_open",
+        align: aligns[i],
+        lines: [startLine, startLine + 1],
+        level: state.level++
+      });
+      state.tokens.push({
+        type: "inline",
+        content: rows[i].trim(),
+        lines: [startLine, startLine + 1],
+        level: state.level,
+        children: []
+      });
+      state.tokens.push({ type: "th_close", level: --state.level });
+    }
+    state.tokens.push({ type: "tr_close", level: --state.level });
+    state.tokens.push({ type: "thead_close", level: --state.level });
+    state.tokens.push({
+      type: "tbody_open",
+      lines: tbodyLines = [startLine + 2, 0],
+      level: state.level++
+    });
+    for (nextLine = startLine + 2; nextLine < endLine; nextLine++) {
+      if (state.tShift[nextLine] < state.blkIndent) {
+        break;
+      }
+      lineText = getLine(state, nextLine).trim();
+      if (lineText.indexOf("|") === -1) {
+        break;
+      }
+      rows = lineText.replace(/^\||\|$/g, "").split("|");
+      state.tokens.push({ type: "tr_open", level: state.level++ });
+      for (i = 0; i < rows.length; i++) {
+        state.tokens.push({ type: "td_open", align: aligns[i], level: state.level++ });
+        cell = rows[i].substring(
+          rows[i].charCodeAt(0) === 124 ? 1 : 0,
+          rows[i].charCodeAt(rows[i].length - 1) === 124 ? rows[i].length - 1 : rows[i].length
+        ).trim();
+        state.tokens.push({
+          type: "inline",
+          content: cell,
+          level: state.level,
+          children: []
+        });
+        state.tokens.push({ type: "td_close", level: --state.level });
+      }
+      state.tokens.push({ type: "tr_close", level: --state.level });
+    }
+    state.tokens.push({ type: "tbody_close", level: --state.level });
+    state.tokens.push({ type: "table_close", level: --state.level });
+    tableLines[1] = tbodyLines[1] = nextLine;
+    state.line = nextLine;
+    return true;
+  }
+  function skipMarker(state, line) {
+    var pos, marker, start = state.bMarks[line] + state.tShift[line], max = state.eMarks[line];
+    if (start >= max) {
+      return -1;
+    }
+    marker = state.src.charCodeAt(start++);
+    if (marker !== 126 && marker !== 58) {
+      return -1;
+    }
+    pos = state.skipSpaces(start);
+    if (start === pos) {
+      return -1;
+    }
+    if (pos >= max) {
+      return -1;
+    }
+    return pos;
+  }
+  function markTightParagraphs$1(state, idx) {
+    var i, l, level = state.level + 2;
+    for (i = idx + 2, l = state.tokens.length - 2; i < l; i++) {
+      if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
+        state.tokens[i + 2].tight = true;
+        state.tokens[i].tight = true;
+        i += 2;
+      }
+    }
+  }
+  function deflist(state, startLine, endLine, silent) {
+    var contentStart, ddLine, dtLine, itemLines, listLines, listTokIdx, nextLine, oldIndent, oldDDIndent, oldParentType, oldTShift, oldTight, prevEmptyEnd, tight;
+    if (silent) {
+      if (state.ddIndent < 0) {
+        return false;
+      }
+      return skipMarker(state, startLine) >= 0;
+    }
+    nextLine = startLine + 1;
+    if (state.isEmpty(nextLine)) {
+      if (++nextLine > endLine) {
+        return false;
+      }
+    }
+    if (state.tShift[nextLine] < state.blkIndent) {
+      return false;
+    }
+    contentStart = skipMarker(state, nextLine);
+    if (contentStart < 0) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    listTokIdx = state.tokens.length;
+    state.tokens.push({
+      type: "dl_open",
+      lines: listLines = [startLine, 0],
+      level: state.level++
+    });
+    dtLine = startLine;
+    ddLine = nextLine;
+    OUTER:
+      for (; ; ) {
+        tight = true;
+        prevEmptyEnd = false;
+        state.tokens.push({
+          type: "dt_open",
+          lines: [dtLine, dtLine],
+          level: state.level++
+        });
+        state.tokens.push({
+          type: "inline",
+          content: state.getLines(dtLine, dtLine + 1, state.blkIndent, false).trim(),
+          level: state.level + 1,
+          lines: [dtLine, dtLine],
+          children: []
+        });
+        state.tokens.push({
+          type: "dt_close",
+          level: --state.level
+        });
+        for (; ; ) {
+          state.tokens.push({
+            type: "dd_open",
+            lines: itemLines = [nextLine, 0],
+            level: state.level++
+          });
+          oldTight = state.tight;
+          oldDDIndent = state.ddIndent;
+          oldIndent = state.blkIndent;
+          oldTShift = state.tShift[ddLine];
+          oldParentType = state.parentType;
+          state.blkIndent = state.ddIndent = state.tShift[ddLine] + 2;
+          state.tShift[ddLine] = contentStart - state.bMarks[ddLine];
+          state.tight = true;
+          state.parentType = "deflist";
+          state.parser.tokenize(state, ddLine, endLine, true);
+          if (!state.tight || prevEmptyEnd) {
+            tight = false;
+          }
+          prevEmptyEnd = state.line - ddLine > 1 && state.isEmpty(state.line - 1);
+          state.tShift[ddLine] = oldTShift;
+          state.tight = oldTight;
+          state.parentType = oldParentType;
+          state.blkIndent = oldIndent;
+          state.ddIndent = oldDDIndent;
+          state.tokens.push({
+            type: "dd_close",
+            level: --state.level
+          });
+          itemLines[1] = nextLine = state.line;
+          if (nextLine >= endLine) {
+            break OUTER;
+          }
+          if (state.tShift[nextLine] < state.blkIndent) {
+            break OUTER;
+          }
+          contentStart = skipMarker(state, nextLine);
+          if (contentStart < 0) {
+            break;
+          }
+          ddLine = nextLine;
+        }
+        if (nextLine >= endLine) {
+          break;
+        }
+        dtLine = nextLine;
+        if (state.isEmpty(dtLine)) {
+          break;
+        }
+        if (state.tShift[dtLine] < state.blkIndent) {
+          break;
+        }
+        ddLine = dtLine + 1;
+        if (ddLine >= endLine) {
+          break;
+        }
+        if (state.isEmpty(ddLine)) {
+          ddLine++;
+        }
+        if (ddLine >= endLine) {
+          break;
+        }
+        if (state.tShift[ddLine] < state.blkIndent) {
+          break;
+        }
+        contentStart = skipMarker(state, ddLine);
+        if (contentStart < 0) {
+          break;
+        }
+      }
+    state.tokens.push({
+      type: "dl_close",
+      level: --state.level
+    });
+    listLines[1] = nextLine;
+    state.line = nextLine;
+    if (tight) {
+      markTightParagraphs$1(state, listTokIdx);
+    }
+    return true;
+  }
+  function paragraph(state, startLine) {
+    var endLine, content, terminate, i, l, nextLine = startLine + 1, terminatorRules;
+    endLine = state.lineMax;
+    if (nextLine < endLine && !state.isEmpty(nextLine)) {
+      terminatorRules = state.parser.ruler.getRules("paragraph");
+      for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
+        if (state.tShift[nextLine] - state.blkIndent > 3) {
+          continue;
+        }
+        terminate = false;
+        for (i = 0, l = terminatorRules.length; i < l; i++) {
+          if (terminatorRules[i](state, nextLine, endLine, true)) {
+            terminate = true;
+            break;
+          }
+        }
+        if (terminate) {
+          break;
+        }
+      }
+    }
+    content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
+    state.line = nextLine;
+    if (content.length) {
+      state.tokens.push({
+        type: "paragraph_open",
+        tight: false,
+        lines: [startLine, state.line],
+        level: state.level
+      });
+      state.tokens.push({
+        type: "inline",
+        content,
+        level: state.level + 1,
+        lines: [startLine, state.line],
+        children: []
+      });
+      state.tokens.push({
+        type: "paragraph_close",
+        tight: false,
+        level: state.level
+      });
+    }
+    return true;
+  }
+  var _rules$1 = [
+    ["code", code],
+    ["fences", fences, ["paragraph", "blockquote", "list"]],
+    ["blockquote", blockquote, ["paragraph", "blockquote", "list"]],
+    ["hr", hr, ["paragraph", "blockquote", "list"]],
+    ["list", list, ["paragraph", "blockquote"]],
+    ["footnote", footnote, ["paragraph"]],
+    ["heading", heading, ["paragraph", "blockquote"]],
+    ["lheading", lheading],
+    ["htmlblock", htmlblock, ["paragraph", "blockquote"]],
+    ["table", table, ["paragraph"]],
+    ["deflist", deflist, ["paragraph"]],
+    ["paragraph", paragraph]
+  ];
+  function ParserBlock() {
+    this.ruler = new Ruler();
+    for (var i = 0; i < _rules$1.length; i++) {
+      this.ruler.push(_rules$1[i][0], _rules$1[i][1], {
+        alt: (_rules$1[i][2] || []).slice()
+      });
+    }
+  }
+  ParserBlock.prototype.tokenize = function(state, startLine, endLine) {
+    var rules2 = this.ruler.getRules("");
+    var len = rules2.length;
+    var line = startLine;
+    var hasEmptyLines = false;
+    var ok, i;
+    while (line < endLine) {
+      state.line = line = state.skipEmptyLines(line);
+      if (line >= endLine) {
+        break;
+      }
+      if (state.tShift[line] < state.blkIndent) {
+        break;
+      }
+      for (i = 0; i < len; i++) {
+        ok = rules2[i](state, line, endLine, false);
+        if (ok) {
+          break;
+        }
+      }
+      state.tight = !hasEmptyLines;
+      if (state.isEmpty(state.line - 1)) {
+        hasEmptyLines = true;
+      }
+      line = state.line;
+      if (line < endLine && state.isEmpty(line)) {
+        hasEmptyLines = true;
+        line++;
+        if (line < endLine && state.parentType === "list" && state.isEmpty(line)) {
+          break;
+        }
+        state.line = line;
+      }
+    }
+  };
+  var TABS_SCAN_RE = /[\n\t]/g;
+  var NEWLINES_RE = /\r[\n\u0085]|[\u2424\u2028\u0085]/g;
+  var SPACES_RE = /\u00a0/g;
+  ParserBlock.prototype.parse = function(str, options, env, outTokens) {
+    var state, lineStart = 0, lastTabPos = 0;
+    if (!str) {
+      return [];
+    }
+    str = str.replace(SPACES_RE, " ");
+    str = str.replace(NEWLINES_RE, "\n");
+    if (str.indexOf("	") >= 0) {
+      str = str.replace(TABS_SCAN_RE, function(match, offset) {
+        var result;
+        if (str.charCodeAt(offset) === 10) {
+          lineStart = offset + 1;
+          lastTabPos = 0;
+          return match;
+        }
+        result = "    ".slice((offset - lineStart - lastTabPos) % 4);
+        lastTabPos = offset - lineStart + 1;
+        return result;
+      });
+    }
+    state = new StateBlock(str, this, options, env, outTokens);
+    this.tokenize(state, state.line, state.lineMax);
+  };
+  function isTerminatorChar(ch) {
+    switch (ch) {
+      case 10:
+      case 92:
+      case 96:
+      case 42:
+      case 95:
+      case 94:
+      case 91:
+      case 93:
+      case 33:
+      case 38:
+      case 60:
+      case 62:
+      case 123:
+      case 125:
+      case 36:
+      case 37:
+      case 64:
+      case 126:
+      case 43:
+      case 61:
+      case 58:
+        return true;
+      default:
+        return false;
+    }
+  }
+  function text2(state, silent) {
+    var pos = state.pos;
+    while (pos < state.posMax && !isTerminatorChar(state.src.charCodeAt(pos))) {
+      pos++;
+    }
+    if (pos === state.pos) {
+      return false;
+    }
+    if (!silent) {
+      state.pending += state.src.slice(state.pos, pos);
+    }
+    state.pos = pos;
+    return true;
+  }
+  function newline(state, silent) {
+    var pmax, max, pos = state.pos;
+    if (state.src.charCodeAt(pos) !== 10) {
+      return false;
+    }
+    pmax = state.pending.length - 1;
+    max = state.posMax;
+    if (!silent) {
+      if (pmax >= 0 && state.pending.charCodeAt(pmax) === 32) {
+        if (pmax >= 1 && state.pending.charCodeAt(pmax - 1) === 32) {
+          for (var i = pmax - 2; i >= 0; i--) {
+            if (state.pending.charCodeAt(i) !== 32) {
+              state.pending = state.pending.substring(0, i + 1);
+              break;
+            }
+          }
+          state.push({
+            type: "hardbreak",
+            level: state.level
+          });
+        } else {
+          state.pending = state.pending.slice(0, -1);
+          state.push({
+            type: "softbreak",
+            level: state.level
+          });
+        }
+      } else {
+        state.push({
+          type: "softbreak",
+          level: state.level
+        });
+      }
+    }
+    pos++;
+    while (pos < max && state.src.charCodeAt(pos) === 32) {
+      pos++;
+    }
+    state.pos = pos;
+    return true;
+  }
+  var ESCAPED = [];
+  for (i = 0; i < 256; i++) {
+    ESCAPED.push(0);
+  }
+  var i;
+  "\\!\"#$%&'()*+,./:;<=>?@[]^_`{|}~-".split("").forEach(function(ch) {
+    ESCAPED[ch.charCodeAt(0)] = 1;
+  });
+  function escape(state, silent) {
+    var ch, pos = state.pos, max = state.posMax;
+    if (state.src.charCodeAt(pos) !== 92) {
+      return false;
+    }
+    pos++;
+    if (pos < max) {
+      ch = state.src.charCodeAt(pos);
+      if (ch < 256 && ESCAPED[ch] !== 0) {
+        if (!silent) {
+          state.pending += state.src[pos];
+        }
+        state.pos += 2;
+        return true;
+      }
+      if (ch === 10) {
+        if (!silent) {
+          state.push({
+            type: "hardbreak",
+            level: state.level
+          });
+        }
+        pos++;
+        while (pos < max && state.src.charCodeAt(pos) === 32) {
+          pos++;
+        }
+        state.pos = pos;
+        return true;
+      }
+    }
+    if (!silent) {
+      state.pending += "\\";
+    }
+    state.pos++;
+    return true;
+  }
+  function backticks(state, silent) {
+    var start, max, marker, matchStart, matchEnd, pos = state.pos, ch = state.src.charCodeAt(pos);
+    if (ch !== 96) {
+      return false;
+    }
+    start = pos;
+    pos++;
+    max = state.posMax;
+    while (pos < max && state.src.charCodeAt(pos) === 96) {
+      pos++;
+    }
+    marker = state.src.slice(start, pos);
+    matchStart = matchEnd = pos;
+    while ((matchStart = state.src.indexOf("`", matchEnd)) !== -1) {
+      matchEnd = matchStart + 1;
+      while (matchEnd < max && state.src.charCodeAt(matchEnd) === 96) {
+        matchEnd++;
+      }
+      if (matchEnd - matchStart === marker.length) {
+        if (!silent) {
+          state.push({
+            type: "code",
+            content: state.src.slice(pos, matchStart).replace(/[ \n]+/g, " ").trim(),
+            block: false,
+            level: state.level
+          });
+        }
+        state.pos = matchEnd;
+        return true;
+      }
+    }
+    if (!silent) {
+      state.pending += marker;
+    }
+    state.pos += marker.length;
+    return true;
+  }
+  function del(state, silent) {
+    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
+    if (state.src.charCodeAt(start) !== 126) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    if (start + 4 >= max) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 126) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
+    nextChar = state.src.charCodeAt(start + 2);
+    if (lastChar === 126) {
+      return false;
+    }
+    if (nextChar === 126) {
+      return false;
+    }
+    if (nextChar === 32 || nextChar === 10) {
+      return false;
+    }
+    pos = start + 2;
+    while (pos < max && state.src.charCodeAt(pos) === 126) {
+      pos++;
+    }
+    if (pos > start + 3) {
+      state.pos += pos - start;
+      if (!silent) {
+        state.pending += state.src.slice(start, pos);
+      }
+      return true;
+    }
+    state.pos = start + 2;
+    stack = 1;
+    while (state.pos + 1 < max) {
+      if (state.src.charCodeAt(state.pos) === 126) {
+        if (state.src.charCodeAt(state.pos + 1) === 126) {
+          lastChar = state.src.charCodeAt(state.pos - 1);
+          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+          if (nextChar !== 126 && lastChar !== 126) {
+            if (lastChar !== 32 && lastChar !== 10) {
+              stack--;
+            } else if (nextChar !== 32 && nextChar !== 10) {
+              stack++;
+            }
+            if (stack <= 0) {
+              found = true;
+              break;
+            }
+          }
+        }
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + 2;
+    if (!silent) {
+      state.push({ type: "del_open", level: state.level++ });
+      state.parser.tokenize(state);
+      state.push({ type: "del_close", level: --state.level });
+    }
+    state.pos = state.posMax + 2;
+    state.posMax = max;
+    return true;
+  }
+  function ins(state, silent) {
+    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
+    if (state.src.charCodeAt(start) !== 43) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    if (start + 4 >= max) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 43) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
+    nextChar = state.src.charCodeAt(start + 2);
+    if (lastChar === 43) {
+      return false;
+    }
+    if (nextChar === 43) {
+      return false;
+    }
+    if (nextChar === 32 || nextChar === 10) {
+      return false;
+    }
+    pos = start + 2;
+    while (pos < max && state.src.charCodeAt(pos) === 43) {
+      pos++;
+    }
+    if (pos !== start + 2) {
+      state.pos += pos - start;
+      if (!silent) {
+        state.pending += state.src.slice(start, pos);
+      }
+      return true;
+    }
+    state.pos = start + 2;
+    stack = 1;
+    while (state.pos + 1 < max) {
+      if (state.src.charCodeAt(state.pos) === 43) {
+        if (state.src.charCodeAt(state.pos + 1) === 43) {
+          lastChar = state.src.charCodeAt(state.pos - 1);
+          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+          if (nextChar !== 43 && lastChar !== 43) {
+            if (lastChar !== 32 && lastChar !== 10) {
+              stack--;
+            } else if (nextChar !== 32 && nextChar !== 10) {
+              stack++;
+            }
+            if (stack <= 0) {
+              found = true;
+              break;
+            }
+          }
+        }
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + 2;
+    if (!silent) {
+      state.push({ type: "ins_open", level: state.level++ });
+      state.parser.tokenize(state);
+      state.push({ type: "ins_close", level: --state.level });
+    }
+    state.pos = state.posMax + 2;
+    state.posMax = max;
+    return true;
+  }
+  function mark(state, silent) {
+    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
+    if (state.src.charCodeAt(start) !== 61) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    if (start + 4 >= max) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 61) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
+    nextChar = state.src.charCodeAt(start + 2);
+    if (lastChar === 61) {
+      return false;
+    }
+    if (nextChar === 61) {
+      return false;
+    }
+    if (nextChar === 32 || nextChar === 10) {
+      return false;
+    }
+    pos = start + 2;
+    while (pos < max && state.src.charCodeAt(pos) === 61) {
+      pos++;
+    }
+    if (pos !== start + 2) {
+      state.pos += pos - start;
+      if (!silent) {
+        state.pending += state.src.slice(start, pos);
+      }
+      return true;
+    }
+    state.pos = start + 2;
+    stack = 1;
+    while (state.pos + 1 < max) {
+      if (state.src.charCodeAt(state.pos) === 61) {
+        if (state.src.charCodeAt(state.pos + 1) === 61) {
+          lastChar = state.src.charCodeAt(state.pos - 1);
+          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+          if (nextChar !== 61 && lastChar !== 61) {
+            if (lastChar !== 32 && lastChar !== 10) {
+              stack--;
+            } else if (nextChar !== 32 && nextChar !== 10) {
+              stack++;
+            }
+            if (stack <= 0) {
+              found = true;
+              break;
+            }
+          }
+        }
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + 2;
+    if (!silent) {
+      state.push({ type: "mark_open", level: state.level++ });
+      state.parser.tokenize(state);
+      state.push({ type: "mark_close", level: --state.level });
+    }
+    state.pos = state.posMax + 2;
+    state.posMax = max;
+    return true;
+  }
+  function isAlphaNum(code2) {
+    return code2 >= 48 && code2 <= 57 || code2 >= 65 && code2 <= 90 || code2 >= 97 && code2 <= 122;
+  }
+  function scanDelims(state, start) {
+    var pos = start, lastChar, nextChar, count, can_open = true, can_close = true, max = state.posMax, marker = state.src.charCodeAt(start);
+    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
+    while (pos < max && state.src.charCodeAt(pos) === marker) {
+      pos++;
+    }
+    if (pos >= max) {
+      can_open = false;
+    }
+    count = pos - start;
+    if (count >= 4) {
+      can_open = can_close = false;
+    } else {
+      nextChar = pos < max ? state.src.charCodeAt(pos) : -1;
+      if (nextChar === 32 || nextChar === 10) {
+        can_open = false;
+      }
+      if (lastChar === 32 || lastChar === 10) {
+        can_close = false;
+      }
+      if (marker === 95) {
+        if (isAlphaNum(lastChar)) {
+          can_open = false;
+        }
+        if (isAlphaNum(nextChar)) {
+          can_close = false;
+        }
+      }
+    }
+    return {
+      can_open,
+      can_close,
+      delims: count
+    };
+  }
+  function emphasis(state, silent) {
+    var startCount, count, found, oldCount, newCount, stack, res, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
+    if (marker !== 95 && marker !== 42) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    res = scanDelims(state, start);
+    startCount = res.delims;
+    if (!res.can_open) {
+      state.pos += startCount;
+      if (!silent) {
+        state.pending += state.src.slice(start, state.pos);
+      }
+      return true;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    state.pos = start + startCount;
+    stack = [startCount];
+    while (state.pos < max) {
+      if (state.src.charCodeAt(state.pos) === marker) {
+        res = scanDelims(state, state.pos);
+        count = res.delims;
+        if (res.can_close) {
+          oldCount = stack.pop();
+          newCount = count;
+          while (oldCount !== newCount) {
+            if (newCount < oldCount) {
+              stack.push(oldCount - newCount);
+              break;
+            }
+            newCount -= oldCount;
+            if (stack.length === 0) {
+              break;
+            }
+            state.pos += oldCount;
+            oldCount = stack.pop();
+          }
+          if (stack.length === 0) {
+            startCount = oldCount;
+            found = true;
+            break;
+          }
+          state.pos += count;
+          continue;
+        }
+        if (res.can_open) {
+          stack.push(count);
+        }
+        state.pos += count;
+        continue;
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + startCount;
+    if (!silent) {
+      if (startCount === 2 || startCount === 3) {
+        state.push({ type: "strong_open", level: state.level++ });
+      }
+      if (startCount === 1 || startCount === 3) {
+        state.push({ type: "em_open", level: state.level++ });
+      }
+      state.parser.tokenize(state);
+      if (startCount === 1 || startCount === 3) {
+        state.push({ type: "em_close", level: --state.level });
+      }
+      if (startCount === 2 || startCount === 3) {
+        state.push({ type: "strong_close", level: --state.level });
+      }
+    }
+    state.pos = state.posMax + startCount;
+    state.posMax = max;
+    return true;
+  }
+  var UNESCAPE_RE = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
+  function sub(state, silent) {
+    var found, content, max = state.posMax, start = state.pos;
+    if (state.src.charCodeAt(start) !== 126) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    if (start + 2 >= max) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    state.pos = start + 1;
+    while (state.pos < max) {
+      if (state.src.charCodeAt(state.pos) === 126) {
+        found = true;
+        break;
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found || start + 1 === state.pos) {
+      state.pos = start;
+      return false;
+    }
+    content = state.src.slice(start + 1, state.pos);
+    if (content.match(/(^|[^\\])(\\\\)*\s/)) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + 1;
+    if (!silent) {
+      state.push({
+        type: "sub",
+        level: state.level,
+        content: content.replace(UNESCAPE_RE, "$1")
+      });
+    }
+    state.pos = state.posMax + 1;
+    state.posMax = max;
+    return true;
+  }
+  var UNESCAPE_RE$1 = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
+  function sup(state, silent) {
+    var found, content, max = state.posMax, start = state.pos;
+    if (state.src.charCodeAt(start) !== 94) {
+      return false;
+    }
+    if (silent) {
+      return false;
+    }
+    if (start + 2 >= max) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    state.pos = start + 1;
+    while (state.pos < max) {
+      if (state.src.charCodeAt(state.pos) === 94) {
+        found = true;
+        break;
+      }
+      state.parser.skipToken(state);
+    }
+    if (!found || start + 1 === state.pos) {
+      state.pos = start;
+      return false;
+    }
+    content = state.src.slice(start + 1, state.pos);
+    if (content.match(/(^|[^\\])(\\\\)*\s/)) {
+      state.pos = start;
+      return false;
+    }
+    state.posMax = state.pos;
+    state.pos = start + 1;
+    if (!silent) {
+      state.push({
+        type: "sup",
+        level: state.level,
+        content: content.replace(UNESCAPE_RE$1, "$1")
+      });
+    }
+    state.pos = state.posMax + 1;
+    state.posMax = max;
+    return true;
+  }
+  function links(state, silent) {
+    var labelStart, labelEnd, label, href, title, pos, ref, code2, isImage = false, oldPos = state.pos, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
+    if (marker === 33) {
+      isImage = true;
+      marker = state.src.charCodeAt(++start);
+    }
+    if (marker !== 91) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    labelStart = start + 1;
+    labelEnd = parseLinkLabel(state, start);
+    if (labelEnd < 0) {
+      return false;
+    }
+    pos = labelEnd + 1;
+    if (pos < max && state.src.charCodeAt(pos) === 40) {
+      pos++;
+      for (; pos < max; pos++) {
+        code2 = state.src.charCodeAt(pos);
+        if (code2 !== 32 && code2 !== 10) {
+          break;
+        }
+      }
+      if (pos >= max) {
+        return false;
+      }
+      start = pos;
+      if (parseLinkDestination(state, pos)) {
+        href = state.linkContent;
+        pos = state.pos;
+      } else {
+        href = "";
+      }
+      start = pos;
+      for (; pos < max; pos++) {
+        code2 = state.src.charCodeAt(pos);
+        if (code2 !== 32 && code2 !== 10) {
+          break;
+        }
+      }
+      if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
+        title = state.linkContent;
+        pos = state.pos;
+        for (; pos < max; pos++) {
+          code2 = state.src.charCodeAt(pos);
+          if (code2 !== 32 && code2 !== 10) {
+            break;
+          }
+        }
+      } else {
+        title = "";
+      }
+      if (pos >= max || state.src.charCodeAt(pos) !== 41) {
+        state.pos = oldPos;
+        return false;
+      }
+      pos++;
+    } else {
+      if (state.linkLevel > 0) {
+        return false;
+      }
+      for (; pos < max; pos++) {
+        code2 = state.src.charCodeAt(pos);
+        if (code2 !== 32 && code2 !== 10) {
+          break;
+        }
+      }
+      if (pos < max && state.src.charCodeAt(pos) === 91) {
+        start = pos + 1;
+        pos = parseLinkLabel(state, pos);
+        if (pos >= 0) {
+          label = state.src.slice(start, pos++);
+        } else {
+          pos = start - 1;
+        }
+      }
+      if (!label) {
+        if (typeof label === "undefined") {
+          pos = labelEnd + 1;
+        }
+        label = state.src.slice(labelStart, labelEnd);
+      }
+      ref = state.env.references[normalizeReference(label)];
+      if (!ref) {
+        state.pos = oldPos;
+        return false;
+      }
+      href = ref.href;
+      title = ref.title;
+    }
+    if (!silent) {
+      state.pos = labelStart;
+      state.posMax = labelEnd;
+      if (isImage) {
+        state.push({
+          type: "image",
+          src: href,
+          title,
+          alt: state.src.substr(labelStart, labelEnd - labelStart),
+          level: state.level
+        });
+      } else {
+        state.push({
+          type: "link_open",
+          href,
+          title,
+          level: state.level++
+        });
+        state.linkLevel++;
+        state.parser.tokenize(state);
+        state.linkLevel--;
+        state.push({ type: "link_close", level: --state.level });
+      }
+    }
+    state.pos = pos;
+    state.posMax = max;
+    return true;
+  }
+  function footnote_inline(state, silent) {
+    var labelStart, labelEnd, footnoteId, oldLength, max = state.posMax, start = state.pos;
+    if (start + 2 >= max) {
+      return false;
+    }
+    if (state.src.charCodeAt(start) !== 94) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 91) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    labelStart = start + 2;
+    labelEnd = parseLinkLabel(state, start + 1);
+    if (labelEnd < 0) {
+      return false;
+    }
+    if (!silent) {
+      if (!state.env.footnotes) {
+        state.env.footnotes = {};
+      }
+      if (!state.env.footnotes.list) {
+        state.env.footnotes.list = [];
+      }
+      footnoteId = state.env.footnotes.list.length;
+      state.pos = labelStart;
+      state.posMax = labelEnd;
+      state.push({
+        type: "footnote_ref",
+        id: footnoteId,
+        level: state.level
+      });
+      state.linkLevel++;
+      oldLength = state.tokens.length;
+      state.parser.tokenize(state);
+      state.env.footnotes.list[footnoteId] = { tokens: state.tokens.splice(oldLength) };
+      state.linkLevel--;
+    }
+    state.pos = labelEnd + 1;
+    state.posMax = max;
+    return true;
+  }
+  function footnote_ref(state, silent) {
+    var label, pos, footnoteId, footnoteSubId, max = state.posMax, start = state.pos;
+    if (start + 3 > max) {
+      return false;
+    }
+    if (!state.env.footnotes || !state.env.footnotes.refs) {
+      return false;
+    }
+    if (state.src.charCodeAt(start) !== 91) {
+      return false;
+    }
+    if (state.src.charCodeAt(start + 1) !== 94) {
+      return false;
+    }
+    if (state.level >= state.options.maxNesting) {
+      return false;
+    }
+    for (pos = start + 2; pos < max; pos++) {
+      if (state.src.charCodeAt(pos) === 32) {
+        return false;
+      }
+      if (state.src.charCodeAt(pos) === 10) {
+        return false;
+      }
+      if (state.src.charCodeAt(pos) === 93) {
+        break;
+      }
+    }
+    if (pos === start + 2) {
+      return false;
+    }
+    if (pos >= max) {
+      return false;
+    }
+    pos++;
+    label = state.src.slice(start + 2, pos - 1);
+    if (typeof state.env.footnotes.refs[":" + label] === "undefined") {
+      return false;
+    }
+    if (!silent) {
+      if (!state.env.footnotes.list) {
+        state.env.footnotes.list = [];
+      }
+      if (state.env.footnotes.refs[":" + label] < 0) {
+        footnoteId = state.env.footnotes.list.length;
+        state.env.footnotes.list[footnoteId] = { label, count: 0 };
+        state.env.footnotes.refs[":" + label] = footnoteId;
+      } else {
+        footnoteId = state.env.footnotes.refs[":" + label];
+      }
+      footnoteSubId = state.env.footnotes.list[footnoteId].count;
+      state.env.footnotes.list[footnoteId].count++;
+      state.push({
+        type: "footnote_ref",
+        id: footnoteId,
+        subId: footnoteSubId,
+        level: state.level
+      });
+    }
+    state.pos = pos;
+    state.posMax = max;
+    return true;
+  }
+  var url_schemas = [
+    "coap",
+    "doi",
+    "javascript",
+    "aaa",
+    "aaas",
+    "about",
+    "acap",
+    "cap",
+    "cid",
+    "crid",
+    "data",
+    "dav",
+    "dict",
+    "dns",
+    "file",
+    "ftp",
+    "geo",
+    "go",
+    "gopher",
+    "h323",
+    "http",
+    "https",
+    "iax",
+    "icap",
+    "im",
+    "imap",
+    "info",
+    "ipp",
+    "iris",
+    "iris.beep",
+    "iris.xpc",
+    "iris.xpcs",
+    "iris.lwz",
+    "ldap",
+    "mailto",
+    "mid",
+    "msrp",
+    "msrps",
+    "mtqp",
+    "mupdate",
+    "news",
+    "nfs",
+    "ni",
+    "nih",
+    "nntp",
+    "opaquelocktoken",
+    "pop",
+    "pres",
+    "rtsp",
+    "service",
+    "session",
+    "shttp",
+    "sieve",
+    "sip",
+    "sips",
+    "sms",
+    "snmp",
+    "soap.beep",
+    "soap.beeps",
+    "tag",
+    "tel",
+    "telnet",
+    "tftp",
+    "thismessage",
+    "tn3270",
+    "tip",
+    "tv",
+    "urn",
+    "vemmi",
+    "ws",
+    "wss",
+    "xcon",
+    "xcon-userid",
+    "xmlrpc.beep",
+    "xmlrpc.beeps",
+    "xmpp",
+    "z39.50r",
+    "z39.50s",
+    "adiumxtra",
+    "afp",
+    "afs",
+    "aim",
+    "apt",
+    "attachment",
+    "aw",
+    "beshare",
+    "bitcoin",
+    "bolo",
+    "callto",
+    "chrome",
+    "chrome-extension",
+    "com-eventbrite-attendee",
+    "content",
+    "cvs",
+    "dlna-playsingle",
+    "dlna-playcontainer",
+    "dtn",
+    "dvb",
+    "ed2k",
+    "facetime",
+    "feed",
+    "finger",
+    "fish",
+    "gg",
+    "git",
+    "gizmoproject",
+    "gtalk",
+    "hcp",
+    "icon",
+    "ipn",
+    "irc",
+    "irc6",
+    "ircs",
+    "itms",
+    "jar",
+    "jms",
+    "keyparc",
+    "lastfm",
+    "ldaps",
+    "magnet",
+    "maps",
+    "market",
+    "message",
+    "mms",
+    "ms-help",
+    "msnim",
+    "mumble",
+    "mvn",
+    "notes",
+    "oid",
+    "palm",
+    "paparazzi",
+    "platform",
+    "proxy",
+    "psyc",
+    "query",
+    "res",
+    "resource",
+    "rmi",
+    "rsync",
+    "rtmp",
+    "secondlife",
+    "sftp",
+    "sgn",
+    "skype",
+    "smb",
+    "soldat",
+    "spotify",
+    "ssh",
+    "steam",
+    "svn",
+    "teamspeak",
+    "things",
+    "udp",
+    "unreal",
+    "ut2004",
+    "ventrilo",
+    "view-source",
+    "webcal",
+    "wtai",
+    "wyciwyg",
+    "xfire",
+    "xri",
+    "ymsgr"
+  ];
+  var EMAIL_RE = /^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
+  var AUTOLINK_RE = /^<([a-zA-Z.\-]{1,25}):([^<>\x00-\x20]*)>/;
+  function autolink(state, silent) {
+    var tail, linkMatch, emailMatch, url, fullUrl, pos = state.pos;
+    if (state.src.charCodeAt(pos) !== 60) {
+      return false;
+    }
+    tail = state.src.slice(pos);
+    if (tail.indexOf(">") < 0) {
+      return false;
+    }
+    linkMatch = tail.match(AUTOLINK_RE);
+    if (linkMatch) {
+      if (url_schemas.indexOf(linkMatch[1].toLowerCase()) < 0) {
+        return false;
+      }
+      url = linkMatch[0].slice(1, -1);
+      fullUrl = normalizeLink(url);
+      if (!state.parser.validateLink(url)) {
+        return false;
+      }
+      if (!silent) {
+        state.push({
+          type: "link_open",
+          href: fullUrl,
+          level: state.level
+        });
+        state.push({
+          type: "text",
+          content: url,
+          level: state.level + 1
+        });
+        state.push({ type: "link_close", level: state.level });
+      }
+      state.pos += linkMatch[0].length;
+      return true;
+    }
+    emailMatch = tail.match(EMAIL_RE);
+    if (emailMatch) {
+      url = emailMatch[0].slice(1, -1);
+      fullUrl = normalizeLink("mailto:" + url);
+      if (!state.parser.validateLink(fullUrl)) {
+        return false;
+      }
+      if (!silent) {
+        state.push({
+          type: "link_open",
+          href: fullUrl,
+          level: state.level
+        });
+        state.push({
+          type: "text",
+          content: url,
+          level: state.level + 1
+        });
+        state.push({ type: "link_close", level: state.level });
+      }
+      state.pos += emailMatch[0].length;
+      return true;
+    }
+    return false;
+  }
+  function replace$1(regex, options) {
+    regex = regex.source;
+    options = options || "";
+    return function self2(name, val) {
+      if (!name) {
+        return new RegExp(regex, options);
+      }
+      val = val.source || val;
+      regex = regex.replace(name, val);
+      return self2;
+    };
+  }
+  var attr_name = /[a-zA-Z_:][a-zA-Z0-9:._-]*/;
+  var unquoted = /[^"'=<>`\x00-\x20]+/;
+  var single_quoted = /'[^']*'/;
+  var double_quoted = /"[^"]*"/;
+  var attr_value = replace$1(/(?:unquoted|single_quoted|double_quoted)/)("unquoted", unquoted)("single_quoted", single_quoted)("double_quoted", double_quoted)();
+  var attribute = replace$1(/(?:\s+attr_name(?:\s*=\s*attr_value)?)/)("attr_name", attr_name)("attr_value", attr_value)();
+  var open_tag = replace$1(/<[A-Za-z][A-Za-z0-9]*attribute*\s*\/?>/)("attribute", attribute)();
+  var close_tag = /<\/[A-Za-z][A-Za-z0-9]*\s*>/;
+  var comment = /<!---->|<!--(?:-?[^>-])(?:-?[^-])*-->/;
+  var processing = /<[?].*?[?]>/;
+  var declaration = /<![A-Z]+\s+[^>]*>/;
+  var cdata = /<!\[CDATA\[[\s\S]*?\]\]>/;
+  var HTML_TAG_RE = replace$1(/^(?:open_tag|close_tag|comment|processing|declaration|cdata)/)("open_tag", open_tag)("close_tag", close_tag)("comment", comment)("processing", processing)("declaration", declaration)("cdata", cdata)();
+  function isLetter$2(ch) {
+    var lc = ch | 32;
+    return lc >= 97 && lc <= 122;
+  }
+  function htmltag(state, silent) {
+    var ch, match, max, pos = state.pos;
+    if (!state.options.html) {
+      return false;
+    }
+    max = state.posMax;
+    if (state.src.charCodeAt(pos) !== 60 || pos + 2 >= max) {
+      return false;
+    }
+    ch = state.src.charCodeAt(pos + 1);
+    if (ch !== 33 && ch !== 63 && ch !== 47 && !isLetter$2(ch)) {
+      return false;
+    }
+    match = state.src.slice(pos).match(HTML_TAG_RE);
+    if (!match) {
+      return false;
+    }
+    if (!silent) {
+      state.push({
+        type: "htmltag",
+        content: state.src.slice(pos, pos + match[0].length),
+        level: state.level
+      });
+    }
+    state.pos += match[0].length;
+    return true;
+  }
+  var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
+  var NAMED_RE = /^&([a-z][a-z0-9]{1,31});/i;
+  function entity(state, silent) {
+    var ch, code2, match, pos = state.pos, max = state.posMax;
+    if (state.src.charCodeAt(pos) !== 38) {
+      return false;
+    }
+    if (pos + 1 < max) {
+      ch = state.src.charCodeAt(pos + 1);
+      if (ch === 35) {
+        match = state.src.slice(pos).match(DIGITAL_RE);
+        if (match) {
+          if (!silent) {
+            code2 = match[1][0].toLowerCase() === "x" ? parseInt(match[1].slice(1), 16) : parseInt(match[1], 10);
+            state.pending += isValidEntityCode(code2) ? fromCodePoint(code2) : fromCodePoint(65533);
+          }
+          state.pos += match[0].length;
+          return true;
+        }
+      } else {
+        match = state.src.slice(pos).match(NAMED_RE);
+        if (match) {
+          var decoded = decodeEntity(match[1]);
+          if (match[1] !== decoded) {
+            if (!silent) {
+              state.pending += decoded;
+            }
+            state.pos += match[0].length;
+            return true;
+          }
+        }
+      }
+    }
+    if (!silent) {
+      state.pending += "&";
+    }
+    state.pos++;
+    return true;
+  }
+  var _rules$2 = [
+    ["text", text2],
+    ["newline", newline],
+    ["escape", escape],
+    ["backticks", backticks],
+    ["del", del],
+    ["ins", ins],
+    ["mark", mark],
+    ["emphasis", emphasis],
+    ["sub", sub],
+    ["sup", sup],
+    ["links", links],
+    ["footnote_inline", footnote_inline],
+    ["footnote_ref", footnote_ref],
+    ["autolink", autolink],
+    ["htmltag", htmltag],
+    ["entity", entity]
+  ];
+  function ParserInline() {
+    this.ruler = new Ruler();
+    for (var i = 0; i < _rules$2.length; i++) {
+      this.ruler.push(_rules$2[i][0], _rules$2[i][1]);
+    }
+    this.validateLink = validateLink;
+  }
+  ParserInline.prototype.skipToken = function(state) {
+    var rules2 = this.ruler.getRules("");
+    var len = rules2.length;
+    var pos = state.pos;
+    var i, cached_pos;
+    if ((cached_pos = state.cacheGet(pos)) > 0) {
+      state.pos = cached_pos;
+      return;
+    }
+    for (i = 0; i < len; i++) {
+      if (rules2[i](state, true)) {
+        state.cacheSet(pos, state.pos);
+        return;
+      }
+    }
+    state.pos++;
+    state.cacheSet(pos, state.pos);
+  };
+  ParserInline.prototype.tokenize = function(state) {
+    var rules2 = this.ruler.getRules("");
+    var len = rules2.length;
+    var end2 = state.posMax;
+    var ok, i;
+    while (state.pos < end2) {
+      for (i = 0; i < len; i++) {
+        ok = rules2[i](state, false);
+        if (ok) {
+          break;
+        }
+      }
+      if (ok) {
+        if (state.pos >= end2) {
+          break;
+        }
+        continue;
+      }
+      state.pending += state.src[state.pos++];
+    }
+    if (state.pending) {
+      state.pushPending();
+    }
+  };
+  ParserInline.prototype.parse = function(str, options, env, outTokens) {
+    var state = new StateInline(str, this, options, env, outTokens);
+    this.tokenize(state);
+  };
+  function validateLink(url) {
+    var BAD_PROTOCOLS = ["vbscript", "javascript", "file", "data"];
+    var str = url.trim().toLowerCase();
+    str = replaceEntities(str);
+    if (str.indexOf(":") !== -1 && BAD_PROTOCOLS.indexOf(str.split(":")[0]) !== -1) {
+      return false;
+    }
+    return true;
+  }
+  var defaultConfig = {
+    options: {
+      html: false,
+      // Enable HTML tags in source
+      xhtmlOut: false,
+      // Use '/' to close single tags (<br />)
+      breaks: false,
+      // Convert '\n' in paragraphs into <br>
+      langPrefix: "language-",
+      // CSS language prefix for fenced blocks
+      linkTarget: "",
+      // set target to open link in
+      // Enable some language-neutral replacements + quotes beautification
+      typographer: false,
+      // Double + single quotes replacement pairs, when typographer enabled,
+      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+      quotes: "\u201C\u201D\u2018\u2019",
+      // Highlighter function. Should return escaped HTML,
+      // or '' if input not changed
+      //
+      // function (/*str, lang*/) { return ''; }
+      //
+      highlight: null,
+      maxNesting: 20
+      // Internal protection, recursion limit
+    },
+    components: {
+      core: {
+        rules: [
+          "block",
+          "inline",
+          "references",
+          "replacements",
+          "smartquotes",
+          "references",
+          "abbr2",
+          "footnote_tail"
+        ]
+      },
+      block: {
+        rules: [
+          "blockquote",
+          "code",
+          "fences",
+          "footnote",
+          "heading",
+          "hr",
+          "htmlblock",
+          "lheading",
+          "list",
+          "paragraph",
+          "table"
+        ]
+      },
+      inline: {
+        rules: [
+          "autolink",
+          "backticks",
+          "del",
+          "emphasis",
+          "entity",
+          "escape",
+          "footnote_ref",
+          "htmltag",
+          "links",
+          "newline",
+          "text"
+        ]
+      }
+    }
+  };
+  var fullConfig = {
+    options: {
+      html: false,
+      // Enable HTML tags in source
+      xhtmlOut: false,
+      // Use '/' to close single tags (<br />)
+      breaks: false,
+      // Convert '\n' in paragraphs into <br>
+      langPrefix: "language-",
+      // CSS language prefix for fenced blocks
+      linkTarget: "",
+      // set target to open link in
+      // Enable some language-neutral replacements + quotes beautification
+      typographer: false,
+      // Double + single quotes replacement pairs, when typographer enabled,
+      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+      quotes: "\u201C\u201D\u2018\u2019",
+      // Highlighter function. Should return escaped HTML,
+      // or '' if input not changed
+      //
+      // function (/*str, lang*/) { return ''; }
+      //
+      highlight: null,
+      maxNesting: 20
+      // Internal protection, recursion limit
+    },
+    components: {
+      // Don't restrict core/block/inline rules
+      core: {},
+      block: {},
+      inline: {}
+    }
+  };
+  var commonmarkConfig = {
+    options: {
+      html: true,
+      // Enable HTML tags in source
+      xhtmlOut: true,
+      // Use '/' to close single tags (<br />)
+      breaks: false,
+      // Convert '\n' in paragraphs into <br>
+      langPrefix: "language-",
+      // CSS language prefix for fenced blocks
+      linkTarget: "",
+      // set target to open link in
+      // Enable some language-neutral replacements + quotes beautification
+      typographer: false,
+      // Double + single quotes replacement pairs, when typographer enabled,
+      // and smartquotes on. Set doubles to '«»' for Russian, '„“' for German.
+      quotes: "\u201C\u201D\u2018\u2019",
+      // Highlighter function. Should return escaped HTML,
+      // or '' if input not changed
+      //
+      // function (/*str, lang*/) { return ''; }
+      //
+      highlight: null,
+      maxNesting: 20
+      // Internal protection, recursion limit
+    },
+    components: {
+      core: {
+        rules: [
+          "block",
+          "inline",
+          "references",
+          "abbr2"
+        ]
+      },
+      block: {
+        rules: [
+          "blockquote",
+          "code",
+          "fences",
+          "heading",
+          "hr",
+          "htmlblock",
+          "lheading",
+          "list",
+          "paragraph"
+        ]
+      },
+      inline: {
+        rules: [
+          "autolink",
+          "backticks",
+          "emphasis",
+          "entity",
+          "escape",
+          "htmltag",
+          "links",
+          "newline",
+          "text"
+        ]
+      }
+    }
+  };
+  var config2 = {
+    "default": defaultConfig,
+    "full": fullConfig,
+    "commonmark": commonmarkConfig
+  };
+  function StateCore(instance, str, env) {
+    this.src = str;
+    this.env = env;
+    this.options = instance.options;
+    this.tokens = [];
+    this.inlineMode = false;
+    this.inline = instance.inline;
+    this.block = instance.block;
+    this.renderer = instance.renderer;
+    this.typographer = instance.typographer;
+  }
+  function Remarkable(preset, options) {
+    if (typeof preset !== "string") {
+      options = preset;
+      preset = "default";
+    }
+    if (options && options.linkify != null) {
+      console.warn(
+        "linkify option is removed. Use linkify plugin instead:\n\nimport Remarkable from 'remarkable';\nimport linkify from 'remarkable/linkify';\nnew Remarkable().use(linkify)\n"
+      );
+    }
+    this.inline = new ParserInline();
+    this.block = new ParserBlock();
+    this.core = new Core();
+    this.renderer = new Renderer();
+    this.ruler = new Ruler();
+    this.options = {};
+    this.configure(config2[preset]);
+    this.set(options || {});
+  }
+  Remarkable.prototype.set = function(options) {
+    assign2(this.options, options);
+  };
+  Remarkable.prototype.configure = function(presets) {
+    var self2 = this;
+    if (!presets) {
+      throw new Error("Wrong `remarkable` preset, check name/content");
+    }
+    if (presets.options) {
+      self2.set(presets.options);
+    }
+    if (presets.components) {
+      Object.keys(presets.components).forEach(function(name) {
+        if (presets.components[name].rules) {
+          self2[name].ruler.enable(presets.components[name].rules, true);
+        }
+      });
+    }
+  };
+  Remarkable.prototype.use = function(plugin, options) {
+    plugin(this, options);
+    return this;
+  };
+  Remarkable.prototype.parse = function(str, env) {
+    var state = new StateCore(this, str, env);
+    this.core.process(state);
+    return state.tokens;
+  };
+  Remarkable.prototype.render = function(str, env) {
+    env = env || {};
+    return this.renderer.render(this.parse(str, env), this.options, env);
+  };
+  Remarkable.prototype.parseInline = function(str, env) {
+    var state = new StateCore(this, str, env);
+    state.inlineMode = true;
+    this.core.process(state);
+    return state.tokens;
+  };
+  Remarkable.prototype.renderInline = function(str, env) {
+    env = env || {};
+    return this.renderer.render(this.parseInline(str, env), this.options, env);
+  };
+
+  // node_modules/@customerjourney/cj-components/src/components/CardsList.js
+  var CardsList = class extends AppElement {
+    #default = {
+      cardsWidth: "is-4",
+      context: {
+        lang: "en"
+      }
+    };
+    constructor(props = {}) {
+      super();
+      this.eventName = "user:click-cards-list";
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
+      this.md = new Remarkable();
+    }
+    #card(props) {
+      let card = (
+        /* html */
+        `
+        <div class="column ${this.state.cardsWidth}">
+            <div ${this.getClasses(["card"], props.classList)}  ${this.setAnimation(props.animation)}>                
+                ${props.header?.text != void 0 ? `<header ${this.getClasses(["card-header"], props.header?.classList)} ${this.setAnimation(props.header?.animation)}>
+                    <p class="card-header-title" >
+                    ${props.header.text[this.state.context.lang]}
+                    </p>
+                </header>` : ""}
+                ${props.image?.src != void 0 ? `<div ${this.getClasses(["card-image"], props.image.classList)} ${this.setAnimation(props.image?.animation)}>
+                        <figure class="image is-4by3">
+                            <img src="${props.image.src}" ${props.image.alt != void 0 ? `alt="${props.image.alt[this.state.context.lang]}"` : ""} >
+                        </figure>
+                    </div>` : ""}
+                ${props.content != void 0 ? `
+                    <div ${this.getClasses(["card-content"], props.content.classList)} ${this.setAnimation(props.content.animation)}>
+                        ${props.content.title?.text[this.state.context.lang] != void 0 ? `
+                        <p ${this.getClasses(["title"], props.content.title.classList)}  ${this.setAnimation(props.content.title.animation)}>
+                        ${props.content.title.text[this.state.context.lang]}
+                        </p>` : ""}
+                        ${props.content.subtitle?.text[this.state.context.lang] != void 0 ? `
+                        <p ${this.getClasses(["subtitle"], props.content.subtitle.classList)} ${props.content?.subtitle?.classList != void 0 ? props.content.subtitle.classList : ""}" ${this.setAnimation(props.content.subtitle.animation)}>
+                        ${props.content.subtitle.text[this.state.context.lang]}
+                        </p>` : ""}
+                        ${props.content.description?.text[this.state.context.lang] != void 0 ? `
+                        <div ${this.getClasses(["content"], props.content.description?.classList)}  ${props.content.description?.classList != void 0 ? props.content.description?.classList : ""}" ${this.setAnimation(props.content.description?.animation)}>
+                        ${this.md.render(props.content.description.text[this.state.context.lang])}
+                        </div>` : ""}
+                    ` : ""}
+                ${props.content != void 0 ? `</div>` : ""}
+                ${props.footer?.buttons != void 0 ? `<footer ${this.getClasses(["card-footer"], props.footer.classList)} ${this.setAnimation(props.footer.animation)}>
+                    ${this.#getFooter(props.footer.buttons)}
+                </footer>` : ""}
+            </div>
+        </div>
+        `
+      );
+      return card;
+    }
+    #getFooter(props) {
+      if (props != void 0) {
+        let render2 = "";
+        Object.entries(props).forEach(([key, value]) => {
+          render2 += `<button class="card-footer-item"  id="${props[key]["id"]}" ${this.setAnimation(props[key]["animation"])}>
+                    ${props[key]["text"][this.state.context.lang]}
+                </button>`;
+        });
+        return render2;
+      } else return "";
+    }
+    #getCards() {
+      let cardsHtml = ``;
+      if (this.state.cards != void 0) {
+        this.state.cards.forEach((card) => {
+          cardsHtml += this.#card(card);
+        });
+      }
+      return cardsHtml;
+    }
+    render() {
+      this.innerHTML = /* html */
+      `
+       <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
+            <div class="container py-4">
+                ${this.getTitles(this.state)}
+                <div class="columns is-multiline mx-4">
+                    ${this.#getCards()}
+                </div>
+            </div>
+        </div>`;
+      this.addEvents();
+    }
+  };
+  customElements.define("cards-list", CardsList);
+
+  // node_modules/@customerjourney/cj-components/src/components/CtaBanner.js
+  var CtaBanner = class extends AppElement {
+    #default = {
+      context: {
+        lang: "en"
+      }
+    };
+    constructor(props = {}) {
+      super();
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
+      this.md = new Remarkable();
+    }
+    static get observedAttributes() {
+      return [];
+    }
+    attributeChangedCallback(name, old, now) {
+      this.render();
+    }
+    render() {
+      this.innerHTML = /* html */
+      `
+      <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
+            <div class="container py-4">
+              <div class="columns is-vcentered">
+                <div class="column ${this.state.content?.size != void 0 ? this.state.content.size : "is-6"}">
+                   <div ${this.getClasses(["content"], this.state.content?.classList)} ${this.setAnimation(this.state.content?.animation)}>
+                   ${this.state.content?.text[this.state.context.lang] != void 0 ? this.md.render(this.state.content.text[this.state.context.lang]) : ""}
+                    </div>
+                </div>
+                <div class="column">
+                    ${this.state.buttons != void 0 ? this.buttonsRender(this.state.buttons) : ""} 
+                </div>
+              </div>
+            </div>
+    </section>
+      `;
+      this.addEvents();
+    }
+  };
+  customElements.define("cta-banner", CtaBanner);
+
+  // node_modules/@customerjourney/cj-components/src/components/CountdownTimer.js
+  var CountdownTimer = class extends AppElement {
+    #default = {
+      count: {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      },
+      days: {
+        text: {
+          es: "d\xEDas",
+          en: "days",
+          fr: "jours"
+        }
+      },
+      hours: {
+        text: {
+          es: "horas",
+          en: "hours",
+          fr: "heures"
+        }
+      },
+      minutes: {
+        text: {
+          es: "minutos",
+          en: "minutes",
+          fr: "minutes"
+        }
+      },
+      seconds: {
+        text: {
+          es: "segundos",
+          en: "seconds",
+          fr: "secondes"
+        }
+      },
+      message: {
+        text: {
+          en: "We are very sorry. The promotion has expired"
+        }
+      },
+      context: {
+        lang: "en"
+      }
+    };
+    constructor(props = {}) {
+      super();
+      this.eventName = "timer:time-out";
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
+      const presentDate = /* @__PURE__ */ new Date();
+      const presentTime = presentDate.getTime();
+      const dueDate = this.#getStart(this.getAttribute("start"));
+      this.timeRemaining = dueDate - presentTime;
+      this.start();
+    }
+    #getStart() {
+      try {
+        let dueDate = new Date(this.getAttribute("start"));
+        return dueDate;
+      } catch (error) {
+        console.error(error);
+        return new dateString("2024-07-12T10:00:00");
+      }
+    }
+    getTime() {
+      return {
+        days: Math.floor(this.timeRemaining / 1e3 / 60 / 60 / 24),
+        hours: Math.floor(this.timeRemaining / 1e3 / 60 / 60) % 24,
+        minutes: Math.floor(this.timeRemaining / 1e3 / 60) % 60,
+        seconds: Math.floor(this.timeRemaining / 1e3) % 60
+      };
+    }
+    update() {
+      this.state.count = this.getTime();
+      this.render();
+    }
+    start() {
+      if (this.timeRemaining > 0) {
+        this.setAttribute("value", "running");
+        let intervalId = setInterval(() => {
+          let eventName;
+          this.timeRemaining -= 1e3;
+          if (0 > this.timeRemaining) {
+            this.setAttribute("value", "timed-out");
+            if (this.state.eventName != void 0) {
+              eventName = this.state.eventName;
+            }
+            const timeOut = new CustomEvent(eventName, {
+              detail: { timeOut: this.id },
+              bubbles: true,
+              composed: true
+            });
+            clearInterval(intervalId);
+            this.dispatchEvent(timeOut);
+            this.querySelector(".notification").classList.remove("is-hidden");
+          } else {
+            this.update();
+          }
+        }, 1e3);
+      } else {
+        this.state.count = {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
+        };
+        this.setAttribute("value", "stopped");
+        this.render();
+      }
+    }
+    render() {
+      this.innerHTML = /* html */
+      `
+        <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
+            <div class="container">
+                ${this.getTitles()}
+                <div class="columns is-centered">
+                    <div class="column is-4">
+                        <div class="level is-mobile" ${this.setAnimation(this.state.animation)}>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                <p class="title">${this.state.count?.days === void 0 ? 0 : this.state.count.days}</p>
+                                <p class="heading">${this.state.days?.text[this.state.context.lang] != void 0 ? this.state.days.text[this.state.context.lang] : `days`}</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                <p class="title">${this.state.count?.hours === void 0 ? 0 : this.state.count.hours}</p>
+                                <p class="heading">${this.state.hours?.text[this.state.context.lang] != void 0 ? this.state.hours.text[this.state.context.lang] : `hours`}</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                <p class="title">${this.state.count?.minutes === void 0 ? 0 : this.state.count.minutes}</p>
+                                <p class="heading">${this.state.minutes?.text[this.state.context.lang] != void 0 ? this.state.minutes.text[this.state.context.lang] : `minutes`}</p>
+                                </div>
+                            </div>
+                            <div class="level-item has-text-centered">
+                                <div>
+                                <p class="title" >${this.state.count?.seconds === void 0 ? 0 : this.state.count.seconds}</p>
+                                <p class="heading">${this.state.seconds?.text[this.state.context.lang] != void 0 ? this.state.seconds.text[this.state.context.lang] : `seconds`}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div  ${this.getClasses(["notification", "has-text-centered", "is-hidden"], this.state.message?.classList)} ${this.setAnimation(this.state.message.animation)}>
+                            ${this.state.message.text[this.state.context.lang]}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        `;
+      if (this.getAttribute("value") === "stopped") {
+        this.querySelector(".notification").classList.remove("is-hidden");
+      }
+    }
+  };
+  customElements.define("countdown-timer", CountdownTimer);
+
+  // node_modules/@customerjourney/cj-components/src/components/HeroBanner.js
   var HeroBanner = class extends AppElement {
     #default = {
       alignment: "has-text-centered",
@@ -20496,198 +21421,258 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("hero-banner", HeroBanner);
 
-  // node_modules/@buyerjourney/bj-components/node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
-  var h = (s) => NodeList.prototype.isPrototypeOf(s) || HTMLCollection.prototype.isPrototypeOf(s) ? Array.from(s) : typeof s == "string" || s instanceof String ? document.querySelectorAll(s) : [s];
-  var p = () => Element.prototype.closest && "IntersectionObserver" in window;
-  var u = class {
+  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/react/simpleParallax.es.js
+  var import_react = __toESM(require_react(), 1);
+  var v = (e) => {
+    const [t2, n] = (0, import_react.useState)(0), [a2, c2] = (0, import_react.useState)(false), s = (0, import_react.useRef)(null), r2 = (0, import_react.useCallback)(() => {
+      s.current && n(s.current.height);
+    }, []);
+    return (0, import_react.useEffect)(() => {
+      const l = () => {
+        c2(true), r2();
+      }, d = s.current;
+      return d && (d.complete ? l() : d.addEventListener("load", l)), window.addEventListener("resize", r2), () => {
+        d && d.removeEventListener("load", l), window.removeEventListener("resize", r2);
+      };
+    }, [e, r2]), [s, t2, a2];
+  };
+  var P = (e = {}) => {
+    const [t2, n] = (0, import_react.useState)(false), a2 = (0, import_react.useRef)(null);
+    return (0, import_react.useEffect)(() => {
+      const c2 = new IntersectionObserver(
+        (r2) => {
+          const [l] = r2;
+          l && (l.isIntersecting ? n(true) : n(false));
+        },
+        {
+          ...e
+        }
+      ), { current: s } = a2;
+      return s && c2.observe(s), () => {
+        s && c2.unobserve(s);
+      };
+    }, [e]), [a2, t2];
+  };
+  var x = class _x {
     constructor() {
-      this.positions = {
-        top: 0,
-        bottom: 0,
-        height: 0
+      this.callbacks = /* @__PURE__ */ new Set(), this.animationFrameId = null;
+    }
+    static getInstance() {
+      return _x.instance || (_x.instance = new _x()), _x.instance;
+    }
+    register(t2) {
+      this.callbacks.add(t2), this.animationFrameId === null && this.start();
+    }
+    unregister(t2) {
+      this.callbacks.delete(t2), this.callbacks.size === 0 && this.animationFrameId !== null && this.stop();
+    }
+    start() {
+      const t2 = () => {
+        this.callbacks.forEach((n) => n()), this.animationFrameId = requestAnimationFrame(t2);
       };
+      this.animationFrameId = requestAnimationFrame(t2);
     }
-    setViewportTop(t2) {
-      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions;
-    }
-    setViewportBottom() {
-      return this.positions.bottom = this.positions.top + this.positions.height, this.positions;
-    }
-    setViewportAll(t2) {
-      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions.height = t2 ? t2.clientHeight : document.documentElement.clientHeight, this.positions.bottom = this.positions.top + this.positions.height, this.positions;
+    stop() {
+      this.animationFrameId !== null && (cancelAnimationFrame(this.animationFrameId), this.animationFrameId = null);
     }
   };
-  var i = new u();
-  var c2 = () => {
-    const s = "transform webkitTransform mozTransform oTransform msTransform".split(
-      " "
-    );
-    let t2, e = 0;
-    for (; t2 === void 0; )
-      t2 = document.createElement("div").style[s[e]] !== void 0 ? s[e] : void 0, e += 1;
-    return t2;
+  var k = x.getInstance();
+  var z = (e, t2) => e * t2 - e;
+  var A = (e, t2) => Math.ceil(e / 100 * t2 - t2 / 2);
+  var C = (e, t2) => {
+    const { top: n, height: a2 } = e;
+    let c2 = -a2;
+    const s = t2;
+    if (n < c2)
+      return 0;
+    if (n > s)
+      return 100;
+    const r2 = (n - c2) / (s - c2) * 100;
+    return Math.round(Math.min(Math.max(r2, 0), 100) * 100) / 100;
   };
-  var r2 = c2();
-  var f = (s) => s.tagName.toLowerCase() !== "img" && s.tagName.toLowerCase() !== "picture" ? true : !(!s || !s.complete || typeof s.naturalWidth < "u" && s.naturalWidth === 0);
-  var d = class {
-    constructor(t2, e) {
-      this.element = t2, this.elementContainer = t2, this.settings = e, this.isVisible = true, this.isInit = false, this.oldTranslateValue = -1, this.init = this.init.bind(this), this.customWrapper = this.settings.customWrapper && this.element.closest(this.settings.customWrapper) ? this.element.closest(this.settings.customWrapper) : null, f(t2) ? this.init() : this.element.addEventListener("load", () => {
-        setTimeout(() => {
-          this.init(true);
-        }, 50);
-      });
+  var N = (e, t2) => {
+    switch (t2) {
+      case "up":
+        return `0, ${e}px, 0`;
+      case "right":
+        return `${-e}px, 0, 0`;
+      case "down":
+        return `0, ${-e}px, 0`;
+      case "left":
+        return `${e}px, 0, 0`;
+      case "up left":
+        return `${e}px, ${e}px, 0`;
+      case "up right":
+        return `${-e}px, ${e}px, 0`;
+      case "down left":
+        return `${e}px, ${-e}px, 0`;
+      case "down right":
+        return `${-e}px, ${-e}px, 0`;
+      default:
+        return `0, ${e}px, 0`;
     }
-    init(t2) {
-      this.isInit || (t2 && (this.rangeMax = null), !this.element.closest(".simpleParallax") && (this.settings.overflow === false && this.wrapElement(this.element), this.setTransformCSS(), this.getElementOffset(), this.intersectionObserver(), this.getTranslateValue(), this.animate(), this.settings.delay > 0 ? setTimeout(() => {
-        this.setTransitionCSS(), this.elementContainer.classList.add(
-          "simple-parallax-initialized"
-        );
-      }, 10) : this.elementContainer.classList.add("simple-parallax-initialized"), this.isInit = true));
-    }
-    // if overflow option is set to false
-    // wrap the element into a .simpleParallax div and apply overflow hidden to hide the image excedant (result of the scale)
-    wrapElement() {
-      const t2 = this.element.closest("picture") || this.element;
-      let e = this.customWrapper || document.createElement("div");
-      e.classList.add("simpleParallax"), e.style.overflow = "hidden", this.customWrapper || (t2.parentNode.insertBefore(e, t2), e.appendChild(t2)), this.elementContainer = e;
-    }
-    // unwrap the element from .simpleParallax wrapper container
-    unWrapElement() {
-      const t2 = this.elementContainer;
-      this.customWrapper ? (t2.classList.remove("simpleParallax"), t2.style.overflow = "") : t2.replaceWith(...t2.childNodes);
-    }
-    // apply default style on element
-    setTransformCSS() {
-      this.settings.overflow === false && (this.element.style[r2] = `scale(${this.settings.scale})`), this.element.style.willChange = "transform";
-    }
-    // apply the transition effet
-    setTransitionCSS() {
-      this.element.style.transition = `transform ${this.settings.delay}s ${this.settings.transition}`;
-    }
-    // remove style of the element
-    unSetStyle() {
-      this.element.style.willChange = "", this.element.style[r2] = "", this.element.style.transition = "";
-    }
-    // get the current element offset
-    getElementOffset() {
-      const t2 = this.elementContainer.getBoundingClientRect();
-      if (this.elementHeight = t2.height, this.elementTop = t2.top + i.positions.top, this.settings.customContainer) {
-        const e = this.settings.customContainer.getBoundingClientRect();
-        this.elementTop = t2.top - e.top + i.positions.top;
-      }
-      this.elementBottom = this.elementHeight + this.elementTop;
-    }
-    // build the Threshold array to cater change for every pixel scrolled
-    buildThresholdList() {
-      const t2 = [];
-      for (let e = 1; e <= this.elementHeight; e++) {
-        const o2 = e / this.elementHeight;
-        t2.push(o2);
-      }
-      return t2;
-    }
-    // create the Intersection Observer
-    intersectionObserver() {
-      const t2 = {
-        root: null,
-        threshold: this.buildThresholdList()
+  };
+  var B = () => {
+    const [e, t2] = (0, import_react.useState)(null);
+    return (0, import_react.useEffect)(() => {
+      const n = () => {
+        t2(window.innerHeight);
       };
-      this.observer = new IntersectionObserver(
-        this.intersectionObserverCallback.bind(this),
-        t2
-      ), this.observer.observe(this.element);
-    }
-    // Intersection Observer Callback to set the element at visible state or not
-    intersectionObserverCallback(t2) {
-      t2.forEach((e) => {
-        e.isIntersecting ? this.isVisible = true : this.isVisible = false;
-      });
-    }
-    // check if the current element is visible in the Viewport
-    // for browser that not support Intersection Observer API
-    checkIfVisible() {
-      return this.elementBottom > i.positions.top && this.elementTop < i.positions.bottom;
-    }
-    // calculate the range between image will be translated
-    getRangeMax() {
-      const t2 = this.element.clientHeight;
-      this.rangeMax = t2 * this.settings.scale - t2;
-    }
-    // get the percentage and the translate value to apply on the element
-    getTranslateValue() {
-      let t2 = ((i.positions.bottom - this.elementTop) / ((i.positions.height + this.elementHeight) / 100)).toFixed(1);
-      return t2 = Math.min(100, Math.max(0, t2)), this.settings.maxTransition !== 0 && t2 > this.settings.maxTransition && (t2 = this.settings.maxTransition), this.oldPercentage === t2 || (this.rangeMax || this.getRangeMax(), this.translateValue = (t2 / 100 * this.rangeMax - this.rangeMax / 2).toFixed(0), this.oldTranslateValue === this.translateValue) ? false : (this.oldPercentage = t2, this.oldTranslateValue = this.translateValue, true);
-    }
-    // animate the image
-    animate() {
-      let t2 = 0, e = 0, o2;
-      (this.settings.orientation.includes("left") || this.settings.orientation.includes("right")) && (e = `${this.settings.orientation.includes("left") ? this.translateValue * -1 : this.translateValue}px`), (this.settings.orientation.includes("up") || this.settings.orientation.includes("down")) && (t2 = `${this.settings.orientation.includes("up") ? this.translateValue * -1 : this.translateValue}px`), this.settings.overflow === false ? o2 = `translate3d(${e}, ${t2}, 0) scale(${this.settings.scale})` : o2 = `translate3d(${e}, ${t2}, 0)`, this.element.style[r2] = o2;
-    }
+      if (typeof window < "u")
+        return t2(window.innerHeight), window.addEventListener("resize", n), () => {
+          window.removeEventListener("resize", n);
+        };
+    }, []), e;
   };
-  var l = false;
-  var n = [];
-  var a2;
-  var m;
-  var g = class {
-    constructor(t2, e) {
-      t2 && p() && (this.elements = h(t2), this.defaults = {
-        delay: 0,
-        orientation: "up",
-        scale: 1.3,
-        overflow: false,
-        transition: "cubic-bezier(0,0,0,1)",
-        customContainer: "",
-        customWrapper: "",
-        maxTransition: 0
-      }, this.settings = Object.assign(this.defaults, e), this.settings.customContainer && ([this.customContainer] = h(
-        this.settings.customContainer
-      )), this.lastPosition = -1, this.resizeIsDone = this.resizeIsDone.bind(this), this.refresh = this.refresh.bind(this), this.proceedRequestAnimationFrame = this.proceedRequestAnimationFrame.bind(this), this.init());
-    }
-    init() {
-      i.setViewportAll(this.customContainer), n = [
-        ...this.elements.map(
-          (t2) => new d(t2, this.settings)
-        ),
-        ...n
-      ], l || (this.proceedRequestAnimationFrame(), window.addEventListener("resize", this.resizeIsDone), l = true);
-    }
-    // wait for resize to be completely done
-    resizeIsDone() {
-      clearTimeout(m), m = setTimeout(this.refresh, 200);
-    }
-    // animation frame
-    proceedRequestAnimationFrame() {
-      if (i.setViewportTop(this.customContainer), this.lastPosition === i.positions.top) {
-        a2 = window.requestAnimationFrame(
-          this.proceedRequestAnimationFrame
-        );
+  var R = ({
+    isLoaded: e,
+    imageHeight: t2,
+    scale: n,
+    boundingClientRect: a2,
+    orientation: c2,
+    maxTransition: s
+  }) => {
+    const [r2, l] = (0, import_react.useState)(""), d = (0, import_react.useRef)({
+      rangeMax: 0,
+      lastImageHeight: 0,
+      lastScale: 0,
+      lastTranslateValue: -999999,
+      lastTransformString: ""
+    }), o2 = B();
+    return (0, import_react.useEffect)(() => {
+      if (!e || !a2 || !o2)
         return;
+      const i = d.current;
+      (i.lastImageHeight !== t2 || i.lastScale !== n) && (i.rangeMax = z(t2, n), i.lastImageHeight = t2, i.lastScale = n);
+      let h = C(a2, o2);
+      s && (h = Math.min(h, 100 - s));
+      const p = A(h, i.rangeMax);
+      if (i.lastTranslateValue !== p) {
+        const g = N(p, c2);
+        g !== i.lastTransformString && (i.lastTranslateValue = p, i.lastTransformString = g, l(g));
       }
-      i.setViewportBottom(), n.forEach((t2) => {
-        this.proceedElement(t2);
-      }), a2 = window.requestAnimationFrame(
-        this.proceedRequestAnimationFrame
-      ), this.lastPosition = i.positions.top;
-    }
-    // proceed the element
-    proceedElement(t2) {
-      let e = false;
-      this.customContainer ? e = t2.checkIfVisible() : e = t2.isVisible, e && t2.getTranslateValue() && t2.animate();
-    }
-    refresh() {
-      i.setViewportAll(this.customContainer), n.forEach((t2) => {
-        t2.getElementOffset(), t2.getRangeMax();
-      }), this.lastPosition = -1;
-    }
-    destroy() {
-      const t2 = [];
-      n = n.filter((e) => this.elements.includes(e.element) ? (t2.push(e), false) : e), t2.forEach((e) => {
-        e.unSetStyle(), this.settings.overflow === false && e.unWrapElement();
-      }), n.length || (window.cancelAnimationFrame(a2), window.removeEventListener("resize", this.refresh), l = false);
-    }
+    }, [
+      e,
+      t2,
+      n,
+      a2,
+      c2,
+      s,
+      o2
+    ]), r2;
+  };
+  var j = () => {
+    const [e, t2] = (0, import_react.useState)(false);
+    return (0, import_react.useEffect)(() => {
+      if (typeof window > "u")
+        return;
+      const n = window.matchMedia("(prefers-reduced-motion: reduce)");
+      t2(n.matches);
+      const a2 = (c2) => {
+        t2(c2.matches);
+      };
+      return n.addEventListener("change", a2), () => {
+        n.removeEventListener("change", a2);
+      };
+    }, []), e;
+  };
+  var q = ({
+    scale: e,
+    overflow: t2,
+    delay: n,
+    transition: a2,
+    orientation: c2,
+    maxTransition: s,
+    isVisible: r2,
+    isLoaded: l,
+    imageHeight: d,
+    imageRef: o2
+  }) => {
+    const [i, h] = (0, import_react.useState)(false), [p, g] = (0, import_react.useState)(0), [T, y2] = (0, import_react.useState)(
+      null
+    ), [$, E] = (0, import_react.useState)(false), u = j(), M = R({
+      isLoaded: l,
+      imageHeight: d,
+      scale: e,
+      boundingClientRect: T,
+      orientation: c2,
+      maxTransition: s
+    }), S = (0, import_react.useCallback)(
+      (w) => {
+        if (!o2.current || u || !w) return;
+        let I = `translate3d(${w})`;
+        t2 || (I += ` scale(${e})`), o2.current.style.transform = I;
+      },
+      [o2, e, t2, u]
+    ), L = (0, import_react.useCallback)(
+      (w) => {
+        if (!o2.current || u) return;
+        const I = w && n > 0 ? `transform ${n}s ${a2}` : "";
+        o2.current.style.transition = I;
+      },
+      [o2, n, a2, u]
+    ), V = (0, import_react.useCallback)(() => {
+      var w;
+      if (!(!r2 && i || u) && (window.scrollY !== p || !i)) {
+        const I = (w = o2.current) == null ? void 0 : w.getBoundingClientRect();
+        I && y2(I), i || setTimeout(() => {
+          E(true);
+        }, 50), g(window.scrollY);
+      }
+    }, [p, r2, o2, i, u]);
+    (0, import_react.useEffect)(() => {
+      M && (r2 || !i) && (S(M), h(true));
+    }, [M, r2, i, S]), (0, import_react.useEffect)(() => {
+      !t2 && l && o2.current && !u && (o2.current.style.transform = `scale(${e})`);
+    }, [e, t2, l, u]), (0, import_react.useEffect)(() => {
+      L($);
+    }, [$, L]), (0, import_react.useEffect)(() => (u || k.register(V), () => {
+      k.unregister(V);
+    }), [V, u]), (0, import_react.useEffect)(() => {
+      u && o2.current && (o2.current.style.transform = "", o2.current.style.transition = "");
+    }, [u]);
+  };
+  var G = "/Users/geoffrey/Desktop/perso/simpleParallax.js/src/react/index.tsx";
+  var W = ({
+    delay: e = 0.4,
+    orientation: t2 = "up",
+    scale: n = 1.4,
+    overflow: a2 = false,
+    transition: c2 = "cubic-bezier(0,0,0,1)",
+    maxTransition: s = null,
+    children: r2
+  }) => {
+    var $;
+    const l = t2 ?? "up", d = n ?? 1.2, o2 = ($ = r2 == null ? void 0 : r2.props) == null ? void 0 : $.src, [i, h, p] = v(o2), [g, T] = P({
+      root: null,
+      rootMargin: "0px",
+      threshold: Array.from(Array(101).keys(), (E) => E / 100)
+    });
+    q({
+      scale: d,
+      overflow: a2,
+      delay: e,
+      transition: c2,
+      orientation: l,
+      maxTransition: s,
+      isVisible: T,
+      isLoaded: p,
+      imageHeight: h,
+      imageRef: i
+    });
+    const y2 = import_react.default.isValidElement(r2) ? import_react.default.cloneElement(r2, {
+      ref: i
+    }) : null;
+    return /* @__PURE__ */ import_react.default.createElement("div", { ref: g, style: {
+      overflow: a2 ? "visible" : "hidden"
+    }, __self: void 0, __source: {
+      fileName: G,
+      lineNumber: 47,
+      columnNumber: 3
+    } }, y2);
   };
 
-  // node_modules/@buyerjourney/bj-components/src/components/imageBanner.js
+  // node_modules/@customerjourney/cj-components/src/components/ImageBanner.js
   var ImageBanner = class extends AppElement {
     #default = {
       context: {
@@ -20725,13 +21710,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new g(image, this.state.image.paralax);
+        new W(image, this.state.image.paralax);
       }
     }
   };
   customElements.define("image-banner", ImageBanner);
 
-  // node_modules/@buyerjourney/bj-components/src/components/ImageText.js
+  // node_modules/@customerjourney/cj-components/src/components/ImageText.js
   var ImageText = class extends AppElement {
     #default = {
       imagePosition: "left",
@@ -20807,7 +21792,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new g(image, this.state.image.paralax);
+        new W(image, this.state.image.paralax);
       }
     }
   };
@@ -21450,7 +22435,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var faCircleLeft2 = {
     prefix: "far",
     iconName: "circle-left",
-    icon: [512, 512, [61840, "arrow-alt-circle-left"], "f359", "M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM256 128l-32 0L96 256 224 384l32 0 0-80 128 0 0-96-128 0 0-80z"]
+    icon: [512, 512, [61840, "arrow-alt-circle-left"], "f359", "M48 256a208 208 0 1 1 416 0A208 208 0 1 1 48 256zm464 0A256 256 0 1 0 0 256a256 256 0 1 0 512 0zM217.4 376.9c4.2 4.5 10.1 7.1 16.3 7.1c12.3 0 22.3-10 22.3-22.3l0-57.7 96 0c17.7 0 32-14.3 32-32l0-32c0-17.7-14.3-32-32-32l-96 0 0-57.7c0-12.3-10-22.3-22.3-22.3c-6.2 0-12.1 2.6-16.3 7.1L117.5 242.2c-3.5 3.8-5.5 8.7-5.5 13.8s2 10.1 5.5 13.8l99.9 107.1z"]
   };
   var faArrowAltCircleLeft2 = faCircleLeft2;
   var faMoneyBill12 = {
@@ -21512,7 +22497,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var faCircleDown2 = {
     prefix: "far",
     iconName: "circle-down",
-    icon: [512, 512, [61466, "arrow-alt-circle-down"], "f358", "M256 464a208 208 0 1 1 0-416 208 208 0 1 1 0 416zM256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM128 256l0 32L256 416 384 288l0-32-80 0 0-128-96 0 0 128-80 0z"]
+    icon: [512, 512, [61466, "arrow-alt-circle-down"], "f358", "M256 464a208 208 0 1 1 0-416 208 208 0 1 1 0 416zM256 0a256 256 0 1 0 0 512A256 256 0 1 0 256 0zM376.9 294.6c4.5-4.2 7.1-10.1 7.1-16.3c0-12.3-10-22.3-22.3-22.3L304 256l0-96c0-17.7-14.3-32-32-32l-32 0c-17.7 0-32 14.3-32 32l0 96-57.7 0C138 256 128 266 128 278.3c0 6.2 2.6 12.1 7.1 16.3l107.1 99.9c3.8 3.5 8.7 5.5 13.8 5.5s10.1-2 13.8-5.5l107.1-99.9z"]
   };
   var faArrowAltCircleDown2 = faCircleDown2;
   var faThumbsDown2 = {
@@ -21983,7 +22968,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faHandPointLeft: faHandPointLeft2
   };
 
-  // node_modules/@buyerjourney/bj-components/src/components/LevelCentered.js
+  // node_modules/@customerjourney/cj-components/src/components/LevelCentered.js
   var LevelCentered = class extends AppElement {
     #default = {
       context: {
@@ -22073,7 +23058,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("level-centered", LevelCentered);
 
-  // node_modules/@buyerjourney/bj-components/src/components/MediaList.js
+  // node_modules/@customerjourney/cj-components/src/components/MediaList.js
   var MediaList = class extends AppElement {
     #default = {
       mediaObjects: {
@@ -22110,7 +23095,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return (
         /*hrml*/
         `
-    <article ${this.getClasses(["media"], this.state.mediaObjects?.classList)}  ${this.setAnimation(this.state.mediaObjects?.animation)}>
+    <article ${this.getClasses(["media", "pt-4"], this.state.mediaObjects?.classList)}  ${this.setAnimation(this.state.mediaObjects?.animation)}>
     ${props.imageL?.src != void 0 ? `
       <figure class="media-left">
       <p class="image is-64x64">
@@ -22164,7 +23149,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("media-list", MediaList);
 
-  // node_modules/@buyerjourney/bj-components/src/components/ModalBox.js
+  // node_modules/@customerjourney/cj-components/src/components/ModalBox.js
   var ModalBox = class extends AppElement {
     #default = {
       context: {
@@ -22250,8 +23235,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return this.#card();
       } else if (this.state.message != void 0) {
         return this.#message();
-      } else
-        return "<p>There is no content to display</p>";
+      } else return "<p>There is no content to display</p>";
     }
     render() {
       this.innerHTML = /* html */
@@ -22283,7 +23267,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     icon: [496, 512, [62462, "telegram-plane"], "f2c6", "M248,8C111.033,8,0,119.033,0,256S111.033,504,248,504,496,392.967,496,256,384.967,8,248,8ZM362.952,176.66c-3.732,39.215-19.881,134.378-28.1,178.3-3.476,18.584-10.322,24.816-16.948,25.425-14.4,1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25,5.342-39.5,3.652-3.793,67.107-61.51,68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608,69.142-14.845,10.194-26.894,9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7,18.45-13.7,108.446-47.248,144.628-62.3c68.872-28.647,83.183-33.623,92.511-33.789,2.052-.034,6.639.474,9.61,2.885a10.452,10.452,0,0,1,3.53,6.716A43.765,43.765,0,0,1,362.952,176.66Z"]
   };
 
-  // node_modules/@buyerjourney/bj-components/src/components/OmnichannelChat.js
+  // node_modules/@customerjourney/cj-components/src/components/OmnichannelChat.js
   var OmnichannelChat = class extends AppElement {
     #default = {
       isExpanded: false,
@@ -22419,7 +23403,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("omnichannel-chat", OmnichannelChat);
 
-  // node_modules/@buyerjourney/bj-components/src/components/TextAccordion.js
+  // node_modules/@customerjourney/cj-components/src/components/TextAccordion.js
   var TextAccordion = class extends AppElement {
     #default = {
       context: {
@@ -22531,7 +23515,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("text-accordion", TextAccordion);
 
-  // node_modules/@buyerjourney/bj-components/src/components/TextColumns.js
+  // node_modules/@customerjourney/cj-components/src/components/TextColumns.js
   var TextColumns = class extends AppElement {
     #default = {
       context: {
@@ -22554,8 +23538,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     render() {
       this.innerHTML = /* html */
       `
-        <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
-            <div class="container py-4">
+        <section ${this.getClasses(["section"], this.state?.classList)} ${this.getBackground()}>
+            <div class="container py-4"  ${this.setAnimation(this.state.animation)}>
                 ${this.getTitles()}
                 <div ${this.getClasses(["content"], this.state.content?.classList)} ${this.setAnimation(this.state.content?.animation)}>
                 ${this.md.render(this.state.content?.text[this.state.context.lang])}
@@ -22581,7 +23565,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("text-columns", TextColumns);
 
-  // node_modules/@buyerjourney/bj-components/src/components/TextMessage.js
+  // node_modules/@customerjourney/cj-components/src/components/TextMessage.js
   var TextMessage = class extends AppElement {
     #default = {
       context: {
@@ -22643,7 +23627,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("text-message", TextMessage);
 
-  // node_modules/@buyerjourney/bj-components/src/components/TextNotification.js
+  // node_modules/@customerjourney/cj-components/src/components/TextNotification.js
   var TextNotification = class extends AppElement {
     #default = {
       context: {
@@ -22694,7 +23678,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("text-notification", TextNotification);
 
-  // node_modules/@buyerjourney/bj-components/src/components/TextSection.js
+  // node_modules/@customerjourney/cj-components/src/components/TextSection.js
   var TextSection = class extends AppElement {
     #default = {
       context: {
@@ -22745,7 +23729,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("text-section", TextSection);
 
-  // node_modules/@buyerjourney/bj-components/src/components/VideoPlayer.js
+  // node_modules/@customerjourney/cj-components/src/components/VideoPlayer.js
   var VideoPlayer = class extends AppElement {
     #default = {
       message: {
@@ -22821,7 +23805,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("video-player", VideoPlayer);
 
-  // node_modules/@buyerjourney/bj-components/src/components/WebinarInvitation.js
+  // node_modules/@customerjourney/cj-components/src/components/WebinarInvitation.js
   var WebinarInvitation = class extends AppElement {
     #default = {
       startsOn: {
@@ -23035,7 +24019,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       },
       image: "/images/og.webp",
       type: "business.business",
-      classList: ["has-background-brand"],
       components: [
         {
           id: "header",
@@ -23049,15 +24032,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         {
           id: "attention",
           backgroundImage: {
-            url: "/images/buyerjourney_js.jpg"
+            url: "/images/atention.jpg"
           },
           classList: ["is-fullheight-with-navbar", " is-link"],
           title: {
             classList: ["is-size-1"],
             text: {
-              es: "BuyerJourney.js",
-              en: "BuyerJourney.js",
-              fr: "BuyerJourney.js"
+              es: "\xBFBuscas tu firma olfativa?",
+              en: "Looking for your olfactory signature?",
+              fr: "Vous recherchez votre signature olfactive ?"
             },
             animation: {
               effect: "fadeIn"
@@ -23066,9 +24049,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           subtitle: {
             classList: ["is-size-3"],
             text: {
-              es: "Bibliotecas Javascript Vanilla de c\xF3digo abierto para crear p\xE1ginas de destino, embudos de ventas, puntos de contacto y bucles de crecimiento.",
-              en: "Open Source Vanilla Javascript libraries to make landing pages, sales funnels, touch points and growth loops.",
-              fr: "Biblioth\xE8ques Javascript Open Source Vanilla pour cr\xE9er des pages de destination, des entonnoirs de vente, des points de contact et des boucles de croissance."
+              es: "Descubre 'Mara', la fragancia que no solo se usa, se vive. Envu\xE9lvete en la esencia de la elegancia y el misterio.",
+              en: "Discover 'Mara', the fragrance that no one wears, lives on. Envuelvete in the essence of elegance and mistery.",
+              fr: "D\xE9couvrez 'Mara', la fragancia que no solo se usa, se vive. D\xE9couvrez l'essence de l'\xE9l\xE9gance et du myst\xE8re."
             },
             animation: {
               effect: "fadeIn",
@@ -23081,13 +24064,90 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             buttons: [
               {
                 id: "atention-button",
-                href: "",
+                href: "https://buyerjourney.ninja/usage-guide",
                 text: {
                   es: "Me Interesa",
                   en: "I'm interested",
                   fr: "Je suis int\xE9ress\xE9"
                 },
-                classList: ["is-rounded", "is-success"]
+                classList: ["is-rounded", "is-info"]
+              }
+            ]
+          }
+        },
+        {
+          id: "interest",
+          imagePosition: "right",
+          image: {
+            src: "/images/interest.jpg",
+            paralax: {
+              orientation: "left-down",
+              scale: 1.2
+            }
+          },
+          description: {
+            text: {
+              es: "**Mara** es una sinfon\xEDa olfativa dise\xF1ada para la mujer que deja una huella. Sus notas de salida de bergamota chispeante dan paso a un coraz\xF3n de jazm\xEDn nocturno y rosa centifolia, culminando en un fondo sensual de s\xE1ndalo y \xE1mbar c\xE1lido. Una composici\xF3n compleja que evoluciona con tu piel y perdura elegantemente. Cada gota es una expresi\xF3n de artesan\xEDa y distinci\xF3n.",
+              en: "**Mara** is an olfactory symphony designed for the woman who leaves a lasting impression. Its top notes of sparkling bergamot give way to a heart of night jasmine and centifolia rose, culminating in a sensual base of sandalwood and warm amber. A complex composition that evolves with your skin and lingers elegantly. Each drop is an expression of craftsmanship and distinction.",
+              fr: "**Mara** est une symphonie olfactive con\xE7ue pour la femme qui laisse une impression durable. Ses notes de t\xEAte de bergamote p\xE9tillante c\xE8dent la place \xE0 un c\u0153ur de jasmin de nuit et de rose centifolia, culminant sur un fond sensuel de santal et d'ambre chaud. Une composition complexe qui \xE9volue avec votre peau et persiste avec \xE9l\xE9gance. Chaque goutte est l'expression d'un savoir-faire artisanal et d'une distinction raffin\xE9e."
+            },
+            animation: {
+              effect: "fadeIn",
+              speed: "slower"
+            }
+          }
+        },
+        {
+          id: "desire",
+          animation: {
+            effect: "fadeIn",
+            speed: "slower"
+          },
+          leftColumn: {
+            text: {
+              es: "**\xBFPor qu\xE9 elegir Mara?**\n\n- **Exclusividad:** Una fragancia \xFAnica que no encontrar\xE1s en ning\xFAn otro lugar.\n- **Artesan\xEDa:** Elaborada con ingredientes de la m\xE1s alta calidad, cada gota es una obra maestra.\n- **Versatilidad:** Perfecta para cualquier ocasi\xF3n, desde una cena elegante hasta un d\xEDa casual.\n- **Durabilidad:** Su aroma perdura durante horas, dejando una estela inolvidable.",
+              en: "**Why choose Mara?**\n\n- **Exclusivity:** A unique fragrance you won't find anywhere else.\n- **Craftsmanship:** Made with the highest quality ingredients, each drop is a masterpiece.\n- **Versatility:** Perfect for any occasion, from an elegant dinner to a casual day out.\n- **Longevity:** Its scent lingers for hours, leaving an unforgettable trail.",
+              fr: "**Pourquoi choisir Mara ?**\n\n- **Exclusivit\xE9 :** Une fragrance unique que vous ne trouverez nulle part ailleurs.\n- **Artisanat :** Fabriqu\xE9e avec des ingr\xE9dients de la plus haute qualit\xE9, chaque goutte est une \u0153uvre d'art.\n- **Polyvalence :** Parfaite pour toute occasion, d'un d\xEEner \xE9l\xE9gant \xE0 une journ\xE9e d\xE9contract\xE9e.\n- **Durabilit\xE9 :** Son parfum persiste pendant des heures, laissant une tra\xEEn\xE9e inoubliable."
+            }
+          },
+          rightColumn: {
+            text: {
+              es: "**\xBFC\xF3mo adquirir Mara?**\n\n- **Visita nuestra tienda en l\xEDnea:** Navega por nuestra colecci\xF3n y elige tu fragancia.\n- **Prueba antes de comprar:** Ofrecemos muestras para que puedas experimentar la fragancia antes de decidirte.\n- **Env\xEDo r\xE1pido y seguro:** Recibe tu pedido en la puerta de tu casa con total comodidad.",
+              en: "**How to acquire Mara?**\n\n- **Visit our online store:** Browse our collection and choose your fragrance.\n- **Try before you buy:** We offer samples so you can experience the fragrance before making a decision.\n- **Fast and secure shipping:** Receive your order at your doorstep with total convenience.",
+              fr: "**Comment acqu\xE9rir Mara ?**\n\n- **Visitez notre boutique en ligne :** Parcourez notre collection et choisissez votre fragrance.\n- **Essayez avant d'acheter :** Nous proposons des \xE9chantillons pour que vous puissiez d\xE9couvrir la fragrance avant de vous d\xE9cider.\n- **Livraison rapide et s\xE9curis\xE9e :** Recevez votre commande \xE0 domicile en toute commodit\xE9."
+            }
+          }
+        },
+        {
+          id: "action",
+          image: {
+            src: "/images/action.jpg",
+            size: "is-8",
+            paralax: {
+              orientation: "right-down",
+              scale: 1.2
+            }
+          },
+          description: {
+            text: {
+              es: "**\xA1No esperes m\xE1s!**\n\nDescubre la magia de Mara y transforma tu presencia con una fragancia que habla por ti. Haz clic en el bot\xF3n a continuaci\xF3n para explorar nuestra colecci\xF3n y encontrar tu firma olfativa perfecta.",
+              en: "**Don't wait any longer!**\n\nDiscover the magic of Mara and transform your presence with a fragrance that speaks for you. Click the button below to explore our collection and find your perfect olfactory signature.",
+              fr: "**N'attendez plus !**\n\nD\xE9couvrez la magie d'Mara et transformez votre pr\xE9sence avec une fragrance qui parle pour vous. Cliquez sur le bouton ci-dessous pour explorer notre collection et trouver votre signature olfactive parfaite."
+            }
+          },
+          buttons: {
+            eventName: "attentionclick",
+            classList: ["is-centered"],
+            buttons: [
+              {
+                id: "atention-button",
+                href: "https://buyerjourney.ninja/usage-guide",
+                text: {
+                  es: "Adquiere Mara Ahora",
+                  en: "Get Mara Now",
+                  fr: "Obtenez Mara maintenant"
+                },
+                classList: ["is-rounded", "is-info"]
               }
             ]
           }
@@ -23099,9 +24159,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           },
           content: {
             text: {
-              es: "Aplicaci\xF3n BJ M\xEDnima",
-              en: "Minimal BJ App",
-              fr: "Application BJ minimale"
+              es: "Tu esencia, elevada",
+              en: "Your essence, elevated",
+              fr: "Votre essence, \xE9lev\xE9e"
             }
           },
           privacyPolicy: {
@@ -23119,10 +24179,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // src/app/pages/home.js
   function home(req, router) {
-    let counter2 = { etention: 0, interest: 0, desire: 0, action: 0, leavingapp: 0, leavedapp: 0 };
+    let counter2 = { atention: 0, interest: 0, desire: 0, action: 0, leavingapp: 0, leavedapp: 0 };
     let template = `
     <page-header id="header"></page-header>
     <hero-banner id="attention"></hero-banner>
+    <image-text id="interest"></image-text>
+    <text-columns id="desire"></text-columns>
+    <image-banner id="action"></image-banner>
     <page-footer id="footer"></page-footer>
     `;
     let currentValue = store.getState();
@@ -23158,7 +24221,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // src/App.js
-  var App = new bjRouter();
+  var App = new Router();
   App.on("/", home);
 
   // src/index.js
@@ -23172,3 +24235,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     whithAnimations();
   });
 })();
+/*! Bundled license information:
+
+react/cjs/react.development.js:
+  (**
+   * @license React
+   * react.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+@fortawesome/free-regular-svg-icons/index.mjs:
+  (*!
+   * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+   * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+   * Copyright 2024 Fonticons, Inc.
+   *)
+*/

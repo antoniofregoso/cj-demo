@@ -17,16 +17,18 @@
     "author": "Antonio Fregoso",
     "license": "GPL-3.0-or-later",
     "devDependencies": {
-        "esbuild": "^0.19.7",
+        "esbuild": "^0.25.5",
         "npm-run-all": "^4.1.5",
         "sass": "^1.71.1"
     },
     "dependencies": {
-        "@buyerjourney/bj-components": "^0.9.2",
-        "@buyerjourney/bj-core": "^1.3.2",
-        "@buyerjourney/router": "^1.1.0",
+        "@customerjourney/cj-components": "^0.9.4",
+        "@customerjourney/cj-core": "^1.4.0",
+        "@customerjourney/cj-router": "^1.2.1",
+        "@customerjourney/router": "^1.2.0",
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",
+        "@fortawesome/free-regular-svg-icons": "^6.7.2",
         "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@reduxjs/toolkit": "^2.2.7",
         "animate.css": "^4.1.1",

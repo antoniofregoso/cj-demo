@@ -1,5 +1,5 @@
-import { AppPage, PageHeader, PageFooter } from "@buyerjourney/bj-core";
-import { HeroBanner } from "@buyerjourney/bj-components";
+import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
+import { HeroBanner, ImageText, TextColumns, ImageBanner } from "@customerjourney/cj-components";
 import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
@@ -8,11 +8,14 @@ import data from "../data/home.json";
 
 export function home(req, router){
 
-    let counter = {etention:0, interest:0, desire:0, action:0, leavingapp:0, leavedapp:0 }
+    let counter = {atention:0, interest:0, desire:0, action:0, leavingapp:0, leavedapp:0 }
 
     let template =`
     <page-header id="header"></page-header>
     <hero-banner id="attention"></hero-banner>
+    <image-text id="interest"></image-text>
+    <text-columns id="desire"></text-columns>
+    <image-banner id="action"></image-banner>
     <page-footer id="footer"></page-footer>
     `;
     
@@ -29,7 +32,6 @@ export function home(req, router){
                 case 'user:select-theme':
                     store.dispatch(setTheme(e.detail));
                     break;
-
             }
         }}
 

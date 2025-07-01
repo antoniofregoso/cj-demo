@@ -15,7 +15,6 @@
         },
         "image":"/images/og.webp",
         "type":"business.business",
-        "classList":["has-background-brand"],
         "components":[
             {
                 "id":"header",
@@ -29,15 +28,15 @@
             {
                 "id":"attention",
                 "backgroundImage":{
-                    "url":"/images/buyerjourney_js.jpg"
+                    "url":"/images/atention.jpg"
                 },
                 "classList":["is-fullheight-with-navbar", " is-link"],
                 "title":{
                     "classList":["is-size-1"],
                     "text":{
-                        "es":"BuyerJourney.js",
-                        "en":"BuyerJourney.js",
-                        "fr":"BuyerJourney.js"
+                        "es":"¿Buscas tu firma olfativa?",
+                        "en":"Looking for your olfactory signature?",
+                        "fr":"Vous recherchez votre signature olfactive ?"
                     },
                     "animation":{
                         "effect":"fadeIn"
@@ -46,9 +45,9 @@
                 "subtitle":{
                     "classList":["is-size-3"],
                     "text":{
-                        "es":"Bibliotecas Javascript Vanilla de código abierto para crear páginas de destino, embudos de ventas, puntos de contacto y bucles de crecimiento.",
-                        "en":"Open Source Vanilla Javascript libraries to make landing pages, sales funnels, touch points and growth loops.",
-                        "fr":"Bibliothèques Javascript Open Source Vanilla pour créer des pages de destination, des entonnoirs de vente, des points de contact et des boucles de croissance."
+                        "es":"Descubre 'Mara', la fragancia que no solo se usa, se vive. Envuélvete en la esencia de la elegancia y el misterio.",
+                        "en":"Discover 'Mara', the fragrance that no one wears, lives on. Envuelvete in the essence of elegance and mistery.",
+                        "fr":"Découvrez 'Mara', la fragancia que no solo se usa, se vive. Découvrez l'essence de l'élégance et du mystère."
                     },
                     "animation":{
                         "effect":"fadeIn",
@@ -67,7 +66,84 @@
                              "en":"I'm interested",
                              "fr":"Je suis intéressé"
                             },
-                            "classList":["is-rounded","is-success"]
+                            "classList":["is-rounded","is-info"]
+                         }
+                    ]
+                }
+            },
+            {
+                "id":"interest",
+                "imagePosition":"right",
+                "image":{
+                    "src":"/images/interest.jpg",
+                    "paralax":{
+                        "orientation":"left-down",
+                        "scale":1.2
+                    }
+                },
+                "description":{
+                    "text":{
+                        "es":"**Mara** es una sinfonía olfativa diseñada para la mujer que deja una huella. Sus notas de salida de bergamota chispeante dan paso a un corazón de jazmín nocturno y rosa centifolia, culminando en un fondo sensual de sándalo y ámbar cálido. Una composición compleja que evoluciona con tu piel y perdura elegantemente. Cada gota es una expresión de artesanía y distinción.",
+                        "en":"**Mara** is an olfactory symphony designed for the woman who leaves a lasting impression. Its top notes of sparkling bergamot give way to a heart of night jasmine and centifolia rose, culminating in a sensual base of sandalwood and warm amber. A complex composition that evolves with your skin and lingers elegantly. Each drop is an expression of craftsmanship and distinction.",
+                        "fr":"**Mara** est une symphonie olfactive conçue pour la femme qui laisse une impression durable. Ses notes de tête de bergamote pétillante cèdent la place à un cœur de jasmin de nuit et de rose centifolia, culminant sur un fond sensuel de santal et d'ambre chaud. Une composition complexe qui évolue avec votre peau et persiste avec élégance. Chaque goutte est l'expression d'un savoir-faire artisanal et d'une distinction raffinée."
+                    },
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }
+                }
+            },
+            {
+                "id":"desire",
+                "animation":{                    
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                },
+                "leftColumn":{
+                    "text":{
+                        "es":"**¿Por qué elegir Mara?**\n\n- **Exclusividad:** Una fragancia única que no encontrarás en ningún otro lugar.\n- **Artesanía:** Elaborada con ingredientes de la más alta calidad, cada gota es una obra maestra.\n- **Versatilidad:** Perfecta para cualquier ocasión, desde una cena elegante hasta un día casual.\n- **Durabilidad:** Su aroma perdura durante horas, dejando una estela inolvidable.",
+                        "en":"**Why choose Mara?**\n\n- **Exclusivity:** A unique fragrance you won't find anywhere else.\n- **Craftsmanship:** Made with the highest quality ingredients, each drop is a masterpiece.\n- **Versatility:** Perfect for any occasion, from an elegant dinner to a casual day out.\n- **Longevity:** Its scent lingers for hours, leaving an unforgettable trail.",
+                        "fr":"**Pourquoi choisir Mara ?**\n\n- **Exclusivité :** Une fragrance unique que vous ne trouverez nulle part ailleurs.\n- **Artisanat :** Fabriquée avec des ingrédients de la plus haute qualité, chaque goutte est une œuvre d'art.\n- **Polyvalence :** Parfaite pour toute occasion, d'un dîner élégant à une journée décontractée.\n- **Durabilité :** Son parfum persiste pendant des heures, laissant une traînée inoubliable."
+                    }
+                },
+                "rightColumn":{
+                    "text":{
+                        "es":"**¿Cómo adquirir Mara?**\n\n- **Visita nuestra tienda en línea:** Navega por nuestra colección y elige tu fragancia.\n- **Prueba antes de comprar:** Ofrecemos muestras para que puedas experimentar la fragancia antes de decidirte.\n- **Envío rápido y seguro:** Recibe tu pedido en la puerta de tu casa con total comodidad.",
+                        "en":"**How to acquire Mara?**\n\n- **Visit our online store:** Browse our collection and choose your fragrance.\n- **Try before you buy:** We offer samples so you can experience the fragrance before making a decision.\n- **Fast and secure shipping:** Receive your order at your doorstep with total convenience.",
+                        "fr":"**Comment acquérir Mara ?**\n\n- **Visitez notre boutique en ligne :** Parcourez notre collection et choisissez votre fragrance.\n- **Essayez avant d'acheter :** Nous proposons des échantillons pour que vous puissiez découvrir la fragrance avant de vous décider.\n- **Livraison rapide et sécurisée :** Recevez votre commande à domicile en toute commodité."
+                    }
+                }
+            },
+            {
+                "id":"action",
+                "image":{
+                    "src":"/images/action.jpg",
+                    "size":"is-8",
+                    "paralax":{
+                        "orientation":"right-down",
+                        "scale":1.2
+                    }
+                },
+                "description":{
+                    "text":{
+                        "es":"**¡No esperes más!**\n\nDescubre la magia de Mara y transforma tu presencia con una fragancia que habla por ti. Haz clic en el botón a continuación para explorar nuestra colección y encontrar tu firma olfativa perfecta.",
+                        "en":"**Don't wait any longer!**\n\nDiscover the magic of Mara and transform your presence with a fragrance that speaks for you. Click the button below to explore our collection and find your perfect olfactory signature.",
+                        "fr":"**N'attendez plus !**\n\nDécouvrez la magie d'Mara et transformez votre présence avec une fragrance qui parle pour vous. Cliquez sur le bouton ci-dessous pour explorer notre collection et trouver votre signature olfactive parfaite."
+                    }
+                },
+                "buttons":{
+                    "eventName":"attentionclick",
+                    "classList":["is-centered"],
+                    "buttons":[
+                        {
+                            "id":"atention-button",
+                            "href":"https://buyerjourney.ninja/usage-guide",
+                            "text":{
+                             "es":"Adquiere Mara Ahora",
+                             "en":"Get Mara Now",
+                             "fr":"Obtenez Mara maintenant"
+                            },
+                            "classList":["is-rounded","is-info"]
                          }
                     ]
                 }
@@ -79,9 +155,9 @@
                 },
                 "content":{
                     "text":{
-                        "es":"Aplicación BJ Mínima",
-                        "en":"Minimal BJ App",
-                        "fr":"Application BJ minimale"
+                        "es":"Tu esencia, elevada",
+                        "en":"Your essence, elevated",
+                        "fr":"Votre essence, élevée"
                     }
                 },
                 "privacyPolicy":{

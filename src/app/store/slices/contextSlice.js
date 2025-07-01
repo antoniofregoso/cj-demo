@@ -12,7 +12,7 @@ const contextSlice = createSlice({
         },
         setTheme:(state, action) => {
             state.theme = action.payload;
-            document.querySelector("html").setAttribute('data-theme', action.payload);
+            document.documentElement.setAttribute('data-theme', action.payload);
         }
     }
 });

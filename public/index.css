@@ -3568,7 +3568,7 @@
   animation-name: slideOutUp;
 }
 
-/* node_modules/@buyerjourney/bj-core/src/bj.css */
+/* node_modules/@customerjourney/cj-core/src/pageloader.css */
 @-webkit-keyframes spinAround {
   from {
     -webkit-transform: rotate(0);
