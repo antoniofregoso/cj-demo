@@ -1,5 +1,5 @@
 {
-    "name": "bj-app",
+    "name": "cj-app",
     "version": "1.0.0",
     "description": "",
     "main": "public/index.js",
@@ -25,7 +25,6 @@
         "@customerjourney/cj-components": "^0.9.4",
         "@customerjourney/cj-core": "^1.4.0",
         "@customerjourney/cj-router": "^1.2.1",
-        "@customerjourney/router": "^1.2.0",
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",
         "@fortawesome/free-regular-svg-icons": "^6.7.2",
@@ -34,7 +33,6 @@
         "animate.css": "^4.1.1",
         "bulma": "^1.0.2",
         "redux-persist": "^6.0.0",
-        "remarkable": "^2.0.1",
-        "simple-parallax-js": "^5.6.2"
+        "remarkable": "^2.0.1"
     }
 }

@@ -127,958 +127,6 @@
     }
   });
 
-  // node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js
-  var require_react_development = __commonJS({
-    "node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js"(exports, module) {
-      "use strict";
-      (function() {
-        function defineDeprecationWarning(methodName, info) {
-          Object.defineProperty(Component.prototype, methodName, {
-            get: function() {
-              console.warn(
-                "%s(...) is deprecated in plain JavaScript React classes. %s",
-                info[0],
-                info[1]
-              );
-            }
-          });
-        }
-        function getIteratorFn(maybeIterable) {
-          if (null === maybeIterable || "object" !== typeof maybeIterable)
-            return null;
-          maybeIterable = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable["@@iterator"];
-          return "function" === typeof maybeIterable ? maybeIterable : null;
-        }
-        function warnNoop(publicInstance, callerName) {
-          publicInstance = (publicInstance = publicInstance.constructor) && (publicInstance.displayName || publicInstance.name) || "ReactClass";
-          var warningKey = publicInstance + "." + callerName;
-          didWarnStateUpdateForUnmountedComponent[warningKey] || (console.error(
-            "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
-            callerName,
-            publicInstance
-          ), didWarnStateUpdateForUnmountedComponent[warningKey] = true);
-        }
-        function Component(props, context2, updater) {
-          this.props = props;
-          this.context = context2;
-          this.refs = emptyObject;
-          this.updater = updater || ReactNoopUpdateQueue;
-        }
-        function ComponentDummy() {
-        }
-        function PureComponent(props, context2, updater) {
-          this.props = props;
-          this.context = context2;
-          this.refs = emptyObject;
-          this.updater = updater || ReactNoopUpdateQueue;
-        }
-        function testStringCoercion(value) {
-          return "" + value;
-        }
-        function checkKeyStringCoercion(value) {
-          try {
-            testStringCoercion(value);
-            var JSCompiler_inline_result = false;
-          } catch (e) {
-            JSCompiler_inline_result = true;
-          }
-          if (JSCompiler_inline_result) {
-            JSCompiler_inline_result = console;
-            var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
-            JSCompiler_temp_const.call(
-              JSCompiler_inline_result,
-              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-              JSCompiler_inline_result$jscomp$0
-            );
-            return testStringCoercion(value);
-          }
-        }
-        function getComponentNameFromType(type) {
-          if (null == type) return null;
-          if ("function" === typeof type)
-            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
-          if ("string" === typeof type) return type;
-          switch (type) {
-            case REACT_FRAGMENT_TYPE:
-              return "Fragment";
-            case REACT_PROFILER_TYPE:
-              return "Profiler";
-            case REACT_STRICT_MODE_TYPE:
-              return "StrictMode";
-            case REACT_SUSPENSE_TYPE:
-              return "Suspense";
-            case REACT_SUSPENSE_LIST_TYPE:
-              return "SuspenseList";
-            case REACT_ACTIVITY_TYPE:
-              return "Activity";
-          }
-          if ("object" === typeof type)
-            switch ("number" === typeof type.tag && console.error(
-              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-            ), type.$$typeof) {
-              case REACT_PORTAL_TYPE:
-                return "Portal";
-              case REACT_CONTEXT_TYPE:
-                return (type.displayName || "Context") + ".Provider";
-              case REACT_CONSUMER_TYPE:
-                return (type._context.displayName || "Context") + ".Consumer";
-              case REACT_FORWARD_REF_TYPE:
-                var innerType = type.render;
-                type = type.displayName;
-                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
-                return type;
-              case REACT_MEMO_TYPE:
-                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
-              case REACT_LAZY_TYPE:
-                innerType = type._payload;
-                type = type._init;
-                try {
-                  return getComponentNameFromType(type(innerType));
-                } catch (x2) {
-                }
-            }
-          return null;
-        }
-        function getTaskName(type) {
-          if (type === REACT_FRAGMENT_TYPE) return "<>";
-          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
-            return "<...>";
-          try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
-          } catch (x2) {
-            return "<...>";
-          }
-        }
-        function getOwner() {
-          var dispatcher = ReactSharedInternals.A;
-          return null === dispatcher ? null : dispatcher.getOwner();
-        }
-        function UnknownOwner() {
-          return Error("react-stack-top-frame");
-        }
-        function hasValidKey(config3) {
-          if (hasOwnProperty.call(config3, "key")) {
-            var getter = Object.getOwnPropertyDescriptor(config3, "key").get;
-            if (getter && getter.isReactWarning) return false;
-          }
-          return void 0 !== config3.key;
-        }
-        function defineKeyPropWarningGetter(props, displayName) {
-          function warnAboutAccessingKey() {
-            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
-              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-              displayName
-            ));
-          }
-          warnAboutAccessingKey.isReactWarning = true;
-          Object.defineProperty(props, "key", {
-            get: warnAboutAccessingKey,
-            configurable: true
-          });
-        }
-        function elementRefGetterWithDeprecationWarning() {
-          var componentName = getComponentNameFromType(this.type);
-          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
-            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-          ));
-          componentName = this.props.ref;
-          return void 0 !== componentName ? componentName : null;
-        }
-        function ReactElement(type, key, self2, source, owner, props, debugStack, debugTask) {
-          self2 = props.ref;
-          type = {
-            $$typeof: REACT_ELEMENT_TYPE,
-            type,
-            key,
-            props,
-            _owner: owner
-          };
-          null !== (void 0 !== self2 ? self2 : null) ? Object.defineProperty(type, "ref", {
-            enumerable: false,
-            get: elementRefGetterWithDeprecationWarning
-          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
-          type._store = {};
-          Object.defineProperty(type._store, "validated", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: 0
-          });
-          Object.defineProperty(type, "_debugInfo", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: null
-          });
-          Object.defineProperty(type, "_debugStack", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugStack
-          });
-          Object.defineProperty(type, "_debugTask", {
-            configurable: false,
-            enumerable: false,
-            writable: true,
-            value: debugTask
-          });
-          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
-          return type;
-        }
-        function cloneAndReplaceKey(oldElement, newKey) {
-          newKey = ReactElement(
-            oldElement.type,
-            newKey,
-            void 0,
-            void 0,
-            oldElement._owner,
-            oldElement.props,
-            oldElement._debugStack,
-            oldElement._debugTask
-          );
-          oldElement._store && (newKey._store.validated = oldElement._store.validated);
-          return newKey;
-        }
-        function isValidElement(object) {
-          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
-        }
-        function escape2(key) {
-          var escaperLookup = { "=": "=0", ":": "=2" };
-          return "$" + key.replace(/[=:]/g, function(match) {
-            return escaperLookup[match];
-          });
-        }
-        function getElementKey(element, index) {
-          return "object" === typeof element && null !== element && null != element.key ? (checkKeyStringCoercion(element.key), escape2("" + element.key)) : index.toString(36);
-        }
-        function noop$12() {
-        }
-        function resolveThenable(thenable) {
-          switch (thenable.status) {
-            case "fulfilled":
-              return thenable.value;
-            case "rejected":
-              throw thenable.reason;
-            default:
-              switch ("string" === typeof thenable.status ? thenable.then(noop$12, noop$12) : (thenable.status = "pending", thenable.then(
-                function(fulfilledValue) {
-                  "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
-                },
-                function(error) {
-                  "pending" === thenable.status && (thenable.status = "rejected", thenable.reason = error);
-                }
-              )), thenable.status) {
-                case "fulfilled":
-                  return thenable.value;
-                case "rejected":
-                  throw thenable.reason;
-              }
-          }
-          throw thenable;
-        }
-        function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
-          var type = typeof children;
-          if ("undefined" === type || "boolean" === type) children = null;
-          var invokeCallback = false;
-          if (null === children) invokeCallback = true;
-          else
-            switch (type) {
-              case "bigint":
-              case "string":
-              case "number":
-                invokeCallback = true;
-                break;
-              case "object":
-                switch (children.$$typeof) {
-                  case REACT_ELEMENT_TYPE:
-                  case REACT_PORTAL_TYPE:
-                    invokeCallback = true;
-                    break;
-                  case REACT_LAZY_TYPE:
-                    return invokeCallback = children._init, mapIntoArray(
-                      invokeCallback(children._payload),
-                      array,
-                      escapedPrefix,
-                      nameSoFar,
-                      callback
-                    );
-                }
-            }
-          if (invokeCallback) {
-            invokeCallback = children;
-            callback = callback(invokeCallback);
-            var childKey = "" === nameSoFar ? "." + getElementKey(invokeCallback, 0) : nameSoFar;
-            isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array, escapedPrefix, "", function(c2) {
-              return c2;
-            })) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(
-              callback,
-              escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(
-                userProvidedKeyEscapeRegex,
-                "$&/"
-              ) + "/") + childKey
-            ), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
-            return 1;
-          }
-          invokeCallback = 0;
-          childKey = "" === nameSoFar ? "." : nameSoFar + ":";
-          if (isArrayImpl(children))
-            for (var i = 0; i < children.length; i++)
-              nameSoFar = children[i], type = childKey + getElementKey(nameSoFar, i), invokeCallback += mapIntoArray(
-                nameSoFar,
-                array,
-                escapedPrefix,
-                type,
-                callback
-              );
-          else if (i = getIteratorFn(children), "function" === typeof i)
-            for (i === children.entries && (didWarnAboutMaps || console.warn(
-              "Using Maps as children is not supported. Use an array of keyed ReactElements instead."
-            ), didWarnAboutMaps = true), children = i.call(children), i = 0; !(nameSoFar = children.next()).done; )
-              nameSoFar = nameSoFar.value, type = childKey + getElementKey(nameSoFar, i++), invokeCallback += mapIntoArray(
-                nameSoFar,
-                array,
-                escapedPrefix,
-                type,
-                callback
-              );
-          else if ("object" === type) {
-            if ("function" === typeof children.then)
-              return mapIntoArray(
-                resolveThenable(children),
-                array,
-                escapedPrefix,
-                nameSoFar,
-                callback
-              );
-            array = String(children);
-            throw Error(
-              "Objects are not valid as a React child (found: " + ("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) + "). If you meant to render a collection of children, use an array instead."
-            );
-          }
-          return invokeCallback;
-        }
-        function mapChildren(children, func, context2) {
-          if (null == children) return children;
-          var result = [], count = 0;
-          mapIntoArray(children, result, "", "", function(child) {
-            return func.call(context2, child, count++);
-          });
-          return result;
-        }
-        function lazyInitializer(payload) {
-          if (-1 === payload._status) {
-            var ctor = payload._result;
-            ctor = ctor();
-            ctor.then(
-              function(moduleObject) {
-                if (0 === payload._status || -1 === payload._status)
-                  payload._status = 1, payload._result = moduleObject;
-              },
-              function(error) {
-                if (0 === payload._status || -1 === payload._status)
-                  payload._status = 2, payload._result = error;
-              }
-            );
-            -1 === payload._status && (payload._status = 0, payload._result = ctor);
-          }
-          if (1 === payload._status)
-            return ctor = payload._result, void 0 === ctor && console.error(
-              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))\n\nDid you accidentally put curly braces around the import?",
-              ctor
-            ), "default" in ctor || console.error(
-              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))",
-              ctor
-            ), ctor.default;
-          throw payload._result;
-        }
-        function resolveDispatcher() {
-          var dispatcher = ReactSharedInternals.H;
-          null === dispatcher && console.error(
-            "Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem."
-          );
-          return dispatcher;
-        }
-        function noop3() {
-        }
-        function enqueueTask(task) {
-          if (null === enqueueTaskImpl)
-            try {
-              var requireString = ("require" + Math.random()).slice(0, 7);
-              enqueueTaskImpl = (module && module[requireString]).call(
-                module,
-                "timers"
-              ).setImmediate;
-            } catch (_err) {
-              enqueueTaskImpl = function(callback) {
-                false === didWarnAboutMessageChannel && (didWarnAboutMessageChannel = true, "undefined" === typeof MessageChannel && console.error(
-                  "This browser does not have a MessageChannel implementation, so enqueuing tasks via await act(async () => ...) will fail. Please file an issue at https://github.com/facebook/react/issues if you encounter this warning."
-                ));
-                var channel = new MessageChannel();
-                channel.port1.onmessage = callback;
-                channel.port2.postMessage(void 0);
-              };
-            }
-          return enqueueTaskImpl(task);
-        }
-        function aggregateErrors(errors2) {
-          return 1 < errors2.length && "function" === typeof AggregateError ? new AggregateError(errors2) : errors2[0];
-        }
-        function popActScope(prevActQueue, prevActScopeDepth) {
-          prevActScopeDepth !== actScopeDepth - 1 && console.error(
-            "You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. "
-          );
-          actScopeDepth = prevActScopeDepth;
-        }
-        function recursivelyFlushAsyncActWork(returnValue, resolve, reject) {
-          var queue = ReactSharedInternals.actQueue;
-          if (null !== queue)
-            if (0 !== queue.length)
-              try {
-                flushActQueue(queue);
-                enqueueTask(function() {
-                  return recursivelyFlushAsyncActWork(returnValue, resolve, reject);
-                });
-                return;
-              } catch (error) {
-                ReactSharedInternals.thrownErrors.push(error);
-              }
-            else ReactSharedInternals.actQueue = null;
-          0 < ReactSharedInternals.thrownErrors.length ? (queue = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, reject(queue)) : resolve(returnValue);
-        }
-        function flushActQueue(queue) {
-          if (!isFlushing) {
-            isFlushing = true;
-            var i = 0;
-            try {
-              for (; i < queue.length; i++) {
-                var callback = queue[i];
-                do {
-                  ReactSharedInternals.didUsePromise = false;
-                  var continuation = callback(false);
-                  if (null !== continuation) {
-                    if (ReactSharedInternals.didUsePromise) {
-                      queue[i] = callback;
-                      queue.splice(0, i);
-                      return;
-                    }
-                    callback = continuation;
-                  } else break;
-                } while (1);
-              }
-              queue.length = 0;
-            } catch (error) {
-              queue.splice(0, i + 1), ReactSharedInternals.thrownErrors.push(error);
-            } finally {
-              isFlushing = false;
-            }
-          }
-        }
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
-        Symbol.for("react.provider");
-        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, didWarnStateUpdateForUnmountedComponent = {}, ReactNoopUpdateQueue = {
-          isMounted: function() {
-            return false;
-          },
-          enqueueForceUpdate: function(publicInstance) {
-            warnNoop(publicInstance, "forceUpdate");
-          },
-          enqueueReplaceState: function(publicInstance) {
-            warnNoop(publicInstance, "replaceState");
-          },
-          enqueueSetState: function(publicInstance) {
-            warnNoop(publicInstance, "setState");
-          }
-        }, assign3 = Object.assign, emptyObject = {};
-        Object.freeze(emptyObject);
-        Component.prototype.isReactComponent = {};
-        Component.prototype.setState = function(partialState, callback) {
-          if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
-            throw Error(
-              "takes an object of state variables to update or a function which returns an object of state variables."
-            );
-          this.updater.enqueueSetState(this, partialState, callback, "setState");
-        };
-        Component.prototype.forceUpdate = function(callback) {
-          this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
-        };
-        var deprecatedAPIs = {
-          isMounted: [
-            "isMounted",
-            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
-          ],
-          replaceState: [
-            "replaceState",
-            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
-          ]
-        }, fnName;
-        for (fnName in deprecatedAPIs)
-          deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
-        ComponentDummy.prototype = Component.prototype;
-        deprecatedAPIs = PureComponent.prototype = new ComponentDummy();
-        deprecatedAPIs.constructor = PureComponent;
-        assign3(deprecatedAPIs, Component.prototype);
-        deprecatedAPIs.isPureReactComponent = true;
-        var isArrayImpl = Array.isArray, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = {
-          H: null,
-          A: null,
-          T: null,
-          S: null,
-          V: null,
-          actQueue: null,
-          isBatchingLegacy: false,
-          didScheduleLegacyUpdate: false,
-          didUsePromise: false,
-          thrownErrors: [],
-          getCurrentStack: null,
-          recentlyCreatedOwnerStacks: 0
-        }, hasOwnProperty = Object.prototype.hasOwnProperty, createTask = console.createTask ? console.createTask : function() {
-          return null;
-        };
-        deprecatedAPIs = {
-          "react-stack-bottom-frame": function(callStackForError) {
-            return callStackForError();
-          }
-        };
-        var specialPropKeyWarningShown, didWarnAboutOldJSXRuntime;
-        var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = deprecatedAPIs["react-stack-bottom-frame"].bind(deprecatedAPIs, UnknownOwner)();
-        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
-        var didWarnAboutMaps = false, userProvidedKeyEscapeRegex = /\/+/g, reportGlobalError = "function" === typeof reportError ? reportError : function(error) {
-          if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
-            var event = new window.ErrorEvent("error", {
-              bubbles: true,
-              cancelable: true,
-              message: "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error),
-              error
-            });
-            if (!window.dispatchEvent(event)) return;
-          } else if ("object" === typeof process && "function" === typeof process.emit) {
-            process.emit("uncaughtException", error);
-            return;
-          }
-          console.error(error);
-        }, didWarnAboutMessageChannel = false, enqueueTaskImpl = null, actScopeDepth = 0, didWarnNoAwaitAct = false, isFlushing = false, queueSeveralMicrotasks = "function" === typeof queueMicrotask ? function(callback) {
-          queueMicrotask(function() {
-            return queueMicrotask(callback);
-          });
-        } : enqueueTask;
-        deprecatedAPIs = Object.freeze({
-          __proto__: null,
-          c: function(size) {
-            return resolveDispatcher().useMemoCache(size);
-          }
-        });
-        exports.Children = {
-          map: mapChildren,
-          forEach: function(children, forEachFunc, forEachContext) {
-            mapChildren(
-              children,
-              function() {
-                forEachFunc.apply(this, arguments);
-              },
-              forEachContext
-            );
-          },
-          count: function(children) {
-            var n = 0;
-            mapChildren(children, function() {
-              n++;
-            });
-            return n;
-          },
-          toArray: function(children) {
-            return mapChildren(children, function(child) {
-              return child;
-            }) || [];
-          },
-          only: function(children) {
-            if (!isValidElement(children))
-              throw Error(
-                "React.Children.only expected to receive a single React element child."
-              );
-            return children;
-          }
-        };
-        exports.Component = Component;
-        exports.Fragment = REACT_FRAGMENT_TYPE;
-        exports.Profiler = REACT_PROFILER_TYPE;
-        exports.PureComponent = PureComponent;
-        exports.StrictMode = REACT_STRICT_MODE_TYPE;
-        exports.Suspense = REACT_SUSPENSE_TYPE;
-        exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
-        exports.__COMPILER_RUNTIME = deprecatedAPIs;
-        exports.act = function(callback) {
-          var prevActQueue = ReactSharedInternals.actQueue, prevActScopeDepth = actScopeDepth;
-          actScopeDepth++;
-          var queue = ReactSharedInternals.actQueue = null !== prevActQueue ? prevActQueue : [], didAwaitActCall = false;
-          try {
-            var result = callback();
-          } catch (error) {
-            ReactSharedInternals.thrownErrors.push(error);
-          }
-          if (0 < ReactSharedInternals.thrownErrors.length)
-            throw popActScope(prevActQueue, prevActScopeDepth), callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
-          if (null !== result && "object" === typeof result && "function" === typeof result.then) {
-            var thenable = result;
-            queueSeveralMicrotasks(function() {
-              didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
-                "You called act(async () => ...) without await. This could lead to unexpected testing behaviour, interleaving multiple act calls and mixing their scopes. You should - await act(async () => ...);"
-              ));
-            });
-            return {
-              then: function(resolve, reject) {
-                didAwaitActCall = true;
-                thenable.then(
-                  function(returnValue) {
-                    popActScope(prevActQueue, prevActScopeDepth);
-                    if (0 === prevActScopeDepth) {
-                      try {
-                        flushActQueue(queue), enqueueTask(function() {
-                          return recursivelyFlushAsyncActWork(
-                            returnValue,
-                            resolve,
-                            reject
-                          );
-                        });
-                      } catch (error$0) {
-                        ReactSharedInternals.thrownErrors.push(error$0);
-                      }
-                      if (0 < ReactSharedInternals.thrownErrors.length) {
-                        var _thrownError = aggregateErrors(
-                          ReactSharedInternals.thrownErrors
-                        );
-                        ReactSharedInternals.thrownErrors.length = 0;
-                        reject(_thrownError);
-                      }
-                    } else resolve(returnValue);
-                  },
-                  function(error) {
-                    popActScope(prevActQueue, prevActScopeDepth);
-                    0 < ReactSharedInternals.thrownErrors.length ? (error = aggregateErrors(
-                      ReactSharedInternals.thrownErrors
-                    ), ReactSharedInternals.thrownErrors.length = 0, reject(error)) : reject(error);
-                  }
-                );
-              }
-            };
-          }
-          var returnValue$jscomp$0 = result;
-          popActScope(prevActQueue, prevActScopeDepth);
-          0 === prevActScopeDepth && (flushActQueue(queue), 0 !== queue.length && queueSeveralMicrotasks(function() {
-            didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
-              "A component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:\n\nawait act(() => ...)"
-            ));
-          }), ReactSharedInternals.actQueue = null);
-          if (0 < ReactSharedInternals.thrownErrors.length)
-            throw callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
-          return {
-            then: function(resolve, reject) {
-              didAwaitActCall = true;
-              0 === prevActScopeDepth ? (ReactSharedInternals.actQueue = queue, enqueueTask(function() {
-                return recursivelyFlushAsyncActWork(
-                  returnValue$jscomp$0,
-                  resolve,
-                  reject
-                );
-              })) : resolve(returnValue$jscomp$0);
-            }
-          };
-        };
-        exports.cache = function(fn) {
-          return function() {
-            return fn.apply(null, arguments);
-          };
-        };
-        exports.captureOwnerStack = function() {
-          var getCurrentStack = ReactSharedInternals.getCurrentStack;
-          return null === getCurrentStack ? null : getCurrentStack();
-        };
-        exports.cloneElement = function(element, config3, children) {
-          if (null === element || void 0 === element)
-            throw Error(
-              "The argument must be a React element, but you passed " + element + "."
-            );
-          var props = assign3({}, element.props), key = element.key, owner = element._owner;
-          if (null != config3) {
-            var JSCompiler_inline_result;
-            a: {
-              if (hasOwnProperty.call(config3, "ref") && (JSCompiler_inline_result = Object.getOwnPropertyDescriptor(
-                config3,
-                "ref"
-              ).get) && JSCompiler_inline_result.isReactWarning) {
-                JSCompiler_inline_result = false;
-                break a;
-              }
-              JSCompiler_inline_result = void 0 !== config3.ref;
-            }
-            JSCompiler_inline_result && (owner = getOwner());
-            hasValidKey(config3) && (checkKeyStringCoercion(config3.key), key = "" + config3.key);
-            for (propName in config3)
-              !hasOwnProperty.call(config3, propName) || "key" === propName || "__self" === propName || "__source" === propName || "ref" === propName && void 0 === config3.ref || (props[propName] = config3[propName]);
-          }
-          var propName = arguments.length - 2;
-          if (1 === propName) props.children = children;
-          else if (1 < propName) {
-            JSCompiler_inline_result = Array(propName);
-            for (var i = 0; i < propName; i++)
-              JSCompiler_inline_result[i] = arguments[i + 2];
-            props.children = JSCompiler_inline_result;
-          }
-          props = ReactElement(
-            element.type,
-            key,
-            void 0,
-            void 0,
-            owner,
-            props,
-            element._debugStack,
-            element._debugTask
-          );
-          for (key = 2; key < arguments.length; key++)
-            owner = arguments[key], isValidElement(owner) && owner._store && (owner._store.validated = 1);
-          return props;
-        };
-        exports.createContext = function(defaultValue) {
-          defaultValue = {
-            $$typeof: REACT_CONTEXT_TYPE,
-            _currentValue: defaultValue,
-            _currentValue2: defaultValue,
-            _threadCount: 0,
-            Provider: null,
-            Consumer: null
-          };
-          defaultValue.Provider = defaultValue;
-          defaultValue.Consumer = {
-            $$typeof: REACT_CONSUMER_TYPE,
-            _context: defaultValue
-          };
-          defaultValue._currentRenderer = null;
-          defaultValue._currentRenderer2 = null;
-          return defaultValue;
-        };
-        exports.createElement = function(type, config3, children) {
-          for (var i = 2; i < arguments.length; i++) {
-            var node = arguments[i];
-            isValidElement(node) && node._store && (node._store.validated = 1);
-          }
-          i = {};
-          node = null;
-          if (null != config3)
-            for (propName in didWarnAboutOldJSXRuntime || !("__self" in config3) || "key" in config3 || (didWarnAboutOldJSXRuntime = true, console.warn(
-              "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
-            )), hasValidKey(config3) && (checkKeyStringCoercion(config3.key), node = "" + config3.key), config3)
-              hasOwnProperty.call(config3, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config3[propName]);
-          var childrenLength = arguments.length - 2;
-          if (1 === childrenLength) i.children = children;
-          else if (1 < childrenLength) {
-            for (var childArray = Array(childrenLength), _i = 0; _i < childrenLength; _i++)
-              childArray[_i] = arguments[_i + 2];
-            Object.freeze && Object.freeze(childArray);
-            i.children = childArray;
-          }
-          if (type && type.defaultProps)
-            for (propName in childrenLength = type.defaultProps, childrenLength)
-              void 0 === i[propName] && (i[propName] = childrenLength[propName]);
-          node && defineKeyPropWarningGetter(
-            i,
-            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
-          );
-          var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
-          return ReactElement(
-            type,
-            node,
-            void 0,
-            void 0,
-            getOwner(),
-            i,
-            propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
-            propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask
-          );
-        };
-        exports.createRef = function() {
-          var refObject = { current: null };
-          Object.seal(refObject);
-          return refObject;
-        };
-        exports.forwardRef = function(render2) {
-          null != render2 && render2.$$typeof === REACT_MEMO_TYPE ? console.error(
-            "forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...))."
-          ) : "function" !== typeof render2 ? console.error(
-            "forwardRef requires a render function but was given %s.",
-            null === render2 ? "null" : typeof render2
-          ) : 0 !== render2.length && 2 !== render2.length && console.error(
-            "forwardRef render functions accept exactly two parameters: props and ref. %s",
-            1 === render2.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."
-          );
-          null != render2 && null != render2.defaultProps && console.error(
-            "forwardRef render functions do not support defaultProps. Did you accidentally pass a React component?"
-          );
-          var elementType = { $$typeof: REACT_FORWARD_REF_TYPE, render: render2 }, ownName;
-          Object.defineProperty(elementType, "displayName", {
-            enumerable: false,
-            configurable: true,
-            get: function() {
-              return ownName;
-            },
-            set: function(name) {
-              ownName = name;
-              render2.name || render2.displayName || (Object.defineProperty(render2, "name", { value: name }), render2.displayName = name);
-            }
-          });
-          return elementType;
-        };
-        exports.isValidElement = isValidElement;
-        exports.lazy = function(ctor) {
-          return {
-            $$typeof: REACT_LAZY_TYPE,
-            _payload: { _status: -1, _result: ctor },
-            _init: lazyInitializer
-          };
-        };
-        exports.memo = function(type, compare) {
-          null == type && console.error(
-            "memo: The first argument must be a component. Instead received: %s",
-            null === type ? "null" : typeof type
-          );
-          compare = {
-            $$typeof: REACT_MEMO_TYPE,
-            type,
-            compare: void 0 === compare ? null : compare
-          };
-          var ownName;
-          Object.defineProperty(compare, "displayName", {
-            enumerable: false,
-            configurable: true,
-            get: function() {
-              return ownName;
-            },
-            set: function(name) {
-              ownName = name;
-              type.name || type.displayName || (Object.defineProperty(type, "name", { value: name }), type.displayName = name);
-            }
-          });
-          return compare;
-        };
-        exports.startTransition = function(scope) {
-          var prevTransition = ReactSharedInternals.T, currentTransition = {};
-          ReactSharedInternals.T = currentTransition;
-          currentTransition._updatedFibers = /* @__PURE__ */ new Set();
-          try {
-            var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
-            null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && returnValue.then(noop3, reportGlobalError);
-          } catch (error) {
-            reportGlobalError(error);
-          } finally {
-            null === prevTransition && currentTransition._updatedFibers && (scope = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < scope && console.warn(
-              "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
-            )), ReactSharedInternals.T = prevTransition;
-          }
-        };
-        exports.unstable_useCacheRefresh = function() {
-          return resolveDispatcher().useCacheRefresh();
-        };
-        exports.use = function(usable) {
-          return resolveDispatcher().use(usable);
-        };
-        exports.useActionState = function(action, initialState2, permalink) {
-          return resolveDispatcher().useActionState(
-            action,
-            initialState2,
-            permalink
-          );
-        };
-        exports.useCallback = function(callback, deps) {
-          return resolveDispatcher().useCallback(callback, deps);
-        };
-        exports.useContext = function(Context) {
-          var dispatcher = resolveDispatcher();
-          Context.$$typeof === REACT_CONSUMER_TYPE && console.error(
-            "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
-          );
-          return dispatcher.useContext(Context);
-        };
-        exports.useDebugValue = function(value, formatterFn) {
-          return resolveDispatcher().useDebugValue(value, formatterFn);
-        };
-        exports.useDeferredValue = function(value, initialValue) {
-          return resolveDispatcher().useDeferredValue(value, initialValue);
-        };
-        exports.useEffect = function(create, createDeps, update) {
-          null == create && console.warn(
-            "React Hook useEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-          );
-          var dispatcher = resolveDispatcher();
-          if ("function" === typeof update)
-            throw Error(
-              "useEffect CRUD overload is not enabled in this build of React."
-            );
-          return dispatcher.useEffect(create, createDeps);
-        };
-        exports.useId = function() {
-          return resolveDispatcher().useId();
-        };
-        exports.useImperativeHandle = function(ref, create, deps) {
-          return resolveDispatcher().useImperativeHandle(ref, create, deps);
-        };
-        exports.useInsertionEffect = function(create, deps) {
-          null == create && console.warn(
-            "React Hook useInsertionEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-          );
-          return resolveDispatcher().useInsertionEffect(create, deps);
-        };
-        exports.useLayoutEffect = function(create, deps) {
-          null == create && console.warn(
-            "React Hook useLayoutEffect requires an effect callback. Did you forget to pass a callback to the hook?"
-          );
-          return resolveDispatcher().useLayoutEffect(create, deps);
-        };
-        exports.useMemo = function(create, deps) {
-          return resolveDispatcher().useMemo(create, deps);
-        };
-        exports.useOptimistic = function(passthrough, reducer) {
-          return resolveDispatcher().useOptimistic(passthrough, reducer);
-        };
-        exports.useReducer = function(reducer, initialArg, init) {
-          return resolveDispatcher().useReducer(reducer, initialArg, init);
-        };
-        exports.useRef = function(initialValue) {
-          return resolveDispatcher().useRef(initialValue);
-        };
-        exports.useState = function(initialState2) {
-          return resolveDispatcher().useState(initialState2);
-        };
-        exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
-          return resolveDispatcher().useSyncExternalStore(
-            subscribe,
-            getSnapshot,
-            getServerSnapshot
-          );
-        };
-        exports.useTransition = function() {
-          return resolveDispatcher().useTransition();
-        };
-        exports.version = "19.1.0";
-        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
-      })();
-    }
-  });
-
-  // node_modules/@customerjourney/cj-components/node_modules/react/index.js
-  var require_react = __commonJS({
-    "node_modules/@customerjourney/cj-components/node_modules/react/index.js"(exports, module) {
-      "use strict";
-      if (false) {
-        module.exports = null;
-      } else {
-        module.exports = require_react_development();
-      }
-    }
-  });
-
   // node_modules/redux/dist/redux.mjs
   var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
   var symbol_observable_default = $$observable;
@@ -1392,7 +440,7 @@
     if (funcs.length === 1) {
       return funcs[0];
     }
-    return funcs.reduce((a2, b2) => (...args) => a2(b2(...args)));
+    return funcs.reduce((a3, b) => (...args) => a3(b(...args)));
   }
   function applyMiddleware(...middlewares) {
     return (createStore2) => (reducer, preloadedState) => {
@@ -1508,11 +556,11 @@
     } else
       thing[propOrOldValue] = value;
   }
-  function is(x2, y2) {
-    if (x2 === y2) {
-      return x2 !== 0 || 1 / x2 === 1 / y2;
+  function is(x, y2) {
+    if (x === y2) {
+      return x !== 0 || 1 / x === 1 / y2;
     } else {
-      return x2 !== x2 && y2 !== y2;
+      return x !== x && y2 !== y2;
     }
   }
   function isMap(target) {
@@ -1960,10 +1008,10 @@
           if (this.autoFreeze_)
             freeze(result, true);
           if (patchListener) {
-            const p = [];
+            const p2 = [];
             const ip = [];
-            getPlugin("Patches").generateReplacementPatches_(base, result, p, ip);
-            patchListener(p, ip);
+            getPlugin("Patches").generateReplacementPatches_(base, result, p2, ip);
+            patchListener(p2, ip);
           }
           return result;
         } else
@@ -1974,8 +1022,8 @@
           return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
         }
         let patches, inversePatches;
-        const result = this.produce(base, recipe, (p, ip) => {
-          patches = p;
+        const result = this.produce(base, recipe, (p2, ip) => {
+          patches = p2;
           inversePatches = ip;
         });
         return [result, patches, inversePatches];
@@ -2109,8 +1157,8 @@
       return noop3;
     };
   };
-  var hasMatchFunction = (v2) => {
-    return v2 && typeof v2.match === "function";
+  var hasMatchFunction = (v) => {
+    return v && typeof v.match === "function";
   };
   function createAction(type, prepareAction) {
     function actionCreator(...args) {
@@ -2462,8 +1510,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   }
-  function isBoolean(x2) {
-    return typeof x2 === "boolean";
+  function isBoolean(x) {
+    return typeof x === "boolean";
   }
   var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options) {
     const {
@@ -2525,7 +1573,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
         shouldNotifyAtEndOfTick = false;
-        listeners.forEach((l) => l());
+        listeners.forEach((l2) => l2());
       }
     };
     return Object.assign({}, store2, {
@@ -2676,8 +1724,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     builderCallback(builder);
     return [actionsMap, actionMatchers, defaultCaseReducer];
   }
-  function isStateFunction(x2) {
-    return typeof x2 === "function";
+  function isStateFunction(x) {
+    return typeof x === "function";
   }
   function createReducer(initialState2, mapOrBuilderCallback) {
     if (true) {
@@ -3319,8 +2367,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var storage2 = config3.storage;
     var serialize;
     if (config3.serialize === false) {
-      serialize = function serialize2(x2) {
-        return x2;
+      serialize = function serialize2(x) {
+        return x;
       };
     } else if (typeof config3.serialize === "function") {
       serialize = config3.serialize;
@@ -3415,8 +2463,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var debug = config3.debug;
     var deserialize;
     if (config3.deserialize === false) {
-      deserialize = function deserialize2(x2) {
-        return x2;
+      deserialize = function deserialize2(x) {
+        return x;
       };
     } else if (typeof config3.deserialize === "function") {
       deserialize = config3.deserialize;
@@ -3566,8 +2614,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (typeof action.rehydrate !== "function" || typeof action.register !== "function") throw new Error("redux-persist: either rehydrate or register is not a function on the PERSIST action. This can happen if the action is being replayed. This is an unexplored use case, please open an issue and we will figure out a resolution.");
         action.register(config3.key);
         getStoredState2(config3).then(function(restoredState) {
-          var migrate = config3.migrate || function(s, v2) {
-            return Promise.resolve(s);
+          var migrate = config3.migrate || function(s2, v) {
+            return Promise.resolve(s2);
           };
           migrate(restoredState, version).then(function(migratedState) {
             _rehydrate(migratedState);
@@ -3707,8 +2755,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (true) {
       var optionsToTest = options || {};
       var bannedKeys = ["blacklist", "whitelist", "transforms", "storage", "keyPrefix", "migrate"];
-      bannedKeys.forEach(function(k2) {
-        if (!!optionsToTest[k2]) console.error('redux-persist: invalid option passed to persistStore: "'.concat(k2, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
+      bannedKeys.forEach(function(k) {
+        if (!!optionsToTest[k]) console.error('redux-persist: invalid option passed to persistStore: "'.concat(k, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
       });
     }
     var boostrappedCb = cb || false;
@@ -3884,7 +2932,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      * @returns  {String}
      */
     camelCase2attribute(camelCase) {
-      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c2) => c2.toUpperCase());
+      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c3) => c3.toUpperCase());
     }
     /**
      * Initializes the component state and renders it.
@@ -4635,7 +3683,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     PRIMARY: "primary",
     SECONDARY: "secondary"
   };
-  var yo = [...Object.keys(y), ...x$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(u$1.map((o2) => "".concat(o2, "x"))).concat(m$1.map((o2) => "w-".concat(o2)));
+  var yo = [...Object.keys(y), ...x$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(u$1.map((o3) => "".concat(o3, "x"))).concat(m$1.map((o3) => "w-".concat(o3)));
   var mo = {
     "Font Awesome Kit": {
       400: "fak",
@@ -4938,14 +3986,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const drc = DEFAULT_REPLACEMENT_CLASS;
     const fp = config.cssPrefix;
     const rc = config.replacementClass;
-    let s = baseStyles;
+    let s2 = baseStyles;
     if (fp !== dcp || rc !== drc) {
       const dPatt = new RegExp("\\.".concat(dcp, "\\-"), "g");
       const customPropPatt = new RegExp("\\--".concat(dcp, "\\-"), "g");
       const rPatt = new RegExp("\\.".concat(drc), "g");
-      s = s.replace(dPatt, ".".concat(fp, "-")).replace(customPropPatt, "--".concat(fp, "-")).replace(rPatt, ".".concat(rc));
+      s2 = s2.replace(dPatt, ".".concat(fp, "-")).replace(customPropPatt, "--".concat(fp, "-")).replace(rPatt, ".".concat(rc));
     }
-    return s;
+    return s2;
   }
   var _cssInserted = false;
   function ensureCss() {
@@ -5017,8 +4065,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   var bindInternal4 = function bindInternal42(func, thisContext) {
-    return function(a2, b2, c2, d) {
-      return func.call(thisContext, a2, b2, c2, d);
+    return function(a3, b, c3, d2) {
+      return func.call(thisContext, a3, b, c3, d2);
     };
   };
   var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
@@ -5389,9 +4437,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } = _ref;
     _plugins = nextPlugins;
     _hooks = {};
-    Object.keys(providers).forEach((k2) => {
-      if (defaultProviderKeys.indexOf(k2) === -1) {
-        delete providers[k2];
+    Object.keys(providers).forEach((k) => {
+      if (defaultProviderKeys.indexOf(k) === -1) {
+        delete providers[k];
       }
     });
     _plugins.forEach((plugin) => {
@@ -5556,7 +4604,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
     Object.defineProperty(val, "html", {
       get: function() {
-        return val.abstract.map((a2) => toHtml(a2));
+        return val.abstract.map((a3) => toHtml(a3));
       }
     });
     Object.defineProperty(val, "node", {
@@ -5643,7 +4691,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       height
     } = mask.found ? mask : main;
     const isUploadedIcon = prefix === "fak";
-    const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter((c2) => extra.classes.indexOf(c2) === -1).filter((c2) => c2 !== "" || !!c2).concat(extra.classes).join(" ");
+    const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter((c3) => extra.classes.indexOf(c3) === -1).filter((c3) => c3 !== "" || !!c3).concat(extra.classes).join(" ");
     let content = {
       children: [],
       attributes: {
@@ -5982,7 +5030,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           node.setAttribute("class", splitClasses.toNode.join(" "));
         }
       }
-      const newInnerHTML = abstract.map((a2) => toHtml(a2)).join("\n");
+      const newInnerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
       node.setAttribute(DATA_FA_I2SVG, "");
       node.innerHTML = newInnerHTML;
     }
@@ -6453,8 +5501,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             });
             let children = [];
             assembler((args) => {
-              Array.isArray(args) ? args.map((a2) => {
-                children = children.concat(a2.abstract);
+              Array.isArray(args) ? args.map((a3) => {
+                children = children.concat(a3.abstract);
               }) : children = children.concat(args.abstract);
             });
             return [{
@@ -6614,7 +5662,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return resolve();
       }
       const children = toArray(node.children);
-      const alreadyProcessedPseudoElement = children.filter((c2) => c2.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
+      const alreadyProcessedPseudoElement = children.filter((c3) => c3.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
       const styles2 = WINDOW.getComputedStyle(node, position);
       const fontFamily = styles2.getPropertyValue("font-family");
       const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
@@ -6668,7 +5716,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             } else {
               node.appendChild(element);
             }
-            element.outerHTML = abstract.map((a2) => toHtml(a2)).join("\n");
+            element.outerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
             node.removeAttribute(pendingAttribute);
             resolve();
           }).catch(reject);
@@ -17136,8 +16184,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             if (array.length !== Object.getOwnPropertyNames(parameters).length) throw new Error(`The route with name [${name}] contains ${array.length} parameters. ${Object.getOwnPropertyNames(parameters).length} given`);
             for (let parameter in parameters) {
               if (!array.includes(parameter)) throw new Error(`Invalid parameter name [${parameter}]`);
-              let r2 = new RegExp(`{${parameter}}`, "g");
-              uri = uri.replace(r2, parameters[parameter]);
+              let r3 = new RegExp(`{${parameter}}`, "g");
+              uri = uri.replace(r3, parameters[parameter]);
             }
           }
         } else {
@@ -17238,40 +16286,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return str.replace(UNESCAPE_MD_RE, "$1");
   }
-  function isValidEntityCode(c2) {
-    if (c2 >= 55296 && c2 <= 57343) {
+  function isValidEntityCode(c3) {
+    if (c3 >= 55296 && c3 <= 57343) {
       return false;
     }
-    if (c2 >= 64976 && c2 <= 65007) {
+    if (c3 >= 64976 && c3 <= 65007) {
       return false;
     }
-    if ((c2 & 65535) === 65535 || (c2 & 65535) === 65534) {
+    if ((c3 & 65535) === 65535 || (c3 & 65535) === 65534) {
       return false;
     }
-    if (c2 >= 0 && c2 <= 8) {
+    if (c3 >= 0 && c3 <= 8) {
       return false;
     }
-    if (c2 === 11) {
+    if (c3 === 11) {
       return false;
     }
-    if (c2 >= 14 && c2 <= 31) {
+    if (c3 >= 14 && c3 <= 31) {
       return false;
     }
-    if (c2 >= 127 && c2 <= 159) {
+    if (c3 >= 127 && c3 <= 159) {
       return false;
     }
-    if (c2 > 1114111) {
+    if (c3 > 1114111) {
       return false;
     }
     return true;
   }
-  function fromCodePoint(c2) {
-    if (c2 > 65535) {
-      c2 -= 65536;
-      var surrogate1 = 55296 + (c2 >> 10), surrogate2 = 56320 + (c2 & 1023);
+  function fromCodePoint(c3) {
+    if (c3 > 65535) {
+      c3 -= 65536;
+      var surrogate1 = 55296 + (c3 >> 10), surrogate2 = 56320 + (c3 & 1023);
       return String.fromCharCode(surrogate1, surrogate2);
     }
-    return String.fromCharCode(c2);
+    return String.fromCharCode(c3);
   }
   var NAMED_ENTITY_RE = /&([a-z#][a-z0-9]{1,31});/gi;
   var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
@@ -17830,11 +16878,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function abbr(state) {
-    var tokens = state.tokens, i, l, content, pos;
+    var tokens = state.tokens, i, l2, content, pos;
     if (state.inlineMode) {
       return;
     }
-    for (i = 1, l = tokens.length - 1; i < l; i++) {
+    for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
       if (tokens[i - 1].type === "paragraph_open" && tokens[i].type === "inline" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
@@ -18003,12 +17051,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function references(state) {
-    var tokens = state.tokens, i, l, content, pos;
+    var tokens = state.tokens, i, l2, content, pos;
     state.env.references = state.env.references || {};
     if (state.inlineMode) {
       return;
     }
-    for (i = 1, l = tokens.length - 1; i < l; i++) {
+    for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
       if (tokens[i].type === "inline" && tokens[i - 1].type === "paragraph_open" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
@@ -18027,8 +17075,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function inline(state) {
-    var tokens = state.tokens, tok, i, l;
-    for (i = 0, l = tokens.length; i < l; i++) {
+    var tokens = state.tokens, tok, i, l2;
+    for (i = 0, l2 = tokens.length; i < l2; i++) {
       tok = tokens[i];
       if (tok.type === "inline") {
         state.inline.parse(tok.content, state.options, state.env, tok.children);
@@ -18036,7 +17084,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function footnote_block(state) {
-    var i, l, j2, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
+    var i, l2, j, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
     if (!state.env.footnotes) {
       return;
     }
@@ -18065,7 +17113,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       type: "footnote_block_open",
       level: level++
     });
-    for (i = 0, l = list2.length; i < l; i++) {
+    for (i = 0, l2 = list2.length; i < l2; i++) {
       state.tokens.push({
         type: "footnote_open",
         id: i,
@@ -18099,11 +17147,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         lastParagraph = null;
       }
       t2 = list2[i].count > 0 ? list2[i].count : 1;
-      for (j2 = 0; j2 < t2; j2++) {
+      for (j = 0; j < t2; j++) {
         state.tokens.push({
           type: "footnote_anchor",
           id: i,
-          subId: j2,
+          subId: j,
           level
         });
       }
@@ -18122,28 +17170,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   var PUNCT_CHARS = ` 
 ()[]'".,!?-`;
-  function regEscape(s) {
-    return s.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
+  function regEscape(s2) {
+    return s2.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
   }
   function abbr2(state) {
-    var i, j2, l, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state.tokens;
+    var i, j, l2, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state.tokens;
     if (!state.env.abbreviations) {
       return;
     }
     if (!state.env.abbrRegExp) {
-      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state.env.abbreviations).map(function(x2) {
-        return x2.substr(1);
-      }).sort(function(a2, b2) {
-        return b2.length - a2.length;
+      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state.env.abbreviations).map(function(x) {
+        return x.substr(1);
+      }).sort(function(a3, b) {
+        return b.length - a3.length;
       }).map(regEscape).join("|") + ")($|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])";
       state.env.abbrRegExp = new RegExp(regText, "g");
     }
     reg = state.env.abbrRegExp;
-    for (j2 = 0, l = blockTokens.length; j2 < l; j2++) {
-      if (blockTokens[j2].type !== "inline") {
+    for (j = 0, l2 = blockTokens.length; j < l2; j++) {
+      if (blockTokens[j].type !== "inline") {
         continue;
       }
-      tokens = blockTokens[j2].children;
+      tokens = blockTokens[j].children;
       for (i = tokens.length - 1; i >= 0; i--) {
         token = tokens[i];
         if (token.type !== "text") {
@@ -18188,7 +17236,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             level
           });
         }
-        blockTokens[j2].children = tokens = [].concat(tokens.slice(0, i), nodes, tokens.slice(i + 1));
+        blockTokens[j].children = tokens = [].concat(tokens.slice(0, i), nodes, tokens.slice(i + 1));
       }
     }
   }
@@ -18245,7 +17293,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return str.substr(0, index) + ch + str.substr(index + 1);
   }
   function smartquotes(state) {
-    var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j2, isSingle, blkIdx, tokens, stack;
+    var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j, isSingle, blkIdx, tokens, stack;
     if (!state.options.typographer) {
       return;
     }
@@ -18262,12 +17310,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           continue;
         }
         thisLevel = tokens[i].level;
-        for (j2 = stack.length - 1; j2 >= 0; j2--) {
-          if (stack[j2].level <= thisLevel) {
+        for (j = stack.length - 1; j >= 0; j--) {
+          if (stack[j].level <= thisLevel) {
             break;
           }
         }
-        stack.length = j2 + 1;
+        stack.length = j + 1;
         text3 = token.content;
         pos = 0;
         max = text3.length;
@@ -18291,13 +17339,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             canOpen = !nextSpace;
             canClose = !lastSpace;
             if (canClose) {
-              for (j2 = stack.length - 1; j2 >= 0; j2--) {
-                item = stack[j2];
-                if (stack[j2].level < thisLevel) {
+              for (j = stack.length - 1; j >= 0; j--) {
+                item = stack[j];
+                if (stack[j].level < thisLevel) {
                   break;
                 }
-                if (item.single === isSingle && stack[j2].level === thisLevel) {
-                  item = stack[j2];
+                if (item.single === isSingle && stack[j].level === thisLevel) {
+                  item = stack[j];
                   if (isSingle) {
                     tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[2]);
                     token.content = replaceAt(token.content, t2.index, state.options.quotes[3]);
@@ -18305,7 +17353,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[0]);
                     token.content = replaceAt(token.content, t2.index, state.options.quotes[1]);
                   }
-                  stack.length = j2;
+                  stack.length = j;
                   continue OUTER;
                 }
               }
@@ -18342,14 +17390,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   Core.prototype.process = function(state) {
-    var i, l, rules2;
+    var i, l2, rules2;
     rules2 = this.ruler.getRules("");
-    for (i = 0, l = rules2.length; i < l; i++) {
+    for (i = 0, l2 = rules2.length; i < l2; i++) {
       rules2[i](state);
     }
   };
   function StateBlock(src, parser, options, env, tokens) {
-    var ch, s, start, pos, len, indent, indent_found;
+    var ch, s2, start, pos, len, indent, indent_found;
     this.src = src;
     this.parser = parser;
     this.options = options;
@@ -18366,11 +17414,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     this.ddIndent = -1;
     this.level = 0;
     this.result = "";
-    s = this.src;
+    s2 = this.src;
     indent = 0;
     indent_found = false;
-    for (start = pos = indent = 0, len = s.length; pos < len; pos++) {
-      ch = s.charCodeAt(pos);
+    for (start = pos = indent = 0, len = s2.length; pos < len; pos++) {
+      ch = s2.charCodeAt(pos);
       if (!indent_found) {
         if (ch === 32) {
           indent++;
@@ -18391,8 +17439,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         start = pos + 1;
       }
     }
-    this.bMarks.push(s.length);
-    this.eMarks.push(s.length);
+    this.bMarks.push(s2.length);
+    this.eMarks.push(s2.length);
     this.tShift.push(0);
     this.lineMax = this.bMarks.length - 1;
   }
@@ -18553,7 +17601,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return true;
   }
   function blockquote(state, startLine, endLine, silent) {
-    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l, terminate, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l2, terminate, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
     if (pos > max) {
       return false;
     }
@@ -18600,7 +17648,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         break;
       }
       terminate = false;
-      for (i = 0, l = terminatorRules.length; i < l; i++) {
+      for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
         if (terminatorRules[i](state, nextLine, endLine, true)) {
           terminate = true;
           break;
@@ -18712,8 +17760,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function markTightParagraphs(state, idx) {
-    var i, l, level = state.level + 2;
-    for (i = idx + 2, l = state.tokens.length - 2; i < l; i++) {
+    var i, l2, level = state.level + 2;
+    for (i = idx + 2, l2 = state.tokens.length - 2; i < l2; i++) {
       if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
         state.tokens[i + 2].tight = true;
         state.tokens[i].tight = true;
@@ -18722,7 +17770,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function list(state, startLine, endLine, silent) {
-    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l, terminate;
+    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l2, terminate;
     if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
       isOrdered = true;
     } else if ((posAfterMarker = skipBulletListMarker(state, startLine)) >= 0) {
@@ -18811,7 +17859,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         break;
       }
       terminate = false;
-      for (i = 0, l = terminatorRules.length; i < l; i++) {
+      for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
         if (terminatorRules[i](state, nextLine, endLine, true)) {
           terminate = true;
           break;
@@ -19267,8 +18315,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function markTightParagraphs$1(state, idx) {
-    var i, l, level = state.level + 2;
-    for (i = idx + 2, l = state.tokens.length - 2; i < l; i++) {
+    var i, l2, level = state.level + 2;
+    for (i = idx + 2, l2 = state.tokens.length - 2; i < l2; i++) {
       if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
         state.tokens[i + 2].tight = true;
         state.tokens[i].tight = true;
@@ -19410,7 +18458,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return true;
   }
   function paragraph(state, startLine) {
-    var endLine, content, terminate, i, l, nextLine = startLine + 1, terminatorRules;
+    var endLine, content, terminate, i, l2, nextLine = startLine + 1, terminatorRules;
     endLine = state.lineMax;
     if (nextLine < endLine && !state.isEmpty(nextLine)) {
       terminatorRules = state.parser.ruler.getRules("paragraph");
@@ -19419,7 +18467,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           continue;
         }
         terminate = false;
-        for (i = 0, l = terminatorRules.length; i < l; i++) {
+        for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
           if (terminatorRules[i](state, nextLine, endLine, true)) {
             terminate = true;
             break;
@@ -21421,255 +20469,204 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("hero-banner", HeroBanner);
 
-  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/react/simpleParallax.es.js
-  var import_react = __toESM(require_react(), 1);
-  var v = (e) => {
-    const [t2, n] = (0, import_react.useState)(0), [a2, c2] = (0, import_react.useState)(false), s = (0, import_react.useRef)(null), r2 = (0, import_react.useCallback)(() => {
-      s.current && n(s.current.height);
-    }, []);
-    return (0, import_react.useEffect)(() => {
-      const l = () => {
-        c2(true), r2();
-      }, d = s.current;
-      return d && (d.complete ? l() : d.addEventListener("load", l)), window.addEventListener("resize", r2), () => {
-        d && d.removeEventListener("load", l), window.removeEventListener("resize", r2);
-      };
-    }, [e, r2]), [s, t2, a2];
-  };
-  var P = (e = {}) => {
-    const [t2, n] = (0, import_react.useState)(false), a2 = (0, import_react.useRef)(null);
-    return (0, import_react.useEffect)(() => {
-      const c2 = new IntersectionObserver(
-        (r2) => {
-          const [l] = r2;
-          l && (l.isIntersecting ? n(true) : n(false));
-        },
-        {
-          ...e
-        }
-      ), { current: s } = a2;
-      return s && c2.observe(s), () => {
-        s && c2.unobserve(s);
-      };
-    }, [e]), [a2, t2];
-  };
-  var x = class _x {
+  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
+  var h = (i) => NodeList.prototype.isPrototypeOf(i) || HTMLCollection.prototype.isPrototypeOf(i) ? Array.from(i) : typeof i == "string" || i instanceof String ? document.querySelectorAll(i) : [i];
+  var d = () => Element.prototype.closest && "IntersectionObserver" in window;
+  var c2 = class {
     constructor() {
-      this.callbacks = /* @__PURE__ */ new Set(), this.animationFrameId = null;
-    }
-    static getInstance() {
-      return _x.instance || (_x.instance = new _x()), _x.instance;
-    }
-    register(t2) {
-      this.callbacks.add(t2), this.animationFrameId === null && this.start();
-    }
-    unregister(t2) {
-      this.callbacks.delete(t2), this.callbacks.size === 0 && this.animationFrameId !== null && this.stop();
-    }
-    start() {
-      const t2 = () => {
-        this.callbacks.forEach((n) => n()), this.animationFrameId = requestAnimationFrame(t2);
+      this.positions = {
+        top: 0,
+        bottom: 0,
+        height: 0
       };
-      this.animationFrameId = requestAnimationFrame(t2);
     }
-    stop() {
-      this.animationFrameId !== null && (cancelAnimationFrame(this.animationFrameId), this.animationFrameId = null);
+    setViewportTop(t2) {
+      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions;
     }
-  };
-  var k = x.getInstance();
-  var z = (e, t2) => e * t2 - e;
-  var A = (e, t2) => Math.ceil(e / 100 * t2 - t2 / 2);
-  var C = (e, t2) => {
-    const { top: n, height: a2 } = e;
-    let c2 = -a2;
-    const s = t2;
-    if (n < c2)
-      return 0;
-    if (n > s)
-      return 100;
-    const r2 = (n - c2) / (s - c2) * 100;
-    return Math.round(Math.min(Math.max(r2, 0), 100) * 100) / 100;
-  };
-  var N = (e, t2) => {
-    switch (t2) {
-      case "up":
-        return `0, ${e}px, 0`;
-      case "right":
-        return `${-e}px, 0, 0`;
-      case "down":
-        return `0, ${-e}px, 0`;
-      case "left":
-        return `${e}px, 0, 0`;
-      case "up left":
-        return `${e}px, ${e}px, 0`;
-      case "up right":
-        return `${-e}px, ${e}px, 0`;
-      case "down left":
-        return `${e}px, ${-e}px, 0`;
-      case "down right":
-        return `${-e}px, ${-e}px, 0`;
-      default:
-        return `0, ${e}px, 0`;
+    setViewportBottom() {
+      return this.positions.bottom = this.positions.top + this.positions.height, this.positions;
+    }
+    setViewportAll(t2) {
+      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions.height = t2 ? t2.clientHeight : document.documentElement.clientHeight, this.positions.bottom = this.positions.top + this.positions.height, this.positions;
     }
   };
-  var B = () => {
-    const [e, t2] = (0, import_react.useState)(null);
-    return (0, import_react.useEffect)(() => {
-      const n = () => {
-        t2(window.innerHeight);
-      };
-      if (typeof window < "u")
-        return t2(window.innerHeight), window.addEventListener("resize", n), () => {
-          window.removeEventListener("resize", n);
-        };
-    }, []), e;
+  var s = new c2();
+  var m = () => {
+    const i = "transform webkitTransform mozTransform oTransform msTransform".split(" ");
+    let t2, e = 0;
+    for (; t2 === void 0; )
+      t2 = document.createElement("div").style[i[e]] !== void 0 ? i[e] : void 0, e += 1;
+    return t2;
   };
-  var R = ({
-    isLoaded: e,
-    imageHeight: t2,
-    scale: n,
-    boundingClientRect: a2,
-    orientation: c2,
-    maxTransition: s
-  }) => {
-    const [r2, l] = (0, import_react.useState)(""), d = (0, import_react.useRef)({
-      rangeMax: 0,
-      lastImageHeight: 0,
-      lastScale: 0,
-      lastTranslateValue: -999999,
-      lastTransformString: ""
-    }), o2 = B();
-    return (0, import_react.useEffect)(() => {
-      if (!e || !a2 || !o2)
-        return;
-      const i = d.current;
-      (i.lastImageHeight !== t2 || i.lastScale !== n) && (i.rangeMax = z(t2, n), i.lastImageHeight = t2, i.lastScale = n);
-      let h = C(a2, o2);
-      s && (h = Math.min(h, 100 - s));
-      const p = A(h, i.rangeMax);
-      if (i.lastTranslateValue !== p) {
-        const g = N(p, c2);
-        g !== i.lastTransformString && (i.lastTranslateValue = p, i.lastTransformString = g, l(g));
+  var r2 = m();
+  var p = (i) => i.tagName.toLowerCase() !== "img" && i.tagName.toLowerCase() !== "picture" ? true : !(!i || !i.complete || typeof i.naturalWidth < "u" && i.naturalWidth === 0);
+  var f = class {
+    constructor(t2, e, n = false) {
+      this.element = t2, this.elementContainer = t2, this.settings = e, this.isVisible = true, this.isInit = false, this.oldTranslateValue = -1, this.prefersReducedMotion = n, this.init = this.init.bind(this), this.customWrapper = this.settings.customWrapper && this.element.closest(this.settings.customWrapper) ? this.element.closest(this.settings.customWrapper) : null, !this.prefersReducedMotion && (p(t2) ? this.init() : this.element.addEventListener("load", () => {
+        setTimeout(() => {
+          this.init(true);
+        }, 50);
+      }));
+    }
+    init(t2) {
+      this.prefersReducedMotion || this.isInit || (t2 && (this.rangeMax = null), !this.element.closest(".simpleParallax") && (this.settings.overflow === false && this.wrapElement(this.element), this.setTransformCSS(), this.getElementOffset(), this.intersectionObserver(), this.getTranslateValue(), this.animate(), this.settings.delay > 0 ? setTimeout(() => {
+        this.setTransitionCSS(), this.elementContainer.classList.add("simple-parallax-initialized");
+      }, 10) : this.elementContainer.classList.add("simple-parallax-initialized"), this.isInit = true));
+    }
+    // if overflow option is set to false
+    // wrap the element into a .simpleParallax div and apply overflow hidden to hide the image excedant (result of the scale)
+    wrapElement() {
+      const t2 = this.element.closest("picture") || this.element;
+      let e = this.customWrapper || document.createElement("div");
+      e.classList.add("simpleParallax"), e.style.overflow = "hidden", this.customWrapper || (t2.parentNode.insertBefore(e, t2), e.appendChild(t2)), this.elementContainer = e;
+    }
+    // unwrap the element from .simpleParallax wrapper container
+    unWrapElement() {
+      const t2 = this.elementContainer;
+      this.customWrapper ? (t2.classList.remove("simpleParallax"), t2.style.overflow = "") : t2.replaceWith(...t2.childNodes);
+    }
+    // apply default style on element
+    setTransformCSS() {
+      this.settings.overflow === false && (this.element.style[r2] = `scale(${this.settings.scale})`), this.element.style.willChange = "transform";
+    }
+    // apply the transition effect
+    setTransitionCSS() {
+      this.element.style.transition = `transform ${this.settings.delay}s ${this.settings.transition}`;
+    }
+    // remove style of the element
+    unSetStyle() {
+      this.element.style.willChange = "", this.element.style[r2] = "", this.element.style.transition = "";
+    }
+    // get the current element offset
+    getElementOffset() {
+      const t2 = this.elementContainer.getBoundingClientRect();
+      if (this.elementHeight = t2.height, this.elementTop = t2.top + s.positions.top, this.settings.customContainer) {
+        const e = this.settings.customContainer.getBoundingClientRect();
+        this.elementTop = t2.top - e.top + s.positions.top;
       }
-    }, [
-      e,
-      t2,
-      n,
-      a2,
-      c2,
-      s,
-      o2
-    ]), r2;
-  };
-  var j = () => {
-    const [e, t2] = (0, import_react.useState)(false);
-    return (0, import_react.useEffect)(() => {
-      if (typeof window > "u")
-        return;
-      const n = window.matchMedia("(prefers-reduced-motion: reduce)");
-      t2(n.matches);
-      const a2 = (c2) => {
-        t2(c2.matches);
-      };
-      return n.addEventListener("change", a2), () => {
-        n.removeEventListener("change", a2);
-      };
-    }, []), e;
-  };
-  var q = ({
-    scale: e,
-    overflow: t2,
-    delay: n,
-    transition: a2,
-    orientation: c2,
-    maxTransition: s,
-    isVisible: r2,
-    isLoaded: l,
-    imageHeight: d,
-    imageRef: o2
-  }) => {
-    const [i, h] = (0, import_react.useState)(false), [p, g] = (0, import_react.useState)(0), [T, y2] = (0, import_react.useState)(
-      null
-    ), [$, E] = (0, import_react.useState)(false), u = j(), M = R({
-      isLoaded: l,
-      imageHeight: d,
-      scale: e,
-      boundingClientRect: T,
-      orientation: c2,
-      maxTransition: s
-    }), S = (0, import_react.useCallback)(
-      (w) => {
-        if (!o2.current || u || !w) return;
-        let I = `translate3d(${w})`;
-        t2 || (I += ` scale(${e})`), o2.current.style.transform = I;
-      },
-      [o2, e, t2, u]
-    ), L = (0, import_react.useCallback)(
-      (w) => {
-        if (!o2.current || u) return;
-        const I = w && n > 0 ? `transform ${n}s ${a2}` : "";
-        o2.current.style.transition = I;
-      },
-      [o2, n, a2, u]
-    ), V = (0, import_react.useCallback)(() => {
-      var w;
-      if (!(!r2 && i || u) && (window.scrollY !== p || !i)) {
-        const I = (w = o2.current) == null ? void 0 : w.getBoundingClientRect();
-        I && y2(I), i || setTimeout(() => {
-          E(true);
-        }, 50), g(window.scrollY);
+      this.elementBottom = this.elementHeight + this.elementTop;
+    }
+    // build the Threshold array to cater change for every pixel scrolled
+    buildThresholdList() {
+      const t2 = [];
+      for (let e = 1; e <= this.elementHeight; e++) {
+        const n = e / this.elementHeight;
+        t2.push(n);
       }
-    }, [p, r2, o2, i, u]);
-    (0, import_react.useEffect)(() => {
-      M && (r2 || !i) && (S(M), h(true));
-    }, [M, r2, i, S]), (0, import_react.useEffect)(() => {
-      !t2 && l && o2.current && !u && (o2.current.style.transform = `scale(${e})`);
-    }, [e, t2, l, u]), (0, import_react.useEffect)(() => {
-      L($);
-    }, [$, L]), (0, import_react.useEffect)(() => (u || k.register(V), () => {
-      k.unregister(V);
-    }), [V, u]), (0, import_react.useEffect)(() => {
-      u && o2.current && (o2.current.style.transform = "", o2.current.style.transition = "");
-    }, [u]);
+      return t2;
+    }
+    // create the Intersection Observer
+    intersectionObserver() {
+      const t2 = {
+        root: null,
+        threshold: this.buildThresholdList()
+      };
+      this.observer = new IntersectionObserver(
+        this.intersectionObserverCallback.bind(this),
+        t2
+      ), this.observer.observe(this.element);
+    }
+    // Intersection Observer Callback to set the element at visible state or not
+    intersectionObserverCallback(t2) {
+      t2.forEach((e) => {
+        e.isIntersecting ? this.isVisible = true : this.isVisible = false;
+      });
+    }
+    // check if the current element is visible in the Viewport
+    // for browser that not support Intersection Observer API
+    checkIfVisible() {
+      return this.elementBottom > s.positions.top && this.elementTop < s.positions.bottom;
+    }
+    // calculate the range between image will be translated
+    getRangeMax() {
+      const t2 = this.element.clientHeight;
+      this.rangeMax = t2 * this.settings.scale - t2;
+    }
+    // get the percentage and the translate value to apply on the element
+    getTranslateValue() {
+      let t2 = ((s.positions.bottom - this.elementTop) / ((s.positions.height + this.elementHeight) / 100)).toFixed(1);
+      return t2 = Math.min(100, Math.max(0, t2)), this.settings.maxTransition !== 0 && t2 > this.settings.maxTransition && (t2 = this.settings.maxTransition), this.oldPercentage === t2 || (this.rangeMax || this.getRangeMax(), this.translateValue = (t2 / 100 * this.rangeMax - this.rangeMax / 2).toFixed(0), this.oldTranslateValue === this.translateValue) ? false : (this.oldPercentage = t2, this.oldTranslateValue = this.translateValue, true);
+    }
+    // animate the image
+    animate() {
+      let t2 = 0, e = 0, n;
+      (this.settings.orientation.includes("left") || this.settings.orientation.includes("right")) && (e = `${this.settings.orientation.includes("left") ? this.translateValue * -1 : this.translateValue}px`), (this.settings.orientation.includes("up") || this.settings.orientation.includes("down")) && (t2 = `${this.settings.orientation.includes("up") ? this.translateValue * -1 : this.translateValue}px`), this.settings.overflow === false ? n = `translate3d(${e}, ${t2}, 0) scale(${this.settings.scale})` : n = `translate3d(${e}, ${t2}, 0)`, this.element.style[r2] = n;
+    }
   };
-  var G = "/Users/geoffrey/Desktop/perso/simpleParallax.js/src/react/index.tsx";
-  var W = ({
-    delay: e = 0.4,
-    orientation: t2 = "up",
-    scale: n = 1.4,
-    overflow: a2 = false,
-    transition: c2 = "cubic-bezier(0,0,0,1)",
-    maxTransition: s = null,
-    children: r2
-  }) => {
-    var $;
-    const l = t2 ?? "up", d = n ?? 1.2, o2 = ($ = r2 == null ? void 0 : r2.props) == null ? void 0 : $.src, [i, h, p] = v(o2), [g, T] = P({
-      root: null,
-      rootMargin: "0px",
-      threshold: Array.from(Array(101).keys(), (E) => E / 100)
-    });
-    q({
-      scale: d,
-      overflow: a2,
-      delay: e,
-      transition: c2,
-      orientation: l,
-      maxTransition: s,
-      isVisible: T,
-      isLoaded: p,
-      imageHeight: h,
-      imageRef: i
-    });
-    const y2 = import_react.default.isValidElement(r2) ? import_react.default.cloneElement(r2, {
-      ref: i
-    }) : null;
-    return /* @__PURE__ */ import_react.default.createElement("div", { ref: g, style: {
-      overflow: a2 ? "visible" : "hidden"
-    }, __self: void 0, __source: {
-      fileName: G,
-      lineNumber: 47,
-      columnNumber: 3
-    } }, y2);
+  var a2 = false;
+  var o2 = [];
+  var l;
+  var u;
+  var g = class {
+    constructor(t2, e) {
+      t2 && d() && (this.prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches, this.reducedMotionMediaQuery = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ), this.handleReducedMotionChange = this.handleReducedMotionChange.bind(this), this.reducedMotionMediaQuery.addEventListener(
+        "change",
+        this.handleReducedMotionChange
+      ), !this.prefersReducedMotion && (this.elements = h(t2), this.defaults = {
+        delay: 0,
+        orientation: "up",
+        scale: 1.3,
+        overflow: false,
+        transition: "cubic-bezier(0,0,0,1)",
+        customContainer: "",
+        customWrapper: "",
+        maxTransition: 0
+      }, this.settings = Object.assign(this.defaults, e), this.settings.customContainer && ([this.customContainer] = h(this.settings.customContainer)), this.lastPosition = -1, this.resizeIsDone = this.resizeIsDone.bind(this), this.refresh = this.refresh.bind(this), this.proceedRequestAnimationFrame = this.proceedRequestAnimationFrame.bind(this), this.init()));
+    }
+    // Handle changes to reduced motion preference
+    handleReducedMotionChange(t2) {
+      this.prefersReducedMotion = t2.matches, this.prefersReducedMotion ? this.destroy() : this.init();
+    }
+    init() {
+      this.prefersReducedMotion || (s.setViewportAll(this.customContainer), o2 = [
+        ...this.elements.map(
+          (t2) => new f(
+            t2,
+            this.settings,
+            this.prefersReducedMotion
+          )
+        ),
+        ...o2
+      ], a2 || (this.proceedRequestAnimationFrame(), window.addEventListener("resize", this.resizeIsDone), a2 = true));
+    }
+    // wait for resize to be completely done
+    resizeIsDone() {
+      clearTimeout(u), u = setTimeout(this.refresh, 200);
+    }
+    // animation frame
+    proceedRequestAnimationFrame() {
+      if (s.setViewportTop(this.customContainer), this.lastPosition === s.positions.top) {
+        l = window.requestAnimationFrame(this.proceedRequestAnimationFrame);
+        return;
+      }
+      s.setViewportBottom(), o2.forEach((t2) => {
+        this.proceedElement(t2);
+      }), l = window.requestAnimationFrame(this.proceedRequestAnimationFrame), this.lastPosition = s.positions.top;
+    }
+    // proceed the element
+    proceedElement(t2) {
+      let e = false;
+      this.customContainer ? e = t2.checkIfVisible() : e = t2.isVisible, e && t2.getTranslateValue() && t2.animate();
+    }
+    refresh() {
+      s.setViewportAll(this.customContainer), o2.forEach((t2) => {
+        t2.getElementOffset(), t2.getRangeMax();
+      }), this.lastPosition = -1;
+    }
+    destroy() {
+      this.reducedMotionMediaQuery && this.reducedMotionMediaQuery.removeEventListener(
+        "change",
+        this.handleReducedMotionChange
+      );
+      const t2 = [];
+      o2 = o2.filter((e) => this.elements && this.elements.includes(e.element) ? (t2.push(e), false) : e), t2.forEach((e) => {
+        e.unSetStyle(), this.settings && this.settings.overflow === false && e.unWrapElement();
+      }), o2.length || (window.cancelAnimationFrame(l), window.removeEventListener("resize", this.refresh), a2 = false);
+    }
   };
 
   // node_modules/@customerjourney/cj-components/src/components/ImageBanner.js
@@ -21710,7 +20707,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new W(image, this.state.image.paralax);
+        new g(image, this.state.image.paralax);
       }
     }
   };
@@ -21792,7 +20789,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new W(image, this.state.image.paralax);
+        new g(image, this.state.image.paralax);
       }
     }
   };
@@ -24236,17 +23233,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   });
 })();
 /*! Bundled license information:
-
-react/cjs/react.development.js:
-  (**
-   * @license React
-   * react.development.js
-   *
-   * Copyright (c) Meta Platforms, Inc. and affiliates.
-   *
-   * This source code is licensed under the MIT license found in the
-   * LICENSE file in the root directory of this source tree.
-   *)
 
 @fortawesome/free-regular-svg-icons/index.mjs:
   (*!
