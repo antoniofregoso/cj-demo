@@ -32,7 +32,9 @@
         "@reduxjs/toolkit": "^2.2.7",
         "animate.css": "^4.1.1",
         "bulma": "^1.0.2",
+        "libphonenumber-js": "^1.12.9",
         "redux-persist": "^6.0.0",
-        "remarkable": "^2.0.1"
+        "remarkable": "^2.0.1",
+        "vanilla-calendar-pro": "^3.0.4"
     }
 }

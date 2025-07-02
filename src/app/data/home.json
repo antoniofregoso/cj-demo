@@ -149,6 +149,31 @@
                 }
             },
             {
+                "id":"cta",
+                "content":{
+                    "text":{
+                        "en":"Make an appointment",
+                        "es":"Concertar una cita",
+                        "fr":"Prendre rendez-vous"
+                    }
+                },
+                "buttons":{
+                    "eventName":"appoinmentclick",
+                    "classList":["is-centered"],
+                    "buttons":[
+                        {
+                            "id":"appoinment-button",
+                            "text":{
+                             "es":"Adquiere Mara Ahora",
+                             "en":"Get Mara Now",
+                             "fr":"Obtenez Mara maintenant"
+                            },
+                            "classList":["is-rounded","is-info"]
+                         }
+                    ]
+                }
+            },
+            {
                 "id":"footer",
                 "brand":{
                     "src":"/images/Buyer Journey.png"
@@ -167,6 +192,14 @@
                         "fr":"Politique de confidentialité"
                     },
                     "url":"/"
+                }
+            },
+            {
+                "id":"appoinment",
+                "form":{
+                    "terms":{
+                        "disabled":true
+                    }
                 }
             }
         ]       

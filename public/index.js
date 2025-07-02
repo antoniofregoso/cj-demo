@@ -31,17 +31,17 @@
       "use strict";
       exports.__esModule = true;
       exports.default = getStorage;
-      function _typeof2(obj) {
+      function _typeof4(obj) {
         if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-          _typeof2 = function _typeof3(obj2) {
+          _typeof4 = function _typeof5(obj2) {
             return typeof obj2;
           };
         } else {
-          _typeof2 = function _typeof3(obj2) {
+          _typeof4 = function _typeof5(obj2) {
             return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
           };
         }
-        return _typeof2(obj);
+        return _typeof4(obj);
       }
       function noop3() {
       }
@@ -51,7 +51,7 @@
         removeItem: noop3
       };
       function hasStorage(storageType) {
-        if ((typeof self === "undefined" ? "undefined" : _typeof2(self)) !== "object" || !(storageType in self)) {
+        if ((typeof self === "undefined" ? "undefined" : _typeof4(self)) !== "object" || !(storageType in self)) {
           return false;
         }
         try {
@@ -60,7 +60,7 @@
           storage2.setItem(testKey, "test");
           storage2.getItem(testKey);
           storage2.removeItem(testKey);
-        } catch (e) {
+        } catch (e2) {
           if (true) console.warn("redux-persist ".concat(storageType, " test failed, persistence will be disabled."));
           return false;
         }
@@ -342,7 +342,7 @@
     }
     try {
       throw new Error(message);
-    } catch (e) {
+    } catch (e2) {
     }
   }
   function getUnexpectedStateShapeWarningMessage(inputState, reducers, action, unexpectedKeyCache) {
@@ -402,15 +402,15 @@
     let shapeAssertionError;
     try {
       assertReducerShape(finalReducers);
-    } catch (e) {
-      shapeAssertionError = e;
+    } catch (e2) {
+      shapeAssertionError = e2;
     }
-    return function combination(state = {}, action) {
+    return function combination(state2 = {}, action) {
       if (shapeAssertionError) {
         throw shapeAssertionError;
       }
       if (true) {
-        const warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action, unexpectedKeyCache);
+        const warningMessage = getUnexpectedStateShapeWarningMessage(state2, finalReducers, action, unexpectedKeyCache);
         if (warningMessage) {
           warning(warningMessage);
         }
@@ -420,7 +420,7 @@
       for (let i = 0; i < finalReducerKeys.length; i++) {
         const key = finalReducerKeys[i];
         const reducer = finalReducers[key];
-        const previousStateForKey = state[key];
+        const previousStateForKey = state2[key];
         const nextStateForKey = reducer(previousStateForKey, action);
         if (typeof nextStateForKey === "undefined") {
           const actionType = action && action.type;
@@ -429,8 +429,8 @@
         nextState[key] = nextStateForKey;
         hasChanged = hasChanged || nextStateForKey !== previousStateForKey;
       }
-      hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state).length;
-      return hasChanged ? nextState : state;
+      hasChanged = hasChanged || finalReducerKeys.length !== Object.keys(state2).length;
+      return hasChanged ? nextState : state2;
     };
   }
   function compose(...funcs) {
@@ -501,8 +501,8 @@
   ] : [];
   function die(error, ...args) {
     if (true) {
-      const e = errors[error];
-      const msg = typeof e === "function" ? e.apply(null, args) : e;
+      const e2 = errors[error];
+      const msg = typeof e2 === "function" ? e2.apply(null, args) : e2;
       throw new Error(`[Immer] ${msg}`);
     }
     throw new Error(
@@ -541,8 +541,8 @@
     }
   }
   function getArchtype(thing) {
-    const state = thing[DRAFT_STATE];
-    return state ? state.type_ : Array.isArray(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
+    const state2 = thing[DRAFT_STATE];
+    return state2 ? state2.type_ : Array.isArray(thing) ? 1 : isMap(thing) ? 2 : isSet(thing) ? 3 : 0;
   }
   function has(thing, prop) {
     return getArchtype(thing) === 2 ? thing.has(prop) : Object.prototype.hasOwnProperty.call(thing, prop);
@@ -569,8 +569,8 @@
   function isSet(target) {
     return target instanceof Set;
   }
-  function latest(state) {
-    return state.copy_ || state.base_;
+  function latest(state2) {
+    return state2.copy_ || state2.base_;
   }
   function shallowCopy(base, strict) {
     if (isMap(base)) {
@@ -674,86 +674,86 @@
     return currentScope = createScope(currentScope, immer2);
   }
   function revokeDraft(draft) {
-    const state = draft[DRAFT_STATE];
-    if (state.type_ === 0 || state.type_ === 1)
-      state.revoke_();
+    const state2 = draft[DRAFT_STATE];
+    if (state2.type_ === 0 || state2.type_ === 1)
+      state2.revoke_();
     else
-      state.revoked_ = true;
+      state2.revoked_ = true;
   }
-  function processResult(result, scope) {
+  function processResult(result2, scope) {
     scope.unfinalizedDrafts_ = scope.drafts_.length;
     const baseDraft = scope.drafts_[0];
-    const isReplaced = result !== void 0 && result !== baseDraft;
+    const isReplaced = result2 !== void 0 && result2 !== baseDraft;
     if (isReplaced) {
       if (baseDraft[DRAFT_STATE].modified_) {
         revokeScope(scope);
         die(4);
       }
-      if (isDraftable(result)) {
-        result = finalize(scope, result);
+      if (isDraftable(result2)) {
+        result2 = finalize(scope, result2);
         if (!scope.parent_)
-          maybeFreeze(scope, result);
+          maybeFreeze(scope, result2);
       }
       if (scope.patches_) {
         getPlugin("Patches").generateReplacementPatches_(
           baseDraft[DRAFT_STATE].base_,
-          result,
+          result2,
           scope.patches_,
           scope.inversePatches_
         );
       }
     } else {
-      result = finalize(scope, baseDraft, []);
+      result2 = finalize(scope, baseDraft, []);
     }
     revokeScope(scope);
     if (scope.patches_) {
       scope.patchListener_(scope.patches_, scope.inversePatches_);
     }
-    return result !== NOTHING ? result : void 0;
+    return result2 !== NOTHING ? result2 : void 0;
   }
   function finalize(rootScope, value, path) {
     if (isFrozen(value))
       return value;
-    const state = value[DRAFT_STATE];
-    if (!state) {
+    const state2 = value[DRAFT_STATE];
+    if (!state2) {
       each(
         value,
-        (key, childValue) => finalizeProperty(rootScope, state, value, key, childValue, path)
+        (key, childValue) => finalizeProperty(rootScope, state2, value, key, childValue, path)
       );
       return value;
     }
-    if (state.scope_ !== rootScope)
+    if (state2.scope_ !== rootScope)
       return value;
-    if (!state.modified_) {
-      maybeFreeze(rootScope, state.base_, true);
-      return state.base_;
+    if (!state2.modified_) {
+      maybeFreeze(rootScope, state2.base_, true);
+      return state2.base_;
     }
-    if (!state.finalized_) {
-      state.finalized_ = true;
-      state.scope_.unfinalizedDrafts_--;
-      const result = state.copy_;
-      let resultEach = result;
+    if (!state2.finalized_) {
+      state2.finalized_ = true;
+      state2.scope_.unfinalizedDrafts_--;
+      const result2 = state2.copy_;
+      let resultEach = result2;
       let isSet2 = false;
-      if (state.type_ === 3) {
-        resultEach = new Set(result);
-        result.clear();
+      if (state2.type_ === 3) {
+        resultEach = new Set(result2);
+        result2.clear();
         isSet2 = true;
       }
       each(
         resultEach,
-        (key, childValue) => finalizeProperty(rootScope, state, result, key, childValue, path, isSet2)
+        (key, childValue) => finalizeProperty(rootScope, state2, result2, key, childValue, path, isSet2)
       );
-      maybeFreeze(rootScope, result, false);
+      maybeFreeze(rootScope, result2, false);
       if (path && rootScope.patches_) {
         getPlugin("Patches").generatePatches_(
-          state,
+          state2,
           path,
           rootScope.patches_,
           rootScope.inversePatches_
         );
       }
     }
-    return state.copy_;
+    return state2.copy_;
   }
   function finalizeProperty(rootScope, parentState, targetObject, prop, childValue, rootPath, targetIsSet) {
     if (childValue === targetObject)
@@ -786,7 +786,7 @@
   }
   function createProxyProxy(base, parent) {
     const isArray = Array.isArray(base);
-    const state = {
+    const state2 = {
       type_: isArray ? 1 : 0,
       // Track which produce call this is associated with.
       scope_: parent ? parent.scope_ : getCurrentScope(),
@@ -809,91 +809,91 @@
       revoke_: null,
       isManual_: false
     };
-    let target = state;
+    let target = state2;
     let traps = objectTraps;
     if (isArray) {
-      target = [state];
+      target = [state2];
       traps = arrayTraps;
     }
     const { revoke, proxy } = Proxy.revocable(target, traps);
-    state.draft_ = proxy;
-    state.revoke_ = revoke;
+    state2.draft_ = proxy;
+    state2.revoke_ = revoke;
     return proxy;
   }
   var objectTraps = {
-    get(state, prop) {
+    get(state2, prop) {
       if (prop === DRAFT_STATE)
-        return state;
-      const source = latest(state);
+        return state2;
+      const source = latest(state2);
       if (!has(source, prop)) {
-        return readPropFromProto(state, source, prop);
+        return readPropFromProto(state2, source, prop);
       }
       const value = source[prop];
-      if (state.finalized_ || !isDraftable(value)) {
+      if (state2.finalized_ || !isDraftable(value)) {
         return value;
       }
-      if (value === peek(state.base_, prop)) {
-        prepareCopy(state);
-        return state.copy_[prop] = createProxy(value, state);
+      if (value === peek(state2.base_, prop)) {
+        prepareCopy(state2);
+        return state2.copy_[prop] = createProxy(value, state2);
       }
       return value;
     },
-    has(state, prop) {
-      return prop in latest(state);
+    has(state2, prop) {
+      return prop in latest(state2);
     },
-    ownKeys(state) {
-      return Reflect.ownKeys(latest(state));
+    ownKeys(state2) {
+      return Reflect.ownKeys(latest(state2));
     },
-    set(state, prop, value) {
-      const desc = getDescriptorFromProto(latest(state), prop);
+    set(state2, prop, value) {
+      const desc = getDescriptorFromProto(latest(state2), prop);
       if (desc?.set) {
-        desc.set.call(state.draft_, value);
+        desc.set.call(state2.draft_, value);
         return true;
       }
-      if (!state.modified_) {
-        const current2 = peek(latest(state), prop);
+      if (!state2.modified_) {
+        const current2 = peek(latest(state2), prop);
         const currentState = current2?.[DRAFT_STATE];
         if (currentState && currentState.base_ === value) {
-          state.copy_[prop] = value;
-          state.assigned_[prop] = false;
+          state2.copy_[prop] = value;
+          state2.assigned_[prop] = false;
           return true;
         }
-        if (is(value, current2) && (value !== void 0 || has(state.base_, prop)))
+        if (is(value, current2) && (value !== void 0 || has(state2.base_, prop)))
           return true;
-        prepareCopy(state);
-        markChanged(state);
+        prepareCopy(state2);
+        markChanged(state2);
       }
-      if (state.copy_[prop] === value && // special case: handle new props with value 'undefined'
-      (value !== void 0 || prop in state.copy_) || // special case: NaN
-      Number.isNaN(value) && Number.isNaN(state.copy_[prop]))
+      if (state2.copy_[prop] === value && // special case: handle new props with value 'undefined'
+      (value !== void 0 || prop in state2.copy_) || // special case: NaN
+      Number.isNaN(value) && Number.isNaN(state2.copy_[prop]))
         return true;
-      state.copy_[prop] = value;
-      state.assigned_[prop] = true;
+      state2.copy_[prop] = value;
+      state2.assigned_[prop] = true;
       return true;
     },
-    deleteProperty(state, prop) {
-      if (peek(state.base_, prop) !== void 0 || prop in state.base_) {
-        state.assigned_[prop] = false;
-        prepareCopy(state);
-        markChanged(state);
+    deleteProperty(state2, prop) {
+      if (peek(state2.base_, prop) !== void 0 || prop in state2.base_) {
+        state2.assigned_[prop] = false;
+        prepareCopy(state2);
+        markChanged(state2);
       } else {
-        delete state.assigned_[prop];
+        delete state2.assigned_[prop];
       }
-      if (state.copy_) {
-        delete state.copy_[prop];
+      if (state2.copy_) {
+        delete state2.copy_[prop];
       }
       return true;
     },
     // Note: We never coerce `desc.value` into an Immer draft, because we can't make
     // the same guarantee in ES5 mode.
-    getOwnPropertyDescriptor(state, prop) {
-      const owner = latest(state);
+    getOwnPropertyDescriptor(state2, prop) {
+      const owner = latest(state2);
       const desc = Reflect.getOwnPropertyDescriptor(owner, prop);
       if (!desc)
         return desc;
       return {
         writable: true,
-        configurable: state.type_ !== 1 || prop !== "length",
+        configurable: state2.type_ !== 1 || prop !== "length",
         enumerable: desc.enumerable,
         value: owner[prop]
       };
@@ -901,8 +901,8 @@
     defineProperty() {
       die(11);
     },
-    getPrototypeOf(state) {
-      return getPrototypeOf(state.base_);
+    getPrototypeOf(state2) {
+      return getPrototypeOf(state2.base_);
     },
     setPrototypeOf() {
       die(12);
@@ -915,27 +915,27 @@
       return fn.apply(this, arguments);
     };
   });
-  arrayTraps.deleteProperty = function(state, prop) {
+  arrayTraps.deleteProperty = function(state2, prop) {
     if (isNaN(parseInt(prop)))
       die(13);
-    return arrayTraps.set.call(this, state, prop, void 0);
+    return arrayTraps.set.call(this, state2, prop, void 0);
   };
-  arrayTraps.set = function(state, prop, value) {
+  arrayTraps.set = function(state2, prop, value) {
     if (prop !== "length" && isNaN(parseInt(prop)))
       die(14);
-    return objectTraps.set.call(this, state[0], prop, value, state[0]);
+    return objectTraps.set.call(this, state2[0], prop, value, state2[0]);
   };
   function peek(draft, prop) {
-    const state = draft[DRAFT_STATE];
-    const source = state ? latest(state) : draft;
+    const state2 = draft[DRAFT_STATE];
+    const source = state2 ? latest(state2) : draft;
     return source[prop];
   }
-  function readPropFromProto(state, source, prop) {
+  function readPropFromProto(state2, source, prop) {
     const desc = getDescriptorFromProto(source, prop);
     return desc ? `value` in desc ? desc.value : (
       // This is a very special case, if the prop is a getter defined by the
       // prototype, we should invoke it with the draft as context!
-      desc.get?.call(state.draft_)
+      desc.get?.call(state2.draft_)
     ) : void 0;
   }
   function getDescriptorFromProto(source, prop) {
@@ -950,19 +950,19 @@
     }
     return void 0;
   }
-  function markChanged(state) {
-    if (!state.modified_) {
-      state.modified_ = true;
-      if (state.parent_) {
-        markChanged(state.parent_);
+  function markChanged(state2) {
+    if (!state2.modified_) {
+      state2.modified_ = true;
+      if (state2.parent_) {
+        markChanged(state2.parent_);
       }
     }
   }
-  function prepareCopy(state) {
-    if (!state.copy_) {
-      state.copy_ = shallowCopy(
-        state.base_,
-        state.scope_.immer_.useStrictShallowCopy_
+  function prepareCopy(state2) {
+    if (!state2.copy_) {
+      state2.copy_ = shallowCopy(
+        state2.base_,
+        state2.scope_.immer_.useStrictShallowCopy_
       );
     }
   }
@@ -983,13 +983,13 @@
           die(6);
         if (patchListener !== void 0 && typeof patchListener !== "function")
           die(7);
-        let result;
+        let result2;
         if (isDraftable(base)) {
           const scope = enterScope(this);
           const proxy = createProxy(base, void 0);
           let hasError = true;
           try {
-            result = recipe(proxy);
+            result2 = recipe(proxy);
             hasError = false;
           } finally {
             if (hasError)
@@ -998,35 +998,35 @@
               leaveScope(scope);
           }
           usePatchesInScope(scope, patchListener);
-          return processResult(result, scope);
+          return processResult(result2, scope);
         } else if (!base || typeof base !== "object") {
-          result = recipe(base);
-          if (result === void 0)
-            result = base;
-          if (result === NOTHING)
-            result = void 0;
+          result2 = recipe(base);
+          if (result2 === void 0)
+            result2 = base;
+          if (result2 === NOTHING)
+            result2 = void 0;
           if (this.autoFreeze_)
-            freeze(result, true);
+            freeze(result2, true);
           if (patchListener) {
             const p2 = [];
             const ip = [];
-            getPlugin("Patches").generateReplacementPatches_(base, result, p2, ip);
+            getPlugin("Patches").generateReplacementPatches_(base, result2, p2, ip);
             patchListener(p2, ip);
           }
-          return result;
+          return result2;
         } else
           die(1, base);
       };
       this.produceWithPatches = (base, recipe) => {
         if (typeof base === "function") {
-          return (state, ...args) => this.produceWithPatches(state, (draft) => base(draft, ...args));
+          return (state2, ...args) => this.produceWithPatches(state2, (draft) => base(draft, ...args));
         }
         let patches, inversePatches;
-        const result = this.produce(base, recipe, (p2, ip) => {
+        const result2 = this.produce(base, recipe, (p2, ip) => {
           patches = p2;
           inversePatches = ip;
         });
-        return [result, patches, inversePatches];
+        return [result2, patches, inversePatches];
       };
       if (typeof config3?.autoFreeze === "boolean")
         this.setAutoFreeze(config3.autoFreeze);
@@ -1045,10 +1045,10 @@
       return proxy;
     }
     finishDraft(draft, patchListener) {
-      const state = draft && draft[DRAFT_STATE];
-      if (!state || !state.isManual_)
+      const state2 = draft && draft[DRAFT_STATE];
+      if (!state2 || !state2.isManual_)
         die(9);
-      const { scope_: scope } = state;
+      const { scope_: scope } = state2;
       usePatchesInScope(scope, patchListener);
       return processResult(void 0, scope);
     }
@@ -1104,21 +1104,21 @@
   function currentImpl(value) {
     if (!isDraftable(value) || isFrozen(value))
       return value;
-    const state = value[DRAFT_STATE];
+    const state2 = value[DRAFT_STATE];
     let copy;
-    if (state) {
-      if (!state.modified_)
-        return state.base_;
-      state.finalized_ = true;
-      copy = shallowCopy(value, state.scope_.immer_.useStrictShallowCopy_);
+    if (state2) {
+      if (!state2.modified_)
+        return state2.base_;
+      state2.finalized_ = true;
+      copy = shallowCopy(value, state2.scope_.immer_.useStrictShallowCopy_);
     } else {
       copy = shallowCopy(value, true);
     }
     each(copy, (key, childValue) => {
       set(copy, key, currentImpl(childValue));
     });
-    if (state) {
-      state.finalized_ = false;
+    if (state2) {
+      state2.finalized_ = false;
     }
     return copy;
   }
@@ -1332,9 +1332,9 @@ It is disabled in production builds, so you don't need to worry about that.`);
           continue;
         }
       }
-      const result = detectMutations(isImmutable, ignoredPaths, trackedProperty.children[key], obj[key], sameRef, nestedPath);
-      if (result.wasMutated) {
-        return result;
+      const result2 = detectMutations(isImmutable, ignoredPaths, trackedProperty.children[key], obj[key], sameRef, nestedPath);
+      if (result2.wasMutated) {
+        return result2;
       }
     }
     return {
@@ -1373,26 +1373,26 @@ It is disabled in production builds, so you don't need to worry about that.`);
       return ({
         getState
       }) => {
-        let state = getState();
-        let tracker = track(state);
-        let result;
+        let state2 = getState();
+        let tracker = track(state2);
+        let result2;
         return (next) => (action) => {
           const measureUtils = getTimeMeasureUtils(warnAfter, "ImmutableStateInvariantMiddleware");
           measureUtils.measureTime(() => {
-            state = getState();
-            result = tracker.detectMutations();
-            tracker = track(state);
-            if (result.wasMutated) {
-              throw new Error(false ? formatProdErrorMessage(19) : `A state mutation was detected between dispatches, in the path '${result.path || ""}'.  This may cause incorrect behavior. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            state2 = getState();
+            result2 = tracker.detectMutations();
+            tracker = track(state2);
+            if (result2.wasMutated) {
+              throw new Error(false ? formatProdErrorMessage(19) : `A state mutation was detected between dispatches, in the path '${result2.path || ""}'.  This may cause incorrect behavior. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
             }
           });
           const dispatchedAction = next(action);
           measureUtils.measureTime(() => {
-            state = getState();
-            result = tracker.detectMutations();
-            tracker = track(state);
-            if (result.wasMutated) {
-              throw new Error(false ? formatProdErrorMessage(20) : `A state mutation was detected inside a dispatch, in the path: ${result.path || ""}. Take a look at the reducer(s) handling the action ${stringify2(action)}. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
+            state2 = getState();
+            result2 = tracker.detectMutations();
+            tracker = track(state2);
+            if (result2.wasMutated) {
+              throw new Error(false ? formatProdErrorMessage(20) : `A state mutation was detected inside a dispatch, in the path: ${result2.path || ""}. Take a look at the reducer(s) handling the action ${stringify2(action)}. (https://redux.js.org/style-guide/style-guide#do-not-mutate-state)`);
             }
           });
           measureUtils.warnIfExceeded();
@@ -1476,7 +1476,7 @@ It is disabled in production builds, so you don't need to worry about that.`);
         if (!isAction(action)) {
           return next(action);
         }
-        const result = next(action);
+        const result2 = next(action);
         const measureUtils = getTimeMeasureUtils(warnAfter, "SerializableStateInvariantMiddleware");
         if (!ignoreActions && !(ignoredActions.length && ignoredActions.indexOf(action.type) !== -1)) {
           measureUtils.measureTime(() => {
@@ -1492,8 +1492,8 @@ It is disabled in production builds, so you don't need to worry about that.`);
         }
         if (!ignoreState) {
           measureUtils.measureTime(() => {
-            const state = storeAPI.getState();
-            const foundStateNonSerializableValue = findNonSerializableValue(state, "", isSerializable, getEntries, ignoredPaths, cache);
+            const state2 = storeAPI.getState();
+            const foundStateNonSerializableValue = findNonSerializableValue(state2, "", isSerializable, getEntries, ignoredPaths, cache);
             if (foundStateNonSerializableValue) {
               const {
                 keyPath,
@@ -1506,7 +1506,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           });
           measureUtils.warnIfExceeded();
         }
-        return result;
+        return result2;
       };
     }
   }
@@ -1741,7 +1741,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const frozenInitialState = freezeDraftable(initialState2);
       getInitialState = () => frozenInitialState;
     }
-    function reducer(state = getInitialState(), action) {
+    function reducer(state2 = getInitialState(), action) {
       let caseReducers = [actionsMap[action.type], ...finalActionMatchers.filter(({
         matcher
       }) => matcher(action)).map(({
@@ -1754,20 +1754,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (caseReducer) {
           if (isDraft(previousState)) {
             const draft = previousState;
-            const result = caseReducer(draft, action);
-            if (result === void 0) {
+            const result2 = caseReducer(draft, action);
+            if (result2 === void 0) {
               return previousState;
             }
-            return result;
+            return result2;
           } else if (!isDraftable(previousState)) {
-            const result = caseReducer(previousState, action);
-            if (result === void 0) {
+            const result2 = caseReducer(previousState, action);
+            if (result2 === void 0) {
               if (previousState === null) {
                 return previousState;
               }
               throw new Error(false ? formatProdErrorMessage(9) : "A case reducer on a non-draftable value must not return undefined");
             }
-            return result;
+            return result2;
           } else {
             return produce(previousState, (draft) => {
               return caseReducer(draft, action);
@@ -1775,7 +1775,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         }
         return previousState;
-      }, state);
+      }, state2);
     }
     reducer.getInitialState = getInitialState;
     return reducer;
@@ -1926,14 +1926,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 fulfillWithValue: (value, meta) => {
                   return new FulfillWithMeta(value, meta);
                 }
-              })).then((result) => {
-                if (result instanceof RejectWithValue) {
-                  throw result;
+              })).then((result2) => {
+                if (result2 instanceof RejectWithValue) {
+                  throw result2;
                 }
-                if (result instanceof FulfillWithMeta) {
-                  return fulfilled(result.payload, requestId, arg, result.meta);
+                if (result2 instanceof FulfillWithMeta) {
+                  return fulfilled(result2.payload, requestId, arg, result2.meta);
                 }
-                return fulfilled(result, requestId, arg);
+                return fulfilled(result2, requestId, arg);
               })]);
             } catch (err) {
               finalAction = err instanceof RejectWithValue ? rejected(null, requestId, arg, err.payload, err.meta) : rejected(err, requestId, arg);
@@ -2080,20 +2080,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         });
       }
-      const selectSelf = (state) => state;
+      const selectSelf = (state2) => state2;
       const injectedSelectorCache = /* @__PURE__ */ new Map();
       let _reducer;
-      function reducer(state, action) {
+      function reducer(state2, action) {
         if (!_reducer) _reducer = buildReducer();
-        return _reducer(state, action);
+        return _reducer(state2, action);
       }
       function getInitialState() {
         if (!_reducer) _reducer = buildReducer();
         return _reducer.getInitialState();
       }
       function makeSelectorProps(reducerPath2, injected = false) {
-        function selectSlice(state) {
-          let sliceState = state[reducerPath2];
+        function selectSlice(state2) {
+          let sliceState = state2[reducerPath2];
           if (typeof sliceState === "undefined") {
             if (injected) {
               sliceState = getInitialState();
@@ -2294,11 +2294,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // node_modules/redux-persist/es/stateReconciler/autoMergeLevel1.js
   function _typeof(obj) {
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof2(obj2) {
+      _typeof = function _typeof4(obj2) {
         return typeof obj2;
       };
     } else {
-      _typeof = function _typeof2(obj2) {
+      _typeof = function _typeof4(obj2) {
         return obj2 && typeof Symbol === "function" && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
       };
     }
@@ -2381,22 +2381,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var keysToProcess = [];
     var timeIterator = null;
     var writePromise = null;
-    var update = function update2(state) {
-      Object.keys(state).forEach(function(key) {
+    var update2 = function update3(state2) {
+      Object.keys(state2).forEach(function(key) {
         if (!passWhitelistBlacklist(key)) return;
-        if (lastState[key] === state[key]) return;
+        if (lastState[key] === state2[key]) return;
         if (keysToProcess.indexOf(key) !== -1) return;
         keysToProcess.push(key);
       });
       Object.keys(lastState).forEach(function(key) {
-        if (state[key] === void 0 && passWhitelistBlacklist(key) && keysToProcess.indexOf(key) === -1 && lastState[key] !== void 0) {
+        if (state2[key] === void 0 && passWhitelistBlacklist(key) && keysToProcess.indexOf(key) === -1 && lastState[key] !== void 0) {
           keysToProcess.push(key);
         }
       });
       if (timeIterator === null) {
         timeIterator = setInterval(processNextKey, throttle);
       }
-      lastState = state;
+      lastState = state2;
     };
     function processNextKey() {
       if (keysToProcess.length === 0) {
@@ -2447,7 +2447,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return writePromise || Promise.resolve();
     };
     return {
-      update,
+      update: update2,
       flush
     };
   }
@@ -2475,14 +2475,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (!serialized) return void 0;
       else {
         try {
-          var state = {};
+          var state2 = {};
           var rawState = deserialize(serialized);
           Object.keys(rawState).forEach(function(key) {
-            state[key] = transforms.reduceRight(function(subState, transformer) {
+            state2[key] = transforms.reduceRight(function(subState, transformer) {
               return transformer.out(subState, key, rawState);
             }, deserialize(rawState[key]));
           });
-          return state;
+          return state2;
         } catch (err) {
           if (debug) console.log("redux-persist/getStoredState: Error restoring data ".concat(serialized), err);
           throw err;
@@ -2585,12 +2585,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var _persistoid = null;
     var _purge = false;
     var _paused = true;
-    var conditionalUpdate = function conditionalUpdate2(state) {
-      state._persist.rehydrated && _persistoid && !_paused && _persistoid.update(state);
-      return state;
+    var conditionalUpdate = function conditionalUpdate2(state2) {
+      state2._persist.rehydrated && _persistoid && !_paused && _persistoid.update(state2);
+      return state2;
     };
-    return function(state, action) {
-      var _ref = state || {}, _persist = _ref._persist, rest = _objectWithoutProperties(_ref, ["_persist"]);
+    return function(state2, action) {
+      var _ref = state2 || {}, _persist = _ref._persist, rest = _objectWithoutProperties(_ref, ["_persist"]);
       var restState = rest;
       if (action.type === PERSIST) {
         var _sealed = false;
@@ -2655,7 +2655,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (action.key === config3.key) {
           var reducedState = baseReducer(restState, action);
           var inboundState = action.payload;
-          var reconciledRest = stateReconciler !== false && inboundState !== void 0 ? stateReconciler(inboundState, state, reducedState, config3) : reducedState;
+          var reconciledRest = stateReconciler !== false && inboundState !== void 0 ? stateReconciler(inboundState, state2, reducedState, config3) : reducedState;
           var _newState = _objectSpread2({}, reconciledRest, {
             _persist: _objectSpread2({}, _persist, {
               rehydrated: true
@@ -2664,9 +2664,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           return conditionalUpdate(_newState);
         }
       }
-      if (!_persist) return baseReducer(state, action);
+      if (!_persist) return baseReducer(state2, action);
       var newState = baseReducer(restState, action);
-      if (newState === restState) return state;
+      if (newState === restState) return state2;
       return conditionalUpdate(_objectSpread2({}, newState, {
         _persist
       }));
@@ -2732,23 +2732,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     bootstrapped: false
   };
   var persistorReducer = function persistorReducer2() {
-    var state = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : initialState;
+    var state2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : initialState;
     var action = arguments.length > 1 ? arguments[1] : void 0;
     switch (action.type) {
       case REGISTER:
-        return _objectSpread3({}, state, {
-          registry: [].concat(_toConsumableArray(state.registry), [action.key])
+        return _objectSpread3({}, state2, {
+          registry: [].concat(_toConsumableArray(state2.registry), [action.key])
         });
       case REHYDRATE:
-        var firstIndex = state.registry.indexOf(action.key);
-        var registry = _toConsumableArray(state.registry);
+        var firstIndex = state2.registry.indexOf(action.key);
+        var registry = _toConsumableArray(state2.registry);
         registry.splice(firstIndex, 1);
-        return _objectSpread3({}, state, {
+        return _objectSpread3({}, state2, {
           registry,
           bootstrapped: registry.length === 0
         });
       default:
-        return state;
+        return state2;
     }
   };
   function persistStore(store2, options, cb) {
@@ -2787,7 +2787,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         var results = [];
         store2.dispatch({
           type: PURGE,
-          result: function result(purgeResult) {
+          result: function result2(purgeResult) {
             results.push(purgeResult);
           }
         });
@@ -2797,7 +2797,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         var results = [];
         store2.dispatch({
           type: FLUSH,
-          result: function result(flushResult) {
+          result: function result2(flushResult) {
             results.push(flushResult);
           }
         });
@@ -2833,11 +2833,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       theme: "light"
     },
     reducers: {
-      setLanguaje: (state, action) => {
-        state.lang = action.payload;
+      setLanguaje: (state2, action) => {
+        state2.lang = action.payload;
       },
-      setTheme: (state, action) => {
-        state.theme = action.payload;
+      setTheme: (state2, action) => {
+        state2.theme = action.payload;
         document.documentElement.setAttribute("data-theme", action.payload);
       }
     }
@@ -2853,11 +2853,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       breadcrumb: []
     },
     reducers: {
-      setStage: (state, action) => {
-        state.stage = action.payload;
+      setStage: (state2, action) => {
+        state2.stage = action.payload;
       },
-      setBreadcrumb: (state, action) => {
-        state.breadcrumb = action.payload;
+      setBreadcrumb: (state2, action) => {
+        state2.breadcrumb = action.payload;
       }
     }
   });
@@ -2898,21 +2898,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      */
     initState(defValues, props) {
       if (props != void 0) {
-        let state = Object.assign({}, defValues, props);
+        let state2 = Object.assign({}, defValues, props);
         if (defValues != void 0) {
           if (Object.keys(defValues).lenght != 0) {
             Object.keys(defValues).forEach((prop) => {
               if (props[prop] != void 0) {
                 if (typeof props[prop] === "string" || Array.isArray(props[prop])) {
-                  state[prop] = props[prop];
+                  state2[prop] = props[prop];
                 } else {
-                  state[prop] = Object.assign({}, defValues[prop], props[prop]);
+                  state2[prop] = Object.assign({}, defValues[prop], props[prop]);
                 }
               }
             });
           }
         }
-        return state;
+        return state2;
       } else {
         return defValues;
       }
@@ -3338,8 +3338,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           bubbles: true,
           composed: true
         });
-        document.addEventListener("mouseleave", (e) => {
-          if (e.clientY <= 0 || e.clientX <= 0 || (e.clientX >= window.innerWidth || e.clientY >= window.innerHeight)) {
+        document.addEventListener("mouseleave", (e2) => {
+          if (e2.clientY <= 0 || e2.clientX <= 0 || (e2.clientX >= window.innerWidth || e2.clientY >= window.innerHeight)) {
             this.dispatchEvent(leavingApp);
           }
         });
@@ -3482,7 +3482,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (typeof document !== "undefined") _DOCUMENT = document;
     if (typeof MutationObserver !== "undefined") _MUTATION_OBSERVER = MutationObserver;
     if (typeof performance !== "undefined") _PERFORMANCE = performance;
-  } catch (e) {
+  } catch (e2) {
   }
   var {
     userAgent = ""
@@ -3929,9 +3929,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return acc + "".concat(attributeName, '="').concat(htmlEscape(attributes[attributeName]), '" ');
     }, "").trim();
   }
-  function joinStyles(styles2) {
-    return Object.keys(styles2 || {}).reduce((acc, styleName) => {
-      return acc + "".concat(styleName, ": ").concat(styles2[styleName].trim(), ";");
+  function joinStyles(styles3) {
+    return Object.keys(styles3 || {}).reduce((acc, styleName) => {
+      return acc + "".concat(styleName, ": ").concat(styles3[styleName].trim(), ";");
     }, "");
   }
   function transformIsMeaningful(transform) {
@@ -4070,19 +4070,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     };
   };
   var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
-    var keys = Object.keys(subject), length = keys.length, iterator = thisContext !== void 0 ? bindInternal4(fn, thisContext) : fn, i, key, result;
+    var keys = Object.keys(subject), length = keys.length, iterator = thisContext !== void 0 ? bindInternal4(fn, thisContext) : fn, i, key, result2;
     if (initialValue === void 0) {
       i = 1;
-      result = subject[keys[0]];
+      result2 = subject[keys[0]];
     } else {
       i = 0;
-      result = initialValue;
+      result2 = initialValue;
     }
     for (; i < length; i++) {
       key = keys[i];
-      result = iterator(result, subject[key], key, subject);
+      result2 = iterator(result2, subject[key], key, subject);
     }
-    return result;
+    return result2;
   };
   function ucs2decode(string2) {
     const output = [];
@@ -4305,8 +4305,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const style = PREFIX_TO_STYLE[family][styleOrPrefix];
     const prefix = STYLE_TO_PREFIX[family][styleOrPrefix] || STYLE_TO_PREFIX[family][style];
     const defined = styleOrPrefix in namespace.styles ? styleOrPrefix : null;
-    const result = prefix || defined || null;
-    return result;
+    const result2 = prefix || defined || null;
+    return result2;
   }
   var PREFIXES_FOR_FAMILY = {
     [a]: Object.keys(PREFIX_TO_LONG_STYLE[a]),
@@ -4623,7 +4623,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       main,
       mask,
       attributes,
-      styles: styles2,
+      styles: styles3,
       transform
     } = _ref;
     if (transformIsMeaningful(transform) && main.found && !mask.found) {
@@ -4636,7 +4636,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         y: 0.5
       };
       attributes["style"] = joinStyles({
-        ...styles2,
+        ...styles3,
         "transform-origin": "".concat(offset.x + transform.x / 16, "em ").concat(offset.y + transform.y / 16, "em")
       });
     }
@@ -4772,19 +4772,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (watchable) {
       attributes[DATA_FA_I2SVG] = "";
     }
-    const styles2 = {
+    const styles3 = {
       ...extra.styles
     };
     if (transformIsMeaningful(transform)) {
-      styles2["transform"] = transformForCss({
+      styles3["transform"] = transformForCss({
         transform,
         startCentered: true,
         width,
         height
       });
-      styles2["-webkit-transform"] = styles2["transform"];
+      styles3["-webkit-transform"] = styles3["transform"];
     }
-    const styleString = joinStyles(styles2);
+    const styleString = joinStyles(styles3);
     if (styleString.length > 0) {
       attributes["style"] = styleString;
     }
@@ -5121,9 +5121,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     let val = [];
     if (style) {
       val = style.split(";").reduce((acc, style2) => {
-        const styles2 = style2.split(":");
-        const prop = styles2[0];
-        const value = styles2.slice(1);
+        const styles3 = style2.split(":");
+        const prop = styles3[0];
+        const value = styles3.slice(1);
         if (prop && value.length > 0) {
           acc[prop] = value.join(":").trim();
         }
@@ -5341,7 +5341,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       titleId = null,
       classes = [],
       attributes = {},
-      styles: styles2 = {}
+      styles: styles3 = {}
     } = params;
     if (!iconDefinition) return;
     const {
@@ -5387,7 +5387,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         titleId,
         extra: {
           attributes,
-          styles: styles2,
+          styles: styles3,
           classes
         }
       });
@@ -5461,9 +5461,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           attributes,
           main,
           transform,
-          styles: styles2
+          styles: styles3
         } = _ref2;
-        const styleString = joinStyles(styles2);
+        const styleString = joinStyles(styles3);
         if (styleString.length > 0) {
           attributes["style"] = styleString;
         }
@@ -5526,7 +5526,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             title = null,
             classes = [],
             attributes = {},
-            styles: styles2 = {}
+            styles: styles3 = {}
           } = params;
           return domVariants({
             type: "counter",
@@ -5541,7 +5541,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               title,
               extra: {
                 attributes,
-                styles: styles2,
+                styles: styles3,
                 classes: ["".concat(config.cssPrefix, "-layers-counter"), ...classes]
               }
             });
@@ -5560,7 +5560,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             title = null,
             classes = [],
             attributes = {},
-            styles: styles2 = {}
+            styles: styles3 = {}
           } = params;
           return domVariants({
             type: "text",
@@ -5579,7 +5579,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               title,
               extra: {
                 attributes,
-                styles: styles2,
+                styles: styles3,
                 classes: ["".concat(config.cssPrefix, "-layers-text"), ...classes]
               }
             });
@@ -5663,16 +5663,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const children = toArray(node.children);
       const alreadyProcessedPseudoElement = children.filter((c3) => c3.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
-      const styles2 = WINDOW.getComputedStyle(node, position);
-      const fontFamily = styles2.getPropertyValue("font-family");
+      const styles3 = WINDOW.getComputedStyle(node, position);
+      const fontFamily = styles3.getPropertyValue("font-family");
       const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
-      const fontWeight = styles2.getPropertyValue("font-weight");
-      const content = styles2.getPropertyValue("content");
+      const fontWeight = styles3.getPropertyValue("font-weight");
+      const content = styles3.getPropertyValue("content");
       if (alreadyProcessedPseudoElement && !fontFamilyMatch) {
         node.removeChild(alreadyProcessedPseudoElement);
         return resolve();
       } else if (fontFamilyMatch && content !== "none" && content !== "") {
-        const content2 = styles2.getPropertyValue("content");
+        const content2 = styles3.getPropertyValue("content");
         let prefix = getPrefix(fontFamily, fontWeight);
         const {
           value: hexValue,
@@ -15796,7 +15796,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
     #setTheme() {
-      switch (this.state.context.theme) {
+      switch (this.state.context?.theme) {
         case "light":
           return this.#sunIcon;
           break;
@@ -15825,17 +15825,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 <div class="navbar-start">
                 <div class="navbar-item has-dropdown">
                     <a id="themes" class="navbar-link is-arrowless">
-                        ${this.state.theme?.text[this.state.context.lang]} ${this.#setTheme()}
+                        ${this.state.theme?.text[this.state.context?.lang]} ${this.#setTheme()}
                     </a>
                     <div class="navbar-dropdown">                   
                         <a id="light-theme" class="navbar-item">
-                            ${this.#sunIcon} ${this.state.themeValues.light.text[this.state.context.lang]}
+                            ${this.#sunIcon} ${this.state.themeValues.light.text[this.state.context?.lang]}
                         </a>
                         <a id="dark-theme" class="navbar-item">
-                            ${this.#moonIcon} ${this.state.themeValues.dark.text[this.state.context.lang]}
+                            ${this.#moonIcon} ${this.state.themeValues.dark.text[this.state.context?.lang]}
                         </a>
                         <a id="system-theme" class="navbar-item">
-                            ${this.#desktopIcon} ${this.state.themeValues.system.text[this.state.context.lang]}
+                            ${this.#desktopIcon} ${this.state.themeValues.system.text[this.state.context?.lang]}
                         </a>
                     </div>
                 </div>
@@ -16612,24 +16612,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   Renderer.prototype.renderInline = function(tokens, options, env) {
     var _rules2 = this.rules;
     var len = tokens.length, i = 0;
-    var result = "";
+    var result2 = "";
     while (len--) {
-      result += _rules2[tokens[i].type](tokens, i++, options, env, this);
+      result2 += _rules2[tokens[i].type](tokens, i++, options, env, this);
     }
-    return result;
+    return result2;
   };
   Renderer.prototype.render = function(tokens, options, env) {
     var _rules2 = this.rules;
     var len = tokens.length, i = -1;
-    var result = "";
+    var result2 = "";
     while (++i < len) {
       if (tokens[i].type === "inline") {
-        result += this.renderInline(tokens[i].children, options, env);
+        result2 += this.renderInline(tokens[i].children, options, env);
       } else {
-        result += _rules2[tokens[i].type](tokens, i, options, env, this);
+        result2 += _rules2[tokens[i].type](tokens, i, options, env, this);
       }
     }
-    return result;
+    return result2;
   };
   function Ruler() {
     this.__rules__ = [];
@@ -16753,17 +16753,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return this.__cache__[chainName] || [];
   };
-  function block(state) {
-    if (state.inlineMode) {
-      state.tokens.push({
+  function block(state2) {
+    if (state2.inlineMode) {
+      state2.tokens.push({
         type: "inline",
-        content: state.src.replace(/\n/g, " ").trim(),
+        content: state2.src.replace(/\n/g, " ").trim(),
         level: 0,
         lines: [0, 1],
         children: []
       });
     } else {
-      state.block.parse(state.src, state.options, state.env, state.tokens);
+      state2.block.parse(state2.src, state2.options, state2.env, state2.tokens);
     }
   }
   function StateInline(src, parserInline, options, env, outTokens) {
@@ -16807,20 +16807,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   StateInline.prototype.cacheGet = function(key) {
     return key < this.cache.length ? this.cache[key] : 0;
   };
-  function parseLinkLabel(state, start) {
-    var level, found, marker, labelEnd = -1, max = state.posMax, oldPos = state.pos, oldFlag = state.isInLabel;
-    if (state.isInLabel) {
+  function parseLinkLabel(state2, start) {
+    var level, found, marker, labelEnd = -1, max = state2.posMax, oldPos = state2.pos, oldFlag = state2.isInLabel;
+    if (state2.isInLabel) {
       return -1;
     }
-    if (state.labelUnmatchedScopes) {
-      state.labelUnmatchedScopes--;
+    if (state2.labelUnmatchedScopes) {
+      state2.labelUnmatchedScopes--;
       return -1;
     }
-    state.pos = start + 1;
-    state.isInLabel = true;
+    state2.pos = start + 1;
+    state2.isInLabel = true;
     level = 1;
-    while (state.pos < max) {
-      marker = state.src.charCodeAt(state.pos);
+    while (state2.pos < max) {
+      marker = state2.src.charCodeAt(state2.pos);
       if (marker === 91) {
         level++;
       } else if (marker === 93) {
@@ -16830,20 +16830,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           break;
         }
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
     if (found) {
-      labelEnd = state.pos;
-      state.labelUnmatchedScopes = 0;
+      labelEnd = state2.pos;
+      state2.labelUnmatchedScopes = 0;
     } else {
-      state.labelUnmatchedScopes = level - 1;
+      state2.labelUnmatchedScopes = level - 1;
     }
-    state.pos = oldPos;
-    state.isInLabel = oldFlag;
+    state2.pos = oldPos;
+    state2.isInLabel = oldFlag;
     return labelEnd;
   }
   function parseAbbr(str, parserInline, options, env) {
-    var state, labelEnd, pos, max, label, title;
+    var state2, labelEnd, pos, max, label, title;
     if (str.charCodeAt(0) !== 42) {
       return -1;
     }
@@ -16853,14 +16853,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (str.indexOf("]:") === -1) {
       return -1;
     }
-    state = new StateInline(str, parserInline, options, env, []);
-    labelEnd = parseLinkLabel(state, 1);
+    state2 = new StateInline(str, parserInline, options, env, []);
+    labelEnd = parseLinkLabel(state2, 1);
     if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
       return -1;
     }
-    max = state.posMax;
+    max = state2.posMax;
     for (pos = labelEnd + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 10) {
+      if (state2.src.charCodeAt(pos) === 10) {
         break;
       }
     }
@@ -16877,16 +16877,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return pos;
   }
-  function abbr(state) {
-    var tokens = state.tokens, i, l2, content, pos;
-    if (state.inlineMode) {
+  function abbr(state2) {
+    var tokens = state2.tokens, i, l2, content, pos;
+    if (state2.inlineMode) {
       return;
     }
     for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
       if (tokens[i - 1].type === "paragraph_open" && tokens[i].type === "inline" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
-          pos = parseAbbr(content, state.inline, state.options, state.env);
+          pos = parseAbbr(content, state2.inline, state2.options, state2.env);
           if (pos < 0) {
             break;
           }
@@ -16908,22 +16908,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return encodeURI(normalized);
   }
-  function parseLinkDestination(state, pos) {
-    var code2, level, link, start = pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) === 60) {
+  function parseLinkDestination(state2, pos) {
+    var code2, level, link, start = pos, max = state2.posMax;
+    if (state2.src.charCodeAt(pos) === 60) {
       pos++;
       while (pos < max) {
-        code2 = state.src.charCodeAt(pos);
+        code2 = state2.src.charCodeAt(pos);
         if (code2 === 10) {
           return false;
         }
         if (code2 === 62) {
-          link = normalizeLink(unescapeMd(state.src.slice(start + 1, pos)));
-          if (!state.parser.validateLink(link)) {
+          link = normalizeLink(unescapeMd(state2.src.slice(start + 1, pos)));
+          if (!state2.parser.validateLink(link)) {
             return false;
           }
-          state.pos = pos + 1;
-          state.linkContent = link;
+          state2.pos = pos + 1;
+          state2.linkContent = link;
           return true;
         }
         if (code2 === 92 && pos + 1 < max) {
@@ -16936,7 +16936,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     level = 0;
     while (pos < max) {
-      code2 = state.src.charCodeAt(pos);
+      code2 = state2.src.charCodeAt(pos);
       if (code2 === 32) {
         break;
       }
@@ -16964,16 +16964,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start === pos) {
       return false;
     }
-    link = unescapeMd(state.src.slice(start, pos));
-    if (!state.parser.validateLink(link)) {
+    link = unescapeMd(state2.src.slice(start, pos));
+    if (!state2.parser.validateLink(link)) {
       return false;
     }
-    state.linkContent = link;
-    state.pos = pos;
+    state2.linkContent = link;
+    state2.pos = pos;
     return true;
   }
-  function parseLinkTitle(state, pos) {
-    var code2, start = pos, max = state.posMax, marker = state.src.charCodeAt(pos);
+  function parseLinkTitle(state2, pos) {
+    var code2, start = pos, max = state2.posMax, marker = state2.src.charCodeAt(pos);
     if (marker !== 34 && marker !== 39 && marker !== 40) {
       return false;
     }
@@ -16982,10 +16982,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       marker = 41;
     }
     while (pos < max) {
-      code2 = state.src.charCodeAt(pos);
+      code2 = state2.src.charCodeAt(pos);
       if (code2 === marker) {
-        state.pos = pos + 1;
-        state.linkContent = unescapeMd(state.src.slice(start + 1, pos));
+        state2.pos = pos + 1;
+        state2.linkContent = unescapeMd(state2.src.slice(start + 1, pos));
         return true;
       }
       if (code2 === 92 && pos + 1 < max) {
@@ -17000,48 +17000,48 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return str.trim().replace(/\s+/g, " ").toUpperCase();
   }
   function parseReference(str, parser, options, env) {
-    var state, labelEnd, pos, max, code2, start, href, title, label;
+    var state2, labelEnd, pos, max, code2, start, href, title, label;
     if (str.charCodeAt(0) !== 91) {
       return -1;
     }
     if (str.indexOf("]:") === -1) {
       return -1;
     }
-    state = new StateInline(str, parser, options, env, []);
-    labelEnd = parseLinkLabel(state, 0);
+    state2 = new StateInline(str, parser, options, env, []);
+    labelEnd = parseLinkLabel(state2, 0);
     if (labelEnd < 0 || str.charCodeAt(labelEnd + 1) !== 58) {
       return -1;
     }
-    max = state.posMax;
+    max = state2.posMax;
     for (pos = labelEnd + 2; pos < max; pos++) {
-      code2 = state.src.charCodeAt(pos);
+      code2 = state2.src.charCodeAt(pos);
       if (code2 !== 32 && code2 !== 10) {
         break;
       }
     }
-    if (!parseLinkDestination(state, pos)) {
+    if (!parseLinkDestination(state2, pos)) {
       return -1;
     }
-    href = state.linkContent;
-    pos = state.pos;
+    href = state2.linkContent;
+    pos = state2.pos;
     start = pos;
     for (pos = pos + 1; pos < max; pos++) {
-      code2 = state.src.charCodeAt(pos);
+      code2 = state2.src.charCodeAt(pos);
       if (code2 !== 32 && code2 !== 10) {
         break;
       }
     }
-    if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
-      title = state.linkContent;
-      pos = state.pos;
+    if (pos < max && start !== pos && parseLinkTitle(state2, pos)) {
+      title = state2.linkContent;
+      pos = state2.pos;
     } else {
       title = "";
       pos = start;
     }
-    while (pos < max && state.src.charCodeAt(pos) === 32) {
+    while (pos < max && state2.src.charCodeAt(pos) === 32) {
       pos++;
     }
-    if (pos < max && state.src.charCodeAt(pos) !== 10) {
+    if (pos < max && state2.src.charCodeAt(pos) !== 10) {
       return -1;
     }
     label = normalizeReference(str.slice(1, labelEnd));
@@ -17050,17 +17050,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return pos;
   }
-  function references(state) {
-    var tokens = state.tokens, i, l2, content, pos;
-    state.env.references = state.env.references || {};
-    if (state.inlineMode) {
+  function references(state2) {
+    var tokens = state2.tokens, i, l2, content, pos;
+    state2.env.references = state2.env.references || {};
+    if (state2.inlineMode) {
       return;
     }
     for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
       if (tokens[i].type === "inline" && tokens[i - 1].type === "paragraph_open" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
-          pos = parseReference(content, state.inline, state.options, state.env);
+          pos = parseReference(content, state2.inline, state2.options, state2.env);
           if (pos < 0) {
             break;
           }
@@ -17074,21 +17074,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     }
   }
-  function inline(state) {
-    var tokens = state.tokens, tok, i, l2;
+  function inline(state2) {
+    var tokens = state2.tokens, tok, i, l2;
     for (i = 0, l2 = tokens.length; i < l2; i++) {
       tok = tokens[i];
       if (tok.type === "inline") {
-        state.inline.parse(tok.content, state.options, state.env, tok.children);
+        state2.inline.parse(tok.content, state2.options, state2.env, tok.children);
       }
     }
   }
-  function footnote_block(state) {
+  function footnote_block(state2) {
     var i, l2, j, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
-    if (!state.env.footnotes) {
+    if (!state2.env.footnotes) {
       return;
     }
-    state.tokens = state.tokens.filter(function(tok) {
+    state2.tokens = state2.tokens.filter(function(tok) {
       if (tok.type === "footnote_reference_open") {
         insideRef = true;
         current2 = [];
@@ -17105,16 +17105,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return !insideRef;
     });
-    if (!state.env.footnotes.list) {
+    if (!state2.env.footnotes.list) {
       return;
     }
-    list2 = state.env.footnotes.list;
-    state.tokens.push({
+    list2 = state2.env.footnotes.list;
+    state2.tokens.push({
       type: "footnote_block_open",
       level: level++
     });
     for (i = 0, l2 = list2.length; i < l2; i++) {
-      state.tokens.push({
+      state2.tokens.push({
         type: "footnote_open",
         id: i,
         level: level++
@@ -17140,15 +17140,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       } else if (list2[i].label) {
         tokens = refTokens[":" + list2[i].label];
       }
-      state.tokens = state.tokens.concat(tokens);
-      if (state.tokens[state.tokens.length - 1].type === "paragraph_close") {
-        lastParagraph = state.tokens.pop();
+      state2.tokens = state2.tokens.concat(tokens);
+      if (state2.tokens[state2.tokens.length - 1].type === "paragraph_close") {
+        lastParagraph = state2.tokens.pop();
       } else {
         lastParagraph = null;
       }
       t2 = list2[i].count > 0 ? list2[i].count : 1;
       for (j = 0; j < t2; j++) {
-        state.tokens.push({
+        state2.tokens.push({
           type: "footnote_anchor",
           id: i,
           subId: j,
@@ -17156,14 +17156,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
       }
       if (lastParagraph) {
-        state.tokens.push(lastParagraph);
+        state2.tokens.push(lastParagraph);
       }
-      state.tokens.push({
+      state2.tokens.push({
         type: "footnote_close",
         level: --level
       });
     }
-    state.tokens.push({
+    state2.tokens.push({
       type: "footnote_block_close",
       level: --level
     });
@@ -17173,20 +17173,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function regEscape(s2) {
     return s2.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
   }
-  function abbr2(state) {
-    var i, j, l2, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state.tokens;
-    if (!state.env.abbreviations) {
+  function abbr2(state2) {
+    var i, j, l2, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state2.tokens;
+    if (!state2.env.abbreviations) {
       return;
     }
-    if (!state.env.abbrRegExp) {
-      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state.env.abbreviations).map(function(x) {
+    if (!state2.env.abbrRegExp) {
+      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state2.env.abbreviations).map(function(x) {
         return x.substr(1);
       }).sort(function(a3, b) {
         return b.length - a3.length;
       }).map(regEscape).join("|") + ")($|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])";
-      state.env.abbrRegExp = new RegExp(regText, "g");
+      state2.env.abbrRegExp = new RegExp(regText, "g");
     }
-    reg = state.env.abbrRegExp;
+    reg = state2.env.abbrRegExp;
     for (j = 0, l2 = blockTokens.length; j < l2; j++) {
       if (blockTokens[j].type !== "inline") {
         continue;
@@ -17212,7 +17212,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
           nodes.push({
             type: "abbr_open",
-            title: state.env.abbreviations[":" + m2[2]],
+            title: state2.env.abbreviations[":" + m2[2]],
             level: level++
           });
           nodes.push({
@@ -17256,16 +17256,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return SCOPED_ABBR[name.toLowerCase()];
     });
   }
-  function replace2(state) {
+  function replace2(state2) {
     var i, token, text3, inlineTokens, blkIdx;
-    if (!state.options.typographer) {
+    if (!state2.options.typographer) {
       return;
     }
-    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
-      if (state.tokens[blkIdx].type !== "inline") {
+    for (blkIdx = state2.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+      if (state2.tokens[blkIdx].type !== "inline") {
         continue;
       }
-      inlineTokens = state.tokens[blkIdx].children;
+      inlineTokens = state2.tokens[blkIdx].children;
       for (i = inlineTokens.length - 1; i >= 0; i--) {
         token = inlineTokens[i];
         if (token.type === "text") {
@@ -17292,17 +17292,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function replaceAt(str, index, ch) {
     return str.substr(0, index) + ch + str.substr(index + 1);
   }
-  function smartquotes(state) {
+  function smartquotes(state2) {
     var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j, isSingle, blkIdx, tokens, stack;
-    if (!state.options.typographer) {
+    if (!state2.options.typographer) {
       return;
     }
     stack = [];
-    for (blkIdx = state.tokens.length - 1; blkIdx >= 0; blkIdx--) {
-      if (state.tokens[blkIdx].type !== "inline") {
+    for (blkIdx = state2.tokens.length - 1; blkIdx >= 0; blkIdx--) {
+      if (state2.tokens[blkIdx].type !== "inline") {
         continue;
       }
-      tokens = state.tokens[blkIdx].children;
+      tokens = state2.tokens[blkIdx].children;
       stack.length = 0;
       for (i = 0; i < tokens.length; i++) {
         token = tokens[i];
@@ -17347,11 +17347,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 if (item.single === isSingle && stack[j].level === thisLevel) {
                   item = stack[j];
                   if (isSingle) {
-                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[2]);
-                    token.content = replaceAt(token.content, t2.index, state.options.quotes[3]);
+                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state2.options.quotes[2]);
+                    token.content = replaceAt(token.content, t2.index, state2.options.quotes[3]);
                   } else {
-                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state.options.quotes[0]);
-                    token.content = replaceAt(token.content, t2.index, state.options.quotes[1]);
+                    tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state2.options.quotes[0]);
+                    token.content = replaceAt(token.content, t2.index, state2.options.quotes[1]);
                   }
                   stack.length = j;
                   continue OUTER;
@@ -17389,11 +17389,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.ruler.push(_rules[i][0], _rules[i][1]);
     }
   }
-  Core.prototype.process = function(state) {
+  Core.prototype.process = function(state2) {
     var i, l2, rules2;
     rules2 = this.ruler.getRules("");
     for (i = 0, l2 = rules2.length; i < l2; i++) {
-      rules2[i](state);
+      rules2[i](state2);
     }
   };
   function StateBlock(src, parser, options, env, tokens) {
@@ -17511,50 +17511,50 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return queue.join("");
   };
-  function code(state, startLine, endLine) {
+  function code(state2, startLine, endLine) {
     var nextLine, last;
-    if (state.tShift[startLine] - state.blkIndent < 4) {
+    if (state2.tShift[startLine] - state2.blkIndent < 4) {
       return false;
     }
     last = nextLine = startLine + 1;
     while (nextLine < endLine) {
-      if (state.isEmpty(nextLine)) {
+      if (state2.isEmpty(nextLine)) {
         nextLine++;
         continue;
       }
-      if (state.tShift[nextLine] - state.blkIndent >= 4) {
+      if (state2.tShift[nextLine] - state2.blkIndent >= 4) {
         nextLine++;
         last = nextLine;
         continue;
       }
       break;
     }
-    state.line = nextLine;
-    state.tokens.push({
+    state2.line = nextLine;
+    state2.tokens.push({
       type: "code",
-      content: state.getLines(startLine, last, 4 + state.blkIndent, true),
+      content: state2.getLines(startLine, last, 4 + state2.blkIndent, true),
       block: true,
-      lines: [startLine, state.line],
-      level: state.level
+      lines: [startLine, state2.line],
+      level: state2.level
     });
     return true;
   }
-  function fences(state, startLine, endLine, silent) {
-    var marker, len, params, nextLine, mem, haveEndMarker = false, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+  function fences(state2, startLine, endLine, silent) {
+    var marker, len, params, nextLine, mem, haveEndMarker = false, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (pos + 3 > max) {
       return false;
     }
-    marker = state.src.charCodeAt(pos);
+    marker = state2.src.charCodeAt(pos);
     if (marker !== 126 && marker !== 96) {
       return false;
     }
     mem = pos;
-    pos = state.skipChars(pos, marker);
+    pos = state2.skipChars(pos, marker);
     len = pos - mem;
     if (len < 3) {
       return false;
     }
-    params = state.src.slice(pos, max).trim();
+    params = state2.src.slice(pos, max).trim();
     if (params.indexOf("`") >= 0) {
       return false;
     }
@@ -17567,81 +17567,81 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (nextLine >= endLine) {
         break;
       }
-      pos = mem = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
-      if (pos < max && state.tShift[nextLine] < state.blkIndent) {
+      pos = mem = state2.bMarks[nextLine] + state2.tShift[nextLine];
+      max = state2.eMarks[nextLine];
+      if (pos < max && state2.tShift[nextLine] < state2.blkIndent) {
         break;
       }
-      if (state.src.charCodeAt(pos) !== marker) {
+      if (state2.src.charCodeAt(pos) !== marker) {
         continue;
       }
-      if (state.tShift[nextLine] - state.blkIndent >= 4) {
+      if (state2.tShift[nextLine] - state2.blkIndent >= 4) {
         continue;
       }
-      pos = state.skipChars(pos, marker);
+      pos = state2.skipChars(pos, marker);
       if (pos - mem < len) {
         continue;
       }
-      pos = state.skipSpaces(pos);
+      pos = state2.skipSpaces(pos);
       if (pos < max) {
         continue;
       }
       haveEndMarker = true;
       break;
     }
-    len = state.tShift[startLine];
-    state.line = nextLine + (haveEndMarker ? 1 : 0);
-    state.tokens.push({
+    len = state2.tShift[startLine];
+    state2.line = nextLine + (haveEndMarker ? 1 : 0);
+    state2.tokens.push({
       type: "fence",
       params,
-      content: state.getLines(startLine + 1, nextLine, len, true),
-      lines: [startLine, state.line],
-      level: state.level
+      content: state2.getLines(startLine + 1, nextLine, len, true),
+      lines: [startLine, state2.line],
+      level: state2.level
     });
     return true;
   }
-  function blockquote(state, startLine, endLine, silent) {
-    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l2, terminate, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+  function blockquote(state2, startLine, endLine, silent) {
+    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l2, terminate, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (pos > max) {
       return false;
     }
-    if (state.src.charCodeAt(pos++) !== 62) {
+    if (state2.src.charCodeAt(pos++) !== 62) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
     if (silent) {
       return true;
     }
-    if (state.src.charCodeAt(pos) === 32) {
+    if (state2.src.charCodeAt(pos) === 32) {
       pos++;
     }
-    oldIndent = state.blkIndent;
-    state.blkIndent = 0;
-    oldBMarks = [state.bMarks[startLine]];
-    state.bMarks[startLine] = pos;
-    pos = pos < max ? state.skipSpaces(pos) : pos;
+    oldIndent = state2.blkIndent;
+    state2.blkIndent = 0;
+    oldBMarks = [state2.bMarks[startLine]];
+    state2.bMarks[startLine] = pos;
+    pos = pos < max ? state2.skipSpaces(pos) : pos;
     lastLineEmpty = pos >= max;
-    oldTShift = [state.tShift[startLine]];
-    state.tShift[startLine] = pos - state.bMarks[startLine];
-    terminatorRules = state.parser.ruler.getRules("blockquote");
+    oldTShift = [state2.tShift[startLine]];
+    state2.tShift[startLine] = pos - state2.bMarks[startLine];
+    terminatorRules = state2.parser.ruler.getRules("blockquote");
     for (nextLine = startLine + 1; nextLine < endLine; nextLine++) {
-      pos = state.bMarks[nextLine] + state.tShift[nextLine];
-      max = state.eMarks[nextLine];
+      pos = state2.bMarks[nextLine] + state2.tShift[nextLine];
+      max = state2.eMarks[nextLine];
       if (pos >= max) {
         break;
       }
-      if (state.src.charCodeAt(pos++) === 62) {
-        if (state.src.charCodeAt(pos) === 32) {
+      if (state2.src.charCodeAt(pos++) === 62) {
+        if (state2.src.charCodeAt(pos) === 32) {
           pos++;
         }
-        oldBMarks.push(state.bMarks[nextLine]);
-        state.bMarks[nextLine] = pos;
-        pos = pos < max ? state.skipSpaces(pos) : pos;
+        oldBMarks.push(state2.bMarks[nextLine]);
+        state2.bMarks[nextLine] = pos;
+        pos = pos < max ? state2.skipSpaces(pos) : pos;
         lastLineEmpty = pos >= max;
-        oldTShift.push(state.tShift[nextLine]);
-        state.tShift[nextLine] = pos - state.bMarks[nextLine];
+        oldTShift.push(state2.tShift[nextLine]);
+        state2.tShift[nextLine] = pos - state2.bMarks[nextLine];
         continue;
       }
       if (lastLineEmpty) {
@@ -17649,7 +17649,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       terminate = false;
       for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
-        if (terminatorRules[i](state, nextLine, endLine, true)) {
+        if (terminatorRules[i](state2, nextLine, endLine, true)) {
           terminate = true;
           break;
         }
@@ -17657,44 +17657,44 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (terminate) {
         break;
       }
-      oldBMarks.push(state.bMarks[nextLine]);
-      oldTShift.push(state.tShift[nextLine]);
-      state.tShift[nextLine] = -1337;
+      oldBMarks.push(state2.bMarks[nextLine]);
+      oldTShift.push(state2.tShift[nextLine]);
+      state2.tShift[nextLine] = -1337;
     }
-    oldParentType = state.parentType;
-    state.parentType = "blockquote";
-    state.tokens.push({
+    oldParentType = state2.parentType;
+    state2.parentType = "blockquote";
+    state2.tokens.push({
       type: "blockquote_open",
       lines: lines = [startLine, 0],
-      level: state.level++
+      level: state2.level++
     });
-    state.parser.tokenize(state, startLine, nextLine);
-    state.tokens.push({
+    state2.parser.tokenize(state2, startLine, nextLine);
+    state2.tokens.push({
       type: "blockquote_close",
-      level: --state.level
+      level: --state2.level
     });
-    state.parentType = oldParentType;
-    lines[1] = state.line;
+    state2.parentType = oldParentType;
+    lines[1] = state2.line;
     for (i = 0; i < oldTShift.length; i++) {
-      state.bMarks[i + startLine] = oldBMarks[i];
-      state.tShift[i + startLine] = oldTShift[i];
+      state2.bMarks[i + startLine] = oldBMarks[i];
+      state2.tShift[i + startLine] = oldTShift[i];
     }
-    state.blkIndent = oldIndent;
+    state2.blkIndent = oldIndent;
     return true;
   }
-  function hr(state, startLine, endLine, silent) {
-    var marker, cnt, ch, pos = state.bMarks[startLine], max = state.eMarks[startLine];
-    pos += state.tShift[startLine];
+  function hr(state2, startLine, endLine, silent) {
+    var marker, cnt, ch, pos = state2.bMarks[startLine], max = state2.eMarks[startLine];
+    pos += state2.tShift[startLine];
     if (pos > max) {
       return false;
     }
-    marker = state.src.charCodeAt(pos++);
+    marker = state2.src.charCodeAt(pos++);
     if (marker !== 42 && marker !== 45 && marker !== 95) {
       return false;
     }
     cnt = 1;
     while (pos < max) {
-      ch = state.src.charCodeAt(pos++);
+      ch = state2.src.charCodeAt(pos++);
       if (ch !== marker && ch !== 32) {
         return false;
       }
@@ -17708,36 +17708,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (silent) {
       return true;
     }
-    state.line = startLine + 1;
-    state.tokens.push({
+    state2.line = startLine + 1;
+    state2.tokens.push({
       type: "hr",
-      lines: [startLine, state.line],
-      level: state.level
+      lines: [startLine, state2.line],
+      level: state2.level
     });
     return true;
   }
-  function skipBulletListMarker(state, startLine) {
+  function skipBulletListMarker(state2, startLine) {
     var marker, pos, max;
-    pos = state.bMarks[startLine] + state.tShift[startLine];
-    max = state.eMarks[startLine];
+    pos = state2.bMarks[startLine] + state2.tShift[startLine];
+    max = state2.eMarks[startLine];
     if (pos >= max) {
       return -1;
     }
-    marker = state.src.charCodeAt(pos++);
+    marker = state2.src.charCodeAt(pos++);
     if (marker !== 42 && marker !== 45 && marker !== 43) {
       return -1;
     }
-    if (pos < max && state.src.charCodeAt(pos) !== 32) {
+    if (pos < max && state2.src.charCodeAt(pos) !== 32) {
       return -1;
     }
     return pos;
   }
-  function skipOrderedListMarker(state, startLine) {
-    var ch, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+  function skipOrderedListMarker(state2, startLine) {
+    var ch, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (pos + 1 >= max) {
       return -1;
     }
-    ch = state.src.charCodeAt(pos++);
+    ch = state2.src.charCodeAt(pos++);
     if (ch < 48 || ch > 57) {
       return -1;
     }
@@ -17745,7 +17745,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (pos >= max) {
         return -1;
       }
-      ch = state.src.charCodeAt(pos++);
+      ch = state2.src.charCodeAt(pos++);
       if (ch >= 48 && ch <= 57) {
         continue;
       }
@@ -17754,60 +17754,60 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return -1;
     }
-    if (pos < max && state.src.charCodeAt(pos) !== 32) {
+    if (pos < max && state2.src.charCodeAt(pos) !== 32) {
       return -1;
     }
     return pos;
   }
-  function markTightParagraphs(state, idx) {
-    var i, l2, level = state.level + 2;
-    for (i = idx + 2, l2 = state.tokens.length - 2; i < l2; i++) {
-      if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
-        state.tokens[i + 2].tight = true;
-        state.tokens[i].tight = true;
+  function markTightParagraphs(state2, idx) {
+    var i, l2, level = state2.level + 2;
+    for (i = idx + 2, l2 = state2.tokens.length - 2; i < l2; i++) {
+      if (state2.tokens[i].level === level && state2.tokens[i].type === "paragraph_open") {
+        state2.tokens[i + 2].tight = true;
+        state2.tokens[i].tight = true;
         i += 2;
       }
     }
   }
-  function list(state, startLine, endLine, silent) {
+  function list(state2, startLine, endLine, silent) {
     var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l2, terminate;
-    if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
+    if ((posAfterMarker = skipOrderedListMarker(state2, startLine)) >= 0) {
       isOrdered = true;
-    } else if ((posAfterMarker = skipBulletListMarker(state, startLine)) >= 0) {
+    } else if ((posAfterMarker = skipBulletListMarker(state2, startLine)) >= 0) {
       isOrdered = false;
     } else {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    markerCharCode = state.src.charCodeAt(posAfterMarker - 1);
+    markerCharCode = state2.src.charCodeAt(posAfterMarker - 1);
     if (silent) {
       return true;
     }
-    listTokIdx = state.tokens.length;
+    listTokIdx = state2.tokens.length;
     if (isOrdered) {
-      start = state.bMarks[startLine] + state.tShift[startLine];
-      markerValue = Number(state.src.substr(start, posAfterMarker - start - 1));
-      state.tokens.push({
+      start = state2.bMarks[startLine] + state2.tShift[startLine];
+      markerValue = Number(state2.src.substr(start, posAfterMarker - start - 1));
+      state2.tokens.push({
         type: "ordered_list_open",
         order: markerValue,
         lines: listLines = [startLine, 0],
-        level: state.level++
+        level: state2.level++
       });
     } else {
-      state.tokens.push({
+      state2.tokens.push({
         type: "bullet_list_open",
         lines: listLines = [startLine, 0],
-        level: state.level++
+        level: state2.level++
       });
     }
     nextLine = startLine;
     prevEmptyEnd = false;
-    terminatorRules = state.parser.ruler.getRules("list");
+    terminatorRules = state2.parser.ruler.getRules("list");
     while (nextLine < endLine) {
-      contentStart = state.skipSpaces(posAfterMarker);
-      max = state.eMarks[nextLine];
+      contentStart = state2.skipSpaces(posAfterMarker);
+      max = state2.eMarks[nextLine];
       if (contentStart >= max) {
         indentAfterMarker = 1;
       } else {
@@ -17819,48 +17819,48 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (indentAfterMarker < 1) {
         indentAfterMarker = 1;
       }
-      indent = posAfterMarker - state.bMarks[nextLine] + indentAfterMarker;
-      state.tokens.push({
+      indent = posAfterMarker - state2.bMarks[nextLine] + indentAfterMarker;
+      state2.tokens.push({
         type: "list_item_open",
         lines: itemLines = [startLine, 0],
-        level: state.level++
+        level: state2.level++
       });
-      oldIndent = state.blkIndent;
-      oldTight = state.tight;
-      oldTShift = state.tShift[startLine];
-      oldParentType = state.parentType;
-      state.tShift[startLine] = contentStart - state.bMarks[startLine];
-      state.blkIndent = indent;
-      state.tight = true;
-      state.parentType = "list";
-      state.parser.tokenize(state, startLine, endLine, true);
-      if (!state.tight || prevEmptyEnd) {
+      oldIndent = state2.blkIndent;
+      oldTight = state2.tight;
+      oldTShift = state2.tShift[startLine];
+      oldParentType = state2.parentType;
+      state2.tShift[startLine] = contentStart - state2.bMarks[startLine];
+      state2.blkIndent = indent;
+      state2.tight = true;
+      state2.parentType = "list";
+      state2.parser.tokenize(state2, startLine, endLine, true);
+      if (!state2.tight || prevEmptyEnd) {
         tight = false;
       }
-      prevEmptyEnd = state.line - startLine > 1 && state.isEmpty(state.line - 1);
-      state.blkIndent = oldIndent;
-      state.tShift[startLine] = oldTShift;
-      state.tight = oldTight;
-      state.parentType = oldParentType;
-      state.tokens.push({
+      prevEmptyEnd = state2.line - startLine > 1 && state2.isEmpty(state2.line - 1);
+      state2.blkIndent = oldIndent;
+      state2.tShift[startLine] = oldTShift;
+      state2.tight = oldTight;
+      state2.parentType = oldParentType;
+      state2.tokens.push({
         type: "list_item_close",
-        level: --state.level
+        level: --state2.level
       });
-      nextLine = startLine = state.line;
+      nextLine = startLine = state2.line;
       itemLines[1] = nextLine;
-      contentStart = state.bMarks[startLine];
+      contentStart = state2.bMarks[startLine];
       if (nextLine >= endLine) {
         break;
       }
-      if (state.isEmpty(nextLine)) {
+      if (state2.isEmpty(nextLine)) {
         break;
       }
-      if (state.tShift[nextLine] < state.blkIndent) {
+      if (state2.tShift[nextLine] < state2.blkIndent) {
         break;
       }
       terminate = false;
       for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
-        if (terminatorRules[i](state, nextLine, endLine, true)) {
+        if (terminatorRules[i](state2, nextLine, endLine, true)) {
           terminate = true;
           break;
         }
@@ -17869,112 +17869,112 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         break;
       }
       if (isOrdered) {
-        posAfterMarker = skipOrderedListMarker(state, nextLine);
+        posAfterMarker = skipOrderedListMarker(state2, nextLine);
         if (posAfterMarker < 0) {
           break;
         }
       } else {
-        posAfterMarker = skipBulletListMarker(state, nextLine);
+        posAfterMarker = skipBulletListMarker(state2, nextLine);
         if (posAfterMarker < 0) {
           break;
         }
       }
-      if (markerCharCode !== state.src.charCodeAt(posAfterMarker - 1)) {
+      if (markerCharCode !== state2.src.charCodeAt(posAfterMarker - 1)) {
         break;
       }
     }
-    state.tokens.push({
+    state2.tokens.push({
       type: isOrdered ? "ordered_list_close" : "bullet_list_close",
-      level: --state.level
+      level: --state2.level
     });
     listLines[1] = nextLine;
-    state.line = nextLine;
+    state2.line = nextLine;
     if (tight) {
-      markTightParagraphs(state, listTokIdx);
+      markTightParagraphs(state2, listTokIdx);
     }
     return true;
   }
-  function footnote(state, startLine, endLine, silent) {
-    var oldBMark, oldTShift, oldParentType, pos, label, start = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+  function footnote(state2, startLine, endLine, silent) {
+    var oldBMark, oldTShift, oldParentType, pos, label, start = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (start + 4 > max) {
       return false;
     }
-    if (state.src.charCodeAt(start) !== 91) {
+    if (state2.src.charCodeAt(start) !== 91) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 94) {
+    if (state2.src.charCodeAt(start + 1) !== 94) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
     for (pos = start + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 32) {
+      if (state2.src.charCodeAt(pos) === 32) {
         return false;
       }
-      if (state.src.charCodeAt(pos) === 93) {
+      if (state2.src.charCodeAt(pos) === 93) {
         break;
       }
     }
     if (pos === start + 2) {
       return false;
     }
-    if (pos + 1 >= max || state.src.charCodeAt(++pos) !== 58) {
+    if (pos + 1 >= max || state2.src.charCodeAt(++pos) !== 58) {
       return false;
     }
     if (silent) {
       return true;
     }
     pos++;
-    if (!state.env.footnotes) {
-      state.env.footnotes = {};
+    if (!state2.env.footnotes) {
+      state2.env.footnotes = {};
     }
-    if (!state.env.footnotes.refs) {
-      state.env.footnotes.refs = {};
+    if (!state2.env.footnotes.refs) {
+      state2.env.footnotes.refs = {};
     }
-    label = state.src.slice(start + 2, pos - 2);
-    state.env.footnotes.refs[":" + label] = -1;
-    state.tokens.push({
+    label = state2.src.slice(start + 2, pos - 2);
+    state2.env.footnotes.refs[":" + label] = -1;
+    state2.tokens.push({
       type: "footnote_reference_open",
       label,
-      level: state.level++
+      level: state2.level++
     });
-    oldBMark = state.bMarks[startLine];
-    oldTShift = state.tShift[startLine];
-    oldParentType = state.parentType;
-    state.tShift[startLine] = state.skipSpaces(pos) - pos;
-    state.bMarks[startLine] = pos;
-    state.blkIndent += 4;
-    state.parentType = "footnote";
-    if (state.tShift[startLine] < state.blkIndent) {
-      state.tShift[startLine] += state.blkIndent;
-      state.bMarks[startLine] -= state.blkIndent;
+    oldBMark = state2.bMarks[startLine];
+    oldTShift = state2.tShift[startLine];
+    oldParentType = state2.parentType;
+    state2.tShift[startLine] = state2.skipSpaces(pos) - pos;
+    state2.bMarks[startLine] = pos;
+    state2.blkIndent += 4;
+    state2.parentType = "footnote";
+    if (state2.tShift[startLine] < state2.blkIndent) {
+      state2.tShift[startLine] += state2.blkIndent;
+      state2.bMarks[startLine] -= state2.blkIndent;
     }
-    state.parser.tokenize(state, startLine, endLine, true);
-    state.parentType = oldParentType;
-    state.blkIndent -= 4;
-    state.tShift[startLine] = oldTShift;
-    state.bMarks[startLine] = oldBMark;
-    state.tokens.push({
+    state2.parser.tokenize(state2, startLine, endLine, true);
+    state2.parentType = oldParentType;
+    state2.blkIndent -= 4;
+    state2.tShift[startLine] = oldTShift;
+    state2.bMarks[startLine] = oldBMark;
+    state2.tokens.push({
       type: "footnote_reference_close",
-      level: --state.level
+      level: --state2.level
     });
     return true;
   }
-  function heading(state, startLine, endLine, silent) {
-    var ch, level, tmp, pos = state.bMarks[startLine] + state.tShift[startLine], max = state.eMarks[startLine];
+  function heading(state2, startLine, endLine, silent) {
+    var ch, level, tmp, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (pos >= max) {
       return false;
     }
-    ch = state.src.charCodeAt(pos);
+    ch = state2.src.charCodeAt(pos);
     if (ch !== 35 || pos >= max) {
       return false;
     }
     level = 1;
-    ch = state.src.charCodeAt(++pos);
+    ch = state2.src.charCodeAt(++pos);
     while (ch === 35 && pos < max && level <= 6) {
       level++;
-      ch = state.src.charCodeAt(++pos);
+      ch = state2.src.charCodeAt(++pos);
     }
     if (level > 6 || pos < max && ch !== 32) {
       return false;
@@ -17982,74 +17982,74 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (silent) {
       return true;
     }
-    max = state.skipCharsBack(max, 32, pos);
-    tmp = state.skipCharsBack(max, 35, pos);
-    if (tmp > pos && state.src.charCodeAt(tmp - 1) === 32) {
+    max = state2.skipCharsBack(max, 32, pos);
+    tmp = state2.skipCharsBack(max, 35, pos);
+    if (tmp > pos && state2.src.charCodeAt(tmp - 1) === 32) {
       max = tmp;
     }
-    state.line = startLine + 1;
-    state.tokens.push({
+    state2.line = startLine + 1;
+    state2.tokens.push({
       type: "heading_open",
       hLevel: level,
-      lines: [startLine, state.line],
-      level: state.level
+      lines: [startLine, state2.line],
+      level: state2.level
     });
     if (pos < max) {
-      state.tokens.push({
+      state2.tokens.push({
         type: "inline",
-        content: state.src.slice(pos, max).trim(),
-        level: state.level + 1,
-        lines: [startLine, state.line],
+        content: state2.src.slice(pos, max).trim(),
+        level: state2.level + 1,
+        lines: [startLine, state2.line],
         children: []
       });
     }
-    state.tokens.push({ type: "heading_close", hLevel: level, level: state.level });
+    state2.tokens.push({ type: "heading_close", hLevel: level, level: state2.level });
     return true;
   }
-  function lheading(state, startLine, endLine) {
+  function lheading(state2, startLine, endLine) {
     var marker, pos, max, next = startLine + 1;
     if (next >= endLine) {
       return false;
     }
-    if (state.tShift[next] < state.blkIndent) {
+    if (state2.tShift[next] < state2.blkIndent) {
       return false;
     }
-    if (state.tShift[next] - state.blkIndent > 3) {
+    if (state2.tShift[next] - state2.blkIndent > 3) {
       return false;
     }
-    pos = state.bMarks[next] + state.tShift[next];
-    max = state.eMarks[next];
+    pos = state2.bMarks[next] + state2.tShift[next];
+    max = state2.eMarks[next];
     if (pos >= max) {
       return false;
     }
-    marker = state.src.charCodeAt(pos);
+    marker = state2.src.charCodeAt(pos);
     if (marker !== 45 && marker !== 61) {
       return false;
     }
-    pos = state.skipChars(pos, marker);
-    pos = state.skipSpaces(pos);
+    pos = state2.skipChars(pos, marker);
+    pos = state2.skipSpaces(pos);
     if (pos < max) {
       return false;
     }
-    pos = state.bMarks[startLine] + state.tShift[startLine];
-    state.line = next + 1;
-    state.tokens.push({
+    pos = state2.bMarks[startLine] + state2.tShift[startLine];
+    state2.line = next + 1;
+    state2.tokens.push({
       type: "heading_open",
       hLevel: marker === 61 ? 1 : 2,
-      lines: [startLine, state.line],
-      level: state.level
+      lines: [startLine, state2.line],
+      level: state2.level
     });
-    state.tokens.push({
+    state2.tokens.push({
       type: "inline",
-      content: state.src.slice(pos, state.eMarks[startLine]).trim(),
-      level: state.level + 1,
-      lines: [startLine, state.line - 1],
+      content: state2.src.slice(pos, state2.eMarks[startLine]).trim(),
+      level: state2.level + 1,
+      lines: [startLine, state2.line - 1],
       children: []
     });
-    state.tokens.push({
+    state2.tokens.push({
       type: "heading_close",
       hLevel: marker === 61 ? 1 : 2,
-      level: state.level
+      level: state2.level
     });
     return true;
   }
@@ -18114,31 +18114,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var lc = ch | 32;
     return lc >= 97 && lc <= 122;
   }
-  function htmlblock(state, startLine, endLine, silent) {
-    var ch, match, nextLine, pos = state.bMarks[startLine], max = state.eMarks[startLine], shift = state.tShift[startLine];
+  function htmlblock(state2, startLine, endLine, silent) {
+    var ch, match, nextLine, pos = state2.bMarks[startLine], max = state2.eMarks[startLine], shift = state2.tShift[startLine];
     pos += shift;
-    if (!state.options.html) {
+    if (!state2.options.html) {
       return false;
     }
     if (shift > 3 || pos + 2 >= max) {
       return false;
     }
-    if (state.src.charCodeAt(pos) !== 60) {
+    if (state2.src.charCodeAt(pos) !== 60) {
       return false;
     }
-    ch = state.src.charCodeAt(pos + 1);
+    ch = state2.src.charCodeAt(pos + 1);
     if (ch === 33 || ch === 63) {
       if (silent) {
         return true;
       }
     } else if (ch === 47 || isLetter$1(ch)) {
       if (ch === 47) {
-        match = state.src.slice(pos, max).match(HTML_TAG_CLOSE_RE);
+        match = state2.src.slice(pos, max).match(HTML_TAG_CLOSE_RE);
         if (!match) {
           return false;
         }
       } else {
-        match = state.src.slice(pos, max).match(HTML_TAG_OPEN_RE);
+        match = state2.src.slice(pos, max).match(HTML_TAG_OPEN_RE);
         if (!match) {
           return false;
         }
@@ -18153,40 +18153,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
     nextLine = startLine + 1;
-    while (nextLine < state.lineMax && !state.isEmpty(nextLine)) {
+    while (nextLine < state2.lineMax && !state2.isEmpty(nextLine)) {
       nextLine++;
     }
-    state.line = nextLine;
-    state.tokens.push({
+    state2.line = nextLine;
+    state2.tokens.push({
       type: "htmlblock",
-      level: state.level,
-      lines: [startLine, state.line],
-      content: state.getLines(startLine, nextLine, 0, true)
+      level: state2.level,
+      lines: [startLine, state2.line],
+      content: state2.getLines(startLine, nextLine, 0, true)
     });
     return true;
   }
-  function getLine(state, line) {
-    var pos = state.bMarks[line] + state.blkIndent, max = state.eMarks[line];
-    return state.src.substr(pos, max - pos);
+  function getLine(state2, line) {
+    var pos = state2.bMarks[line] + state2.blkIndent, max = state2.eMarks[line];
+    return state2.src.substr(pos, max - pos);
   }
-  function table(state, startLine, endLine, silent) {
+  function table(state2, startLine, endLine, silent) {
     var ch, lineText, pos, i, nextLine, rows, cell, aligns, t2, tableLines, tbodyLines;
     if (startLine + 2 > endLine) {
       return false;
     }
     nextLine = startLine + 1;
-    if (state.tShift[nextLine] < state.blkIndent) {
+    if (state2.tShift[nextLine] < state2.blkIndent) {
       return false;
     }
-    pos = state.bMarks[nextLine] + state.tShift[nextLine];
-    if (pos >= state.eMarks[nextLine]) {
+    pos = state2.bMarks[nextLine] + state2.tShift[nextLine];
+    if (pos >= state2.eMarks[nextLine]) {
       return false;
     }
-    ch = state.src.charCodeAt(pos);
+    ch = state2.src.charCodeAt(pos);
     if (ch !== 124 && ch !== 45 && ch !== 58) {
       return false;
     }
-    lineText = getLine(state, startLine + 1);
+    lineText = getLine(state2, startLine + 1);
     if (!/^[-:| ]+$/.test(lineText)) {
       return false;
     }
@@ -18215,7 +18215,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         aligns.push("");
       }
     }
-    lineText = getLine(state, startLine).trim();
+    lineText = getLine(state2, startLine).trim();
     if (lineText.indexOf("|") === -1) {
       return false;
     }
@@ -18226,86 +18226,86 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (silent) {
       return true;
     }
-    state.tokens.push({
+    state2.tokens.push({
       type: "table_open",
       lines: tableLines = [startLine, 0],
-      level: state.level++
+      level: state2.level++
     });
-    state.tokens.push({
+    state2.tokens.push({
       type: "thead_open",
       lines: [startLine, startLine + 1],
-      level: state.level++
+      level: state2.level++
     });
-    state.tokens.push({
+    state2.tokens.push({
       type: "tr_open",
       lines: [startLine, startLine + 1],
-      level: state.level++
+      level: state2.level++
     });
     for (i = 0; i < rows.length; i++) {
-      state.tokens.push({
+      state2.tokens.push({
         type: "th_open",
         align: aligns[i],
         lines: [startLine, startLine + 1],
-        level: state.level++
+        level: state2.level++
       });
-      state.tokens.push({
+      state2.tokens.push({
         type: "inline",
         content: rows[i].trim(),
         lines: [startLine, startLine + 1],
-        level: state.level,
+        level: state2.level,
         children: []
       });
-      state.tokens.push({ type: "th_close", level: --state.level });
+      state2.tokens.push({ type: "th_close", level: --state2.level });
     }
-    state.tokens.push({ type: "tr_close", level: --state.level });
-    state.tokens.push({ type: "thead_close", level: --state.level });
-    state.tokens.push({
+    state2.tokens.push({ type: "tr_close", level: --state2.level });
+    state2.tokens.push({ type: "thead_close", level: --state2.level });
+    state2.tokens.push({
       type: "tbody_open",
       lines: tbodyLines = [startLine + 2, 0],
-      level: state.level++
+      level: state2.level++
     });
     for (nextLine = startLine + 2; nextLine < endLine; nextLine++) {
-      if (state.tShift[nextLine] < state.blkIndent) {
+      if (state2.tShift[nextLine] < state2.blkIndent) {
         break;
       }
-      lineText = getLine(state, nextLine).trim();
+      lineText = getLine(state2, nextLine).trim();
       if (lineText.indexOf("|") === -1) {
         break;
       }
       rows = lineText.replace(/^\||\|$/g, "").split("|");
-      state.tokens.push({ type: "tr_open", level: state.level++ });
+      state2.tokens.push({ type: "tr_open", level: state2.level++ });
       for (i = 0; i < rows.length; i++) {
-        state.tokens.push({ type: "td_open", align: aligns[i], level: state.level++ });
+        state2.tokens.push({ type: "td_open", align: aligns[i], level: state2.level++ });
         cell = rows[i].substring(
           rows[i].charCodeAt(0) === 124 ? 1 : 0,
           rows[i].charCodeAt(rows[i].length - 1) === 124 ? rows[i].length - 1 : rows[i].length
         ).trim();
-        state.tokens.push({
+        state2.tokens.push({
           type: "inline",
           content: cell,
-          level: state.level,
+          level: state2.level,
           children: []
         });
-        state.tokens.push({ type: "td_close", level: --state.level });
+        state2.tokens.push({ type: "td_close", level: --state2.level });
       }
-      state.tokens.push({ type: "tr_close", level: --state.level });
+      state2.tokens.push({ type: "tr_close", level: --state2.level });
     }
-    state.tokens.push({ type: "tbody_close", level: --state.level });
-    state.tokens.push({ type: "table_close", level: --state.level });
+    state2.tokens.push({ type: "tbody_close", level: --state2.level });
+    state2.tokens.push({ type: "table_close", level: --state2.level });
     tableLines[1] = tbodyLines[1] = nextLine;
-    state.line = nextLine;
+    state2.line = nextLine;
     return true;
   }
-  function skipMarker(state, line) {
-    var pos, marker, start = state.bMarks[line] + state.tShift[line], max = state.eMarks[line];
+  function skipMarker(state2, line) {
+    var pos, marker, start = state2.bMarks[line] + state2.tShift[line], max = state2.eMarks[line];
     if (start >= max) {
       return -1;
     }
-    marker = state.src.charCodeAt(start++);
+    marker = state2.src.charCodeAt(start++);
     if (marker !== 126 && marker !== 58) {
       return -1;
     }
-    pos = state.skipSpaces(start);
+    pos = state2.skipSpaces(start);
     if (start === pos) {
       return -1;
     }
@@ -18314,45 +18314,45 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return pos;
   }
-  function markTightParagraphs$1(state, idx) {
-    var i, l2, level = state.level + 2;
-    for (i = idx + 2, l2 = state.tokens.length - 2; i < l2; i++) {
-      if (state.tokens[i].level === level && state.tokens[i].type === "paragraph_open") {
-        state.tokens[i + 2].tight = true;
-        state.tokens[i].tight = true;
+  function markTightParagraphs$1(state2, idx) {
+    var i, l2, level = state2.level + 2;
+    for (i = idx + 2, l2 = state2.tokens.length - 2; i < l2; i++) {
+      if (state2.tokens[i].level === level && state2.tokens[i].type === "paragraph_open") {
+        state2.tokens[i + 2].tight = true;
+        state2.tokens[i].tight = true;
         i += 2;
       }
     }
   }
-  function deflist(state, startLine, endLine, silent) {
+  function deflist(state2, startLine, endLine, silent) {
     var contentStart, ddLine, dtLine, itemLines, listLines, listTokIdx, nextLine, oldIndent, oldDDIndent, oldParentType, oldTShift, oldTight, prevEmptyEnd, tight;
     if (silent) {
-      if (state.ddIndent < 0) {
+      if (state2.ddIndent < 0) {
         return false;
       }
-      return skipMarker(state, startLine) >= 0;
+      return skipMarker(state2, startLine) >= 0;
     }
     nextLine = startLine + 1;
-    if (state.isEmpty(nextLine)) {
+    if (state2.isEmpty(nextLine)) {
       if (++nextLine > endLine) {
         return false;
       }
     }
-    if (state.tShift[nextLine] < state.blkIndent) {
+    if (state2.tShift[nextLine] < state2.blkIndent) {
       return false;
     }
-    contentStart = skipMarker(state, nextLine);
+    contentStart = skipMarker(state2, nextLine);
     if (contentStart < 0) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    listTokIdx = state.tokens.length;
-    state.tokens.push({
+    listTokIdx = state2.tokens.length;
+    state2.tokens.push({
       type: "dl_open",
       lines: listLines = [startLine, 0],
-      level: state.level++
+      level: state2.level++
     });
     dtLine = startLine;
     ddLine = nextLine;
@@ -18360,59 +18360,59 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       for (; ; ) {
         tight = true;
         prevEmptyEnd = false;
-        state.tokens.push({
+        state2.tokens.push({
           type: "dt_open",
           lines: [dtLine, dtLine],
-          level: state.level++
+          level: state2.level++
         });
-        state.tokens.push({
+        state2.tokens.push({
           type: "inline",
-          content: state.getLines(dtLine, dtLine + 1, state.blkIndent, false).trim(),
-          level: state.level + 1,
+          content: state2.getLines(dtLine, dtLine + 1, state2.blkIndent, false).trim(),
+          level: state2.level + 1,
           lines: [dtLine, dtLine],
           children: []
         });
-        state.tokens.push({
+        state2.tokens.push({
           type: "dt_close",
-          level: --state.level
+          level: --state2.level
         });
         for (; ; ) {
-          state.tokens.push({
+          state2.tokens.push({
             type: "dd_open",
             lines: itemLines = [nextLine, 0],
-            level: state.level++
+            level: state2.level++
           });
-          oldTight = state.tight;
-          oldDDIndent = state.ddIndent;
-          oldIndent = state.blkIndent;
-          oldTShift = state.tShift[ddLine];
-          oldParentType = state.parentType;
-          state.blkIndent = state.ddIndent = state.tShift[ddLine] + 2;
-          state.tShift[ddLine] = contentStart - state.bMarks[ddLine];
-          state.tight = true;
-          state.parentType = "deflist";
-          state.parser.tokenize(state, ddLine, endLine, true);
-          if (!state.tight || prevEmptyEnd) {
+          oldTight = state2.tight;
+          oldDDIndent = state2.ddIndent;
+          oldIndent = state2.blkIndent;
+          oldTShift = state2.tShift[ddLine];
+          oldParentType = state2.parentType;
+          state2.blkIndent = state2.ddIndent = state2.tShift[ddLine] + 2;
+          state2.tShift[ddLine] = contentStart - state2.bMarks[ddLine];
+          state2.tight = true;
+          state2.parentType = "deflist";
+          state2.parser.tokenize(state2, ddLine, endLine, true);
+          if (!state2.tight || prevEmptyEnd) {
             tight = false;
           }
-          prevEmptyEnd = state.line - ddLine > 1 && state.isEmpty(state.line - 1);
-          state.tShift[ddLine] = oldTShift;
-          state.tight = oldTight;
-          state.parentType = oldParentType;
-          state.blkIndent = oldIndent;
-          state.ddIndent = oldDDIndent;
-          state.tokens.push({
+          prevEmptyEnd = state2.line - ddLine > 1 && state2.isEmpty(state2.line - 1);
+          state2.tShift[ddLine] = oldTShift;
+          state2.tight = oldTight;
+          state2.parentType = oldParentType;
+          state2.blkIndent = oldIndent;
+          state2.ddIndent = oldDDIndent;
+          state2.tokens.push({
             type: "dd_close",
-            level: --state.level
+            level: --state2.level
           });
-          itemLines[1] = nextLine = state.line;
+          itemLines[1] = nextLine = state2.line;
           if (nextLine >= endLine) {
             break OUTER;
           }
-          if (state.tShift[nextLine] < state.blkIndent) {
+          if (state2.tShift[nextLine] < state2.blkIndent) {
             break OUTER;
           }
-          contentStart = skipMarker(state, nextLine);
+          contentStart = skipMarker(state2, nextLine);
           if (contentStart < 0) {
             break;
           }
@@ -18422,53 +18422,53 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           break;
         }
         dtLine = nextLine;
-        if (state.isEmpty(dtLine)) {
+        if (state2.isEmpty(dtLine)) {
           break;
         }
-        if (state.tShift[dtLine] < state.blkIndent) {
+        if (state2.tShift[dtLine] < state2.blkIndent) {
           break;
         }
         ddLine = dtLine + 1;
         if (ddLine >= endLine) {
           break;
         }
-        if (state.isEmpty(ddLine)) {
+        if (state2.isEmpty(ddLine)) {
           ddLine++;
         }
         if (ddLine >= endLine) {
           break;
         }
-        if (state.tShift[ddLine] < state.blkIndent) {
+        if (state2.tShift[ddLine] < state2.blkIndent) {
           break;
         }
-        contentStart = skipMarker(state, ddLine);
+        contentStart = skipMarker(state2, ddLine);
         if (contentStart < 0) {
           break;
         }
       }
-    state.tokens.push({
+    state2.tokens.push({
       type: "dl_close",
-      level: --state.level
+      level: --state2.level
     });
     listLines[1] = nextLine;
-    state.line = nextLine;
+    state2.line = nextLine;
     if (tight) {
-      markTightParagraphs$1(state, listTokIdx);
+      markTightParagraphs$1(state2, listTokIdx);
     }
     return true;
   }
-  function paragraph(state, startLine) {
+  function paragraph(state2, startLine) {
     var endLine, content, terminate, i, l2, nextLine = startLine + 1, terminatorRules;
-    endLine = state.lineMax;
-    if (nextLine < endLine && !state.isEmpty(nextLine)) {
-      terminatorRules = state.parser.ruler.getRules("paragraph");
-      for (; nextLine < endLine && !state.isEmpty(nextLine); nextLine++) {
-        if (state.tShift[nextLine] - state.blkIndent > 3) {
+    endLine = state2.lineMax;
+    if (nextLine < endLine && !state2.isEmpty(nextLine)) {
+      terminatorRules = state2.parser.ruler.getRules("paragraph");
+      for (; nextLine < endLine && !state2.isEmpty(nextLine); nextLine++) {
+        if (state2.tShift[nextLine] - state2.blkIndent > 3) {
           continue;
         }
         terminate = false;
         for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
-          if (terminatorRules[i](state, nextLine, endLine, true)) {
+          if (terminatorRules[i](state2, nextLine, endLine, true)) {
             terminate = true;
             break;
           }
@@ -18478,26 +18478,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
       }
     }
-    content = state.getLines(startLine, nextLine, state.blkIndent, false).trim();
-    state.line = nextLine;
+    content = state2.getLines(startLine, nextLine, state2.blkIndent, false).trim();
+    state2.line = nextLine;
     if (content.length) {
-      state.tokens.push({
+      state2.tokens.push({
         type: "paragraph_open",
         tight: false,
-        lines: [startLine, state.line],
-        level: state.level
+        lines: [startLine, state2.line],
+        level: state2.level
       });
-      state.tokens.push({
+      state2.tokens.push({
         type: "inline",
         content,
-        level: state.level + 1,
-        lines: [startLine, state.line],
+        level: state2.level + 1,
+        lines: [startLine, state2.line],
         children: []
       });
-      state.tokens.push({
+      state2.tokens.push({
         type: "paragraph_close",
         tight: false,
-        level: state.level
+        level: state2.level
       });
     }
     return true;
@@ -18524,38 +18524,38 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
     }
   }
-  ParserBlock.prototype.tokenize = function(state, startLine, endLine) {
+  ParserBlock.prototype.tokenize = function(state2, startLine, endLine) {
     var rules2 = this.ruler.getRules("");
     var len = rules2.length;
     var line = startLine;
     var hasEmptyLines = false;
     var ok, i;
     while (line < endLine) {
-      state.line = line = state.skipEmptyLines(line);
+      state2.line = line = state2.skipEmptyLines(line);
       if (line >= endLine) {
         break;
       }
-      if (state.tShift[line] < state.blkIndent) {
+      if (state2.tShift[line] < state2.blkIndent) {
         break;
       }
       for (i = 0; i < len; i++) {
-        ok = rules2[i](state, line, endLine, false);
+        ok = rules2[i](state2, line, endLine, false);
         if (ok) {
           break;
         }
       }
-      state.tight = !hasEmptyLines;
-      if (state.isEmpty(state.line - 1)) {
+      state2.tight = !hasEmptyLines;
+      if (state2.isEmpty(state2.line - 1)) {
         hasEmptyLines = true;
       }
-      line = state.line;
-      if (line < endLine && state.isEmpty(line)) {
+      line = state2.line;
+      if (line < endLine && state2.isEmpty(line)) {
         hasEmptyLines = true;
         line++;
-        if (line < endLine && state.parentType === "list" && state.isEmpty(line)) {
+        if (line < endLine && state2.parentType === "list" && state2.isEmpty(line)) {
           break;
         }
-        state.line = line;
+        state2.line = line;
       }
     }
   };
@@ -18563,7 +18563,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var NEWLINES_RE = /\r[\n\u0085]|[\u2424\u2028\u0085]/g;
   var SPACES_RE = /\u00a0/g;
   ParserBlock.prototype.parse = function(str, options, env, outTokens) {
-    var state, lineStart = 0, lastTabPos = 0;
+    var state2, lineStart = 0, lastTabPos = 0;
     if (!str) {
       return [];
     }
@@ -18571,19 +18571,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     str = str.replace(NEWLINES_RE, "\n");
     if (str.indexOf("	") >= 0) {
       str = str.replace(TABS_SCAN_RE, function(match, offset) {
-        var result;
+        var result2;
         if (str.charCodeAt(offset) === 10) {
           lineStart = offset + 1;
           lastTabPos = 0;
           return match;
         }
-        result = "    ".slice((offset - lineStart - lastTabPos) % 4);
+        result2 = "    ".slice((offset - lineStart - lastTabPos) % 4);
         lastTabPos = offset - lineStart + 1;
-        return result;
+        return result2;
       });
     }
-    state = new StateBlock(str, this, options, env, outTokens);
-    this.tokenize(state, state.line, state.lineMax);
+    state2 = new StateBlock(str, this, options, env, outTokens);
+    this.tokenize(state2, state2.line, state2.lineMax);
   };
   function isTerminatorChar(ch) {
     switch (ch) {
@@ -18613,59 +18613,59 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return false;
     }
   }
-  function text2(state, silent) {
-    var pos = state.pos;
-    while (pos < state.posMax && !isTerminatorChar(state.src.charCodeAt(pos))) {
+  function text2(state2, silent) {
+    var pos = state2.pos;
+    while (pos < state2.posMax && !isTerminatorChar(state2.src.charCodeAt(pos))) {
       pos++;
     }
-    if (pos === state.pos) {
+    if (pos === state2.pos) {
       return false;
     }
     if (!silent) {
-      state.pending += state.src.slice(state.pos, pos);
+      state2.pending += state2.src.slice(state2.pos, pos);
     }
-    state.pos = pos;
+    state2.pos = pos;
     return true;
   }
-  function newline(state, silent) {
-    var pmax, max, pos = state.pos;
-    if (state.src.charCodeAt(pos) !== 10) {
+  function newline(state2, silent) {
+    var pmax, max, pos = state2.pos;
+    if (state2.src.charCodeAt(pos) !== 10) {
       return false;
     }
-    pmax = state.pending.length - 1;
-    max = state.posMax;
+    pmax = state2.pending.length - 1;
+    max = state2.posMax;
     if (!silent) {
-      if (pmax >= 0 && state.pending.charCodeAt(pmax) === 32) {
-        if (pmax >= 1 && state.pending.charCodeAt(pmax - 1) === 32) {
+      if (pmax >= 0 && state2.pending.charCodeAt(pmax) === 32) {
+        if (pmax >= 1 && state2.pending.charCodeAt(pmax - 1) === 32) {
           for (var i = pmax - 2; i >= 0; i--) {
-            if (state.pending.charCodeAt(i) !== 32) {
-              state.pending = state.pending.substring(0, i + 1);
+            if (state2.pending.charCodeAt(i) !== 32) {
+              state2.pending = state2.pending.substring(0, i + 1);
               break;
             }
           }
-          state.push({
+          state2.push({
             type: "hardbreak",
-            level: state.level
+            level: state2.level
           });
         } else {
-          state.pending = state.pending.slice(0, -1);
-          state.push({
+          state2.pending = state2.pending.slice(0, -1);
+          state2.push({
             type: "softbreak",
-            level: state.level
+            level: state2.level
           });
         }
       } else {
-        state.push({
+        state2.push({
           type: "softbreak",
-          level: state.level
+          level: state2.level
         });
       }
     }
     pos++;
-    while (pos < max && state.src.charCodeAt(pos) === 32) {
+    while (pos < max && state2.src.charCodeAt(pos) === 32) {
       pos++;
     }
-    state.pos = pos;
+    state2.pos = pos;
     return true;
   }
   var ESCAPED = [];
@@ -18676,82 +18676,82 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   "\\!\"#$%&'()*+,./:;<=>?@[]^_`{|}~-".split("").forEach(function(ch) {
     ESCAPED[ch.charCodeAt(0)] = 1;
   });
-  function escape(state, silent) {
-    var ch, pos = state.pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 92) {
+  function escape(state2, silent) {
+    var ch, pos = state2.pos, max = state2.posMax;
+    if (state2.src.charCodeAt(pos) !== 92) {
       return false;
     }
     pos++;
     if (pos < max) {
-      ch = state.src.charCodeAt(pos);
+      ch = state2.src.charCodeAt(pos);
       if (ch < 256 && ESCAPED[ch] !== 0) {
         if (!silent) {
-          state.pending += state.src[pos];
+          state2.pending += state2.src[pos];
         }
-        state.pos += 2;
+        state2.pos += 2;
         return true;
       }
       if (ch === 10) {
         if (!silent) {
-          state.push({
+          state2.push({
             type: "hardbreak",
-            level: state.level
+            level: state2.level
           });
         }
         pos++;
-        while (pos < max && state.src.charCodeAt(pos) === 32) {
+        while (pos < max && state2.src.charCodeAt(pos) === 32) {
           pos++;
         }
-        state.pos = pos;
+        state2.pos = pos;
         return true;
       }
     }
     if (!silent) {
-      state.pending += "\\";
+      state2.pending += "\\";
     }
-    state.pos++;
+    state2.pos++;
     return true;
   }
-  function backticks(state, silent) {
-    var start, max, marker, matchStart, matchEnd, pos = state.pos, ch = state.src.charCodeAt(pos);
+  function backticks(state2, silent) {
+    var start, max, marker, matchStart, matchEnd, pos = state2.pos, ch = state2.src.charCodeAt(pos);
     if (ch !== 96) {
       return false;
     }
     start = pos;
     pos++;
-    max = state.posMax;
-    while (pos < max && state.src.charCodeAt(pos) === 96) {
+    max = state2.posMax;
+    while (pos < max && state2.src.charCodeAt(pos) === 96) {
       pos++;
     }
-    marker = state.src.slice(start, pos);
+    marker = state2.src.slice(start, pos);
     matchStart = matchEnd = pos;
-    while ((matchStart = state.src.indexOf("`", matchEnd)) !== -1) {
+    while ((matchStart = state2.src.indexOf("`", matchEnd)) !== -1) {
       matchEnd = matchStart + 1;
-      while (matchEnd < max && state.src.charCodeAt(matchEnd) === 96) {
+      while (matchEnd < max && state2.src.charCodeAt(matchEnd) === 96) {
         matchEnd++;
       }
       if (matchEnd - matchStart === marker.length) {
         if (!silent) {
-          state.push({
+          state2.push({
             type: "code",
-            content: state.src.slice(pos, matchStart).replace(/[ \n]+/g, " ").trim(),
+            content: state2.src.slice(pos, matchStart).replace(/[ \n]+/g, " ").trim(),
             block: false,
-            level: state.level
+            level: state2.level
           });
         }
-        state.pos = matchEnd;
+        state2.pos = matchEnd;
         return true;
       }
     }
     if (!silent) {
-      state.pending += marker;
+      state2.pending += marker;
     }
-    state.pos += marker.length;
+    state2.pos += marker.length;
     return true;
   }
-  function del(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 126) {
+  function del(state2, silent) {
+    var found, pos, stack, max = state2.posMax, start = state2.pos, lastChar, nextChar;
+    if (state2.src.charCodeAt(start) !== 126) {
       return false;
     }
     if (silent) {
@@ -18760,14 +18760,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start + 4 >= max) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 126) {
+    if (state2.src.charCodeAt(start + 1) !== 126) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
+    lastChar = start > 0 ? state2.src.charCodeAt(start - 1) : -1;
+    nextChar = state2.src.charCodeAt(start + 2);
     if (lastChar === 126) {
       return false;
     }
@@ -18778,23 +18778,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
     pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 126) {
+    while (pos < max && state2.src.charCodeAt(pos) === 126) {
       pos++;
     }
     if (pos > start + 3) {
-      state.pos += pos - start;
+      state2.pos += pos - start;
       if (!silent) {
-        state.pending += state.src.slice(start, pos);
+        state2.pending += state2.src.slice(start, pos);
       }
       return true;
     }
-    state.pos = start + 2;
+    state2.pos = start + 2;
     stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 126) {
-        if (state.src.charCodeAt(state.pos + 1) === 126) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+    while (state2.pos + 1 < max) {
+      if (state2.src.charCodeAt(state2.pos) === 126) {
+        if (state2.src.charCodeAt(state2.pos + 1) === 126) {
+          lastChar = state2.src.charCodeAt(state2.pos - 1);
+          nextChar = state2.pos + 2 < max ? state2.src.charCodeAt(state2.pos + 2) : -1;
           if (nextChar !== 126 && lastChar !== 126) {
             if (lastChar !== 32 && lastChar !== 10) {
               stack--;
@@ -18808,26 +18808,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         }
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
     if (!found) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + 2;
+    state2.posMax = state2.pos;
+    state2.pos = start + 2;
     if (!silent) {
-      state.push({ type: "del_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "del_close", level: --state.level });
+      state2.push({ type: "del_open", level: state2.level++ });
+      state2.parser.tokenize(state2);
+      state2.push({ type: "del_close", level: --state2.level });
     }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
+    state2.pos = state2.posMax + 2;
+    state2.posMax = max;
     return true;
   }
-  function ins(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 43) {
+  function ins(state2, silent) {
+    var found, pos, stack, max = state2.posMax, start = state2.pos, lastChar, nextChar;
+    if (state2.src.charCodeAt(start) !== 43) {
       return false;
     }
     if (silent) {
@@ -18836,14 +18836,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start + 4 >= max) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 43) {
+    if (state2.src.charCodeAt(start + 1) !== 43) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
+    lastChar = start > 0 ? state2.src.charCodeAt(start - 1) : -1;
+    nextChar = state2.src.charCodeAt(start + 2);
     if (lastChar === 43) {
       return false;
     }
@@ -18854,23 +18854,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
     pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 43) {
+    while (pos < max && state2.src.charCodeAt(pos) === 43) {
       pos++;
     }
     if (pos !== start + 2) {
-      state.pos += pos - start;
+      state2.pos += pos - start;
       if (!silent) {
-        state.pending += state.src.slice(start, pos);
+        state2.pending += state2.src.slice(start, pos);
       }
       return true;
     }
-    state.pos = start + 2;
+    state2.pos = start + 2;
     stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 43) {
-        if (state.src.charCodeAt(state.pos + 1) === 43) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+    while (state2.pos + 1 < max) {
+      if (state2.src.charCodeAt(state2.pos) === 43) {
+        if (state2.src.charCodeAt(state2.pos + 1) === 43) {
+          lastChar = state2.src.charCodeAt(state2.pos - 1);
+          nextChar = state2.pos + 2 < max ? state2.src.charCodeAt(state2.pos + 2) : -1;
           if (nextChar !== 43 && lastChar !== 43) {
             if (lastChar !== 32 && lastChar !== 10) {
               stack--;
@@ -18884,26 +18884,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         }
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
     if (!found) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + 2;
+    state2.posMax = state2.pos;
+    state2.pos = start + 2;
     if (!silent) {
-      state.push({ type: "ins_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "ins_close", level: --state.level });
+      state2.push({ type: "ins_open", level: state2.level++ });
+      state2.parser.tokenize(state2);
+      state2.push({ type: "ins_close", level: --state2.level });
     }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
+    state2.pos = state2.posMax + 2;
+    state2.posMax = max;
     return true;
   }
-  function mark(state, silent) {
-    var found, pos, stack, max = state.posMax, start = state.pos, lastChar, nextChar;
-    if (state.src.charCodeAt(start) !== 61) {
+  function mark(state2, silent) {
+    var found, pos, stack, max = state2.posMax, start = state2.pos, lastChar, nextChar;
+    if (state2.src.charCodeAt(start) !== 61) {
       return false;
     }
     if (silent) {
@@ -18912,14 +18912,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start + 4 >= max) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 61) {
+    if (state2.src.charCodeAt(start + 1) !== 61) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    nextChar = state.src.charCodeAt(start + 2);
+    lastChar = start > 0 ? state2.src.charCodeAt(start - 1) : -1;
+    nextChar = state2.src.charCodeAt(start + 2);
     if (lastChar === 61) {
       return false;
     }
@@ -18930,23 +18930,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
     pos = start + 2;
-    while (pos < max && state.src.charCodeAt(pos) === 61) {
+    while (pos < max && state2.src.charCodeAt(pos) === 61) {
       pos++;
     }
     if (pos !== start + 2) {
-      state.pos += pos - start;
+      state2.pos += pos - start;
       if (!silent) {
-        state.pending += state.src.slice(start, pos);
+        state2.pending += state2.src.slice(start, pos);
       }
       return true;
     }
-    state.pos = start + 2;
+    state2.pos = start + 2;
     stack = 1;
-    while (state.pos + 1 < max) {
-      if (state.src.charCodeAt(state.pos) === 61) {
-        if (state.src.charCodeAt(state.pos + 1) === 61) {
-          lastChar = state.src.charCodeAt(state.pos - 1);
-          nextChar = state.pos + 2 < max ? state.src.charCodeAt(state.pos + 2) : -1;
+    while (state2.pos + 1 < max) {
+      if (state2.src.charCodeAt(state2.pos) === 61) {
+        if (state2.src.charCodeAt(state2.pos + 1) === 61) {
+          lastChar = state2.src.charCodeAt(state2.pos - 1);
+          nextChar = state2.pos + 2 < max ? state2.src.charCodeAt(state2.pos + 2) : -1;
           if (nextChar !== 61 && lastChar !== 61) {
             if (lastChar !== 32 && lastChar !== 10) {
               stack--;
@@ -18960,30 +18960,30 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         }
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
     if (!found) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + 2;
+    state2.posMax = state2.pos;
+    state2.pos = start + 2;
     if (!silent) {
-      state.push({ type: "mark_open", level: state.level++ });
-      state.parser.tokenize(state);
-      state.push({ type: "mark_close", level: --state.level });
+      state2.push({ type: "mark_open", level: state2.level++ });
+      state2.parser.tokenize(state2);
+      state2.push({ type: "mark_close", level: --state2.level });
     }
-    state.pos = state.posMax + 2;
-    state.posMax = max;
+    state2.pos = state2.posMax + 2;
+    state2.posMax = max;
     return true;
   }
   function isAlphaNum(code2) {
     return code2 >= 48 && code2 <= 57 || code2 >= 65 && code2 <= 90 || code2 >= 97 && code2 <= 122;
   }
-  function scanDelims(state, start) {
-    var pos = start, lastChar, nextChar, count, can_open = true, can_close = true, max = state.posMax, marker = state.src.charCodeAt(start);
-    lastChar = start > 0 ? state.src.charCodeAt(start - 1) : -1;
-    while (pos < max && state.src.charCodeAt(pos) === marker) {
+  function scanDelims(state2, start) {
+    var pos = start, lastChar, nextChar, count, can_open = true, can_close = true, max = state2.posMax, marker = state2.src.charCodeAt(start);
+    lastChar = start > 0 ? state2.src.charCodeAt(start - 1) : -1;
+    while (pos < max && state2.src.charCodeAt(pos) === marker) {
       pos++;
     }
     if (pos >= max) {
@@ -18993,7 +18993,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (count >= 4) {
       can_open = can_close = false;
     } else {
-      nextChar = pos < max ? state.src.charCodeAt(pos) : -1;
+      nextChar = pos < max ? state2.src.charCodeAt(pos) : -1;
       if (nextChar === 32 || nextChar === 10) {
         can_open = false;
       }
@@ -19015,31 +19015,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       delims: count
     };
   }
-  function emphasis(state, silent) {
-    var startCount, count, found, oldCount, newCount, stack, res, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
+  function emphasis(state2, silent) {
+    var startCount, count, found, oldCount, newCount, stack, res, max = state2.posMax, start = state2.pos, marker = state2.src.charCodeAt(start);
     if (marker !== 95 && marker !== 42) {
       return false;
     }
     if (silent) {
       return false;
     }
-    res = scanDelims(state, start);
+    res = scanDelims(state2, start);
     startCount = res.delims;
     if (!res.can_open) {
-      state.pos += startCount;
+      state2.pos += startCount;
       if (!silent) {
-        state.pending += state.src.slice(start, state.pos);
+        state2.pending += state2.src.slice(start, state2.pos);
       }
       return true;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    state.pos = start + startCount;
+    state2.pos = start + startCount;
     stack = [startCount];
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === marker) {
-        res = scanDelims(state, state.pos);
+    while (state2.pos < max) {
+      if (state2.src.charCodeAt(state2.pos) === marker) {
+        res = scanDelims(state2, state2.pos);
         count = res.delims;
         if (res.can_close) {
           oldCount = stack.pop();
@@ -19053,7 +19053,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             if (stack.length === 0) {
               break;
             }
-            state.pos += oldCount;
+            state2.pos += oldCount;
             oldCount = stack.pop();
           }
           if (stack.length === 0) {
@@ -19061,46 +19061,46 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             found = true;
             break;
           }
-          state.pos += count;
+          state2.pos += count;
           continue;
         }
         if (res.can_open) {
           stack.push(count);
         }
-        state.pos += count;
+        state2.pos += count;
         continue;
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
     if (!found) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + startCount;
+    state2.posMax = state2.pos;
+    state2.pos = start + startCount;
     if (!silent) {
       if (startCount === 2 || startCount === 3) {
-        state.push({ type: "strong_open", level: state.level++ });
+        state2.push({ type: "strong_open", level: state2.level++ });
       }
       if (startCount === 1 || startCount === 3) {
-        state.push({ type: "em_open", level: state.level++ });
+        state2.push({ type: "em_open", level: state2.level++ });
       }
-      state.parser.tokenize(state);
+      state2.parser.tokenize(state2);
       if (startCount === 1 || startCount === 3) {
-        state.push({ type: "em_close", level: --state.level });
+        state2.push({ type: "em_close", level: --state2.level });
       }
       if (startCount === 2 || startCount === 3) {
-        state.push({ type: "strong_close", level: --state.level });
+        state2.push({ type: "strong_close", level: --state2.level });
       }
     }
-    state.pos = state.posMax + startCount;
-    state.posMax = max;
+    state2.pos = state2.posMax + startCount;
+    state2.posMax = max;
     return true;
   }
   var UNESCAPE_RE = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
-  function sub(state, silent) {
-    var found, content, max = state.posMax, start = state.pos;
-    if (state.src.charCodeAt(start) !== 126) {
+  function sub(state2, silent) {
+    var found, content, max = state2.posMax, start = state2.pos;
+    if (state2.src.charCodeAt(start) !== 126) {
       return false;
     }
     if (silent) {
@@ -19109,43 +19109,43 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start + 2 >= max) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    state.pos = start + 1;
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === 126) {
+    state2.pos = start + 1;
+    while (state2.pos < max) {
+      if (state2.src.charCodeAt(state2.pos) === 126) {
         found = true;
         break;
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
-    if (!found || start + 1 === state.pos) {
-      state.pos = start;
+    if (!found || start + 1 === state2.pos) {
+      state2.pos = start;
       return false;
     }
-    content = state.src.slice(start + 1, state.pos);
+    content = state2.src.slice(start + 1, state2.pos);
     if (content.match(/(^|[^\\])(\\\\)*\s/)) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + 1;
+    state2.posMax = state2.pos;
+    state2.pos = start + 1;
     if (!silent) {
-      state.push({
+      state2.push({
         type: "sub",
-        level: state.level,
+        level: state2.level,
         content: content.replace(UNESCAPE_RE, "$1")
       });
     }
-    state.pos = state.posMax + 1;
-    state.posMax = max;
+    state2.pos = state2.posMax + 1;
+    state2.posMax = max;
     return true;
   }
   var UNESCAPE_RE$1 = /\\([ \\!"#$%&'()*+,.\/:;<=>?@[\]^_`{|}~-])/g;
-  function sup(state, silent) {
-    var found, content, max = state.posMax, start = state.pos;
-    if (state.src.charCodeAt(start) !== 94) {
+  function sup(state2, silent) {
+    var found, content, max = state2.posMax, start = state2.pos;
+    if (state2.src.charCodeAt(start) !== 94) {
       return false;
     }
     if (silent) {
@@ -19154,61 +19154,61 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (start + 2 >= max) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
-    state.pos = start + 1;
-    while (state.pos < max) {
-      if (state.src.charCodeAt(state.pos) === 94) {
+    state2.pos = start + 1;
+    while (state2.pos < max) {
+      if (state2.src.charCodeAt(state2.pos) === 94) {
         found = true;
         break;
       }
-      state.parser.skipToken(state);
+      state2.parser.skipToken(state2);
     }
-    if (!found || start + 1 === state.pos) {
-      state.pos = start;
+    if (!found || start + 1 === state2.pos) {
+      state2.pos = start;
       return false;
     }
-    content = state.src.slice(start + 1, state.pos);
+    content = state2.src.slice(start + 1, state2.pos);
     if (content.match(/(^|[^\\])(\\\\)*\s/)) {
-      state.pos = start;
+      state2.pos = start;
       return false;
     }
-    state.posMax = state.pos;
-    state.pos = start + 1;
+    state2.posMax = state2.pos;
+    state2.pos = start + 1;
     if (!silent) {
-      state.push({
+      state2.push({
         type: "sup",
-        level: state.level,
+        level: state2.level,
         content: content.replace(UNESCAPE_RE$1, "$1")
       });
     }
-    state.pos = state.posMax + 1;
-    state.posMax = max;
+    state2.pos = state2.posMax + 1;
+    state2.posMax = max;
     return true;
   }
-  function links(state, silent) {
-    var labelStart, labelEnd, label, href, title, pos, ref, code2, isImage = false, oldPos = state.pos, max = state.posMax, start = state.pos, marker = state.src.charCodeAt(start);
+  function links(state2, silent) {
+    var labelStart, labelEnd, label, href, title, pos, ref, code2, isImage = false, oldPos = state2.pos, max = state2.posMax, start = state2.pos, marker = state2.src.charCodeAt(start);
     if (marker === 33) {
       isImage = true;
-      marker = state.src.charCodeAt(++start);
+      marker = state2.src.charCodeAt(++start);
     }
     if (marker !== 91) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
     labelStart = start + 1;
-    labelEnd = parseLinkLabel(state, start);
+    labelEnd = parseLinkLabel(state2, start);
     if (labelEnd < 0) {
       return false;
     }
     pos = labelEnd + 1;
-    if (pos < max && state.src.charCodeAt(pos) === 40) {
+    if (pos < max && state2.src.charCodeAt(pos) === 40) {
       pos++;
       for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
+        code2 = state2.src.charCodeAt(pos);
         if (code2 !== 32 && code2 !== 10) {
           break;
         }
@@ -19217,24 +19217,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return false;
       }
       start = pos;
-      if (parseLinkDestination(state, pos)) {
-        href = state.linkContent;
-        pos = state.pos;
+      if (parseLinkDestination(state2, pos)) {
+        href = state2.linkContent;
+        pos = state2.pos;
       } else {
         href = "";
       }
       start = pos;
       for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
+        code2 = state2.src.charCodeAt(pos);
         if (code2 !== 32 && code2 !== 10) {
           break;
         }
       }
-      if (pos < max && start !== pos && parseLinkTitle(state, pos)) {
-        title = state.linkContent;
-        pos = state.pos;
+      if (pos < max && start !== pos && parseLinkTitle(state2, pos)) {
+        title = state2.linkContent;
+        pos = state2.pos;
         for (; pos < max; pos++) {
-          code2 = state.src.charCodeAt(pos);
+          code2 = state2.src.charCodeAt(pos);
           if (code2 !== 32 && code2 !== 10) {
             break;
           }
@@ -19242,26 +19242,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       } else {
         title = "";
       }
-      if (pos >= max || state.src.charCodeAt(pos) !== 41) {
-        state.pos = oldPos;
+      if (pos >= max || state2.src.charCodeAt(pos) !== 41) {
+        state2.pos = oldPos;
         return false;
       }
       pos++;
     } else {
-      if (state.linkLevel > 0) {
+      if (state2.linkLevel > 0) {
         return false;
       }
       for (; pos < max; pos++) {
-        code2 = state.src.charCodeAt(pos);
+        code2 = state2.src.charCodeAt(pos);
         if (code2 !== 32 && code2 !== 10) {
           break;
         }
       }
-      if (pos < max && state.src.charCodeAt(pos) === 91) {
+      if (pos < max && state2.src.charCodeAt(pos) === 91) {
         start = pos + 1;
-        pos = parseLinkLabel(state, pos);
+        pos = parseLinkLabel(state2, pos);
         if (pos >= 0) {
-          label = state.src.slice(start, pos++);
+          label = state2.src.slice(start, pos++);
         } else {
           pos = start - 1;
         }
@@ -19270,113 +19270,113 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (typeof label === "undefined") {
           pos = labelEnd + 1;
         }
-        label = state.src.slice(labelStart, labelEnd);
+        label = state2.src.slice(labelStart, labelEnd);
       }
-      ref = state.env.references[normalizeReference(label)];
+      ref = state2.env.references[normalizeReference(label)];
       if (!ref) {
-        state.pos = oldPos;
+        state2.pos = oldPos;
         return false;
       }
       href = ref.href;
       title = ref.title;
     }
     if (!silent) {
-      state.pos = labelStart;
-      state.posMax = labelEnd;
+      state2.pos = labelStart;
+      state2.posMax = labelEnd;
       if (isImage) {
-        state.push({
+        state2.push({
           type: "image",
           src: href,
           title,
-          alt: state.src.substr(labelStart, labelEnd - labelStart),
-          level: state.level
+          alt: state2.src.substr(labelStart, labelEnd - labelStart),
+          level: state2.level
         });
       } else {
-        state.push({
+        state2.push({
           type: "link_open",
           href,
           title,
-          level: state.level++
+          level: state2.level++
         });
-        state.linkLevel++;
-        state.parser.tokenize(state);
-        state.linkLevel--;
-        state.push({ type: "link_close", level: --state.level });
+        state2.linkLevel++;
+        state2.parser.tokenize(state2);
+        state2.linkLevel--;
+        state2.push({ type: "link_close", level: --state2.level });
       }
     }
-    state.pos = pos;
-    state.posMax = max;
+    state2.pos = pos;
+    state2.posMax = max;
     return true;
   }
-  function footnote_inline(state, silent) {
-    var labelStart, labelEnd, footnoteId, oldLength, max = state.posMax, start = state.pos;
+  function footnote_inline(state2, silent) {
+    var labelStart, labelEnd, footnoteId, oldLength, max = state2.posMax, start = state2.pos;
     if (start + 2 >= max) {
       return false;
     }
-    if (state.src.charCodeAt(start) !== 94) {
+    if (state2.src.charCodeAt(start) !== 94) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 91) {
+    if (state2.src.charCodeAt(start + 1) !== 91) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
     labelStart = start + 2;
-    labelEnd = parseLinkLabel(state, start + 1);
+    labelEnd = parseLinkLabel(state2, start + 1);
     if (labelEnd < 0) {
       return false;
     }
     if (!silent) {
-      if (!state.env.footnotes) {
-        state.env.footnotes = {};
+      if (!state2.env.footnotes) {
+        state2.env.footnotes = {};
       }
-      if (!state.env.footnotes.list) {
-        state.env.footnotes.list = [];
+      if (!state2.env.footnotes.list) {
+        state2.env.footnotes.list = [];
       }
-      footnoteId = state.env.footnotes.list.length;
-      state.pos = labelStart;
-      state.posMax = labelEnd;
-      state.push({
+      footnoteId = state2.env.footnotes.list.length;
+      state2.pos = labelStart;
+      state2.posMax = labelEnd;
+      state2.push({
         type: "footnote_ref",
         id: footnoteId,
-        level: state.level
+        level: state2.level
       });
-      state.linkLevel++;
-      oldLength = state.tokens.length;
-      state.parser.tokenize(state);
-      state.env.footnotes.list[footnoteId] = { tokens: state.tokens.splice(oldLength) };
-      state.linkLevel--;
+      state2.linkLevel++;
+      oldLength = state2.tokens.length;
+      state2.parser.tokenize(state2);
+      state2.env.footnotes.list[footnoteId] = { tokens: state2.tokens.splice(oldLength) };
+      state2.linkLevel--;
     }
-    state.pos = labelEnd + 1;
-    state.posMax = max;
+    state2.pos = labelEnd + 1;
+    state2.posMax = max;
     return true;
   }
-  function footnote_ref(state, silent) {
-    var label, pos, footnoteId, footnoteSubId, max = state.posMax, start = state.pos;
+  function footnote_ref(state2, silent) {
+    var label, pos, footnoteId, footnoteSubId, max = state2.posMax, start = state2.pos;
     if (start + 3 > max) {
       return false;
     }
-    if (!state.env.footnotes || !state.env.footnotes.refs) {
+    if (!state2.env.footnotes || !state2.env.footnotes.refs) {
       return false;
     }
-    if (state.src.charCodeAt(start) !== 91) {
+    if (state2.src.charCodeAt(start) !== 91) {
       return false;
     }
-    if (state.src.charCodeAt(start + 1) !== 94) {
+    if (state2.src.charCodeAt(start + 1) !== 94) {
       return false;
     }
-    if (state.level >= state.options.maxNesting) {
+    if (state2.level >= state2.options.maxNesting) {
       return false;
     }
     for (pos = start + 2; pos < max; pos++) {
-      if (state.src.charCodeAt(pos) === 32) {
+      if (state2.src.charCodeAt(pos) === 32) {
         return false;
       }
-      if (state.src.charCodeAt(pos) === 10) {
+      if (state2.src.charCodeAt(pos) === 10) {
         return false;
       }
-      if (state.src.charCodeAt(pos) === 93) {
+      if (state2.src.charCodeAt(pos) === 93) {
         break;
       }
     }
@@ -19387,32 +19387,32 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
     pos++;
-    label = state.src.slice(start + 2, pos - 1);
-    if (typeof state.env.footnotes.refs[":" + label] === "undefined") {
+    label = state2.src.slice(start + 2, pos - 1);
+    if (typeof state2.env.footnotes.refs[":" + label] === "undefined") {
       return false;
     }
     if (!silent) {
-      if (!state.env.footnotes.list) {
-        state.env.footnotes.list = [];
+      if (!state2.env.footnotes.list) {
+        state2.env.footnotes.list = [];
       }
-      if (state.env.footnotes.refs[":" + label] < 0) {
-        footnoteId = state.env.footnotes.list.length;
-        state.env.footnotes.list[footnoteId] = { label, count: 0 };
-        state.env.footnotes.refs[":" + label] = footnoteId;
+      if (state2.env.footnotes.refs[":" + label] < 0) {
+        footnoteId = state2.env.footnotes.list.length;
+        state2.env.footnotes.list[footnoteId] = { label, count: 0 };
+        state2.env.footnotes.refs[":" + label] = footnoteId;
       } else {
-        footnoteId = state.env.footnotes.refs[":" + label];
+        footnoteId = state2.env.footnotes.refs[":" + label];
       }
-      footnoteSubId = state.env.footnotes.list[footnoteId].count;
-      state.env.footnotes.list[footnoteId].count++;
-      state.push({
+      footnoteSubId = state2.env.footnotes.list[footnoteId].count;
+      state2.env.footnotes.list[footnoteId].count++;
+      state2.push({
         type: "footnote_ref",
         id: footnoteId,
         subId: footnoteSubId,
-        level: state.level
+        level: state2.level
       });
     }
-    state.pos = pos;
-    state.posMax = max;
+    state2.pos = pos;
+    state2.posMax = max;
     return true;
   }
   var url_schemas = [
@@ -19583,12 +19583,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   ];
   var EMAIL_RE = /^<([a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>/;
   var AUTOLINK_RE = /^<([a-zA-Z.\-]{1,25}):([^<>\x00-\x20]*)>/;
-  function autolink(state, silent) {
-    var tail, linkMatch, emailMatch, url, fullUrl, pos = state.pos;
-    if (state.src.charCodeAt(pos) !== 60) {
+  function autolink(state2, silent) {
+    var tail, linkMatch, emailMatch, url, fullUrl, pos = state2.pos;
+    if (state2.src.charCodeAt(pos) !== 60) {
       return false;
     }
-    tail = state.src.slice(pos);
+    tail = state2.src.slice(pos);
     if (tail.indexOf(">") < 0) {
       return false;
     }
@@ -19599,46 +19599,46 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       url = linkMatch[0].slice(1, -1);
       fullUrl = normalizeLink(url);
-      if (!state.parser.validateLink(url)) {
+      if (!state2.parser.validateLink(url)) {
         return false;
       }
       if (!silent) {
-        state.push({
+        state2.push({
           type: "link_open",
           href: fullUrl,
-          level: state.level
+          level: state2.level
         });
-        state.push({
+        state2.push({
           type: "text",
           content: url,
-          level: state.level + 1
+          level: state2.level + 1
         });
-        state.push({ type: "link_close", level: state.level });
+        state2.push({ type: "link_close", level: state2.level });
       }
-      state.pos += linkMatch[0].length;
+      state2.pos += linkMatch[0].length;
       return true;
     }
     emailMatch = tail.match(EMAIL_RE);
     if (emailMatch) {
       url = emailMatch[0].slice(1, -1);
       fullUrl = normalizeLink("mailto:" + url);
-      if (!state.parser.validateLink(fullUrl)) {
+      if (!state2.parser.validateLink(fullUrl)) {
         return false;
       }
       if (!silent) {
-        state.push({
+        state2.push({
           type: "link_open",
           href: fullUrl,
-          level: state.level
+          level: state2.level
         });
-        state.push({
+        state2.push({
           type: "text",
           content: url,
-          level: state.level + 1
+          level: state2.level + 1
         });
-        state.push({ type: "link_close", level: state.level });
+        state2.push({ type: "link_close", level: state2.level });
       }
-      state.pos += emailMatch[0].length;
+      state2.pos += emailMatch[0].length;
       return true;
     }
     return false;
@@ -19672,70 +19672,70 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var lc = ch | 32;
     return lc >= 97 && lc <= 122;
   }
-  function htmltag(state, silent) {
-    var ch, match, max, pos = state.pos;
-    if (!state.options.html) {
+  function htmltag(state2, silent) {
+    var ch, match, max, pos = state2.pos;
+    if (!state2.options.html) {
       return false;
     }
-    max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 60 || pos + 2 >= max) {
+    max = state2.posMax;
+    if (state2.src.charCodeAt(pos) !== 60 || pos + 2 >= max) {
       return false;
     }
-    ch = state.src.charCodeAt(pos + 1);
+    ch = state2.src.charCodeAt(pos + 1);
     if (ch !== 33 && ch !== 63 && ch !== 47 && !isLetter$2(ch)) {
       return false;
     }
-    match = state.src.slice(pos).match(HTML_TAG_RE);
+    match = state2.src.slice(pos).match(HTML_TAG_RE);
     if (!match) {
       return false;
     }
     if (!silent) {
-      state.push({
+      state2.push({
         type: "htmltag",
-        content: state.src.slice(pos, pos + match[0].length),
-        level: state.level
+        content: state2.src.slice(pos, pos + match[0].length),
+        level: state2.level
       });
     }
-    state.pos += match[0].length;
+    state2.pos += match[0].length;
     return true;
   }
   var DIGITAL_RE = /^&#((?:x[a-f0-9]{1,8}|[0-9]{1,8}));/i;
   var NAMED_RE = /^&([a-z][a-z0-9]{1,31});/i;
-  function entity(state, silent) {
-    var ch, code2, match, pos = state.pos, max = state.posMax;
-    if (state.src.charCodeAt(pos) !== 38) {
+  function entity(state2, silent) {
+    var ch, code2, match, pos = state2.pos, max = state2.posMax;
+    if (state2.src.charCodeAt(pos) !== 38) {
       return false;
     }
     if (pos + 1 < max) {
-      ch = state.src.charCodeAt(pos + 1);
+      ch = state2.src.charCodeAt(pos + 1);
       if (ch === 35) {
-        match = state.src.slice(pos).match(DIGITAL_RE);
+        match = state2.src.slice(pos).match(DIGITAL_RE);
         if (match) {
           if (!silent) {
             code2 = match[1][0].toLowerCase() === "x" ? parseInt(match[1].slice(1), 16) : parseInt(match[1], 10);
-            state.pending += isValidEntityCode(code2) ? fromCodePoint(code2) : fromCodePoint(65533);
+            state2.pending += isValidEntityCode(code2) ? fromCodePoint(code2) : fromCodePoint(65533);
           }
-          state.pos += match[0].length;
+          state2.pos += match[0].length;
           return true;
         }
       } else {
-        match = state.src.slice(pos).match(NAMED_RE);
+        match = state2.src.slice(pos).match(NAMED_RE);
         if (match) {
           var decoded = decodeEntity(match[1]);
           if (match[1] !== decoded) {
             if (!silent) {
-              state.pending += decoded;
+              state2.pending += decoded;
             }
-            state.pos += match[0].length;
+            state2.pos += match[0].length;
             return true;
           }
         }
       }
     }
     if (!silent) {
-      state.pending += "&";
+      state2.pending += "&";
     }
-    state.pos++;
+    state2.pos++;
     return true;
   }
   var _rules$2 = [
@@ -19763,51 +19763,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     this.validateLink = validateLink;
   }
-  ParserInline.prototype.skipToken = function(state) {
+  ParserInline.prototype.skipToken = function(state2) {
     var rules2 = this.ruler.getRules("");
     var len = rules2.length;
-    var pos = state.pos;
+    var pos = state2.pos;
     var i, cached_pos;
-    if ((cached_pos = state.cacheGet(pos)) > 0) {
-      state.pos = cached_pos;
+    if ((cached_pos = state2.cacheGet(pos)) > 0) {
+      state2.pos = cached_pos;
       return;
     }
     for (i = 0; i < len; i++) {
-      if (rules2[i](state, true)) {
-        state.cacheSet(pos, state.pos);
+      if (rules2[i](state2, true)) {
+        state2.cacheSet(pos, state2.pos);
         return;
       }
     }
-    state.pos++;
-    state.cacheSet(pos, state.pos);
+    state2.pos++;
+    state2.cacheSet(pos, state2.pos);
   };
-  ParserInline.prototype.tokenize = function(state) {
+  ParserInline.prototype.tokenize = function(state2) {
     var rules2 = this.ruler.getRules("");
     var len = rules2.length;
-    var end2 = state.posMax;
+    var end2 = state2.posMax;
     var ok, i;
-    while (state.pos < end2) {
+    while (state2.pos < end2) {
       for (i = 0; i < len; i++) {
-        ok = rules2[i](state, false);
+        ok = rules2[i](state2, false);
         if (ok) {
           break;
         }
       }
       if (ok) {
-        if (state.pos >= end2) {
+        if (state2.pos >= end2) {
           break;
         }
         continue;
       }
-      state.pending += state.src[state.pos++];
+      state2.pending += state2.src[state2.pos++];
     }
-    if (state.pending) {
-      state.pushPending();
+    if (state2.pending) {
+      state2.pushPending();
     }
   };
   ParserInline.prototype.parse = function(str, options, env, outTokens) {
-    var state = new StateInline(str, this, options, env, outTokens);
-    this.tokenize(state);
+    var state2 = new StateInline(str, this, options, env, outTokens);
+    this.tokenize(state2);
   };
   function validateLink(url) {
     var BAD_PROTOCOLS = ["vbscript", "javascript", "file", "data"];
@@ -20044,19 +20044,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return this;
   };
   Remarkable.prototype.parse = function(str, env) {
-    var state = new StateCore(this, str, env);
-    this.core.process(state);
-    return state.tokens;
+    var state2 = new StateCore(this, str, env);
+    this.core.process(state2);
+    return state2.tokens;
   };
   Remarkable.prototype.render = function(str, env) {
     env = env || {};
     return this.renderer.render(this.parse(str, env), this.options, env);
   };
   Remarkable.prototype.parseInline = function(str, env) {
-    var state = new StateCore(this, str, env);
-    state.inlineMode = true;
-    this.core.process(state);
-    return state.tokens;
+    var state2 = new StateCore(this, str, env);
+    state2.inlineMode = true;
+    this.core.process(state2);
+    return state2.tokens;
   };
   Remarkable.prototype.renderInline = function(str, env) {
     env = env || {};
@@ -20493,16 +20493,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var s = new c2();
   var m = () => {
     const i = "transform webkitTransform mozTransform oTransform msTransform".split(" ");
-    let t2, e = 0;
+    let t2, e2 = 0;
     for (; t2 === void 0; )
-      t2 = document.createElement("div").style[i[e]] !== void 0 ? i[e] : void 0, e += 1;
+      t2 = document.createElement("div").style[i[e2]] !== void 0 ? i[e2] : void 0, e2 += 1;
     return t2;
   };
   var r2 = m();
   var p = (i) => i.tagName.toLowerCase() !== "img" && i.tagName.toLowerCase() !== "picture" ? true : !(!i || !i.complete || typeof i.naturalWidth < "u" && i.naturalWidth === 0);
   var f = class {
-    constructor(t2, e, n = false) {
-      this.element = t2, this.elementContainer = t2, this.settings = e, this.isVisible = true, this.isInit = false, this.oldTranslateValue = -1, this.prefersReducedMotion = n, this.init = this.init.bind(this), this.customWrapper = this.settings.customWrapper && this.element.closest(this.settings.customWrapper) ? this.element.closest(this.settings.customWrapper) : null, !this.prefersReducedMotion && (p(t2) ? this.init() : this.element.addEventListener("load", () => {
+    constructor(t2, e2, n = false) {
+      this.element = t2, this.elementContainer = t2, this.settings = e2, this.isVisible = true, this.isInit = false, this.oldTranslateValue = -1, this.prefersReducedMotion = n, this.init = this.init.bind(this), this.customWrapper = this.settings.customWrapper && this.element.closest(this.settings.customWrapper) ? this.element.closest(this.settings.customWrapper) : null, !this.prefersReducedMotion && (p(t2) ? this.init() : this.element.addEventListener("load", () => {
         setTimeout(() => {
           this.init(true);
         }, 50);
@@ -20517,8 +20517,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     // wrap the element into a .simpleParallax div and apply overflow hidden to hide the image excedant (result of the scale)
     wrapElement() {
       const t2 = this.element.closest("picture") || this.element;
-      let e = this.customWrapper || document.createElement("div");
-      e.classList.add("simpleParallax"), e.style.overflow = "hidden", this.customWrapper || (t2.parentNode.insertBefore(e, t2), e.appendChild(t2)), this.elementContainer = e;
+      let e2 = this.customWrapper || document.createElement("div");
+      e2.classList.add("simpleParallax"), e2.style.overflow = "hidden", this.customWrapper || (t2.parentNode.insertBefore(e2, t2), e2.appendChild(t2)), this.elementContainer = e2;
     }
     // unwrap the element from .simpleParallax wrapper container
     unWrapElement() {
@@ -20541,16 +20541,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     getElementOffset() {
       const t2 = this.elementContainer.getBoundingClientRect();
       if (this.elementHeight = t2.height, this.elementTop = t2.top + s.positions.top, this.settings.customContainer) {
-        const e = this.settings.customContainer.getBoundingClientRect();
-        this.elementTop = t2.top - e.top + s.positions.top;
+        const e2 = this.settings.customContainer.getBoundingClientRect();
+        this.elementTop = t2.top - e2.top + s.positions.top;
       }
       this.elementBottom = this.elementHeight + this.elementTop;
     }
     // build the Threshold array to cater change for every pixel scrolled
     buildThresholdList() {
       const t2 = [];
-      for (let e = 1; e <= this.elementHeight; e++) {
-        const n = e / this.elementHeight;
+      for (let e2 = 1; e2 <= this.elementHeight; e2++) {
+        const n = e2 / this.elementHeight;
         t2.push(n);
       }
       return t2;
@@ -20568,8 +20568,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     // Intersection Observer Callback to set the element at visible state or not
     intersectionObserverCallback(t2) {
-      t2.forEach((e) => {
-        e.isIntersecting ? this.isVisible = true : this.isVisible = false;
+      t2.forEach((e2) => {
+        e2.isIntersecting ? this.isVisible = true : this.isVisible = false;
       });
     }
     // check if the current element is visible in the Viewport
@@ -20589,8 +20589,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     // animate the image
     animate() {
-      let t2 = 0, e = 0, n;
-      (this.settings.orientation.includes("left") || this.settings.orientation.includes("right")) && (e = `${this.settings.orientation.includes("left") ? this.translateValue * -1 : this.translateValue}px`), (this.settings.orientation.includes("up") || this.settings.orientation.includes("down")) && (t2 = `${this.settings.orientation.includes("up") ? this.translateValue * -1 : this.translateValue}px`), this.settings.overflow === false ? n = `translate3d(${e}, ${t2}, 0) scale(${this.settings.scale})` : n = `translate3d(${e}, ${t2}, 0)`, this.element.style[r2] = n;
+      let t2 = 0, e2 = 0, n;
+      (this.settings.orientation.includes("left") || this.settings.orientation.includes("right")) && (e2 = `${this.settings.orientation.includes("left") ? this.translateValue * -1 : this.translateValue}px`), (this.settings.orientation.includes("up") || this.settings.orientation.includes("down")) && (t2 = `${this.settings.orientation.includes("up") ? this.translateValue * -1 : this.translateValue}px`), this.settings.overflow === false ? n = `translate3d(${e2}, ${t2}, 0) scale(${this.settings.scale})` : n = `translate3d(${e2}, ${t2}, 0)`, this.element.style[r2] = n;
     }
   };
   var a2 = false;
@@ -20598,7 +20598,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var l;
   var u;
   var g = class {
-    constructor(t2, e) {
+    constructor(t2, e2) {
       t2 && d() && (this.prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches, this.reducedMotionMediaQuery = window.matchMedia(
@@ -20615,7 +20615,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         customContainer: "",
         customWrapper: "",
         maxTransition: 0
-      }, this.settings = Object.assign(this.defaults, e), this.settings.customContainer && ([this.customContainer] = h(this.settings.customContainer)), this.lastPosition = -1, this.resizeIsDone = this.resizeIsDone.bind(this), this.refresh = this.refresh.bind(this), this.proceedRequestAnimationFrame = this.proceedRequestAnimationFrame.bind(this), this.init()));
+      }, this.settings = Object.assign(this.defaults, e2), this.settings.customContainer && ([this.customContainer] = h(this.settings.customContainer)), this.lastPosition = -1, this.resizeIsDone = this.resizeIsDone.bind(this), this.refresh = this.refresh.bind(this), this.proceedRequestAnimationFrame = this.proceedRequestAnimationFrame.bind(this), this.init()));
     }
     // Handle changes to reduced motion preference
     handleReducedMotionChange(t2) {
@@ -20649,8 +20649,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     // proceed the element
     proceedElement(t2) {
-      let e = false;
-      this.customContainer ? e = t2.checkIfVisible() : e = t2.isVisible, e && t2.getTranslateValue() && t2.animate();
+      let e2 = false;
+      this.customContainer ? e2 = t2.checkIfVisible() : e2 = t2.isVisible, e2 && t2.getTranslateValue() && t2.animate();
     }
     refresh() {
       s.setViewportAll(this.customContainer), o2.forEach((t2) => {
@@ -20663,8 +20663,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.handleReducedMotionChange
       );
       const t2 = [];
-      o2 = o2.filter((e) => this.elements && this.elements.includes(e.element) ? (t2.push(e), false) : e), t2.forEach((e) => {
-        e.unSetStyle(), this.settings && this.settings.overflow === false && e.unWrapElement();
+      o2 = o2.filter((e2) => this.elements && this.elements.includes(e2.element) ? (t2.push(e2), false) : e2), t2.forEach((e2) => {
+        e2.unSetStyle(), this.settings && this.settings.overflow === false && e2.unWrapElement();
       }), o2.length || (window.cancelAnimationFrame(l), window.removeEventListener("resize", this.refresh), a2 = false);
     }
   };
@@ -22992,6 +22992,4932 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("webinar-invitation", WebinarInvitation);
 
+  // src/app/components/cj-forms/src/components/countryCodes.json
+  var countryCodes_default = {
+    codes: [
+      {
+        name: "Afghanistan",
+        dial_code: "+93",
+        code: "AF"
+      },
+      {
+        name: "Aland Islands",
+        dial_code: "+358",
+        code: "AX"
+      },
+      {
+        name: "Albania",
+        dial_code: "+355",
+        code: "AL"
+      },
+      {
+        name: "Algeria",
+        dial_code: "+213",
+        code: "DZ"
+      },
+      {
+        name: "AmericanSamoa",
+        dial_code: "+1684",
+        code: "AS"
+      },
+      {
+        name: "Andorra",
+        dial_code: "+376",
+        code: "AD"
+      },
+      {
+        name: "Angola",
+        dial_code: "+244",
+        code: "AO"
+      },
+      {
+        name: "Anguilla",
+        dial_code: "+1264",
+        code: "AI"
+      },
+      {
+        name: "Antarctica",
+        dial_code: "+672",
+        code: "AQ"
+      },
+      {
+        name: "Antigua and Barbuda",
+        dial_code: "+1268",
+        code: "AG"
+      },
+      {
+        name: "Argentina",
+        dial_code: "+54",
+        code: "AR"
+      },
+      {
+        name: "Armenia",
+        dial_code: "+374",
+        code: "AM"
+      },
+      {
+        name: "Aruba",
+        dial_code: "+297",
+        code: "AW"
+      },
+      {
+        name: "Australia",
+        dial_code: "+61",
+        code: "AU"
+      },
+      {
+        name: "Austria",
+        dial_code: "+43",
+        code: "AT"
+      },
+      {
+        name: "Azerbaijan",
+        dial_code: "+994",
+        code: "AZ"
+      },
+      {
+        name: "Bahamas",
+        dial_code: "+1242",
+        code: "BS"
+      },
+      {
+        name: "Bahrain",
+        dial_code: "+973",
+        code: "BH"
+      },
+      {
+        name: "Bangladesh",
+        dial_code: "+880",
+        code: "BD"
+      },
+      {
+        name: "Barbados",
+        dial_code: "+1246",
+        code: "BB"
+      },
+      {
+        name: "Belarus",
+        dial_code: "+375",
+        code: "BY"
+      },
+      {
+        name: "Belgium",
+        dial_code: "+32",
+        code: "BE"
+      },
+      {
+        name: "Belize",
+        dial_code: "+501",
+        code: "BZ"
+      },
+      {
+        name: "Benin",
+        dial_code: "+229",
+        code: "BJ"
+      },
+      {
+        name: "Bermuda",
+        dial_code: "+1441",
+        code: "BM"
+      },
+      {
+        name: "Bhutan",
+        dial_code: "+975",
+        code: "BT"
+      },
+      {
+        name: "Bolivia, Plurinational State of",
+        dial_code: "+591",
+        code: "BO"
+      },
+      {
+        name: "Bosnia and Herzegovina",
+        dial_code: "+387",
+        code: "BA"
+      },
+      {
+        name: "Botswana",
+        dial_code: "+267",
+        code: "BW"
+      },
+      {
+        name: "Brazil",
+        dial_code: "+55",
+        code: "BR"
+      },
+      {
+        name: "British Indian Ocean Territory",
+        dial_code: "+246",
+        code: "IO"
+      },
+      {
+        name: "Brunei Darussalam",
+        dial_code: "+673",
+        code: "BN"
+      },
+      {
+        name: "Bulgaria",
+        dial_code: "+359",
+        code: "BG"
+      },
+      {
+        name: "Burkina Faso",
+        dial_code: "+226",
+        code: "BF"
+      },
+      {
+        name: "Burundi",
+        dial_code: "+257",
+        code: "BI"
+      },
+      {
+        name: "Cambodia",
+        dial_code: "+855",
+        code: "KH"
+      },
+      {
+        name: "Cameroon",
+        dial_code: "+237",
+        code: "CM"
+      },
+      {
+        name: "Canada",
+        dial_code: "+1",
+        code: "CA"
+      },
+      {
+        name: "Cape Verde",
+        dial_code: "+238",
+        code: "CV"
+      },
+      {
+        name: "Cayman Islands",
+        dial_code: "+ 345",
+        code: "KY"
+      },
+      {
+        name: "Central African Republic",
+        dial_code: "+236",
+        code: "CF"
+      },
+      {
+        name: "Chad",
+        dial_code: "+235",
+        code: "TD"
+      },
+      {
+        name: "Chile",
+        dial_code: "+56",
+        code: "CL"
+      },
+      {
+        name: "China",
+        dial_code: "+86",
+        code: "CN"
+      },
+      {
+        name: "Christmas Island",
+        dial_code: "+61",
+        code: "CX"
+      },
+      {
+        name: "Cocos (Keeling) Islands",
+        dial_code: "+61",
+        code: "CC"
+      },
+      {
+        name: "Colombia",
+        dial_code: "+57",
+        code: "CO"
+      },
+      {
+        name: "Comoros",
+        dial_code: "+269",
+        code: "KM"
+      },
+      {
+        name: "Congo",
+        dial_code: "+242",
+        code: "CG"
+      },
+      {
+        name: "Congo, The Democratic Republic of the Congo",
+        dial_code: "+243",
+        code: "CD"
+      },
+      {
+        name: "Cook Islands",
+        dial_code: "+682",
+        code: "CK"
+      },
+      {
+        name: "Costa Rica",
+        dial_code: "+506",
+        code: "CR"
+      },
+      {
+        name: "Cote d'Ivoire",
+        dial_code: "+225",
+        code: "CI"
+      },
+      {
+        name: "Croatia",
+        dial_code: "+385",
+        code: "HR"
+      },
+      {
+        name: "Cuba",
+        dial_code: "+53",
+        code: "CU"
+      },
+      {
+        name: "Cyprus",
+        dial_code: "+357",
+        code: "CY"
+      },
+      {
+        name: "Czech Republic",
+        dial_code: "+420",
+        code: "CZ"
+      },
+      {
+        name: "Denmark",
+        dial_code: "+45",
+        code: "DK"
+      },
+      {
+        name: "Djibouti",
+        dial_code: "+253",
+        code: "DJ"
+      },
+      {
+        name: "Dominica",
+        dial_code: "+1767",
+        code: "DM"
+      },
+      {
+        name: "Dominican Republic",
+        dial_code: "+1849",
+        code: "DO"
+      },
+      {
+        name: "Ecuador",
+        dial_code: "+593",
+        code: "EC"
+      },
+      {
+        name: "Egypt",
+        dial_code: "+20",
+        code: "EG"
+      },
+      {
+        name: "El Salvador",
+        dial_code: "+503",
+        code: "SV"
+      },
+      {
+        name: "Equatorial Guinea",
+        dial_code: "+240",
+        code: "GQ"
+      },
+      {
+        name: "Eritrea",
+        dial_code: "+291",
+        code: "ER"
+      },
+      {
+        name: "Estonia",
+        dial_code: "+372",
+        code: "EE"
+      },
+      {
+        name: "Ethiopia",
+        dial_code: "+251",
+        code: "ET"
+      },
+      {
+        name: "Falkland Islands (Malvinas)",
+        dial_code: "+500",
+        code: "FK"
+      },
+      {
+        name: "Faroe Islands",
+        dial_code: "+298",
+        code: "FO"
+      },
+      {
+        name: "Fiji",
+        dial_code: "+679",
+        code: "FJ"
+      },
+      {
+        name: "Finland",
+        dial_code: "+358",
+        code: "FI"
+      },
+      {
+        name: "France",
+        dial_code: "+33",
+        code: "FR"
+      },
+      {
+        name: "French Guiana",
+        dial_code: "+594",
+        code: "GF"
+      },
+      {
+        name: "French Polynesia",
+        dial_code: "+689",
+        code: "PF"
+      },
+      {
+        name: "Gabon",
+        dial_code: "+241",
+        code: "GA"
+      },
+      {
+        name: "Gambia",
+        dial_code: "+220",
+        code: "GM"
+      },
+      {
+        name: "Georgia",
+        dial_code: "+995",
+        code: "GE"
+      },
+      {
+        name: "Germany",
+        dial_code: "+49",
+        code: "DE"
+      },
+      {
+        name: "Ghana",
+        dial_code: "+233",
+        code: "GH"
+      },
+      {
+        name: "Gibraltar",
+        dial_code: "+350",
+        code: "GI"
+      },
+      {
+        name: "Greece",
+        dial_code: "+30",
+        code: "GR"
+      },
+      {
+        name: "Greenland",
+        dial_code: "+299",
+        code: "GL"
+      },
+      {
+        name: "Grenada",
+        dial_code: "+1473",
+        code: "GD"
+      },
+      {
+        name: "Guadeloupe",
+        dial_code: "+590",
+        code: "GP"
+      },
+      {
+        name: "Guam",
+        dial_code: "+1671",
+        code: "GU"
+      },
+      {
+        name: "Guatemala",
+        dial_code: "+502",
+        code: "GT"
+      },
+      {
+        name: "Guernsey",
+        dial_code: "+44",
+        code: "GG"
+      },
+      {
+        name: "Guinea",
+        dial_code: "+224",
+        code: "GN"
+      },
+      {
+        name: "Guinea-Bissau",
+        dial_code: "+245",
+        code: "GW"
+      },
+      {
+        name: "Guyana",
+        dial_code: "+595",
+        code: "GY"
+      },
+      {
+        name: "Haiti",
+        dial_code: "+509",
+        code: "HT"
+      },
+      {
+        name: "Holy See (Vatican City State)",
+        dial_code: "+379",
+        code: "VA"
+      },
+      {
+        name: "Honduras",
+        dial_code: "+504",
+        code: "HN"
+      },
+      {
+        name: "Hong Kong",
+        dial_code: "+852",
+        code: "HK"
+      },
+      {
+        name: "Hungary",
+        dial_code: "+36",
+        code: "HU"
+      },
+      {
+        name: "Iceland",
+        dial_code: "+354",
+        code: "IS"
+      },
+      {
+        name: "India",
+        dial_code: "+91",
+        code: "IN"
+      },
+      {
+        name: "Indonesia",
+        dial_code: "+62",
+        code: "ID"
+      },
+      {
+        name: "Iran, Islamic Republic of Persian Gulf",
+        dial_code: "+98",
+        code: "IR"
+      },
+      {
+        name: "Iraq",
+        dial_code: "+964",
+        code: "IQ"
+      },
+      {
+        name: "Ireland",
+        dial_code: "+353",
+        code: "IE"
+      },
+      {
+        name: "Isle of Man",
+        dial_code: "+44",
+        code: "IM"
+      },
+      {
+        name: "Israel",
+        dial_code: "+972",
+        code: "IL"
+      },
+      {
+        name: "Italy",
+        dial_code: "+39",
+        code: "IT"
+      },
+      {
+        name: "Jamaica",
+        dial_code: "+1876",
+        code: "JM"
+      },
+      {
+        name: "Japan",
+        dial_code: "+81",
+        code: "JP"
+      },
+      {
+        name: "Jersey",
+        dial_code: "+44",
+        code: "JE"
+      },
+      {
+        name: "Jordan",
+        dial_code: "+962",
+        code: "JO"
+      },
+      {
+        name: "Kazakhstan",
+        dial_code: "+77",
+        code: "KZ"
+      },
+      {
+        name: "Kenya",
+        dial_code: "+254",
+        code: "KE"
+      },
+      {
+        name: "Kiribati",
+        dial_code: "+686",
+        code: "KI"
+      },
+      {
+        name: "Korea, Democratic People's Republic of Korea",
+        dial_code: "+850",
+        code: "KP"
+      },
+      {
+        name: "Korea, Republic of South Korea",
+        dial_code: "+82",
+        code: "KR"
+      },
+      {
+        name: "Kuwait",
+        dial_code: "+965",
+        code: "KW"
+      },
+      {
+        name: "Kyrgyzstan",
+        dial_code: "+996",
+        code: "KG"
+      },
+      {
+        name: "Laos",
+        dial_code: "+856",
+        code: "LA"
+      },
+      {
+        name: "Latvia",
+        dial_code: "+371",
+        code: "LV"
+      },
+      {
+        name: "Lebanon",
+        dial_code: "+961",
+        code: "LB"
+      },
+      {
+        name: "Lesotho",
+        dial_code: "+266",
+        code: "LS"
+      },
+      {
+        name: "Liberia",
+        dial_code: "+231",
+        code: "LR"
+      },
+      {
+        name: "Libyan Arab Jamahiriya",
+        dial_code: "+218",
+        code: "LY"
+      },
+      {
+        name: "Liechtenstein",
+        dial_code: "+423",
+        code: "LI"
+      },
+      {
+        name: "Lithuania",
+        dial_code: "+370",
+        code: "LT"
+      },
+      {
+        name: "Luxembourg",
+        dial_code: "+352",
+        code: "LU"
+      },
+      {
+        name: "Macao",
+        dial_code: "+853",
+        code: "MO"
+      },
+      {
+        name: "Macedonia",
+        dial_code: "+389",
+        code: "MK"
+      },
+      {
+        name: "Madagascar",
+        dial_code: "+261",
+        code: "MG"
+      },
+      {
+        name: "Malawi",
+        dial_code: "+265",
+        code: "MW"
+      },
+      {
+        name: "Malaysia",
+        dial_code: "+60",
+        code: "MY"
+      },
+      {
+        name: "Maldives",
+        dial_code: "+960",
+        code: "MV"
+      },
+      {
+        name: "Mali",
+        dial_code: "+223",
+        code: "ML"
+      },
+      {
+        name: "Malta",
+        dial_code: "+356",
+        code: "MT"
+      },
+      {
+        name: "Marshall Islands",
+        dial_code: "+692",
+        code: "MH"
+      },
+      {
+        name: "Martinique",
+        dial_code: "+596",
+        code: "MQ"
+      },
+      {
+        name: "Mauritania",
+        dial_code: "+222",
+        code: "MR"
+      },
+      {
+        name: "Mauritius",
+        dial_code: "+230",
+        code: "MU"
+      },
+      {
+        name: "Mayotte",
+        dial_code: "+262",
+        code: "YT"
+      },
+      {
+        name: "Mexico",
+        dial_code: "+52",
+        code: "MX"
+      },
+      {
+        name: "Micronesia, Federated States of Micronesia",
+        dial_code: "+691",
+        code: "FM"
+      },
+      {
+        name: "Moldova",
+        dial_code: "+373",
+        code: "MD"
+      },
+      {
+        name: "Monaco",
+        dial_code: "+377",
+        code: "MC"
+      },
+      {
+        name: "Mongolia",
+        dial_code: "+976",
+        code: "MN"
+      },
+      {
+        name: "Montenegro",
+        dial_code: "+382",
+        code: "ME"
+      },
+      {
+        name: "Montserrat",
+        dial_code: "+1664",
+        code: "MS"
+      },
+      {
+        name: "Morocco",
+        dial_code: "+212",
+        code: "MA"
+      },
+      {
+        name: "Mozambique",
+        dial_code: "+258",
+        code: "MZ"
+      },
+      {
+        name: "Myanmar",
+        dial_code: "+95",
+        code: "MM"
+      },
+      {
+        name: "Namibia",
+        dial_code: "+264",
+        code: "NA"
+      },
+      {
+        name: "Nauru",
+        dial_code: "+674",
+        code: "NR"
+      },
+      {
+        name: "Nepal",
+        dial_code: "+977",
+        code: "NP"
+      },
+      {
+        name: "Netherlands",
+        dial_code: "+31",
+        code: "NL"
+      },
+      {
+        name: "Netherlands Antilles",
+        dial_code: "+599",
+        code: "AN"
+      },
+      {
+        name: "New Caledonia",
+        dial_code: "+687",
+        code: "NC"
+      },
+      {
+        name: "New Zealand",
+        dial_code: "+64",
+        code: "NZ"
+      },
+      {
+        name: "Nicaragua",
+        dial_code: "+505",
+        code: "NI"
+      },
+      {
+        name: "Niger",
+        dial_code: "+227",
+        code: "NE"
+      },
+      {
+        name: "Nigeria",
+        dial_code: "+234",
+        code: "NG"
+      },
+      {
+        name: "Niue",
+        dial_code: "+683",
+        code: "NU"
+      },
+      {
+        name: "Norfolk Island",
+        dial_code: "+672",
+        code: "NF"
+      },
+      {
+        name: "Northern Mariana Islands",
+        dial_code: "+1670",
+        code: "MP"
+      },
+      {
+        name: "Norway",
+        dial_code: "+47",
+        code: "NO"
+      },
+      {
+        name: "Oman",
+        dial_code: "+968",
+        code: "OM"
+      },
+      {
+        name: "Pakistan",
+        dial_code: "+92",
+        code: "PK"
+      },
+      {
+        name: "Palau",
+        dial_code: "+680",
+        code: "PW"
+      },
+      {
+        name: "Palestinian Territory, Occupied",
+        dial_code: "+970",
+        code: "PS"
+      },
+      {
+        name: "Panama",
+        dial_code: "+507",
+        code: "PA"
+      },
+      {
+        name: "Papua New Guinea",
+        dial_code: "+675",
+        code: "PG"
+      },
+      {
+        name: "Paraguay",
+        dial_code: "+595",
+        code: "PY"
+      },
+      {
+        name: "Peru",
+        dial_code: "+51",
+        code: "PE"
+      },
+      {
+        name: "Philippines",
+        dial_code: "+63",
+        code: "PH"
+      },
+      {
+        name: "Pitcairn",
+        dial_code: "+872",
+        code: "PN"
+      },
+      {
+        name: "Poland",
+        dial_code: "+48",
+        code: "PL"
+      },
+      {
+        name: "Portugal",
+        dial_code: "+351",
+        code: "PT"
+      },
+      {
+        name: "Puerto Rico",
+        dial_code: "+1939",
+        code: "PR"
+      },
+      {
+        name: "Qatar",
+        dial_code: "+974",
+        code: "QA"
+      },
+      {
+        name: "Romania",
+        dial_code: "+40",
+        code: "RO"
+      },
+      {
+        name: "Russia",
+        dial_code: "+7",
+        code: "RU"
+      },
+      {
+        name: "Rwanda",
+        dial_code: "+250",
+        code: "RW"
+      },
+      {
+        name: "Reunion",
+        dial_code: "+262",
+        code: "RE"
+      },
+      {
+        name: "Saint Barthelemy",
+        dial_code: "+590",
+        code: "BL"
+      },
+      {
+        name: "Saint Helena, Ascension and Tristan Da Cunha",
+        dial_code: "+290",
+        code: "SH"
+      },
+      {
+        name: "Saint Kitts and Nevis",
+        dial_code: "+1869",
+        code: "KN"
+      },
+      {
+        name: "Saint Lucia",
+        dial_code: "+1758",
+        code: "LC"
+      },
+      {
+        name: "Saint Martin",
+        dial_code: "+590",
+        code: "MF"
+      },
+      {
+        name: "Saint Pierre and Miquelon",
+        dial_code: "+508",
+        code: "PM"
+      },
+      {
+        name: "Saint Vincent and the Grenadines",
+        dial_code: "+1784",
+        code: "VC"
+      },
+      {
+        name: "Samoa",
+        dial_code: "+685",
+        code: "WS"
+      },
+      {
+        name: "San Marino",
+        dial_code: "+378",
+        code: "SM"
+      },
+      {
+        name: "Sao Tome and Principe",
+        dial_code: "+239",
+        code: "ST"
+      },
+      {
+        name: "Saudi Arabia",
+        dial_code: "+966",
+        code: "SA"
+      },
+      {
+        name: "Senegal",
+        dial_code: "+221",
+        code: "SN"
+      },
+      {
+        name: "Serbia",
+        dial_code: "+381",
+        code: "RS"
+      },
+      {
+        name: "Seychelles",
+        dial_code: "+248",
+        code: "SC"
+      },
+      {
+        name: "Sierra Leone",
+        dial_code: "+232",
+        code: "SL"
+      },
+      {
+        name: "Singapore",
+        dial_code: "+65",
+        code: "SG"
+      },
+      {
+        name: "Slovakia",
+        dial_code: "+421",
+        code: "SK"
+      },
+      {
+        name: "Slovenia",
+        dial_code: "+386",
+        code: "SI"
+      },
+      {
+        name: "Solomon Islands",
+        dial_code: "+677",
+        code: "SB"
+      },
+      {
+        name: "Somalia",
+        dial_code: "+252",
+        code: "SO"
+      },
+      {
+        name: "South Africa",
+        dial_code: "+27",
+        code: "ZA"
+      },
+      {
+        name: "South Sudan",
+        dial_code: "+211",
+        code: "SS"
+      },
+      {
+        name: "South Georgia and the South Sandwich Islands",
+        dial_code: "+500",
+        code: "GS"
+      },
+      {
+        name: "Spain",
+        dial_code: "+34",
+        code: "ES"
+      },
+      {
+        name: "Sri Lanka",
+        dial_code: "+94",
+        code: "LK"
+      },
+      {
+        name: "Sudan",
+        dial_code: "+249",
+        code: "SD"
+      },
+      {
+        name: "Suriname",
+        dial_code: "+597",
+        code: "SR"
+      },
+      {
+        name: "Svalbard and Jan Mayen",
+        dial_code: "+47",
+        code: "SJ"
+      },
+      {
+        name: "Swaziland",
+        dial_code: "+268",
+        code: "SZ"
+      },
+      {
+        name: "Sweden",
+        dial_code: "+46",
+        code: "SE"
+      },
+      {
+        name: "Switzerland",
+        dial_code: "+41",
+        code: "CH"
+      },
+      {
+        name: "Syrian Arab Republic",
+        dial_code: "+963",
+        code: "SY"
+      },
+      {
+        name: "Taiwan",
+        dial_code: "+886",
+        code: "TW"
+      },
+      {
+        name: "Tajikistan",
+        dial_code: "+992",
+        code: "TJ"
+      },
+      {
+        name: "Tanzania, United Republic of Tanzania",
+        dial_code: "+255",
+        code: "TZ"
+      },
+      {
+        name: "Thailand",
+        dial_code: "+66",
+        code: "TH"
+      },
+      {
+        name: "Timor-Leste",
+        dial_code: "+670",
+        code: "TL"
+      },
+      {
+        name: "Togo",
+        dial_code: "+228",
+        code: "TG"
+      },
+      {
+        name: "Tokelau",
+        dial_code: "+690",
+        code: "TK"
+      },
+      {
+        name: "Tonga",
+        dial_code: "+676",
+        code: "TO"
+      },
+      {
+        name: "Trinidad and Tobago",
+        dial_code: "+1868",
+        code: "TT"
+      },
+      {
+        name: "Tunisia",
+        dial_code: "+216",
+        code: "TN"
+      },
+      {
+        name: "Turkey",
+        dial_code: "+90",
+        code: "TR"
+      },
+      {
+        name: "Turkmenistan",
+        dial_code: "+993",
+        code: "TM"
+      },
+      {
+        name: "Turks and Caicos Islands",
+        dial_code: "+1649",
+        code: "TC"
+      },
+      {
+        name: "Tuvalu",
+        dial_code: "+688",
+        code: "TV"
+      },
+      {
+        name: "Uganda",
+        dial_code: "+256",
+        code: "UG"
+      },
+      {
+        name: "Ukraine",
+        dial_code: "+380",
+        code: "UA"
+      },
+      {
+        name: "United Arab Emirates",
+        dial_code: "+971",
+        code: "AE"
+      },
+      {
+        name: "United Kingdom",
+        dial_code: "+44",
+        code: "GB"
+      },
+      {
+        name: "United States",
+        dial_code: "+1",
+        code: "US"
+      },
+      {
+        name: "Uruguay",
+        dial_code: "+598",
+        code: "UY"
+      },
+      {
+        name: "Uzbekistan",
+        dial_code: "+998",
+        code: "UZ"
+      },
+      {
+        name: "Vanuatu",
+        dial_code: "+678",
+        code: "VU"
+      },
+      {
+        name: "Venezuela, Bolivarian Republic of Venezuela",
+        dial_code: "+58",
+        code: "VE"
+      },
+      {
+        name: "Vietnam",
+        dial_code: "+84",
+        code: "VN"
+      },
+      {
+        name: "Virgin Islands, British",
+        dial_code: "+1284",
+        code: "VG"
+      },
+      {
+        name: "Virgin Islands, U.S.",
+        dial_code: "+1340",
+        code: "VI"
+      },
+      {
+        name: "Wallis and Futuna",
+        dial_code: "+681",
+        code: "WF"
+      },
+      {
+        name: "Yemen",
+        dial_code: "+967",
+        code: "YE"
+      },
+      {
+        name: "Zambia",
+        dial_code: "+260",
+        code: "ZM"
+      },
+      {
+        name: "Zimbabwe",
+        dial_code: "+263",
+        code: "ZW"
+      }
+    ]
+  };
+
+  // src/app/components/cj-forms/src/components/Form.js
+  function addFormEvents(component) {
+    let btnCancel = component.querySelector("#cancel-lead");
+    let form = component.querySelector("form");
+    let email = component.querySelector("#email");
+    let phone = component.querySelector("#phone");
+    if (btnCancel != null) {
+      btnCancel.addEventListener("click", component);
+    }
+    ;
+    if (form != null) {
+      form.addEventListener("submit", component);
+    }
+    ;
+    if (email != null) {
+      email.addEventListener("change", component);
+    }
+    ;
+    if (phone != null) {
+      phone.addEventListener("change", component);
+    }
+    ;
+  }
+  var CjForm = class {
+    #default = {
+      name: {
+        label: {
+          es: "Nombre",
+          en: "Name",
+          fr: "Nom"
+        },
+        help: {
+          es: "El campo Nombre es obligatorio.",
+          en: "The Name field is required.",
+          fr: "Il est requis de compl\xE9ter le champ correspondant au nom."
+        }
+      },
+      function: {
+        label: {
+          es: "Puesto de Trabajo",
+          en: "Job Position",
+          fr: "Poste"
+        },
+        help: {
+          es: "El campo Puesto de Trabajo es obligatorio.",
+          en: "The Job Position field is required.",
+          fr: "Le champ Poste est obligatoire."
+        }
+      },
+      email: {
+        label: {
+          es: "Correo Electr\xF3nico",
+          en: "e-mail",
+          fr: "e-mail"
+        },
+        help: {
+          es: "El campo Correo Electr\xF3nico es obligatorio.",
+          en: "The Email field is required.",
+          fr: "Le champ E-mail est obligatoire."
+        },
+        help2: {
+          es: "El correo electr\xF3nico es invalido.",
+          en: "Email is invalid.",
+          fr: "Le courriel est invalide."
+        }
+      },
+      phone: {
+        label: {
+          es: "Tel\xE9fono",
+          en: "Phone",
+          fr: "T\xE9l\xE9phone"
+        },
+        help: {
+          es: "El campo Tel\xE9fono es obligatorio.",
+          en: "The Telephone field is required.",
+          fr: "Le champ T\xE9l\xE9phone est obligatoire."
+        },
+        help2: {
+          es: "El N\xFAmero Telef\xF3nico es inv\xE1lido.",
+          en: "The Telephone Number is invalid.",
+          fr: "Le num\xE9ro de t\xE9l\xE9phone n'est pas valide."
+        }
+      },
+      company: {
+        label: {
+          es: "Compa\xF1\xEDa",
+          en: "Company",
+          fr: "Entreprise"
+        },
+        help: {
+          es: "El campo Compa\xF1ia es obligatorio.",
+          en: "The Company field is required.",
+          fr: "Le champ Soci\xE9t\xE9 est obligatoire."
+        }
+      },
+      subject: {
+        label: {
+          es: "Asunto",
+          en: "Subject",
+          fr: "Objet"
+        },
+        help: {
+          es: "El campo Asunto es obligatorio.",
+          en: "The Subject field is required.",
+          fr: "Le champ Objet est obligatoire."
+        }
+      },
+      description: {
+        label: {
+          es: "Descripci\xF3n",
+          en: "Description",
+          fr: "Description"
+        },
+        help: {
+          es: "El campo Descripci\xF3n es obligatorio.",
+          en: "The Description field is required.",
+          fr: "Le champ Description est obligatoire."
+        }
+      },
+      terms: {
+        text: {
+          es: "Estoy de acuerdo con los",
+          en: "I agree to the",
+          fr: "J'accepte les"
+        },
+        help: {
+          es: "Tienes que aceptar los T\xE9rminos y Condiciones.",
+          en: "You have to accept the Terms and Conditions.",
+          fr: "Vous devez accepter les termes et conditions."
+        },
+        required: true
+      },
+      termsLink: {
+        text: {
+          es: "t\xE9rminos y condiciones",
+          en: "terms and conditions",
+          fr: "termes et conditions"
+        }
+      },
+      submit: {
+        text: {
+          es: "Enviar",
+          en: "Submit",
+          fr: "Soumettre"
+        }
+      },
+      cancel: {
+        text: {
+          es: "Cancelar",
+          en: "Cancel",
+          fr: "Annuler"
+        }
+      },
+      context: {
+        lang: "en"
+      }
+    };
+    constructor(props = {}, context2 = {}) {
+      this.state = this.initState(this.#default, props);
+      this.state.context = context2;
+    }
+    initState(defValues, props) {
+      if (props != void 0) {
+        let state2 = Object.assign({}, defValues, props);
+        if (defValues != void 0) {
+          if (Object.keys(defValues).lenght != 0) {
+            Object.keys(defValues).forEach((prop) => {
+              if (props[prop] != void 0) {
+                if (typeof props[prop] === "string" || Array.isArray(props[prop])) {
+                  state2[prop] = props[prop];
+                } else {
+                  state2[prop] = Object.assign({}, defValues[prop], props[prop]);
+                }
+              }
+            });
+          }
+        }
+        return state2;
+      } else {
+        return defValues;
+      }
+    }
+    setAnimation(props) {
+      if (props === void 0 || props === null) {
+        return "";
+      } else {
+        let animation = ` data-animation=${props.effect}`;
+        props.delay != void 0 ? animation += ` data-delay=${props.delay}` : false;
+        props.speed != void 0 ? animation += ` data-speed=${props.speed}` : false;
+        props.repeat != void 0 ? animation += ` data-repeat=${props.repeat}` : false;
+        return animation;
+      }
+    }
+    getClasses(defaultClass = [], optionalClasses) {
+      let resultClasses = [];
+      if (optionalClasses === void 0) {
+        resultClasses = defaultClass;
+      } else {
+        resultClasses = [...defaultClass, ...optionalClasses];
+      }
+      let classes = "";
+      if (resultClasses.length > 0) {
+        classes = `class="${resultClasses.toString().replaceAll(",", " ")}"`;
+      }
+      return classes;
+    }
+    #getFlagEmoji(countryCode) {
+      const codePoints = countryCode.toUpperCase().split("").map((char) => 127397 + char.charCodeAt());
+      return String.fromCodePoint(...codePoints);
+    }
+    #getCodes() {
+      let values = ``;
+      if (this.state.phoneCodes === void 0) {
+        countryCodes_default.codes.forEach((country) => {
+          values += `<option value="${country.dial_code}">${this.#getFlagEmoji(country.code)}</option>`;
+        });
+      } else {
+        if (this.state.phoneCodes.length > 0) {
+          this.state.phoneCodes.forEach((code2) => {
+            let country = countryCodes_default.codes.find((item) => item.code === code2);
+            values += `<option value="${country.dial_code}" ${this.state.code === country.code ? "selected" : ""}>${this.#getFlagEmoji(country.code) + " " + country.dial_code}</option>`;
+          });
+        }
+      }
+      return values;
+    }
+    render() {
+      console.log(this.state);
+      return `
+        <form id="${this.state.id}" ${this.getClasses(["box"], this.state.form?.box?.classList)}  ${this.setAnimation(this.state.form?.animation)} novalidate>
+                ${this.state.name?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.name?.animation)}>
+                        <label class="label">${this.state.name?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                        <input id="contact" class="input" type="text" ${this.state.name?.placeholder != void 0 ? `placeholder="${this.state.name.placeholder[this.state.context.lang]}"` : ``}  ${this.state.name?.required === true ? "required" : ""}>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-contact">${this.state.name?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.function?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.function?.animation)}>
+                        <label class="label">${this.state.function?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                        <input id="function" class="input" type="text" ${this.state.function?.placeholder != void 0 ? `placeholder="${this.state.function.placeholder[this.state.context.lang]}"` : ``}  ${this.state.function?.required === true ? "required" : ""}>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-function">${this.state.function?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.email?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.email?.animation)}>
+                        <label class="label">${this.state.email?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                        <input id="email" class="input" type="text" ${this.state.email?.placeholder != void 0 ? `placeholder="${this.state.email.placeholder[this.state.context.lang]}"` : ``}   ${this.state.email?.required === true ? "required" : ""}>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-email">${this.state.email?.help[this.state.context.lang]}</p>
+                        <p class="help is-danger is-hidden" id="help2-email">${this.state.email?.help2[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.phone?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.phone?.animation)}>
+                        <label class="label">${this.state.phone?.label[this.state.context.lang]}</label>                       
+                        <div class="control">
+                            <div class="field has-addons">
+                            <div class="select">
+                            <select id="codes">
+                                ${this.#getCodes()}
+                            </select>
+                          </div>
+                                <div class="control is-expanded">
+                                    <input id="phone" class="input" type="text" ${this.state.phone?.placeholder != void 0 ? `placeholder="${this.state.phone.placeholder[this.state.context.lang]}"` : ``} ${this.state.phone.required === true ? `required` : ``}  ${this.state.phone?.required === true ? "required" : ""}>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-phone">${this.state.phone?.help[this.state.context.lang]}</p>
+                        <p class="help is-danger is-hidden" id="help2-phone">${this.state.phone?.help2[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.company?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.company.animation)}>
+                        <label class="label">${this.state.company?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                        <input id="company" class="input" type="text" ${this.state.company?.placeholder != void 0 ? `placeholder="${this.state.company.placeholder[this.state.context.lang]}"` : ``}  ${this.state.company?.required === true ? "required" : ""}>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-company">${this.state.company?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.subject?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.subject.animation)}>
+                        <label class="label">${this.state.subject?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                        <input id="subject" class="input" type="text" ${this.state.subject?.placeholder != void 0 ? `placeholder="${this.state.subject.placeholder[this.state.context.lang]}"` : ``}  ${this.state.subject?.required === true ? "required" : ""}>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-subject">${this.state.subject?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.description?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.description.animation)}>
+                        <label class="label">${this.state.description?.label[this.state.context.lang]}</label>
+                        <div class="control">
+                            <textarea id="description" class="textarea has-fixed-size" ${this.state.description?.placeholder != void 0 ? `placeholder="${this.state.description.placeholder[this.state.context.lang]}"` : ``} ${this.state.description?.required === true ? "required" : ""}></textarea>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-description">${this.state.description?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    ${this.state.terms?.disabled != true ? `
+                    <div class="field" ${this.setAnimation(this.state.terms.animation)}>
+                        <div class="control">
+                            <label class="checkbox">
+                            <input  id="terms" type="checkbox"  ${this.state.terms?.required === true ? "required" : ""} >
+                            ${this.state.terms?.text[this.state.context.lang]} <a href="${this.state.termsLink?.url != void 0 ? this.state.termsLink?.url : "#"}">${this.state.termsLink?.text[this.state.context.lang]}</a>
+                            </label>
+                        </div>
+                        <p class="help is-danger is-hidden" id="help-terms">${this.state.terms?.help[this.state.context.lang]}</p>
+                    </div>` : ""}
+                    <div class="field is-grouped">
+                        <div class="control" ${this.setAnimation(this.state.submit?.animation)}>
+                            <button  id="submit-lead" ${this.getClasses(["button"], this.state.submit?.classList)}>${this.state.submit?.text[this.state.context.lang]}</button>
+                        </div>
+                        <div class="control" ${this.setAnimation(this.state.cancel?.animation)}>
+                            <button  id="cancel-lead" ${this.getClasses(["button"], this.state.cancel?.classList)}>${this.state.cancel?.text[this.state.context.lang]}</button>
+                        </div>
+                    </div>
+                </form>        
+        `;
+    }
+  };
+
+  // node_modules/libphonenumber-js/metadata.min.json.js
+  var metadata_min_json_default = { "version": 4, "country_calling_codes": { "1": ["US", "AG", "AI", "AS", "BB", "BM", "BS", "CA", "DM", "DO", "GD", "GU", "JM", "KN", "KY", "LC", "MP", "MS", "PR", "SX", "TC", "TT", "VC", "VG", "VI"], "7": ["RU", "KZ"], "20": ["EG"], "27": ["ZA"], "30": ["GR"], "31": ["NL"], "32": ["BE"], "33": ["FR"], "34": ["ES"], "36": ["HU"], "39": ["IT", "VA"], "40": ["RO"], "41": ["CH"], "43": ["AT"], "44": ["GB", "GG", "IM", "JE"], "45": ["DK"], "46": ["SE"], "47": ["NO", "SJ"], "48": ["PL"], "49": ["DE"], "51": ["PE"], "52": ["MX"], "53": ["CU"], "54": ["AR"], "55": ["BR"], "56": ["CL"], "57": ["CO"], "58": ["VE"], "60": ["MY"], "61": ["AU", "CC", "CX"], "62": ["ID"], "63": ["PH"], "64": ["NZ"], "65": ["SG"], "66": ["TH"], "81": ["JP"], "82": ["KR"], "84": ["VN"], "86": ["CN"], "90": ["TR"], "91": ["IN"], "92": ["PK"], "93": ["AF"], "94": ["LK"], "95": ["MM"], "98": ["IR"], "211": ["SS"], "212": ["MA", "EH"], "213": ["DZ"], "216": ["TN"], "218": ["LY"], "220": ["GM"], "221": ["SN"], "222": ["MR"], "223": ["ML"], "224": ["GN"], "225": ["CI"], "226": ["BF"], "227": ["NE"], "228": ["TG"], "229": ["BJ"], "230": ["MU"], "231": ["LR"], "232": ["SL"], "233": ["GH"], "234": ["NG"], "235": ["TD"], "236": ["CF"], "237": ["CM"], "238": ["CV"], "239": ["ST"], "240": ["GQ"], "241": ["GA"], "242": ["CG"], "243": ["CD"], "244": ["AO"], "245": ["GW"], "246": ["IO"], "247": ["AC"], "248": ["SC"], "249": ["SD"], "250": ["RW"], "251": ["ET"], "252": ["SO"], "253": ["DJ"], "254": ["KE"], "255": ["TZ"], "256": ["UG"], "257": ["BI"], "258": ["MZ"], "260": ["ZM"], "261": ["MG"], "262": ["RE", "YT"], "263": ["ZW"], "264": ["NA"], "265": ["MW"], "266": ["LS"], "267": ["BW"], "268": ["SZ"], "269": ["KM"], "290": ["SH", "TA"], "291": ["ER"], "297": ["AW"], "298": ["FO"], "299": ["GL"], "350": ["GI"], "351": ["PT"], "352": ["LU"], "353": ["IE"], "354": ["IS"], "355": ["AL"], "356": ["MT"], "357": ["CY"], "358": ["FI", "AX"], "359": ["BG"], "370": ["LT"], "371": ["LV"], "372": ["EE"], "373": ["MD"], "374": ["AM"], "375": ["BY"], "376": ["AD"], "377": ["MC"], "378": ["SM"], "380": ["UA"], "381": ["RS"], "382": ["ME"], "383": ["XK"], "385": ["HR"], "386": ["SI"], "387": ["BA"], "389": ["MK"], "420": ["CZ"], "421": ["SK"], "423": ["LI"], "500": ["FK"], "501": ["BZ"], "502": ["GT"], "503": ["SV"], "504": ["HN"], "505": ["NI"], "506": ["CR"], "507": ["PA"], "508": ["PM"], "509": ["HT"], "590": ["GP", "BL", "MF"], "591": ["BO"], "592": ["GY"], "593": ["EC"], "594": ["GF"], "595": ["PY"], "596": ["MQ"], "597": ["SR"], "598": ["UY"], "599": ["CW", "BQ"], "670": ["TL"], "672": ["NF"], "673": ["BN"], "674": ["NR"], "675": ["PG"], "676": ["TO"], "677": ["SB"], "678": ["VU"], "679": ["FJ"], "680": ["PW"], "681": ["WF"], "682": ["CK"], "683": ["NU"], "685": ["WS"], "686": ["KI"], "687": ["NC"], "688": ["TV"], "689": ["PF"], "690": ["TK"], "691": ["FM"], "692": ["MH"], "850": ["KP"], "852": ["HK"], "853": ["MO"], "855": ["KH"], "856": ["LA"], "880": ["BD"], "886": ["TW"], "960": ["MV"], "961": ["LB"], "962": ["JO"], "963": ["SY"], "964": ["IQ"], "965": ["KW"], "966": ["SA"], "967": ["YE"], "968": ["OM"], "970": ["PS"], "971": ["AE"], "972": ["IL"], "973": ["BH"], "974": ["QA"], "975": ["BT"], "976": ["MN"], "977": ["NP"], "992": ["TJ"], "993": ["TM"], "994": ["AZ"], "995": ["GE"], "996": ["KG"], "998": ["UZ"] }, "countries": { "AC": ["247", "00", "(?:[01589]\\d|[46])\\d{4}", [5, 6]], "AD": ["376", "00", "(?:1|6\\d)\\d{7}|[135-9]\\d{5}", [6, 8, 9], [["(\\d{3})(\\d{3})", "$1 $2", ["[135-9]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["1"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]]]], "AE": ["971", "00", "(?:[4-7]\\d|9[0-689])\\d{7}|800\\d{2,9}|[2-4679]\\d{7}", [5, 6, 7, 8, 9, 10, 11, 12], [["(\\d{3})(\\d{2,9})", "$1 $2", ["60|8"]], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[236]|[479][2-8]"], "0$1"], ["(\\d{3})(\\d)(\\d{5})", "$1 $2 $3", ["[479]"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["5"], "0$1"]], "0"], "AF": ["93", "00", "[2-7]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-7]"], "0$1"]], "0"], "AG": ["1", "011", "(?:268|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([457]\\d{6})$|1", "268$1", 0, "268"], "AI": ["1", "011", "(?:264|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2457]\\d{6})$|1", "264$1", 0, "264"], "AL": ["355", "00", "(?:700\\d\\d|900)\\d{3}|8\\d{5,7}|(?:[2-5]|6\\d)\\d{7}", [6, 7, 8, 9], [["(\\d{3})(\\d{3,4})", "$1 $2", ["80|9"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["4[2-6]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2358][2-5]|4"], "0$1"], ["(\\d{3})(\\d{5})", "$1 $2", ["[23578]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["6"], "0$1"]], "0"], "AM": ["374", "00", "(?:[1-489]\\d|55|60|77)\\d{6}", [8], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[89]0"], "0 $1"], ["(\\d{3})(\\d{5})", "$1 $2", ["2|3[12]"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["1|47"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[3-9]"], "0$1"]], "0"], "AO": ["244", "00", "[29]\\d{8}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[29]"]]]], "AR": ["54", "00", "(?:11|[89]\\d\\d)\\d{8}|[2368]\\d{9}", [10, 11], [["(\\d{4})(\\d{2})(\\d{4})", "$1 $2-$3", ["2(?:2[024-9]|3[0-59]|47|6[245]|9[02-8])|3(?:3[28]|4[03-9]|5[2-46-8]|7[1-578]|8[2-9])", "2(?:[23]02|6(?:[25]|4[6-8])|9(?:[02356]|4[02568]|72|8[23]))|3(?:3[28]|4(?:[04679]|3[5-8]|5[4-68]|8[2379])|5(?:[2467]|3[237]|8[2-5])|7[1-578]|8(?:[2469]|3[2578]|5[4-8]|7[36-8]|8[5-8]))|2(?:2[24-9]|3[1-59]|47)", "2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3[78]|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8[23])|7[1-578]|8(?:[2469]|3[278]|5[56][46]|86[3-6]))|2(?:2[24-9]|3[1-59]|47)|38(?:[58][78]|7[378])|3(?:4[35][56]|58[45]|8(?:[38]5|54|76))[4-6]", "2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3(?:5(?:4[0-25689]|[56])|[78])|58|8[2379])|5(?:[2467]|3[237]|8(?:[23]|4(?:[45]|60)|5(?:4[0-39]|5|64)))|7[1-578]|8(?:[2469]|3[278]|54(?:4|5[13-7]|6[89])|86[3-6]))|2(?:2[24-9]|3[1-59]|47)|38(?:[58][78]|7[378])|3(?:454|85[56])[46]|3(?:4(?:36|5[56])|8(?:[38]5|76))[4-6]"], "0$1", 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2-$3", ["1"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["[68]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2-$3", ["[23]"], "0$1", 1], ["(\\d)(\\d{4})(\\d{2})(\\d{4})", "$2 15-$3-$4", ["9(?:2[2-469]|3[3-578])", "9(?:2(?:2[024-9]|3[0-59]|47|6[245]|9[02-8])|3(?:3[28]|4[03-9]|5[2-46-8]|7[1-578]|8[2-9]))", "9(?:2(?:[23]02|6(?:[25]|4[6-8])|9(?:[02356]|4[02568]|72|8[23]))|3(?:3[28]|4(?:[04679]|3[5-8]|5[4-68]|8[2379])|5(?:[2467]|3[237]|8[2-5])|7[1-578]|8(?:[2469]|3[2578]|5[4-8]|7[36-8]|8[5-8])))|92(?:2[24-9]|3[1-59]|47)", "9(?:2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3[78]|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8[23])|7[1-578]|8(?:[2469]|3[278]|5(?:[56][46]|[78])|7[378]|8(?:6[3-6]|[78]))))|92(?:2[24-9]|3[1-59]|47)|93(?:4[35][56]|58[45]|8(?:[38]5|54|76))[4-6]", "9(?:2(?:[23]02|6(?:[25]|4(?:64|[78]))|9(?:[02356]|4(?:[0268]|5[2-6])|72|8[23]))|3(?:3[28]|4(?:[04679]|3(?:5(?:4[0-25689]|[56])|[78])|5(?:4[46]|8)|8[2379])|5(?:[2467]|3[237]|8(?:[23]|4(?:[45]|60)|5(?:4[0-39]|5|64)))|7[1-578]|8(?:[2469]|3[278]|5(?:4(?:4|5[13-7]|6[89])|[56][46]|[78])|7[378]|8(?:6[3-6]|[78]))))|92(?:2[24-9]|3[1-59]|47)|93(?:4(?:36|5[56])|8(?:[38]5|76))[4-6]"], "0$1", 0, "$1 $2 $3-$4"], ["(\\d)(\\d{2})(\\d{4})(\\d{4})", "$2 15-$3-$4", ["91"], "0$1", 0, "$1 $2 $3-$4"], ["(\\d{3})(\\d{3})(\\d{5})", "$1-$2-$3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{4})", "$2 15-$3-$4", ["9"], "0$1", 0, "$1 $2 $3-$4"]], "0", 0, "0?(?:(11|2(?:2(?:02?|[13]|2[13-79]|4[1-6]|5[2457]|6[124-8]|7[1-4]|8[13-6]|9[1267])|3(?:02?|1[467]|2[03-6]|3[13-8]|[49][2-6]|5[2-8]|[67])|4(?:7[3-578]|9)|6(?:[0136]|2[24-6]|4[6-8]?|5[15-8])|80|9(?:0[1-3]|[19]|2\\d|3[1-6]|4[02568]?|5[2-4]|6[2-46]|72?|8[23]?))|3(?:3(?:2[79]|6|8[2578])|4(?:0[0-24-9]|[12]|3[5-8]?|4[24-7]|5[4-68]?|6[02-9]|7[126]|8[2379]?|9[1-36-8])|5(?:1|2[1245]|3[237]?|4[1-46-9]|6[2-4]|7[1-6]|8[2-5]?)|6[24]|7(?:[069]|1[1568]|2[15]|3[145]|4[13]|5[14-8]|7[2-57]|8[126])|8(?:[01]|2[15-7]|3[2578]?|4[13-6]|5[4-8]?|6[1-357-9]|7[36-8]?|8[5-8]?|9[124])))15)?", "9$1"], "AS": ["1", "011", "(?:[58]\\d\\d|684|900)\\d{7}", [10], 0, "1", 0, "([267]\\d{6})$|1", "684$1", 0, "684"], "AT": ["43", "00", "1\\d{3,12}|2\\d{6,12}|43(?:(?:0\\d|5[02-9])\\d{3,9}|2\\d{4,5}|[3467]\\d{4}|8\\d{4,6}|9\\d{4,7})|5\\d{4,12}|8\\d{7,12}|9\\d{8,12}|(?:[367]\\d|4[0-24-9])\\d{4,11}", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13], [["(\\d)(\\d{3,12})", "$1 $2", ["1(?:11|[2-9])"], "0$1"], ["(\\d{3})(\\d{2})", "$1 $2", ["517"], "0$1"], ["(\\d{2})(\\d{3,5})", "$1 $2", ["5[079]"], "0$1"], ["(\\d{3})(\\d{3,10})", "$1 $2", ["(?:31|4)6|51|6(?:48|5[0-3579]|[6-9])|7(?:20|32|8)|[89]", "(?:31|4)6|51|6(?:485|5[0-3579]|[6-9])|7(?:20|32|8)|[89]"], "0$1"], ["(\\d{4})(\\d{3,9})", "$1 $2", ["[2-467]|5[2-6]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4,7})", "$1 $2 $3", ["5"], "0$1"]], "0"], "AU": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{7}(?:\\d(?:\\d{2})?)?|8[0-24-9]\\d{7})|[2-478]\\d{8}|1\\d{4,7}", [5, 6, 7, 8, 9, 10, 12], [["(\\d{2})(\\d{3,4})", "$1 $2", ["16"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,4})", "$1 $2 $3", ["16"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["14|4"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["[2378]"], "(0$1)"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1(?:30|[89])"]]], "0", 0, "(183[12])|0", 0, 0, 0, [["(?:(?:2(?:(?:[0-26-9]\\d|3[0-8]|5[0135-9])\\d|4(?:[02-9]\\d|10))|3(?:(?:[0-3589]\\d|6[1-9]|7[0-35-9])\\d|4(?:[0-578]\\d|90))|7(?:[013-57-9]\\d|2[0-8])\\d)\\d\\d|8(?:51(?:0(?:0[03-9]|[12479]\\d|3[2-9]|5[0-8]|6[1-9]|8[0-7])|1(?:[0235689]\\d|1[0-69]|4[0-589]|7[0-47-9])|2(?:0[0-79]|[18][13579]|2[14-9]|3[0-46-9]|[4-6]\\d|7[89]|9[0-4])|[34]\\d\\d)|(?:6[0-8]|[78]\\d)\\d{3}|9(?:[02-9]\\d{3}|1(?:(?:[0-58]\\d|6[0135-9])\\d|7(?:0[0-24-9]|[1-9]\\d)|9(?:[0-46-9]\\d|5[0-79])))))\\d{3}", [9]], ["4(?:79[01]|83[0-389]|94[0-478])\\d{5}|4(?:[0-36]\\d|4[047-9]|5[0-25-9]|7[02-8]|8[0-24-9]|9[0-37-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, ["163\\d{2,6}", [5, 6, 7, 8, 9]], ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "AW": ["297", "00", "(?:[25-79]\\d\\d|800)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[25-9]"]]]], "AX": ["358", "00|99(?:[01469]|5(?:[14]1|3[23]|5[59]|77|88|9[09]))", "2\\d{4,9}|35\\d{4,5}|(?:60\\d\\d|800)\\d{4,6}|7\\d{5,11}|(?:[14]\\d|3[0-46-9]|50)\\d{4,8}", [5, 6, 7, 8, 9, 10, 11, 12], 0, "0", 0, 0, 0, 0, "18", 0, "00"], "AZ": ["994", "00", "365\\d{6}|(?:[124579]\\d|60|88)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["90"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[28]|2|365|46", "1[28]|2|365[45]|46", "1[28]|2|365(?:4|5[02])|46"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[13-9]"], "0$1"]], "0"], "BA": ["387", "00", "6\\d{8}|(?:[35689]\\d|49|70)\\d{6}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["6[1-3]|[7-9]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2-$3", ["[3-5]|6[56]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["6"], "0$1"]], "0"], "BB": ["1", "011", "(?:246|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "246$1", 0, "246"], "BD": ["880", "00", "[1-469]\\d{9}|8[0-79]\\d{7,8}|[2-79]\\d{8}|[2-9]\\d{7}|[3-9]\\d{6}|[57-9]\\d{5}", [6, 7, 8, 9, 10], [["(\\d{2})(\\d{4,6})", "$1-$2", ["31[5-8]|[459]1"], "0$1"], ["(\\d{3})(\\d{3,7})", "$1-$2", ["3(?:[67]|8[013-9])|4(?:6[168]|7|[89][18])|5(?:6[128]|9)|6(?:[15]|28|4[14])|7[2-589]|8(?:0[014-9]|[12])|9[358]|(?:3[2-5]|4[235]|5[2-578]|6[0389]|76|8[3-7]|9[24])1|(?:44|66)[01346-9]"], "0$1"], ["(\\d{4})(\\d{3,6})", "$1-$2", ["[13-9]|2[23]"], "0$1"], ["(\\d)(\\d{7,8})", "$1-$2", ["2"], "0$1"]], "0"], "BE": ["32", "00", "4\\d{8}|[1-9]\\d{7}", [8, 9], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["(?:80|9)0"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[239]|4[23]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[15-8]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["4"], "0$1"]], "0"], "BF": ["226", "00", "[025-7]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[025-7]"]]]], "BG": ["359", "00", "00800\\d{7}|[2-7]\\d{6,7}|[89]\\d{6,8}|2\\d{5}", [6, 7, 8, 9, 12], [["(\\d)(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["2"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["43[1-6]|70[1-9]"], "0$1"], ["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,3})", "$1 $2 $3", ["[356]|4[124-7]|7[1-9]|8[1-6]|9[1-7]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["(?:70|8)0"], "0$1"], ["(\\d{3})(\\d{3})(\\d{2})", "$1 $2 $3", ["43[1-7]|7"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[48]|9[08]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"], "0$1"]], "0"], "BH": ["973", "00", "[136-9]\\d{7}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[13679]|8[02-4679]"]]]], "BI": ["257", "00", "(?:[267]\\d|31)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2367]"]]]], "BJ": ["229", "00", "(?:01\\d|[24-689])\\d{7}", [8, 10], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[24-689]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["0"]]]], "BL": ["590", "00", "(?:590\\d|7090)\\d{5}|(?:69|80|9\\d)\\d{7}", [9], 0, "0", 0, 0, 0, 0, 0, [["590(?:2[7-9]|3[3-7]|5[12]|87)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5])|4(?:0[89]|1[2-6]|9\\d)|6(?:1[016-9]|5[0-4]|[67]\\d))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], 0, 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "BM": ["1", "011", "(?:441|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "441$1", 0, "441"], "BN": ["673", "00", "[2-578]\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-578]"]]]], "BO": ["591", "00(?:1\\d)?", "8001\\d{5}|(?:[2-467]\\d|50)\\d{6}", [8, 9], [["(\\d)(\\d{7})", "$1 $2", ["[235]|4[46]"]], ["(\\d{8})", "$1", ["[67]"]], ["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["8"]]], "0", 0, "0(1\\d)?"], "BQ": ["599", "00", "(?:[34]1|7\\d)\\d{5}", [7], 0, 0, 0, 0, 0, 0, "[347]"], "BR": ["55", "00(?:1[245]|2[1-35]|31|4[13]|[56]5|99)", "[1-467]\\d{9,10}|55[0-46-9]\\d{8}|[34]\\d{7}|55\\d{7,8}|(?:5[0-46-9]|[89]\\d)\\d{7,9}", [8, 9, 10, 11], [["(\\d{4})(\\d{4})", "$1-$2", ["300|4(?:0[02]|37|86)", "300|4(?:0(?:0|20)|370|864)"]], ["(\\d{3})(\\d{2,3})(\\d{4})", "$1 $2 $3", ["(?:[358]|90)0"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2-$3", ["(?:[14689][1-9]|2[12478]|3[1-578]|5[13-5]|7[13-579])[2-57]"], "($1)"], ["(\\d{2})(\\d{5})(\\d{4})", "$1 $2-$3", ["[16][1-9]|[2-57-9]"], "($1)"]], "0", 0, "(?:0|90)(?:(1[245]|2[1-35]|31|4[13]|[56]5|99)(\\d{10,11}))?", "$2"], "BS": ["1", "011", "(?:242|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([3-8]\\d{6})$|1", "242$1", 0, "242"], "BT": ["975", "00", "[17]\\d{7}|[2-8]\\d{6}", [7, 8], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-68]|7[246]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[67]|7"]]]], "BW": ["267", "00", "(?:0800|(?:[37]|800)\\d)\\d{6}|(?:[2-6]\\d|90)\\d{5}", [7, 8, 10], [["(\\d{2})(\\d{5})", "$1 $2", ["90"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[24-6]|3[15-9]"]], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[37]"]], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{4})(\\d{3})", "$1 $2 $3", ["8"]]]], "BY": ["375", "810", "(?:[12]\\d|33|44|902)\\d{7}|8(?:0[0-79]\\d{5,7}|[1-7]\\d{9})|8(?:1[0-489]|[5-79]\\d)\\d{7}|8[1-79]\\d{6,7}|8[0-79]\\d{5}|8\\d{5}", [6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{3})", "$1 $2", ["800"], "8 $1"], ["(\\d{3})(\\d{2})(\\d{2,4})", "$1 $2 $3", ["800"], "8 $1"], ["(\\d{4})(\\d{2})(\\d{3})", "$1 $2-$3", ["1(?:5[169]|6[3-5]|7[179])|2(?:1[35]|2[34]|3[3-5])", "1(?:5[169]|6(?:3[1-3]|4|5[125])|7(?:1[3-9]|7[0-24-6]|9[2-7]))|2(?:1[35]|2[34]|3[3-5])"], "8 0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["1(?:[56]|7[467])|2[1-3]"], "8 0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[1-4]"], "8 0$1"], ["(\\d{3})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["[89]"], "8 $1"]], "8", 0, "0|80?", 0, 0, 0, 0, "8~10"], "BZ": ["501", "00", "(?:0800\\d|[2-8])\\d{6}", [7, 11], [["(\\d{3})(\\d{4})", "$1-$2", ["[2-8]"]], ["(\\d)(\\d{3})(\\d{4})(\\d{3})", "$1-$2-$3-$4", ["0"]]]], "CA": ["1", "011", "[2-9]\\d{9}|3\\d{6}", [7, 10], 0, "1", 0, 0, 0, 0, 0, [["(?:2(?:04|[23]6|[48]9|5[07]|63)|3(?:06|43|54|6[578]|82)|4(?:03|1[68]|[26]8|3[178]|50|74)|5(?:06|1[49]|48|79|8[147])|6(?:04|[18]3|39|47|72)|7(?:0[59]|42|53|78|8[02])|8(?:[06]7|19|25|7[39])|9(?:0[25]|42))[2-9]\\d{6}", [10]], ["", [10]], ["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}", [10]], ["900[2-9]\\d{6}", [10]], ["52(?:3(?:[2-46-9][02-9]\\d|5(?:[02-46-9]\\d|5[0-46-9]))|4(?:[2-478][02-9]\\d|5(?:[034]\\d|2[024-9]|5[0-46-9])|6(?:0[1-9]|[2-9]\\d)|9(?:[05-9]\\d|2[0-5]|49)))\\d{4}|52[34][2-9]1[02-9]\\d{4}|(?:5(?:2[125-9]|33|44|66|77|88)|6(?:22|33))[2-9]\\d{6}", [10]], 0, ["310\\d{4}", [7]], 0, ["600[2-9]\\d{6}", [10]]]], "CC": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{8}(?:\\d{2})?|8[0-24-9]\\d{7})|[148]\\d{8}|1\\d{5,7}", [6, 7, 8, 9, 10, 12], 0, "0", 0, "([59]\\d{7})$|0", "8$1", 0, 0, [["8(?:51(?:0(?:02|31|60|89)|1(?:18|76)|223)|91(?:0(?:1[0-2]|29)|1(?:[28]2|50|79)|2(?:10|64)|3(?:[06]8|22)|4[29]8|62\\d|70[23]|959))\\d{3}", [9]], ["4(?:79[01]|83[0-389]|94[0-478])\\d{5}|4(?:[0-36]\\d|4[047-9]|5[0-25-9]|7[02-8]|8[0-24-9]|9[0-37-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, 0, ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "CD": ["243", "00", "(?:(?:[189]|5\\d)\\d|2)\\d{7}|[1-68]\\d{6}", [7, 8, 9, 10], [["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["88"], "0$1"], ["(\\d{2})(\\d{5})", "$1 $2", ["[1-6]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["5"], "0$1"]], "0"], "CF": ["236", "00", "(?:[27]\\d{3}|8776)\\d{4}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[278]"]]]], "CG": ["242", "00", "222\\d{6}|(?:0\\d|80)\\d{7}", [9], [["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[02]"]]]], "CH": ["41", "00", "8\\d{11}|[2-9]\\d{8}", [9, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8[047]|90"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-79]|81"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["8"], "0$1"]], "0"], "CI": ["225", "00", "[02]\\d{9}", [10], [["(\\d{2})(\\d{2})(\\d)(\\d{5})", "$1 $2 $3 $4", ["2"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3 $4", ["0"]]]], "CK": ["682", "00", "[2-578]\\d{4}", [5], [["(\\d{2})(\\d{3})", "$1 $2", ["[2-578]"]]]], "CL": ["56", "(?:0|1(?:1[0-69]|2[02-5]|5[13-58]|69|7[0167]|8[018]))0", "12300\\d{6}|6\\d{9,10}|[2-9]\\d{8}", [9, 10, 11], [["(\\d{5})(\\d{4})", "$1 $2", ["219", "2196"], "($1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["44"]], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2[1-36]"], "($1)"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["9[2-9]"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["3[2-5]|[47]|5[1-3578]|6[13-57]|8(?:0[1-9]|[1-9])"], "($1)"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["60|8"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]], ["(\\d{3})(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["60"]]]], "CM": ["237", "00", "[26]\\d{8}|88\\d{6,7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["88"]], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[26]|88"]]]], "CN": ["86", "00|1(?:[12]\\d|79)\\d\\d00", "(?:(?:1[03-689]|2\\d)\\d\\d|6)\\d{8}|1\\d{10}|[126]\\d{6}(?:\\d(?:\\d{2})?)?|86\\d{5,6}|(?:[3-579]\\d|8[0-57-9])\\d{5,9}", [7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{5,6})", "$1 $2", ["(?:10|2[0-57-9])[19]|3(?:[157]|35|49|9[1-68])|4(?:1[124-9]|2[179]|6[47-9]|7|8[23])|5(?:[1357]|2[37]|4[36]|6[1-46]|80)|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:07|1[236-8]|2[5-7]|[37]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3|4[13]|5[1-5]|7[0-79]|9[0-35-9])|(?:4[35]|59|85)[1-9]", "(?:10|2[0-57-9])(?:1[02]|9[56])|8078|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))1", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|80781|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))12", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|807812|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))123", "10(?:1(?:0|23)|9[56])|2[0-57-9](?:1(?:00|23)|9[56])|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:1[124-9]|2[179]|[35][1-9]|6[47-9]|7\\d|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:078|1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|3\\d|4[13]|5[1-5]|7[0-79]|9[0-35-9]))123"], "0$1"], ["(\\d{3})(\\d{5,6})", "$1 $2", ["3(?:[157]|35|49|9[1-68])|4(?:[17]|2[179]|6[47-9]|8[23])|5(?:[1357]|2[37]|4[36]|6[1-46]|80)|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]|4[13]|5[1-5])|(?:4[35]|59|85)[1-9]", "(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[1-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))[19]", "85[23](?:10|95)|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[14-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))(?:10|9[56])", "85[23](?:100|95)|(?:3(?:[157]\\d|35|49|9[1-68])|4(?:[17]\\d|2[179]|[35][1-9]|6[47-9]|8[23])|5(?:[1357]\\d|2[37]|4[36]|6[1-46]|80|9[1-9])|6(?:3[1-5]|6[0238]|9[12])|7(?:01|[1579]\\d|2[248]|3[014-9]|4[3-6]|6[023689])|8(?:1[236-8]|2[5-7]|[37]\\d|5[14-9]|8[36-8]|9[1-8])|9(?:0[1-3689]|1[1-79]|[379]\\d|4[13]|5[1-5]))(?:100|9[56])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["(?:4|80)0"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["10|2(?:[02-57-9]|1[1-9])", "10|2(?:[02-57-9]|1[1-9])", "10[0-79]|2(?:[02-57-9]|1[1-79])|(?:10|21)8(?:0[1-9]|[1-9])"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["3(?:[3-59]|7[02-68])|4(?:[26-8]|3[3-9]|5[2-9])|5(?:3[03-9]|[468]|7[028]|9[2-46-9])|6|7(?:[0-247]|3[04-9]|5[0-4689]|6[2368])|8(?:[1-358]|9[1-7])|9(?:[013479]|5[1-5])|(?:[34]1|55|79|87)[02-9]"], "0$1", 1], ["(\\d{3})(\\d{7,8})", "$1 $2", ["9"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["80"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["[3-578]"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["1[3-9]"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["[12]"], "0$1", 1]], "0", 0, "(1(?:[12]\\d|79)\\d\\d)|0", 0, 0, 0, 0, "00"], "CO": ["57", "00(?:4(?:[14]4|56)|[579])", "(?:46|60\\d\\d)\\d{6}|(?:1\\d|[39])\\d{9}", [8, 10, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["46"]], ["(\\d{3})(\\d{7})", "$1 $2", ["6|90"], "($1)"], ["(\\d{3})(\\d{7})", "$1 $2", ["3[0-357]|9[14]"]], ["(\\d)(\\d{3})(\\d{7})", "$1-$2-$3", ["1"], "0$1", 0, "$1 $2 $3"]], "0", 0, "0([3579]|4(?:[14]4|56))?"], "CR": ["506", "00", "(?:8\\d|90)\\d{8}|(?:[24-8]\\d{3}|3005)\\d{4}", [8, 10], [["(\\d{4})(\\d{4})", "$1 $2", ["[2-7]|8[3-9]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["[89]"]]], 0, 0, "(19(?:0[0-2468]|1[09]|20|66|77|99))"], "CU": ["53", "119", "(?:[2-7]|8\\d\\d)\\d{7}|[2-47]\\d{6}|[34]\\d{5}", [6, 7, 8, 10], [["(\\d{2})(\\d{4,6})", "$1 $2", ["2[1-4]|[34]"], "(0$1)"], ["(\\d)(\\d{6,7})", "$1 $2", ["7"], "(0$1)"], ["(\\d)(\\d{7})", "$1 $2", ["[56]"], "0$1"], ["(\\d{3})(\\d{7})", "$1 $2", ["8"], "0$1"]], "0"], "CV": ["238", "0", "(?:[2-59]\\d\\d|800)\\d{4}", [7], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2-589]"]]]], "CW": ["599", "00", "(?:[34]1|60|(?:7|9\\d)\\d)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["[3467]"]], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["9[4-8]"]]], 0, 0, 0, 0, 0, "[69]"], "CX": ["61", "001[14-689]|14(?:1[14]|34|4[17]|[56]6|7[47]|88)0011", "1(?:[0-79]\\d{8}(?:\\d{2})?|8[0-24-9]\\d{7})|[148]\\d{8}|1\\d{5,7}", [6, 7, 8, 9, 10, 12], 0, "0", 0, "([59]\\d{7})$|0", "8$1", 0, 0, [["8(?:51(?:0(?:01|30|59|88)|1(?:17|46|75)|2(?:22|35))|91(?:00[6-9]|1(?:[28]1|49|78)|2(?:09|63)|3(?:12|26|75)|4(?:56|97)|64\\d|7(?:0[01]|1[0-2])|958))\\d{3}", [9]], ["4(?:79[01]|83[0-389]|94[0-478])\\d{5}|4(?:[0-36]\\d|4[047-9]|5[0-25-9]|7[02-8]|8[0-24-9]|9[0-37-9])\\d{6}", [9]], ["180(?:0\\d{3}|2)\\d{3}", [7, 10]], ["190[0-26]\\d{6}", [10]], 0, 0, 0, 0, ["14(?:5(?:1[0458]|[23][458])|71\\d)\\d{4}", [9]], ["13(?:00\\d{6}(?:\\d{2})?|45[0-4]\\d{3})|13\\d{4}", [6, 8, 10, 12]]], "0011"], "CY": ["357", "00", "(?:[279]\\d|[58]0)\\d{6}", [8], [["(\\d{2})(\\d{6})", "$1 $2", ["[257-9]"]]]], "CZ": ["420", "00", "(?:[2-578]\\d|60)\\d{7}|9\\d{8,11}", [9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-8]|9[015-7]"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{2})", "$1 $2 $3 $4", ["96"]], ["(\\d{2})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]]]], "DE": ["49", "00", "[2579]\\d{5,14}|49(?:[34]0|69|8\\d)\\d\\d?|49(?:37|49|60|7[089]|9\\d)\\d{1,3}|49(?:2[024-9]|3[2-689]|7[1-7])\\d{1,8}|(?:1|[368]\\d|4[0-8])\\d{3,13}|49(?:[015]\\d|2[13]|31|[46][1-8])\\d{1,9}", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], [["(\\d{2})(\\d{3,13})", "$1 $2", ["3[02]|40|[68]9"], "0$1"], ["(\\d{3})(\\d{3,12})", "$1 $2", ["2(?:0[1-389]|1[124]|2[18]|3[14])|3(?:[35-9][15]|4[015])|906|(?:2[4-9]|4[2-9]|[579][1-9]|[68][1-8])1", "2(?:0[1-389]|12[0-8])|3(?:[35-9][15]|4[015])|906|2(?:[13][14]|2[18])|(?:2[4-9]|4[2-9]|[579][1-9]|[68][1-8])1"], "0$1"], ["(\\d{4})(\\d{2,11})", "$1 $2", ["[24-6]|3(?:[3569][02-46-9]|4[2-4679]|7[2-467]|8[2-46-8])|70[2-8]|8(?:0[2-9]|[1-8])|90[7-9]|[79][1-9]", "[24-6]|3(?:3(?:0[1-467]|2[127-9]|3[124578]|7[1257-9]|8[1256]|9[145])|4(?:2[135]|4[13578]|9[1346])|5(?:0[14]|2[1-3589]|6[1-4]|7[13468]|8[13568])|6(?:2[1-489]|3[124-6]|6[13]|7[12579]|8[1-356]|9[135])|7(?:2[1-7]|4[145]|6[1-5]|7[1-4])|8(?:21|3[1468]|6|7[1467]|8[136])|9(?:0[12479]|2[1358]|4[134679]|6[1-9]|7[136]|8[147]|9[1468]))|70[2-8]|8(?:0[2-9]|[1-8])|90[7-9]|[79][1-9]|3[68]4[1347]|3(?:47|60)[1356]|3(?:3[46]|46|5[49])[1246]|3[4579]3[1357]"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["138"], "0$1"], ["(\\d{5})(\\d{2,10})", "$1 $2", ["3"], "0$1"], ["(\\d{3})(\\d{5,11})", "$1 $2", ["181"], "0$1"], ["(\\d{3})(\\d)(\\d{4,10})", "$1 $2 $3", ["1(?:3|80)|9"], "0$1"], ["(\\d{3})(\\d{7,8})", "$1 $2", ["1[67]"], "0$1"], ["(\\d{3})(\\d{7,12})", "$1 $2", ["8"], "0$1"], ["(\\d{5})(\\d{6})", "$1 $2", ["185", "1850", "18500"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{4})(\\d{7})", "$1 $2", ["18[68]"], "0$1"], ["(\\d{4})(\\d{7})", "$1 $2", ["15[1279]"], "0$1"], ["(\\d{5})(\\d{6})", "$1 $2", ["15[03568]", "15(?:[0568]|31)"], "0$1"], ["(\\d{3})(\\d{8})", "$1 $2", ["18"], "0$1"], ["(\\d{3})(\\d{2})(\\d{7,8})", "$1 $2 $3", ["1(?:6[023]|7)"], "0$1"], ["(\\d{4})(\\d{2})(\\d{7})", "$1 $2 $3", ["15[279]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{8})", "$1 $2 $3", ["15"], "0$1"]], "0"], "DJ": ["253", "00", "(?:2\\d|77)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[27]"]]]], "DK": ["45", "00", "[2-9]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-9]"]]]], "DM": ["1", "011", "(?:[58]\\d\\d|767|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "767$1", 0, "767"], "DO": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "8001|8[024]9"], "DZ": ["213", "00", "(?:[1-4]|[5-79]\\d|80)\\d{7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[1-4]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["9"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-8]"], "0$1"]], "0"], "EC": ["593", "00", "1\\d{9,10}|(?:[2-7]|9\\d)\\d{7}", [8, 9, 10, 11], [["(\\d)(\\d{3})(\\d{4})", "$1 $2-$3", ["[2-7]"], "(0$1)", 0, "$1-$2-$3"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["1"]]], "0"], "EE": ["372", "00", "8\\d{9}|[4578]\\d{7}|(?:[3-8]\\d|90)\\d{5}", [7, 8, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["[369]|4[3-8]|5(?:[0-2]|5[0-478]|6[45])|7[1-9]|88", "[369]|4[3-8]|5(?:[02]|1(?:[0-8]|95)|5[0-478]|6(?:4[0-4]|5[1-589]))|7[1-9]|88"]], ["(\\d{4})(\\d{3,4})", "$1 $2", ["[45]|8(?:00|[1-49])", "[45]|8(?:00[1-9]|[1-49])"]], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["7"]], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]]]], "EG": ["20", "00", "[189]\\d{8,9}|[24-6]\\d{8}|[135]\\d{7}", [8, 9, 10], [["(\\d)(\\d{7,8})", "$1 $2", ["[23]"], "0$1"], ["(\\d{2})(\\d{6,7})", "$1 $2", ["1[35]|[4-6]|8[2468]|9[235-7]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{8})", "$1 $2", ["1"], "0$1"]], "0"], "EH": ["212", "00", "[5-8]\\d{8}", [9], 0, "0", 0, 0, 0, 0, "528[89]"], "ER": ["291", "00", "[178]\\d{6}", [7], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[178]"], "0$1"]], "0"], "ES": ["34", "00", "[5-9]\\d{8}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[89]00"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-9]"]]]], "ET": ["251", "00", "(?:11|[2-579]\\d)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-579]"], "0$1"]], "0"], "FI": ["358", "00|99(?:[01469]|5(?:[14]1|3[23]|5[59]|77|88|9[09]))", "[1-35689]\\d{4}|7\\d{10,11}|(?:[124-7]\\d|3[0-46-9])\\d{8}|[1-9]\\d{5,8}", [5, 6, 7, 8, 9, 10, 11, 12], [["(\\d{5})", "$1", ["20[2-59]"], "0$1"], ["(\\d{3})(\\d{3,7})", "$1 $2", ["(?:[1-3]0|[68])0|70[07-9]"], "0$1"], ["(\\d{2})(\\d{4,8})", "$1 $2", ["[14]|2[09]|50|7[135]"], "0$1"], ["(\\d{2})(\\d{6,10})", "$1 $2", ["7"], "0$1"], ["(\\d)(\\d{4,9})", "$1 $2", ["(?:19|[2568])[1-8]|3(?:0[1-9]|[1-9])|9"], "0$1"]], "0", 0, 0, 0, 0, "1[03-79]|[2-9]", 0, "00"], "FJ": ["679", "0(?:0|52)", "45\\d{5}|(?:0800\\d|[235-9])\\d{6}", [7, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["[235-9]|45"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["0"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "FK": ["500", "00", "[2-7]\\d{4}", [5]], "FM": ["691", "00", "(?:[39]\\d\\d|820)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[389]"]]]], "FO": ["298", "00", "[2-9]\\d{5}", [6], [["(\\d{6})", "$1", ["[2-9]"]]], 0, 0, "(10(?:01|[12]0|88))"], "FR": ["33", "00", "[1-9]\\d{8}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0 $1"], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["[1-79]"], "0$1"]], "0"], "GA": ["241", "00", "(?:[067]\\d|11)\\d{6}|[2-7]\\d{6}", [7, 8], [["(\\d)(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-7]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["0"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["11|[67]"], "0$1"]], 0, 0, "0(11\\d{6}|60\\d{6}|61\\d{6}|6[256]\\d{6}|7[467]\\d{6})", "$1"], "GB": ["44", "00", "[1-357-9]\\d{9}|[18]\\d{8}|8\\d{6}", [7, 9, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["800", "8001", "80011", "800111", "8001111"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["845", "8454", "84546", "845464"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["800"], "0$1"], ["(\\d{5})(\\d{4,5})", "$1 $2", ["1(?:38|5[23]|69|76|94)", "1(?:(?:38|69)7|5(?:24|39)|768|946)", "1(?:3873|5(?:242|39[4-6])|(?:697|768)[347]|9467)"], "0$1"], ["(\\d{4})(\\d{5,6})", "$1 $2", ["1(?:[2-69][02-9]|[78])"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["[25]|7(?:0|6[02-9])", "[25]|7(?:0|6(?:[03-9]|2[356]))"], "0$1"], ["(\\d{4})(\\d{6})", "$1 $2", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1389]"], "0$1"]], "0", 0, 0, 0, 0, 0, [["(?:1(?:1(?:3(?:[0-58]\\d\\d|73[0-35])|4(?:(?:[0-5]\\d|70)\\d|69[7-9])|(?:(?:5[0-26-9]|[78][0-49])\\d|6(?:[0-4]\\d|50))\\d)|(?:2(?:(?:0[024-9]|2[3-9]|3[3-79]|4[1-689]|[58][02-9]|6[0-47-9]|7[013-9]|9\\d)\\d|1(?:[0-7]\\d|8[0-3]))|(?:3(?:0\\d|1[0-8]|[25][02-9]|3[02-579]|[468][0-46-9]|7[1-35-79]|9[2-578])|4(?:0[03-9]|[137]\\d|[28][02-57-9]|4[02-69]|5[0-8]|[69][0-79])|5(?:0[1-35-9]|[16]\\d|2[024-9]|3[015689]|4[02-9]|5[03-9]|7[0-35-9]|8[0-468]|9[0-57-9])|6(?:0[034689]|1\\d|2[0-35689]|[38][013-9]|4[1-467]|5[0-69]|6[13-9]|7[0-8]|9[0-24578])|7(?:0[0246-9]|2\\d|3[0236-8]|4[03-9]|5[0-46-9]|6[013-9]|7[0-35-9]|8[024-9]|9[02-9])|8(?:0[35-9]|2[1-57-9]|3[02-578]|4[0-578]|5[124-9]|6[2-69]|7\\d|8[02-9]|9[02569])|9(?:0[02-589]|[18]\\d|2[02-689]|3[1-57-9]|4[2-9]|5[0-579]|6[2-47-9]|7[0-24578]|9[2-57]))\\d)\\d)|2(?:0[013478]|3[0189]|4[017]|8[0-46-9]|9[0-2])\\d{3})\\d{4}|1(?:2(?:0(?:46[1-4]|87[2-9])|545[1-79]|76(?:2\\d|3[1-8]|6[1-6])|9(?:7(?:2[0-4]|3[2-5])|8(?:2[2-8]|7[0-47-9]|8[3-5])))|3(?:6(?:38[2-5]|47[23])|8(?:47[04-9]|64[0157-9]))|4(?:044[1-7]|20(?:2[23]|8\\d)|6(?:0(?:30|5[2-57]|6[1-8]|7[2-8])|140)|8(?:052|87[1-3]))|5(?:2(?:4(?:3[2-79]|6\\d)|76\\d)|6(?:26[06-9]|686))|6(?:06(?:4\\d|7[4-79])|295[5-7]|35[34]\\d|47(?:24|61)|59(?:5[08]|6[67]|74)|9(?:55[0-4]|77[23]))|7(?:26(?:6[13-9]|7[0-7])|(?:442|688)\\d|50(?:2[0-3]|[3-68]2|76))|8(?:27[56]\\d|37(?:5[2-5]|8[239])|843[2-58])|9(?:0(?:0(?:6[1-8]|85)|52\\d)|3583|4(?:66[1-8]|9(?:2[01]|81))|63(?:23|3[1-4])|9561))\\d{3}", [9, 10]], ["7(?:457[0-57-9]|700[01]|911[028])\\d{5}|7(?:[1-3]\\d\\d|4(?:[0-46-9]\\d|5[0-689])|5(?:0[0-8]|[13-9]\\d|2[0-35-9])|7(?:0[1-9]|[1-7]\\d|8[02-9]|9[0-689])|8(?:[014-9]\\d|[23][0-8])|9(?:[024-9]\\d|1[02-9]|3[0-689]))\\d{6}", [10]], ["80[08]\\d{7}|800\\d{6}|8001111"], ["(?:8(?:4[2-5]|7[0-3])|9(?:[01]\\d|8[2-49]))\\d{7}|845464\\d", [7, 10]], ["70\\d{8}", [10]], 0, ["(?:3[0347]|55)\\d{8}", [10]], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}", [10]], ["56\\d{8}", [10]]], 0, " x"], "GD": ["1", "011", "(?:473|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "473$1", 0, "473"], "GE": ["995", "00", "(?:[3-57]\\d\\d|800)\\d{6}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["70"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["32"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[57]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[348]"], "0$1"]], "0"], "GF": ["594", "00", "(?:[56]94\\d|7093)\\d{5}|(?:80|9\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-7]|9[47]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[89]"], "0$1"]], "0"], "GG": ["44", "00", "(?:1481|[357-9]\\d{3})\\d{6}|8\\d{6}(?:\\d{2})?", [7, 9, 10], 0, "0", 0, "([25-9]\\d{5})$|0", "1481$1", 0, 0, [["1481[25-9]\\d{5}", [10]], ["7(?:(?:781|839)\\d|911[17])\\d{5}", [10]], ["80[08]\\d{7}|800\\d{6}|8001111"], ["(?:8(?:4[2-5]|7[0-3])|9(?:[01]\\d|8[0-3]))\\d{7}|845464\\d", [7, 10]], ["70\\d{8}", [10]], 0, ["(?:3[0347]|55)\\d{8}", [10]], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}", [10]], ["56\\d{8}", [10]]]], "GH": ["233", "00", "(?:[235]\\d{3}|800)\\d{5}", [8, 9], [["(\\d{3})(\\d{5})", "$1 $2", ["8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[235]"], "0$1"]], "0"], "GI": ["350", "00", "(?:[25]\\d|60)\\d{6}", [8], [["(\\d{3})(\\d{5})", "$1 $2", ["2"]]]], "GL": ["299", "00", "(?:19|[2-689]\\d|70)\\d{4}", [6], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["19|[2-9]"]]]], "GM": ["220", "00", "[2-9]\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "GN": ["224", "00", "722\\d{6}|(?:3|6\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["3"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[67]"]]]], "GP": ["590", "00", "(?:590\\d|7090)\\d{5}|(?:69|80|9\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-79]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0", 0, 0, 0, 0, 0, [["590(?:0[1-68]|[14][0-24-9]|2[0-68]|3[1-9]|5[3-579]|[68][0-689]|7[08]|9\\d)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5])|4(?:0[89]|1[2-6]|9\\d)|6(?:1[016-9]|5[0-4]|[67]\\d))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], 0, 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "GQ": ["240", "00", "222\\d{6}|(?:3\\d|55|[89]0)\\d{7}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235]"]], ["(\\d{3})(\\d{6})", "$1 $2", ["[89]"]]]], "GR": ["30", "00", "5005000\\d{3}|8\\d{9,11}|(?:[269]\\d|70)\\d{8}", [10, 11, 12], [["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["21|7"]], ["(\\d{4})(\\d{6})", "$1 $2", ["2(?:2|3[2-57-9]|4[2-469]|5[2-59]|6[2-9]|7[2-69]|8[2-49])|5"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2689]"]], ["(\\d{3})(\\d{3,4})(\\d{5})", "$1 $2 $3", ["8"]]]], "GT": ["502", "00", "80\\d{6}|(?:1\\d{3}|[2-7])\\d{7}", [8, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["[2-8]"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]]]], "GU": ["1", "011", "(?:[58]\\d\\d|671|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "671$1", 0, "671"], "GW": ["245", "00", "[49]\\d{8}|4\\d{6}", [7, 9], [["(\\d{3})(\\d{4})", "$1 $2", ["40"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[49]"]]]], "GY": ["592", "001", "(?:[2-8]\\d{3}|9008)\\d{3}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "HK": ["852", "00(?:30|5[09]|[126-9]?)", "8[0-46-9]\\d{6,7}|9\\d{4,7}|(?:[2-7]|9\\d{3})\\d{7}", [5, 6, 7, 8, 9, 11], [["(\\d{3})(\\d{2,5})", "$1 $2", ["900", "9003"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[2-7]|8[1-4]|9(?:0[1-9]|[1-8])"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{3})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["9"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "HN": ["504", "00", "8\\d{10}|[237-9]\\d{7}", [8, 11], [["(\\d{4})(\\d{4})", "$1-$2", ["[237-9]"]]]], "HR": ["385", "00", "[2-69]\\d{8}|80\\d{5,7}|[1-79]\\d{7}|6\\d{6}", [7, 8, 9], [["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["6[01]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{4})(\\d{3})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["6|7[245]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-57]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"], "0$1"]], "0"], "HT": ["509", "00", "(?:[2-489]\\d|55)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["[2-589]"]]]], "HU": ["36", "00", "[235-7]\\d{8}|[1-9]\\d{7}", [8, 9], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "(06 $1)"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[27][2-9]|3[2-7]|4[24-9]|5[2-79]|6|8[2-57-9]|9[2-69]"], "(06 $1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-9]"], "06 $1"]], "06"], "ID": ["62", "00[89]", "00[1-9]\\d{9,14}|(?:[1-36]|8\\d{5})\\d{6}|00\\d{9}|[1-9]\\d{8,10}|[2-9]\\d{7}", [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["15"]], ["(\\d{2})(\\d{5,9})", "$1 $2", ["2[124]|[36]1"], "(0$1)"], ["(\\d{3})(\\d{5,7})", "$1 $2", ["800"], "0$1"], ["(\\d{3})(\\d{5,8})", "$1 $2", ["[2-79]"], "(0$1)"], ["(\\d{3})(\\d{3,4})(\\d{3})", "$1-$2-$3", ["8[1-35-9]"], "0$1"], ["(\\d{3})(\\d{6,8})", "$1 $2", ["1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["804"], "0$1"], ["(\\d{3})(\\d)(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["80"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1-$2-$3", ["8"], "0$1"]], "0"], "IE": ["353", "00", "(?:1\\d|[2569])\\d{6,8}|4\\d{6,9}|7\\d{8}|8\\d{8,9}", [7, 8, 9, 10], [["(\\d{2})(\\d{5})", "$1 $2", ["2[24-9]|47|58|6[237-9]|9[35-9]"], "(0$1)"], ["(\\d{3})(\\d{5})", "$1 $2", ["[45]0"], "(0$1)"], ["(\\d)(\\d{3,4})(\\d{4})", "$1 $2 $3", ["1"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2569]|4[1-69]|7[14]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["70"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["81"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[78]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["4"], "(0$1)"], ["(\\d{2})(\\d)(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "IL": ["972", "0(?:0|1[2-9])", "1\\d{6}(?:\\d{3,5})?|[57]\\d{8}|[1-489]\\d{7}", [7, 8, 9, 10, 11, 12], [["(\\d{4})(\\d{3})", "$1-$2", ["125"]], ["(\\d{4})(\\d{2})(\\d{2})", "$1-$2-$3", ["121"]], ["(\\d)(\\d{3})(\\d{4})", "$1-$2-$3", ["[2-489]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["[57]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1-$2-$3", ["12"]], ["(\\d{4})(\\d{6})", "$1-$2", ["159"]], ["(\\d)(\\d{3})(\\d{3})(\\d{3})", "$1-$2-$3-$4", ["1[7-9]"]], ["(\\d{3})(\\d{1,2})(\\d{3})(\\d{4})", "$1-$2 $3-$4", ["15"]]], "0"], "IM": ["44", "00", "1624\\d{6}|(?:[3578]\\d|90)\\d{8}", [10], 0, "0", 0, "([25-8]\\d{5})$|0", "1624$1", 0, "74576|(?:16|7[56])24"], "IN": ["91", "00", "(?:000800|[2-9]\\d\\d)\\d{7}|1\\d{7,12}", [8, 9, 10, 11, 12, 13], [["(\\d{8})", "$1", ["5(?:0|2[23]|3[03]|[67]1|88)", "5(?:0|2(?:21|3)|3(?:0|3[23])|616|717|888)", "5(?:0|2(?:21|3)|3(?:0|3[23])|616|717|8888)"], 0, 1], ["(\\d{4})(\\d{4,5})", "$1 $2", ["180", "1800"], 0, 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["140"], 0, 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["11|2[02]|33|4[04]|79[1-7]|80[2-46]", "11|2[02]|33|4[04]|79(?:[1-6]|7[19])|80(?:[2-4]|6[0-589])", "11|2[02]|33|4[04]|79(?:[124-6]|3(?:[02-9]|1[0-24-9])|7(?:1|9[1-6]))|80(?:[2-4]|6[0-589])"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["1(?:2[0-249]|3[0-25]|4[145]|[68]|7[1257])|2(?:1[257]|3[013]|4[01]|5[0137]|6[0158]|78|8[1568])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|5[12]|[78]1)|6(?:12|[2-4]1|5[17]|6[13]|80)|7(?:12|3[134]|4[47]|61|88)|8(?:16|2[014]|3[126]|6[136]|7[078]|8[34]|91)|(?:43|59|75)[15]|(?:1[59]|29|67|72)[14]", "1(?:2[0-24]|3[0-25]|4[145]|[59][14]|6[1-9]|7[1257]|8[1-57-9])|2(?:1[257]|3[013]|4[01]|5[0137]|6[058]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|[578]1|9[15])|674|7(?:(?:2[14]|3[34]|5[15])[2-6]|61[346]|88[0-8])|8(?:70[2-6]|84[235-7]|91[3-7])|(?:1(?:29|60|8[06])|261|552|6(?:12|[2-47]1|5[17]|6[13]|80)|7(?:12|31|4[47])|8(?:16|2[014]|3[126]|6[136]|7[78]|83))[2-7]", "1(?:2[0-24]|3[0-25]|4[145]|[59][14]|6[1-9]|7[1257]|8[1-57-9])|2(?:1[257]|3[013]|4[01]|5[0137]|6[058]|78|8[1568]|9[14])|3(?:26|4[1-3]|5[34]|6[01489]|7[02-46]|8[159])|4(?:1[36]|2[1-47]|3[15]|5[12]|6[0-26-9]|7[0-24-9]|8[013-57]|9[014-7])|5(?:1[025]|22|[36][25]|4[28]|[578]1|9[15])|6(?:12(?:[2-6]|7[0-8])|74[2-7])|7(?:(?:2[14]|5[15])[2-6]|3171|61[346]|88(?:[2-7]|82))|8(?:70[2-6]|84(?:[2356]|7[19])|91(?:[3-6]|7[19]))|73[134][2-6]|(?:74[47]|8(?:16|2[014]|3[126]|6[136]|7[78]|83))(?:[2-6]|7[19])|(?:1(?:29|60|8[06])|261|552|6(?:[2-4]1|5[17]|6[13]|7(?:1|4[0189])|80)|7(?:12|88[01]))[2-7]"], "0$1", 1], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1(?:[2-479]|5[0235-9])|[2-5]|6(?:1[1358]|2[2457-9]|3[2-5]|4[235-7]|5[2-689]|6[24578]|7[235689]|8[1-6])|7(?:1[013-9]|28|3[129]|4[1-35689]|5[29]|6[02-5]|70)|807", "1(?:[2-479]|5[0235-9])|[2-5]|6(?:1[1358]|2(?:[2457]|84|95)|3(?:[2-4]|55)|4[235-7]|5[2-689]|6[24578]|7[235689]|8[1-6])|7(?:1(?:[013-8]|9[6-9])|28[6-8]|3(?:17|2[0-49]|9[2-57])|4(?:1[2-4]|[29][0-7]|3[0-8]|[56]|8[0-24-7])|5(?:2[1-3]|9[0-6])|6(?:0[5689]|2[5-9]|3[02-8]|4|5[0-367])|70[13-7])|807[19]", "1(?:[2-479]|5(?:[0236-9]|5[013-9]))|[2-5]|6(?:2(?:84|95)|355|83)|73179|807(?:1|9[1-3])|(?:1552|6(?:1[1358]|2[2457]|3[2-4]|4[235-7]|5[2-689]|6[24578]|7[235689]|8[124-6])\\d|7(?:1(?:[013-8]\\d|9[6-9])|28[6-8]|3(?:2[0-49]|9[2-57])|4(?:1[2-4]|[29][0-7]|3[0-8]|[56]\\d|8[0-24-7])|5(?:2[1-3]|9[0-6])|6(?:0[5689]|2[5-9]|3[02-8]|4\\d|5[0-367])|70[13-7]))[2-7]"], "0$1", 1], ["(\\d{5})(\\d{5})", "$1 $2", ["[6-9]"], "0$1", 1], ["(\\d{4})(\\d{2,4})(\\d{4})", "$1 $2 $3", ["1(?:6|8[06])", "1(?:6|8[06]0)"], 0, 1], ["(\\d{4})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["18"], 0, 1]], "0"], "IO": ["246", "00", "3\\d{6}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["3"]]]], "IQ": ["964", "00", "(?:1|7\\d\\d)\\d{7}|[2-6]\\d{7,8}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-6]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"]], "0"], "IR": ["98", "00", "[1-9]\\d{9}|(?:[1-8]\\d\\d|9)\\d{3,4}", [4, 5, 6, 7, 10], [["(\\d{4,5})", "$1", ["96"], "0$1"], ["(\\d{2})(\\d{4,5})", "$1 $2", ["(?:1[137]|2[13-68]|3[1458]|4[145]|5[1468]|6[16]|7[1467]|8[13467])[12689]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["[1-8]"], "0$1"]], "0"], "IS": ["354", "00|1(?:0(?:01|[12]0)|100)", "(?:38\\d|[4-9])\\d{6}", [7, 9], [["(\\d{3})(\\d{4})", "$1 $2", ["[4-9]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["3"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "IT": ["39", "00", "0\\d{5,10}|1\\d{8,10}|3(?:[0-8]\\d{7,10}|9\\d{7,8})|(?:43|55|70)\\d{8}|8\\d{5}(?:\\d{2,4})?", [6, 7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{4,6})", "$1 $2", ["0[26]"]], ["(\\d{3})(\\d{3,6})", "$1 $2", ["0[13-57-9][0159]|8(?:03|4[17]|9[2-5])", "0[13-57-9][0159]|8(?:03|4[17]|9(?:2|3[04]|[45][0-4]))"]], ["(\\d{4})(\\d{2,6})", "$1 $2", ["0(?:[13-579][2-46-8]|8[236-8])"]], ["(\\d{4})(\\d{4})", "$1 $2", ["894"]], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["0[26]|5"]], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["1(?:44|[679])|[378]|43"]], ["(\\d{3})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["0[13-57-9][0159]|14"]], ["(\\d{2})(\\d{4})(\\d{5})", "$1 $2 $3", ["0[26]"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["3"]]], 0, 0, 0, 0, 0, 0, [["0669[0-79]\\d{1,6}|0(?:1(?:[0159]\\d|[27][1-5]|31|4[1-4]|6[1356]|8[2-57])|2\\d\\d|3(?:[0159]\\d|2[1-4]|3[12]|[48][1-6]|6[2-59]|7[1-7])|4(?:[0159]\\d|[23][1-9]|4[245]|6[1-5]|7[1-4]|81)|5(?:[0159]\\d|2[1-5]|3[2-6]|4[1-79]|6[4-6]|7[1-578]|8[3-8])|6(?:[0-57-9]\\d|6[0-8])|7(?:[0159]\\d|2[12]|3[1-7]|4[2-46]|6[13569]|7[13-6]|8[1-59])|8(?:[0159]\\d|2[3-578]|3[1-356]|[6-8][1-5])|9(?:[0159]\\d|[238][1-5]|4[12]|6[1-8]|7[1-6]))\\d{2,7}", [6, 7, 8, 9, 10, 11]], ["3[2-9]\\d{7,8}|(?:31|43)\\d{8}", [9, 10]], ["80(?:0\\d{3}|3)\\d{3}", [6, 9]], ["(?:0878\\d{3}|89(?:2\\d|3[04]|4(?:[0-4]|[5-9]\\d\\d)|5[0-4]))\\d\\d|(?:1(?:44|6[346])|89(?:38|5[5-9]|9))\\d{6}", [6, 8, 9, 10]], ["1(?:78\\d|99)\\d{6}", [9, 10]], ["3[2-8]\\d{9,10}", [11, 12]], 0, 0, ["55\\d{8}", [10]], ["84(?:[08]\\d{3}|[17])\\d{3}", [6, 9]]]], "JE": ["44", "00", "1534\\d{6}|(?:[3578]\\d|90)\\d{8}", [10], 0, "0", 0, "([0-24-8]\\d{5})$|0", "1534$1", 0, 0, [["1534[0-24-8]\\d{5}"], ["7(?:(?:(?:50|82)9|937)\\d|7(?:00[378]|97\\d))\\d{5}"], ["80(?:07(?:35|81)|8901)\\d{4}"], ["(?:8(?:4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))|90(?:066[59]|1810|71(?:07|55)))\\d{4}"], ["701511\\d{4}"], 0, ["(?:3(?:0(?:07(?:35|81)|8901)|3\\d{4}|4(?:4(?:4(?:05|42|69)|703)|5(?:041|800))|7(?:0002|1206))|55\\d{4})\\d{4}"], ["76(?:464|652)\\d{5}|76(?:0[0-28]|2[356]|34|4[01347]|5[49]|6[0-369]|77|8[14]|9[139])\\d{6}"], ["56\\d{8}"]]], "JM": ["1", "011", "(?:[58]\\d\\d|658|900)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "658|876"], "JO": ["962", "00", "(?:(?:[2689]|7\\d)\\d|32|53)\\d{6}", [8, 9], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2356]|87"], "(0$1)"], ["(\\d{3})(\\d{5,6})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["70"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["7"], "0$1"]], "0"], "JP": ["81", "010", "00[1-9]\\d{6,14}|[257-9]\\d{9}|(?:00|[1-9]\\d\\d)\\d{6}", [8, 9, 10, 11, 12, 13, 14, 15, 16, 17], [["(\\d{3})(\\d{3})(\\d{3})", "$1-$2-$3", ["(?:12|57|99)0"], "0$1"], ["(\\d{4})(\\d)(\\d{4})", "$1-$2-$3", ["1(?:26|3[79]|4[56]|5[4-68]|6[3-5])|499|5(?:76|97)|746|8(?:3[89]|47|51)|9(?:80|9[16])", "1(?:267|3(?:7[247]|9[278])|466|5(?:47|58|64)|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:76|97)9|7468|8(?:3(?:8[7-9]|96)|477|51[2-9])|9(?:802|9(?:1[23]|69))|1(?:45|58)[67]", "1(?:267|3(?:7[247]|9[278])|466|5(?:47|58|64)|6(?:3[245]|48|5[4-68]))|499[2468]|5(?:769|979[2-69])|7468|8(?:3(?:8[7-9]|96[2457-9])|477|51[2-9])|9(?:802|9(?:1[23]|69))|1(?:45|58)[67]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["60"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1-$2-$3", ["[36]|4(?:2[09]|7[01])", "[36]|4(?:2(?:0|9[02-69])|7(?:0[019]|1))"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["1(?:1|5[45]|77|88|9[69])|2(?:2[1-37]|3[0-269]|4[59]|5|6[24]|7[1-358]|8[1369]|9[0-38])|4(?:[28][1-9]|3[0-57]|[45]|6[248]|7[2-579]|9[29])|5(?:2|3[0459]|4[0-369]|5[29]|8[02389]|9[0-389])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9[2-6])|8(?:2[124589]|3[26-9]|49|51|6|7[0-468]|8[68]|9[019])|9(?:[23][1-9]|4[15]|5[138]|6[1-3]|7[156]|8[189]|9[1-489])", "1(?:1|5(?:4[018]|5[017])|77|88|9[69])|2(?:2(?:[127]|3[014-9])|3[0-269]|4[59]|5(?:[1-3]|5[0-69]|9[19])|62|7(?:[1-35]|8[0189])|8(?:[16]|3[0134]|9[0-5])|9(?:[028]|17))|4(?:2(?:[13-79]|8[014-6])|3[0-57]|[45]|6[248]|7[2-47]|8[1-9]|9[29])|5(?:2|3(?:[045]|9[0-8])|4[0-369]|5[29]|8[02389]|9[0-3])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9(?:[23]|4[0-59]|5[01569]|6[0167]))|8(?:2(?:[1258]|4[0-39]|9[0-2469])|3(?:[29]|60)|49|51|6(?:[0-24]|36|5[0-3589]|7[23]|9[01459])|7[0-468]|8[68])|9(?:[23][1-9]|4[15]|5[138]|6[1-3]|7[156]|8[189]|9(?:[1289]|3[34]|4[0178]))|(?:264|837)[016-9]|2(?:57|93)[015-9]|(?:25[0468]|422|838)[01]|(?:47[59]|59[89]|8(?:6[68]|9))[019]", "1(?:1|5(?:4[018]|5[017])|77|88|9[69])|2(?:2[127]|3[0-269]|4[59]|5(?:[1-3]|5[0-69]|9(?:17|99))|6(?:2|4[016-9])|7(?:[1-35]|8[0189])|8(?:[16]|3[0134]|9[0-5])|9(?:[028]|17))|4(?:2(?:[13-79]|8[014-6])|3[0-57]|[45]|6[248]|7[2-47]|9[29])|5(?:2|3(?:[045]|9(?:[0-58]|6[4-9]|7[0-35689]))|4[0-369]|5[29]|8[02389]|9[0-3])|7(?:2[02-46-9]|34|[58]|6[0249]|7[57]|9(?:[23]|4[0-59]|5[01569]|6[0167]))|8(?:2(?:[1258]|4[0-39]|9[0169])|3(?:[29]|60|7(?:[017-9]|6[6-8]))|49|51|6(?:[0-24]|36[2-57-9]|5(?:[0-389]|5[23])|6(?:[01]|9[178])|7(?:2[2-468]|3[78])|9[0145])|7[0-468]|8[68])|9(?:4[15]|5[138]|7[156]|8[189]|9(?:[1289]|3(?:31|4[357])|4[0178]))|(?:8294|96)[1-3]|2(?:57|93)[015-9]|(?:223|8699)[014-9]|(?:25[0468]|422|838)[01]|(?:48|8292|9[23])[1-9]|(?:47[59]|59[89]|8(?:68|9))[019]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{4})", "$1-$2-$3", ["[14]|[289][2-9]|5[3-9]|7[2-4679]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2-$3", ["800"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2-$3", ["[257-9]"], "0$1"]], "0", 0, "(000[259]\\d{6})$|(?:(?:003768)0?)|0", "$1"], "KE": ["254", "000", "(?:[17]\\d\\d|900)\\d{6}|(?:2|80)0\\d{6,7}|[4-6]\\d{6,8}", [7, 8, 9, 10], [["(\\d{2})(\\d{5,7})", "$1 $2", ["[24-6]"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["[17]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[89]"], "0$1"]], "0"], "KG": ["996", "00", "8\\d{9}|[235-9]\\d{8}", [9, 10], [["(\\d{4})(\\d{5})", "$1 $2", ["3(?:1[346]|[24-79])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235-79]|88"], "0$1"], ["(\\d{3})(\\d{3})(\\d)(\\d{2,3})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "KH": ["855", "00[14-9]", "1\\d{9}|[1-9]\\d{7,8}", [8, 9, 10], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-9]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "KI": ["686", "00", "(?:[37]\\d|6[0-79])\\d{6}|(?:[2-48]\\d|50)\\d{3}", [5, 8], 0, "0"], "KM": ["269", "00", "[3478]\\d{6}", [7], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[3478]"]]]], "KN": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "869$1", 0, "869"], "KP": ["850", "00|99", "85\\d{6}|(?:19\\d|[2-7])\\d{7}", [8, 10], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-7]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"]], "0"], "KR": ["82", "00(?:[125689]|3(?:[46]5|91)|7(?:00|27|3|55|6[126]))", "00[1-9]\\d{8,11}|(?:[12]|5\\d{3})\\d{7}|[13-6]\\d{9}|(?:[1-6]\\d|80)\\d{7}|[3-6]\\d{4,5}|(?:00|7)0\\d{8}", [5, 6, 8, 9, 10, 11, 12, 13, 14], [["(\\d{2})(\\d{3,4})", "$1-$2", ["(?:3[1-3]|[46][1-4]|5[1-5])1"], "0$1"], ["(\\d{4})(\\d{4})", "$1-$2", ["1"]], ["(\\d)(\\d{3,4})(\\d{4})", "$1-$2-$3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1-$2-$3", ["[36]0|8"], "0$1"], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1-$2-$3", ["[1346]|5[1-5]"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2-$3", ["[57]"], "0$1"], ["(\\d{2})(\\d{5})(\\d{4})", "$1-$2-$3", ["5"], "0$1"]], "0", 0, "0(8(?:[1-46-8]|5\\d\\d))?"], "KW": ["965", "00", "18\\d{5}|(?:[2569]\\d|41)\\d{6}", [7, 8], [["(\\d{4})(\\d{3,4})", "$1 $2", ["[169]|2(?:[235]|4[1-35-9])|52"]], ["(\\d{3})(\\d{5})", "$1 $2", ["[245]"]]]], "KY": ["1", "011", "(?:345|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "345$1", 0, "345"], "KZ": ["7", "810", "(?:33622|8\\d{8})\\d{5}|[78]\\d{9}", [10, 14], 0, "8", 0, 0, 0, 0, "33|7", 0, "8~10"], "LA": ["856", "00", "[23]\\d{9}|3\\d{8}|(?:[235-8]\\d|41)\\d{6}", [8, 9, 10], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["2[13]|3[14]|[4-8]"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["3"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[23]"], "0$1"]], "0"], "LB": ["961", "00", "[27-9]\\d{7}|[13-9]\\d{6}", [7, 8], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[13-69]|7(?:[2-57]|62|8[0-6]|9[04-9])|8[02-9]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[27-9]"]]], "0"], "LC": ["1", "011", "(?:[58]\\d\\d|758|900)\\d{7}", [10], 0, "1", 0, "([2-8]\\d{6})$|1", "758$1", 0, "758"], "LI": ["423", "00", "[68]\\d{8}|(?:[2378]\\d|90)\\d{5}", [7, 9], [["(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3", ["[2379]|8(?:0[09]|7)", "[2379]|8(?:0(?:02|9)|7)"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["69"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]]], "0", 0, "(1001)|0"], "LK": ["94", "00", "[1-9]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[1-689]"], "0$1"]], "0"], "LR": ["231", "00", "(?:[2457]\\d|33|88)\\d{7}|(?:2\\d|[4-6])\\d{6}", [7, 8, 9], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["4[67]|[56]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-578]"], "0$1"]], "0"], "LS": ["266", "00", "(?:[256]\\d\\d|800)\\d{5}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[2568]"]]]], "LT": ["370", "00", "(?:[3469]\\d|52|[78]0)\\d{6}", [8], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["52[0-7]"], "(0-$1)", 1], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[7-9]"], "0 $1", 1], ["(\\d{2})(\\d{6})", "$1 $2", ["37|4(?:[15]|6[1-8])"], "(0-$1)", 1], ["(\\d{3})(\\d{5})", "$1 $2", ["[3-6]"], "(0-$1)", 1]], "0", 0, "[08]"], "LU": ["352", "00", "35[013-9]\\d{4,8}|6\\d{8}|35\\d{2,4}|(?:[2457-9]\\d|3[0-46-9])\\d{2,9}", [4, 5, 6, 7, 8, 9, 10, 11], [["(\\d{2})(\\d{3})", "$1 $2", ["2(?:0[2-689]|[2-9])|[3-57]|8(?:0[2-9]|[13-9])|9(?:0[89]|[2-579])"]], ["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["2(?:0[2-689]|[2-9])|[3-57]|8(?:0[2-9]|[13-9])|9(?:0[89]|[2-579])"]], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["20[2-689]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})", "$1 $2 $3 $4", ["2(?:[0367]|4[3-8])"]], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["80[01]|90[015]"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3 $4", ["20"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})(\\d{1,2})", "$1 $2 $3 $4 $5", ["2(?:[0367]|4[3-8])"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{1,5})", "$1 $2 $3 $4", ["[3-57]|8[13-9]|9(?:0[89]|[2-579])|(?:2|80)[2-9]"]]], 0, 0, "(15(?:0[06]|1[12]|[35]5|4[04]|6[26]|77|88|99)\\d)"], "LV": ["371", "00", "(?:[268]\\d|90)\\d{6}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[269]|8[01]"]]]], "LY": ["218", "00", "[2-9]\\d{8}", [9], [["(\\d{2})(\\d{7})", "$1-$2", ["[2-9]"], "0$1"]], "0"], "MA": ["212", "00", "[5-8]\\d{8}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["5[45]"], "0$1"], ["(\\d{4})(\\d{5})", "$1-$2", ["5(?:2[2-46-9]|3[3-9]|9)|8(?:0[89]|92)"], "0$1"], ["(\\d{2})(\\d{7})", "$1-$2", ["8"], "0$1"], ["(\\d{3})(\\d{6})", "$1-$2", ["[5-7]"], "0$1"]], "0", 0, 0, 0, 0, 0, [["5(?:2(?:[0-25-79]\\d|3[1-578]|4[02-46-8]|8[0235-7])|3(?:[0-47]\\d|5[02-9]|6[02-8]|8[014-9]|9[3-9])|(?:4[067]|5[03])\\d)\\d{5}"], ["(?:6(?:[0-79]\\d|8[0-247-9])|7(?:[0167]\\d|2[0-467]|5[0-3]|8[0-7]))\\d{6}"], ["80[0-7]\\d{6}"], ["89\\d{7}"], 0, 0, 0, 0, ["(?:592(?:4[0-2]|93)|80[89]\\d\\d)\\d{4}"]]], "MC": ["377", "00", "(?:[3489]|6\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["4"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[389]"]], ["(\\d)(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4 $5", ["6"], "0$1"]], "0"], "MD": ["373", "00", "(?:[235-7]\\d|[89]0)\\d{6}", [8], [["(\\d{3})(\\d{5})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["22|3"], "0$1"], ["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["[25-7]"], "0$1"]], "0"], "ME": ["382", "00", "(?:20|[3-79]\\d)\\d{6}|80\\d{6,7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[2-9]"], "0$1"]], "0"], "MF": ["590", "00", "(?:590\\d|7090)\\d{5}|(?:69|80|9\\d)\\d{7}", [9], 0, "0", 0, 0, 0, 0, 0, [["590(?:0[079]|[14]3|[27][79]|3[03-7]|5[0-268]|87)\\d{4}"], ["(?:69(?:0\\d\\d|1(?:2[2-9]|3[0-5])|4(?:0[89]|1[2-6]|9\\d)|6(?:1[016-9]|5[0-4]|[67]\\d))|7090[0-4])\\d{4}"], ["80[0-5]\\d{6}"], 0, 0, 0, 0, 0, ["9(?:(?:39[5-7]|76[018])\\d|475[0-6])\\d{4}"]]], "MG": ["261", "00", "[23]\\d{8}", [9], [["(\\d{2})(\\d{2})(\\d{3})(\\d{2})", "$1 $2 $3 $4", ["[23]"], "0$1"]], "0", 0, "([24-9]\\d{6})$|0", "20$1"], "MH": ["692", "011", "329\\d{4}|(?:[256]\\d|45)\\d{5}", [7], [["(\\d{3})(\\d{4})", "$1-$2", ["[2-6]"]]], "1"], "MK": ["389", "00", "[2-578]\\d{7}", [8], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["2|34[47]|4(?:[37]7|5[47]|64)"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[347]"], "0$1"], ["(\\d{3})(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[58]"], "0$1"]], "0"], "ML": ["223", "00", "[24-9]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[24-9]"]]]], "MM": ["95", "00", "1\\d{5,7}|95\\d{6}|(?:[4-7]|9[0-46-9])\\d{6,8}|(?:2|8\\d)\\d{5,8}", [6, 7, 8, 9, 10], [["(\\d)(\\d{2})(\\d{3})", "$1 $2 $3", ["16|2"], "0$1"], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["4(?:[2-46]|5[3-5])|5|6(?:[1-689]|7[235-7])|7(?:[0-4]|5[2-7])|8[1-5]|(?:60|86)[23]"], "0$1"], ["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[12]|452|678|86", "[12]|452|6788|86"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[4-7]|8[1-35]"], "0$1"], ["(\\d)(\\d{3})(\\d{4,6})", "$1 $2 $3", ["9(?:2[0-4]|[35-9]|4[137-9])"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["92"], "0$1"], ["(\\d)(\\d{5})(\\d{4})", "$1 $2 $3", ["9"], "0$1"]], "0"], "MN": ["976", "001", "[12]\\d{7,9}|[5-9]\\d{7}", [8, 9, 10], [["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["[12]1"], "0$1"], ["(\\d{4})(\\d{4})", "$1 $2", ["[5-9]"]], ["(\\d{3})(\\d{5,6})", "$1 $2", ["[12]2[1-3]"], "0$1"], ["(\\d{4})(\\d{5,6})", "$1 $2", ["[12](?:27|3[2-8]|4[2-68]|5[1-4689])", "[12](?:27|3[2-8]|4[2-68]|5[1-4689])[0-3]"], "0$1"], ["(\\d{5})(\\d{4,5})", "$1 $2", ["[12]"], "0$1"]], "0"], "MO": ["853", "00", "0800\\d{3}|(?:28|[68]\\d)\\d{6}", [7, 8], [["(\\d{4})(\\d{3})", "$1 $2", ["0"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[268]"]]]], "MP": ["1", "011", "[58]\\d{9}|(?:67|90)0\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "670$1", 0, "670"], "MQ": ["596", "00", "(?:596\\d|7091)\\d{5}|(?:69|[89]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-79]|8(?:0[6-9]|[36])"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "MR": ["222", "00", "(?:[2-4]\\d\\d|800)\\d{5}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-48]"]]]], "MS": ["1", "011", "(?:[58]\\d\\d|664|900)\\d{7}", [10], 0, "1", 0, "([34]\\d{6})$|1", "664$1", 0, "664"], "MT": ["356", "00", "3550\\d{4}|(?:[2579]\\d\\d|800)\\d{5}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[2357-9]"]]]], "MU": ["230", "0(?:0|[24-7]0|3[03])", "(?:[57]|8\\d\\d)\\d{7}|[2-468]\\d{6}", [7, 8, 10], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-46]|8[013]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[57]"]], ["(\\d{5})(\\d{5})", "$1 $2", ["8"]]], 0, 0, 0, 0, 0, 0, 0, "020"], "MV": ["960", "0(?:0|19)", "(?:800|9[0-57-9]\\d)\\d{7}|[34679]\\d{6}", [7, 10], [["(\\d{3})(\\d{4})", "$1-$2", ["[34679]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "MW": ["265", "00", "(?:[1289]\\d|31|77)\\d{7}|1\\d{6}", [7, 9], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["1[2-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[137-9]"], "0$1"]], "0"], "MX": ["52", "0[09]", "[2-9]\\d{9}", [10], [["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["33|5[56]|81"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[2-9]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "MY": ["60", "00", "1\\d{8,9}|(?:3\\d|[4-9])\\d{7}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1-$2 $3", ["[4-79]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1-$2 $3", ["1(?:[02469]|[378][1-9]|53)|8", "1(?:[02469]|[37][1-9]|53|8(?:[1-46-9]|5[7-9]))|8"], "0$1"], ["(\\d)(\\d{4})(\\d{4})", "$1-$2 $3", ["3"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{4})", "$1-$2-$3-$4", ["1(?:[367]|80)"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1-$2 $3", ["15"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4})", "$1-$2 $3", ["1"], "0$1"]], "0"], "MZ": ["258", "00", "(?:2|8\\d)\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2|8[2-79]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["8"]]]], "NA": ["264", "00", "[68]\\d{7,8}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["88"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["6"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["87"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"]], "0"], "NC": ["687", "00", "(?:050|[2-57-9]\\d\\d)\\d{3}", [6], [["(\\d{2})(\\d{2})(\\d{2})", "$1.$2.$3", ["[02-57-9]"]]]], "NE": ["227", "00", "[027-9]\\d{7}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["08"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[089]|2[013]|7[0467]"]]]], "NF": ["672", "00", "[13]\\d{5}", [6], [["(\\d{2})(\\d{4})", "$1 $2", ["1[0-3]"]], ["(\\d)(\\d{5})", "$1 $2", ["[13]"]]], 0, 0, "([0-258]\\d{4})$", "3$1"], "NG": ["234", "009", "(?:20|9\\d)\\d{8}|[78]\\d{9,13}", [10, 11, 12, 13, 14], [["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[7-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["20[129]"], "0$1"], ["(\\d{4})(\\d{2})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{3})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["[78]"], "0$1"], ["(\\d{3})(\\d{5})(\\d{5,6})", "$1 $2 $3", ["[78]"], "0$1"]], "0"], "NI": ["505", "00", "(?:1800|[25-8]\\d{3})\\d{4}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[125-8]"]]]], "NL": ["31", "00", "(?:[124-7]\\d\\d|3(?:[02-9]\\d|1[0-8]))\\d{6}|8\\d{6,9}|9\\d{6,10}|1\\d{4,5}", [5, 6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{4,7})", "$1 $2", ["[89]0"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["66"], "0$1"], ["(\\d)(\\d{8})", "$1 $2", ["6"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["1[16-8]|2[259]|3[124]|4[17-9]|5[124679]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-578]|91"], "0$1"], ["(\\d{3})(\\d{3})(\\d{5})", "$1 $2 $3", ["9"], "0$1"]], "0"], "NO": ["47", "00", "(?:0|[2-9]\\d{3})\\d{4}", [5, 8], [["(\\d{3})(\\d{2})(\\d{3})", "$1 $2 $3", ["8"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[2-79]"]]], 0, 0, 0, 0, 0, "[02-689]|7[0-8]"], "NP": ["977", "00", "(?:1\\d|9)\\d{9}|[1-9]\\d{7}", [8, 10, 11], [["(\\d)(\\d{7})", "$1-$2", ["1[2-6]"], "0$1"], ["(\\d{2})(\\d{6})", "$1-$2", ["1[01]|[2-8]|9(?:[1-59]|[67][2-6])"], "0$1"], ["(\\d{3})(\\d{7})", "$1-$2", ["9"]]], "0"], "NR": ["674", "00", "(?:222|444|(?:55|8\\d)\\d|666|777|999)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[24-9]"]]]], "NU": ["683", "00", "(?:[4-7]|888\\d)\\d{3}", [4, 7], [["(\\d{3})(\\d{4})", "$1 $2", ["8"]]]], "NZ": ["64", "0(?:0|161)", "[1289]\\d{9}|50\\d{5}(?:\\d{2,3})?|[27-9]\\d{7,8}|(?:[34]\\d|6[0-35-9])\\d{6}|8\\d{4,6}", [5, 6, 7, 8, 9, 10], [["(\\d{2})(\\d{3,8})", "$1 $2", ["8[1-79]"], "0$1"], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["50[036-8]|8|90", "50(?:[0367]|88)|8|90"], "0$1"], ["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["24|[346]|7[2-57-9]|9[2-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2(?:10|74)|[589]"], "0$1"], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["1|2[028]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,5})", "$1 $2 $3", ["2(?:[169]|7[0-35-9])|7"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, "00"], "OM": ["968", "00", "(?:1505|[279]\\d{3}|500)\\d{4}|800\\d{5,6}", [7, 8, 9], [["(\\d{3})(\\d{4,6})", "$1 $2", ["[58]"]], ["(\\d{2})(\\d{6})", "$1 $2", ["2"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[179]"]]]], "PA": ["507", "00", "(?:00800|8\\d{3})\\d{6}|[68]\\d{7}|[1-57-9]\\d{6}", [7, 8, 10, 11], [["(\\d{3})(\\d{4})", "$1-$2", ["[1-57-9]"]], ["(\\d{4})(\\d{4})", "$1-$2", ["[68]"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]]]], "PE": ["51", "00|19(?:1[124]|77|90)00", "(?:[14-8]|9\\d)\\d{7}", [8, 9], [["(\\d{3})(\\d{5})", "$1 $2", ["80"], "(0$1)"], ["(\\d)(\\d{7})", "$1 $2", ["1"], "(0$1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[4-8]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"]]], "0", 0, 0, 0, 0, 0, 0, "00", " Anexo "], "PF": ["689", "00", "4\\d{5}(?:\\d{2})?|8\\d{7,8}", [6, 8, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["44"]], ["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["4|8[7-9]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]]]], "PG": ["675", "00|140[1-3]", "(?:180|[78]\\d{3})\\d{4}|(?:[2-589]\\d|64)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["18|[2-69]|85"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[78]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "PH": ["63", "00", "(?:[2-7]|9\\d)\\d{8}|2\\d{5}|(?:1800|8)\\d{7,9}", [6, 8, 9, 10, 11, 12, 13], [["(\\d)(\\d{5})", "$1 $2", ["2"], "(0$1)"], ["(\\d{4})(\\d{4,6})", "$1 $2", ["3(?:23|39|46)|4(?:2[3-6]|[35]9|4[26]|76)|544|88[245]|(?:52|64|86)2", "3(?:230|397|461)|4(?:2(?:35|[46]4|51)|396|4(?:22|63)|59[347]|76[15])|5(?:221|446)|642[23]|8(?:622|8(?:[24]2|5[13]))"], "(0$1)"], ["(\\d{5})(\\d{4})", "$1 $2", ["346|4(?:27|9[35])|883", "3469|4(?:279|9(?:30|56))|8834"], "(0$1)"], ["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["2"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[3-7]|8[2-8]"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]], ["(\\d{4})(\\d{1,2})(\\d{3})(\\d{4})", "$1 $2 $3 $4", ["1"]]], "0"], "PK": ["92", "00", "122\\d{6}|[24-8]\\d{10,11}|9(?:[013-9]\\d{8,10}|2(?:[01]\\d\\d|2(?:[06-8]\\d|1[01]))\\d{7})|(?:[2-8]\\d{3}|92(?:[0-7]\\d|8[1-9]))\\d{6}|[24-9]\\d{8}|[89]\\d{7}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{2,7})", "$1 $2 $3", ["[89]0"], "0$1"], ["(\\d{4})(\\d{5})", "$1 $2", ["1"]], ["(\\d{3})(\\d{6,7})", "$1 $2", ["2(?:3[2358]|4[2-4]|9[2-8])|45[3479]|54[2-467]|60[468]|72[236]|8(?:2[2-689]|3[23578]|4[3478]|5[2356])|9(?:2[2-8]|3[27-9]|4[2-6]|6[3569]|9[25-8])", "9(?:2[3-8]|98)|(?:2(?:3[2358]|4[2-4]|9[2-8])|45[3479]|54[2-467]|60[468]|72[236]|8(?:2[2-689]|3[23578]|4[3478]|5[2356])|9(?:22|3[27-9]|4[2-6]|6[3569]|9[25-7]))[2-9]"], "(0$1)"], ["(\\d{2})(\\d{7,8})", "$1 $2", ["(?:2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91)[2-9]"], "(0$1)"], ["(\\d{5})(\\d{5})", "$1 $2", ["58"], "(0$1)"], ["(\\d{3})(\\d{7})", "$1 $2", ["3"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["2[125]|4[0-246-9]|5[1-35-7]|6[1-8]|7[14]|8[16]|91"], "(0$1)"], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[24-9]"], "(0$1)"]], "0"], "PL": ["48", "00", "(?:6|8\\d\\d)\\d{7}|[1-9]\\d{6}(?:\\d{2})?|[26]\\d{5}", [6, 7, 8, 9, 10], [["(\\d{5})", "$1", ["19"]], ["(\\d{3})(\\d{3})", "$1 $2", ["11|20|64"]], ["(\\d{2})(\\d{2})(\\d{3})", "$1 $2 $3", ["(?:1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145])1", "(?:1[2-8]|2[2-69]|3[2-4]|4[1-468]|5[24-689]|6[1-3578]|7[14-7]|8[1-79]|9[145])19"]], ["(\\d{3})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["64"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["21|39|45|5[0137]|6[0469]|7[02389]|8(?:0[14]|8)"]], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["1[2-8]|[2-7]|8[1-79]|9[145]"]], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["8"]]]], "PM": ["508", "00", "[45]\\d{5}|(?:708|8\\d\\d)\\d{6}", [6, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["[45]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["7"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"], "0$1"]], "0"], "PR": ["1", "011", "(?:[589]\\d\\d|787)\\d{7}", [10], 0, "1", 0, 0, 0, 0, "787|939"], "PS": ["970", "00", "[2489]2\\d{6}|(?:1\\d|5)\\d{8}", [8, 9, 10], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["[2489]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "PT": ["351", "00", "1693\\d{5}|(?:[26-9]\\d|30)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["2[12]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["16|[236-9]"]]]], "PW": ["680", "01[12]", "(?:[24-8]\\d\\d|345|900)\\d{4}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-9]"]]]], "PY": ["595", "00", "59\\d{4,6}|9\\d{5,10}|(?:[2-46-8]\\d|5[0-8])\\d{4,7}", [6, 7, 8, 9, 10, 11], [["(\\d{3})(\\d{3,6})", "$1 $2", ["[2-9]0"], "0$1"], ["(\\d{2})(\\d{5})", "$1 $2", ["[26]1|3[289]|4[1246-8]|7[1-3]|8[1-36]"], "(0$1)"], ["(\\d{3})(\\d{4,5})", "$1 $2", ["2[279]|3[13-5]|4[359]|5|6(?:[34]|7[1-46-8])|7[46-8]|85"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2[14-68]|3[26-9]|4[1246-8]|6(?:1|75)|7[1-35]|8[1-36]"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["87"]], ["(\\d{3})(\\d{6})", "$1 $2", ["9(?:[5-79]|8[1-7])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-8]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["9"]]], "0"], "QA": ["974", "00", "800\\d{4}|(?:2|800)\\d{6}|(?:0080|[3-7])\\d{7}", [7, 8, 9, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["2[136]|8"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[3-7]"]]]], "RE": ["262", "00", "709\\d{6}|(?:26|[689]\\d)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[26-9]"], "0$1"]], "0", 0, 0, 0, 0, 0, [["26(?:2\\d\\d|3(?:0\\d|1[0-6]))\\d{4}"], ["(?:69(?:2\\d\\d|3(?:[06][0-6]|1[0-3]|2[0-2]|3[0-39]|4\\d|5[0-5]|7[0-37]|8[0-8]|9[0-479]))|7092[0-3])\\d{4}"], ["80\\d{7}"], ["89[1-37-9]\\d{6}"], 0, 0, 0, 0, ["9(?:399[0-3]|479[0-6]|76(?:2[278]|3[0-37]))\\d{4}"], ["8(?:1[019]|2[0156]|84|90)\\d{6}"]]], "RO": ["40", "00", "(?:[236-8]\\d|90)\\d{7}|[23]\\d{5}", [6, 9], [["(\\d{3})(\\d{3})", "$1 $2", ["2[3-6]", "2[3-6]\\d9"], "0$1"], ["(\\d{2})(\\d{4})", "$1 $2", ["219|31"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[23]1"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[236-9]"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, 0, " int "], "RS": ["381", "00", "38[02-9]\\d{6,9}|6\\d{7,9}|90\\d{4,8}|38\\d{5,6}|(?:7\\d\\d|800)\\d{3,9}|(?:[12]\\d|3[0-79])\\d{5,10}", [6, 7, 8, 9, 10, 11, 12], [["(\\d{3})(\\d{3,9})", "$1 $2", ["(?:2[389]|39)0|[7-9]"], "0$1"], ["(\\d{2})(\\d{5,10})", "$1 $2", ["[1-36]"], "0$1"]], "0"], "RU": ["7", "810", "8\\d{13}|[347-9]\\d{9}", [10, 14], [["(\\d{4})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["7(?:1[0-8]|2[1-9])", "7(?:1(?:[0-356]2|4[29]|7|8[27])|2(?:1[23]|[2-9]2))", "7(?:1(?:[0-356]2|4[29]|7|8[27])|2(?:13[03-69]|62[013-9]))|72[1-57-9]2"], "8 ($1)", 1], ["(\\d{5})(\\d)(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["7(?:1[0-68]|2[1-9])", "7(?:1(?:[06][3-6]|[18]|2[35]|[3-5][3-5])|2(?:[13][3-5]|[24-689]|7[457]))", "7(?:1(?:0(?:[356]|4[023])|[18]|2(?:3[013-9]|5)|3[45]|43[013-79]|5(?:3[1-8]|4[1-7]|5)|6(?:3[0-35-9]|[4-6]))|2(?:1(?:3[178]|[45])|[24-689]|3[35]|7[457]))|7(?:14|23)4[0-8]|71(?:33|45)[1-79]"], "8 ($1)", 1], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "8 ($1)", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[349]|8(?:[02-7]|1[1-8])"], "8 ($1)", 1], ["(\\d{4})(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["8"], "8 ($1)"]], "8", 0, 0, 0, 0, "3[04-689]|[489]", 0, "8~10"], "RW": ["250", "00", "(?:06|[27]\\d\\d|[89]00)\\d{6}", [8, 9], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["0"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["2"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[7-9]"], "0$1"]], "0"], "SA": ["966", "00", "(?:[15]\\d|800|92)\\d{7}", [9, 10], [["(\\d{4})(\\d{5})", "$1 $2", ["9"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["5"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]]], "0"], "SB": ["677", "0[01]", "[6-9]\\d{6}|[1-6]\\d{4}", [5, 7], [["(\\d{2})(\\d{5})", "$1 $2", ["6[89]|7|8[4-9]|9(?:[1-8]|9[0-8])"]]]], "SC": ["248", "010|0[0-2]", "(?:[2489]\\d|64)\\d{5}", [7], [["(\\d)(\\d{3})(\\d{3})", "$1 $2 $3", ["[246]|9[57]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "SD": ["249", "00", "[19]\\d{8}", [9], [["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[19]"], "0$1"]], "0"], "SE": ["46", "00", "(?:[26]\\d\\d|9)\\d{9}|[1-9]\\d{8}|[1-689]\\d{7}|[1-4689]\\d{6}|2\\d{5}", [6, 7, 8, 9, 10, 12], [["(\\d{2})(\\d{2,3})(\\d{2})", "$1-$2 $3", ["20"], "0$1", 0, "$1 $2 $3"], ["(\\d{3})(\\d{4})", "$1-$2", ["9(?:00|39|44|9)"], "0$1", 0, "$1 $2"], ["(\\d{2})(\\d{3})(\\d{2})", "$1-$2 $3", ["[12][136]|3[356]|4[0246]|6[03]|90[1-9]"], "0$1", 0, "$1 $2 $3"], ["(\\d)(\\d{2,3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["8"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2,3})(\\d{2})", "$1-$2 $3", ["1[2457]|2(?:[247-9]|5[0138])|3[0247-9]|4[1357-9]|5[0-35-9]|6(?:[125689]|4[02-57]|7[0-2])|9(?:[125-8]|3[02-5]|4[0-3])"], "0$1", 0, "$1 $2 $3"], ["(\\d{3})(\\d{2,3})(\\d{3})", "$1-$2 $3", ["9(?:00|39|44)"], "0$1", 0, "$1 $2 $3"], ["(\\d{2})(\\d{2,3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["1[13689]|2[0136]|3[1356]|4[0246]|54|6[03]|90[1-9]"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["10|7"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d)(\\d{3})(\\d{3})(\\d{2})", "$1-$2 $3 $4", ["8"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1-$2 $3 $4", ["[13-5]|2(?:[247-9]|5[0138])|6(?:[124-689]|7[0-2])|9(?:[125-8]|3[02-5]|4[0-3])"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{2})(\\d{3})", "$1-$2 $3 $4", ["9"], "0$1", 0, "$1 $2 $3 $4"], ["(\\d{3})(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1-$2 $3 $4 $5", ["[26]"], "0$1", 0, "$1 $2 $3 $4 $5"]], "0"], "SG": ["65", "0[0-3]\\d", "(?:(?:1\\d|8)\\d\\d|7000)\\d{7}|[3689]\\d{7}", [8, 10, 11], [["(\\d{4})(\\d{4})", "$1 $2", ["[369]|8(?:0[1-9]|[1-9])"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"]], ["(\\d{4})(\\d{4})(\\d{3})", "$1 $2 $3", ["7"]], ["(\\d{4})(\\d{3})(\\d{4})", "$1 $2 $3", ["1"]]]], "SH": ["290", "00", "(?:[256]\\d|8)\\d{3}", [4, 5], 0, 0, 0, 0, 0, 0, "[256]"], "SI": ["386", "00|10(?:22|66|88|99)", "[1-7]\\d{7}|8\\d{4,7}|90\\d{4,6}", [5, 6, 7, 8], [["(\\d{2})(\\d{3,6})", "$1 $2", ["8[09]|9"], "0$1"], ["(\\d{3})(\\d{5})", "$1 $2", ["59|8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[37][01]|4[0139]|51|6"], "0$1"], ["(\\d)(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[1-57]"], "(0$1)"]], "0", 0, 0, 0, 0, 0, 0, "00"], "SJ": ["47", "00", "0\\d{4}|(?:[489]\\d|79)\\d{6}", [5, 8], 0, 0, 0, 0, 0, 0, "79"], "SK": ["421", "00", "[2-689]\\d{8}|[2-59]\\d{6}|[2-5]\\d{5}", [6, 7, 9], [["(\\d)(\\d{2})(\\d{3,4})", "$1 $2 $3", ["21"], "0$1"], ["(\\d{2})(\\d{2})(\\d{2,3})", "$1 $2 $3", ["[3-5][1-8]1", "[3-5][1-8]1[67]"], "0$1"], ["(\\d)(\\d{3})(\\d{3})(\\d{2})", "$1/$2 $3 $4", ["2"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[689]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1/$2 $3 $4", ["[3-5]"], "0$1"]], "0"], "SL": ["232", "00", "(?:[237-9]\\d|66)\\d{6}", [8], [["(\\d{2})(\\d{6})", "$1 $2", ["[236-9]"], "(0$1)"]], "0"], "SM": ["378", "00", "(?:0549|[5-7]\\d)\\d{6}", [8, 10], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[5-7]"]], ["(\\d{4})(\\d{6})", "$1 $2", ["0"]]], 0, 0, "([89]\\d{5})$", "0549$1"], "SN": ["221", "00", "(?:[378]\\d|93)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[379]"]]]], "SO": ["252", "00", "[346-9]\\d{8}|[12679]\\d{7}|[1-5]\\d{6}|[1348]\\d{5}", [6, 7, 8, 9], [["(\\d{2})(\\d{4})", "$1 $2", ["8[125]"]], ["(\\d{6})", "$1", ["[134]"]], ["(\\d)(\\d{6})", "$1 $2", ["[15]|2[0-79]|3[0-46-8]|4[0-7]"]], ["(\\d)(\\d{7})", "$1 $2", ["(?:2|90)4|[67]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[348]|64|79|90"]], ["(\\d{2})(\\d{5,7})", "$1 $2", ["1|28|6[0-35-9]|7[67]|9[2-9]"]]], "0"], "SR": ["597", "00", "(?:[2-5]|68|[78]\\d|90)\\d{5}", [6, 7], [["(\\d{2})(\\d{2})(\\d{2})", "$1-$2-$3", ["56"]], ["(\\d{3})(\\d{3})", "$1-$2", ["[2-5]"]], ["(\\d{3})(\\d{4})", "$1-$2", ["[6-9]"]]]], "SS": ["211", "00", "[19]\\d{8}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[19]"], "0$1"]], "0"], "ST": ["239", "00", "(?:22|9\\d)\\d{5}", [7], [["(\\d{3})(\\d{4})", "$1 $2", ["[29]"]]]], "SV": ["503", "00", "[267]\\d{7}|(?:80\\d|900)\\d{4}(?:\\d{4})?", [7, 8, 11], [["(\\d{3})(\\d{4})", "$1 $2", ["[89]"]], ["(\\d{4})(\\d{4})", "$1 $2", ["[267]"]], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["[89]"]]]], "SX": ["1", "011", "7215\\d{6}|(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "(5\\d{6})$|1", "721$1", 0, "721"], "SY": ["963", "00", "[1-39]\\d{8}|[1-5]\\d{7}", [8, 9], [["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-5]"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"], "0$1", 1]], "0"], "SZ": ["268", "00", "0800\\d{4}|(?:[237]\\d|900)\\d{6}", [8, 9], [["(\\d{4})(\\d{4})", "$1 $2", ["[0237]"]], ["(\\d{5})(\\d{4})", "$1 $2", ["9"]]]], "TA": ["290", "00", "8\\d{3}", [4], 0, 0, 0, 0, 0, 0, "8"], "TC": ["1", "011", "(?:[58]\\d\\d|649|900)\\d{7}", [10], 0, "1", 0, "([2-479]\\d{6})$|1", "649$1", 0, "649"], "TD": ["235", "00|16", "(?:22|[689]\\d|77)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[26-9]"]]], 0, 0, 0, 0, 0, 0, 0, "00"], "TG": ["228", "00", "[279]\\d{7}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[279]"]]]], "TH": ["66", "00[1-9]", "(?:001800|[2-57]|[689]\\d)\\d{7}|1\\d{7,9}", [8, 9, 10, 13], [["(\\d)(\\d{3})(\\d{4})", "$1 $2 $3", ["2"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[13-9]"], "0$1"], ["(\\d{4})(\\d{3})(\\d{3})", "$1 $2 $3", ["1"]]], "0"], "TJ": ["992", "810", "[0-57-9]\\d{8}", [9], [["(\\d{6})(\\d)(\\d{2})", "$1 $2 $3", ["331", "3317"]], ["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["44[02-479]|[34]7"]], ["(\\d{4})(\\d)(\\d{4})", "$1 $2 $3", ["3(?:[1245]|3[12])"]], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[0-57-9]"]]], 0, 0, 0, 0, 0, 0, 0, "8~10"], "TK": ["690", "00", "[2-47]\\d{3,6}", [4, 5, 6, 7]], "TL": ["670", "00", "7\\d{7}|(?:[2-47]\\d|[89]0)\\d{5}", [7, 8], [["(\\d{3})(\\d{4})", "$1 $2", ["[2-489]|70"]], ["(\\d{4})(\\d{4})", "$1 $2", ["7"]]]], "TM": ["993", "810", "(?:[1-6]\\d|71)\\d{6}", [8], [["(\\d{2})(\\d{2})(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["12"], "(8 $1)"], ["(\\d{3})(\\d)(\\d{2})(\\d{2})", "$1 $2-$3-$4", ["[1-5]"], "(8 $1)"], ["(\\d{2})(\\d{6})", "$1 $2", ["[67]"], "8 $1"]], "8", 0, 0, 0, 0, 0, 0, "8~10"], "TN": ["216", "00", "[2-57-9]\\d{7}", [8], [["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-57-9]"]]]], "TO": ["676", "00", "(?:0800|(?:[5-8]\\d\\d|999)\\d)\\d{3}|[2-8]\\d{4}", [5, 7], [["(\\d{2})(\\d{3})", "$1-$2", ["[2-4]|50|6[09]|7[0-24-69]|8[05]"]], ["(\\d{4})(\\d{3})", "$1 $2", ["0"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[5-9]"]]]], "TR": ["90", "00", "4\\d{6}|8\\d{11,12}|(?:[2-58]\\d\\d|900)\\d{7}", [7, 10, 12, 13], [["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["512|8[01589]|90"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["5(?:[0-59]|61)", "5(?:[0-59]|61[06])", "5(?:[0-59]|61[06]1)"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[24][1-8]|3[1-9]"], "(0$1)", 1], ["(\\d{3})(\\d{3})(\\d{6,7})", "$1 $2 $3", ["80"], "0$1", 1]], "0"], "TT": ["1", "011", "(?:[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-46-8]\\d{6})$|1", "868$1", 0, "868"], "TV": ["688", "00", "(?:2|7\\d\\d|90)\\d{4}", [5, 6, 7], [["(\\d{2})(\\d{3})", "$1 $2", ["2"]], ["(\\d{2})(\\d{4})", "$1 $2", ["90"]], ["(\\d{2})(\\d{5})", "$1 $2", ["7"]]]], "TW": ["886", "0(?:0[25-79]|19)", "[2-689]\\d{8}|7\\d{9,10}|[2-8]\\d{7}|2\\d{6}", [7, 8, 9, 10, 11], [["(\\d{2})(\\d)(\\d{4})", "$1 $2 $3", ["202"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[258]0"], "0$1"], ["(\\d)(\\d{3,4})(\\d{4})", "$1 $2 $3", ["[23568]|4(?:0[02-48]|[1-47-9])|7[1-9]", "[23568]|4(?:0[2-48]|[1-47-9])|(?:400|7)[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[49]"], "0$1"], ["(\\d{2})(\\d{4})(\\d{4,5})", "$1 $2 $3", ["7"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, 0, "#"], "TZ": ["255", "00[056]", "(?:[25-8]\\d|41|90)\\d{7}", [9], [["(\\d{3})(\\d{2})(\\d{4})", "$1 $2 $3", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[24]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["5"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[67]"], "0$1"]], "0"], "UA": ["380", "00", "[89]\\d{9}|[3-9]\\d{8}", [9, 10], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["6[12][29]|(?:3[1-8]|4[136-8]|5[12457]|6[49])2|(?:56|65)[24]", "6[12][29]|(?:35|4[1378]|5[12457]|6[49])2|(?:56|65)[24]|(?:3[1-46-8]|46)2[013-9]"], "0$1"], ["(\\d{4})(\\d{5})", "$1 $2", ["3[1-8]|4(?:[1367]|[45][6-9]|8[4-6])|5(?:[1-5]|6[0135689]|7[4-6])|6(?:[12][3-7]|[459])", "3[1-8]|4(?:[1367]|[45][6-9]|8[4-6])|5(?:[1-5]|6(?:[015689]|3[02389])|7[4-6])|6(?:[12][3-7]|[459])"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[3-7]|89|9[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[89]"], "0$1"]], "0", 0, 0, 0, 0, 0, 0, "0~0"], "UG": ["256", "00[057]", "800\\d{6}|(?:[29]0|[347]\\d)\\d{7}", [9], [["(\\d{4})(\\d{5})", "$1 $2", ["202", "2024"], "0$1"], ["(\\d{3})(\\d{6})", "$1 $2", ["[27-9]|4(?:6[45]|[7-9])"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["[34]"], "0$1"]], "0"], "US": ["1", "011", "[2-9]\\d{9}|3\\d{6}", [10], [["(\\d{3})(\\d{4})", "$1-$2", ["310"], 0, 1], ["(\\d{3})(\\d{3})(\\d{4})", "($1) $2-$3", ["[2-9]"], 0, 1, "$1-$2-$3"]], "1", 0, 0, 0, 0, 0, [["(?:3052(?:0[0-8]|[1-9]\\d)|5056(?:[0-35-9]\\d|4[0-68]))\\d{4}|(?:2742|305[3-9]|472[247-9]|505[2-57-9]|983[2-47-9])\\d{6}|(?:2(?:0[1-35-9]|1[02-9]|2[03-57-9]|3[1459]|4[08]|5[1-46]|6[0279]|7[0269]|8[13])|3(?:0[1-47-9]|1[02-9]|2[0135-79]|3[0-24679]|4[167]|5[0-2]|6[01349]|8[056])|4(?:0[124-9]|1[02-579]|2[3-5]|3[0245]|4[023578]|58|6[349]|7[0589]|8[04])|5(?:0[1-47-9]|1[0235-8]|20|3[0149]|4[01]|5[179]|6[1-47]|7[0-5]|8[0256])|6(?:0[1-35-9]|1[024-9]|2[03689]|3[016]|4[0156]|5[01679]|6[0-279]|78|8[0-29])|7(?:0[1-46-8]|1[2-9]|2[04-8]|3[0-247]|4[037]|5[47]|6[02359]|7[0-59]|8[156])|8(?:0[1-68]|1[02-8]|2[0168]|3[0-2589]|4[03578]|5[046-9]|6[02-5]|7[028])|9(?:0[1346-9]|1[02-9]|2[0589]|3[0146-8]|4[01357-9]|5[12469]|7[0-389]|8[04-69]))[2-9]\\d{6}"], [""], ["8(?:00|33|44|55|66|77|88)[2-9]\\d{6}"], ["900[2-9]\\d{6}"], ["52(?:3(?:[2-46-9][02-9]\\d|5(?:[02-46-9]\\d|5[0-46-9]))|4(?:[2-478][02-9]\\d|5(?:[034]\\d|2[024-9]|5[0-46-9])|6(?:0[1-9]|[2-9]\\d)|9(?:[05-9]\\d|2[0-5]|49)))\\d{4}|52[34][2-9]1[02-9]\\d{4}|5(?:00|2[125-9]|33|44|66|77|88)[2-9]\\d{6}"], 0, 0, 0, ["305209\\d{4}"]]], "UY": ["598", "0(?:0|1[3-9]\\d)", "0004\\d{2,9}|[1249]\\d{7}|(?:[49]\\d|80)\\d{5}", [6, 7, 8, 9, 10, 11, 12, 13], [["(\\d{3})(\\d{3,4})", "$1 $2", ["0"]], ["(\\d{3})(\\d{4})", "$1 $2", ["[49]0|8"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["9"], "0$1"], ["(\\d{4})(\\d{4})", "$1 $2", ["[124]"]], ["(\\d{3})(\\d{3})(\\d{2,4})", "$1 $2 $3", ["0"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{2,4})", "$1 $2 $3 $4", ["0"]]], "0", 0, 0, 0, 0, 0, 0, "00", " int. "], "UZ": ["998", "00", "(?:20|33|[5-9]\\d)\\d{7}", [9], [["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["[235-9]"]]]], "VA": ["39", "00", "0\\d{5,10}|3[0-8]\\d{7,10}|55\\d{8}|8\\d{5}(?:\\d{2,4})?|(?:1\\d|39)\\d{7,8}", [6, 7, 8, 9, 10, 11, 12], 0, 0, 0, 0, 0, 0, "06698"], "VC": ["1", "011", "(?:[58]\\d\\d|784|900)\\d{7}", [10], 0, "1", 0, "([2-7]\\d{6})$|1", "784$1", 0, "784"], "VE": ["58", "00", "[68]00\\d{7}|(?:[24]\\d|[59]0)\\d{8}", [10], [["(\\d{3})(\\d{7})", "$1-$2", ["[24-689]"], "0$1"]], "0"], "VG": ["1", "011", "(?:284|[58]\\d\\d|900)\\d{7}", [10], 0, "1", 0, "([2-578]\\d{6})$|1", "284$1", 0, "284"], "VI": ["1", "011", "[58]\\d{9}|(?:34|90)0\\d{7}", [10], 0, "1", 0, "([2-9]\\d{6})$|1", "340$1", 0, "340"], "VN": ["84", "00", "[12]\\d{9}|[135-9]\\d{8}|[16]\\d{7}|[16-8]\\d{6}", [7, 8, 9, 10], [["(\\d{2})(\\d{5})", "$1 $2", ["80"], "0$1", 1], ["(\\d{4})(\\d{4,6})", "$1 $2", ["1"], 0, 1], ["(\\d{2})(\\d{3})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["6"], "0$1", 1], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[357-9]"], "0$1", 1], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["2[48]"], "0$1", 1], ["(\\d{3})(\\d{4})(\\d{3})", "$1 $2 $3", ["2"], "0$1", 1]], "0"], "VU": ["678", "00", "[57-9]\\d{6}|(?:[238]\\d|48)\\d{3}", [5, 7], [["(\\d{3})(\\d{4})", "$1 $2", ["[57-9]"]]]], "WF": ["681", "00", "(?:40|72|8\\d{4})\\d{4}|[89]\\d{5}", [6, 9], [["(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3", ["[47-9]"]], ["(\\d{3})(\\d{2})(\\d{2})(\\d{2})", "$1 $2 $3 $4", ["8"]]]], "WS": ["685", "0", "(?:[2-6]|8\\d{5})\\d{4}|[78]\\d{6}|[68]\\d{5}", [5, 6, 7, 10], [["(\\d{5})", "$1", ["[2-5]|6[1-9]"]], ["(\\d{3})(\\d{3,7})", "$1 $2", ["[68]"]], ["(\\d{2})(\\d{5})", "$1 $2", ["7"]]]], "XK": ["383", "00", "2\\d{7,8}|3\\d{7,11}|(?:4\\d\\d|[89]00)\\d{5}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{5})", "$1 $2", ["[89]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3})", "$1 $2 $3", ["[2-4]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["2|39"], "0$1"], ["(\\d{2})(\\d{7,10})", "$1 $2", ["3"], "0$1"]], "0"], "YE": ["967", "00", "(?:1|7\\d)\\d{7}|[1-7]\\d{6}", [7, 8, 9], [["(\\d)(\\d{3})(\\d{3,4})", "$1 $2 $3", ["[1-6]|7(?:[24-6]|8[0-7])"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["7"], "0$1"]], "0"], "YT": ["262", "00", "7093\\d{5}|(?:80|9\\d)\\d{7}|(?:26|63)9\\d{6}", [9], 0, "0", 0, 0, 0, 0, 0, [["269(?:0[0-467]|15|5[0-4]|6\\d|[78]0)\\d{4}"], ["(?:639(?:0[0-79]|1[019]|[267]\\d|3[09]|40|5[05-9]|9[04-79])|7093[5-7])\\d{4}"], ["80\\d{7}"], 0, 0, 0, 0, 0, ["9(?:(?:39|47)8[01]|769\\d)\\d{4}"]]], "ZA": ["27", "00", "[1-79]\\d{8}|8\\d{4,9}", [5, 6, 7, 8, 9, 10], [["(\\d{2})(\\d{3,4})", "$1 $2", ["8[1-4]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{2,3})", "$1 $2 $3", ["8[1-4]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["860"], "0$1"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["[1-9]"], "0$1"], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["8"], "0$1"]], "0"], "ZM": ["260", "00", "800\\d{6}|(?:21|[579]\\d|63)\\d{7}", [9], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[28]"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["[579]"], "0$1"]], "0"], "ZW": ["263", "00", "2(?:[0-57-9]\\d{6,8}|6[0-24-9]\\d{6,7})|[38]\\d{9}|[35-8]\\d{8}|[3-6]\\d{7}|[1-689]\\d{6}|[1-3569]\\d{5}|[1356]\\d{4}", [5, 6, 7, 8, 9, 10], [["(\\d{3})(\\d{3,5})", "$1 $2", ["2(?:0[45]|2[278]|[49]8)|3(?:[09]8|17)|6(?:[29]8|37|75)|[23][78]|(?:33|5[15]|6[68])[78]"], "0$1"], ["(\\d)(\\d{3})(\\d{2,4})", "$1 $2 $3", ["[49]"], "0$1"], ["(\\d{3})(\\d{4})", "$1 $2", ["80"], "0$1"], ["(\\d{2})(\\d{7})", "$1 $2", ["24|8[13-59]|(?:2[05-79]|39|5[45]|6[15-8])2", "2(?:02[014]|4|[56]20|[79]2)|392|5(?:42|525)|6(?:[16-8]21|52[013])|8[13-59]"], "(0$1)"], ["(\\d{2})(\\d{3})(\\d{4})", "$1 $2 $3", ["7"], "0$1"], ["(\\d{3})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["2(?:1[39]|2[0157]|[378]|[56][14])|3(?:12|29)", "2(?:1[39]|2[0157]|[378]|[56][14])|3(?:123|29)"], "0$1"], ["(\\d{4})(\\d{6})", "$1 $2", ["8"], "0$1"], ["(\\d{2})(\\d{3,5})", "$1 $2", ["1|2(?:0[0-36-9]|12|29|[56])|3(?:1[0-689]|[24-6])|5(?:[0236-9]|1[2-4])|6(?:[013-59]|7[0-46-9])|(?:33|55|6[68])[0-69]|(?:29|3[09]|62)[0-79]"], "0$1"], ["(\\d{2})(\\d{3})(\\d{3,4})", "$1 $2 $3", ["29[013-9]|39|54"], "0$1"], ["(\\d{4})(\\d{3,5})", "$1 $2", ["(?:25|54)8", "258|5483"], "0$1"]], "0"] }, "nonGeographic": { "800": ["800", 0, "(?:00|[1-9]\\d)\\d{6}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["\\d"]]], 0, 0, 0, 0, 0, 0, [0, 0, ["(?:00|[1-9]\\d)\\d{6}"]]], "808": ["808", 0, "[1-9]\\d{7}", [8], [["(\\d{4})(\\d{4})", "$1 $2", ["[1-9]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, 0, ["[1-9]\\d{7}"]]], "870": ["870", 0, "7\\d{11}|[235-7]\\d{8}", [9, 12], [["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["[235-7]"]]], 0, 0, 0, 0, 0, 0, [0, ["(?:[356]|774[45])\\d{8}|7[6-8]\\d{7}"], 0, 0, 0, 0, 0, 0, ["2\\d{8}", [9]]]], "878": ["878", 0, "10\\d{10}", [12], [["(\\d{2})(\\d{5})(\\d{5})", "$1 $2 $3", ["1"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, ["10\\d{10}"]]], "881": ["881", 0, "6\\d{9}|[0-36-9]\\d{8}", [9, 10], [["(\\d)(\\d{3})(\\d{5})", "$1 $2 $3", ["[0-37-9]"]], ["(\\d)(\\d{3})(\\d{5,6})", "$1 $2 $3", ["6"]]], 0, 0, 0, 0, 0, 0, [0, ["6\\d{9}|[0-36-9]\\d{8}"]]], "882": ["882", 0, "[13]\\d{6}(?:\\d{2,5})?|[19]\\d{7}|(?:[25]\\d\\d|4)\\d{7}(?:\\d{2})?", [7, 8, 9, 10, 11, 12], [["(\\d{2})(\\d{5})", "$1 $2", ["16|342"]], ["(\\d{2})(\\d{6})", "$1 $2", ["49"]], ["(\\d{2})(\\d{2})(\\d{4})", "$1 $2 $3", ["1[36]|9"]], ["(\\d{2})(\\d{4})(\\d{3})", "$1 $2 $3", ["3[23]"]], ["(\\d{2})(\\d{3,4})(\\d{4})", "$1 $2 $3", ["16"]], ["(\\d{2})(\\d{4})(\\d{4})", "$1 $2 $3", ["10|23|3(?:[15]|4[57])|4|51"]], ["(\\d{3})(\\d{4})(\\d{4})", "$1 $2 $3", ["34"]], ["(\\d{2})(\\d{4,5})(\\d{5})", "$1 $2 $3", ["[1-35]"]]], 0, 0, 0, 0, 0, 0, [0, ["342\\d{4}|(?:337|49)\\d{6}|(?:3(?:2|47|7\\d{3})|50\\d{3})\\d{7}", [7, 8, 9, 10, 12]], 0, 0, 0, ["348[57]\\d{7}", [11]], 0, 0, ["1(?:3(?:0[0347]|[13][0139]|2[035]|4[013568]|6[0459]|7[06]|8[15-8]|9[0689])\\d{4}|6\\d{5,10})|(?:345\\d|9[89])\\d{6}|(?:10|2(?:3|85\\d)|3(?:[15]|[69]\\d\\d)|4[15-8]|51)\\d{8}"]]], "883": ["883", 0, "(?:[1-4]\\d|51)\\d{6,10}", [8, 9, 10, 11, 12], [["(\\d{3})(\\d{3})(\\d{2,8})", "$1 $2 $3", ["[14]|2[24-689]|3[02-689]|51[24-9]"]], ["(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3", ["510"]], ["(\\d{3})(\\d{3})(\\d{4})", "$1 $2 $3", ["21"]], ["(\\d{4})(\\d{4})(\\d{4})", "$1 $2 $3", ["51[13]"]], ["(\\d{3})(\\d{3})(\\d{3})(\\d{3})", "$1 $2 $3 $4", ["[235]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, 0, 0, ["(?:2(?:00\\d\\d|10)|(?:370[1-9]|51\\d0)\\d)\\d{7}|51(?:00\\d{5}|[24-9]0\\d{4,7})|(?:1[0-79]|2[24-689]|3[02-689]|4[0-4])0\\d{5,9}"]]], "888": ["888", 0, "\\d{11}", [11], [["(\\d{3})(\\d{3})(\\d{5})", "$1 $2 $3"]], 0, 0, 0, 0, 0, 0, [0, 0, 0, 0, 0, 0, ["\\d{11}"]]], "979": ["979", 0, "[1359]\\d{8}", [9], [["(\\d)(\\d{4})(\\d{4})", "$1 $2 $3", ["[1359]"]]], 0, 0, 0, 0, 0, 0, [0, 0, 0, ["[1359]\\d{8}"]]] } };
+
+  // node_modules/libphonenumber-js/min/exports/withMetadataArgument.js
+  function withMetadataArgument(func, _arguments) {
+    var args = Array.prototype.slice.call(_arguments);
+    args.push(metadata_min_json_default);
+    return func.apply(this, args);
+  }
+
+  // node_modules/libphonenumber-js/es6/tools/semver-compare.js
+  function semver_compare_default(a3, b) {
+    a3 = a3.split("-");
+    b = b.split("-");
+    var pa = a3[0].split(".");
+    var pb = b[0].split(".");
+    for (var i = 0; i < 3; i++) {
+      var na = Number(pa[i]);
+      var nb = Number(pb[i]);
+      if (na > nb) return 1;
+      if (nb > na) return -1;
+      if (!isNaN(na) && isNaN(nb)) return 1;
+      if (isNaN(na) && !isNaN(nb)) return -1;
+    }
+    if (a3[1] && b[1]) {
+      return a3[1] > b[1] ? 1 : a3[1] < b[1] ? -1 : 0;
+    }
+    return !a3[1] && b[1] ? 1 : a3[1] && !b[1] ? -1 : 0;
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/isObject.js
+  var objectConstructor = {}.constructor;
+  function isObject(object) {
+    return object !== void 0 && object !== null && object.constructor === objectConstructor;
+  }
+
+  // node_modules/libphonenumber-js/es6/metadata.js
+  function _typeof2(obj) {
+    "@babel/helpers - typeof";
+    return _typeof2 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj2) {
+      return typeof obj2;
+    } : function(obj2) {
+      return obj2 && "function" == typeof Symbol && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+    }, _typeof2(obj);
+  }
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", { writable: false });
+    return Constructor;
+  }
+  var V3 = "1.2.0";
+  var V4 = "1.7.35";
+  var DEFAULT_EXT_PREFIX = " ext. ";
+  var CALLING_CODE_REG_EXP = /^\d+$/;
+  var Metadata = /* @__PURE__ */ function() {
+    function Metadata2(metadata) {
+      _classCallCheck(this, Metadata2);
+      validateMetadata(metadata);
+      this.metadata = metadata;
+      setVersion.call(this, metadata);
+    }
+    _createClass(Metadata2, [{
+      key: "getCountries",
+      value: function getCountries() {
+        return Object.keys(this.metadata.countries).filter(function(_) {
+          return _ !== "001";
+        });
+      }
+    }, {
+      key: "getCountryMetadata",
+      value: function getCountryMetadata(countryCode) {
+        return this.metadata.countries[countryCode];
+      }
+    }, {
+      key: "nonGeographic",
+      value: function nonGeographic() {
+        if (this.v1 || this.v2 || this.v3) return;
+        return this.metadata.nonGeographic || this.metadata.nonGeographical;
+      }
+    }, {
+      key: "hasCountry",
+      value: function hasCountry(country) {
+        return this.getCountryMetadata(country) !== void 0;
+      }
+    }, {
+      key: "hasCallingCode",
+      value: function hasCallingCode(callingCode) {
+        if (this.getCountryCodesForCallingCode(callingCode)) {
+          return true;
+        }
+        if (this.nonGeographic()) {
+          if (this.nonGeographic()[callingCode]) {
+            return true;
+          }
+        } else {
+          var countryCodes = this.countryCallingCodes()[callingCode];
+          if (countryCodes && countryCodes.length === 1 && countryCodes[0] === "001") {
+            return true;
+          }
+        }
+      }
+    }, {
+      key: "isNonGeographicCallingCode",
+      value: function isNonGeographicCallingCode(callingCode) {
+        if (this.nonGeographic()) {
+          return this.nonGeographic()[callingCode] ? true : false;
+        } else {
+          return this.getCountryCodesForCallingCode(callingCode) ? false : true;
+        }
+      }
+      // Deprecated.
+    }, {
+      key: "country",
+      value: function country(countryCode) {
+        return this.selectNumberingPlan(countryCode);
+      }
+    }, {
+      key: "selectNumberingPlan",
+      value: function selectNumberingPlan(countryCode, callingCode) {
+        if (countryCode && CALLING_CODE_REG_EXP.test(countryCode)) {
+          callingCode = countryCode;
+          countryCode = null;
+        }
+        if (countryCode && countryCode !== "001") {
+          if (!this.hasCountry(countryCode)) {
+            throw new Error("Unknown country: ".concat(countryCode));
+          }
+          this.numberingPlan = new NumberingPlan(this.getCountryMetadata(countryCode), this);
+        } else if (callingCode) {
+          if (!this.hasCallingCode(callingCode)) {
+            throw new Error("Unknown calling code: ".concat(callingCode));
+          }
+          this.numberingPlan = new NumberingPlan(this.getNumberingPlanMetadata(callingCode), this);
+        } else {
+          this.numberingPlan = void 0;
+        }
+        return this;
+      }
+    }, {
+      key: "getCountryCodesForCallingCode",
+      value: function getCountryCodesForCallingCode(callingCode) {
+        var countryCodes = this.countryCallingCodes()[callingCode];
+        if (countryCodes) {
+          if (countryCodes.length === 1 && countryCodes[0].length === 3) {
+            return;
+          }
+          return countryCodes;
+        }
+      }
+    }, {
+      key: "getCountryCodeForCallingCode",
+      value: function getCountryCodeForCallingCode(callingCode) {
+        var countryCodes = this.getCountryCodesForCallingCode(callingCode);
+        if (countryCodes) {
+          return countryCodes[0];
+        }
+      }
+    }, {
+      key: "getNumberingPlanMetadata",
+      value: function getNumberingPlanMetadata(callingCode) {
+        var countryCode = this.getCountryCodeForCallingCode(callingCode);
+        if (countryCode) {
+          return this.getCountryMetadata(countryCode);
+        }
+        if (this.nonGeographic()) {
+          var metadata = this.nonGeographic()[callingCode];
+          if (metadata) {
+            return metadata;
+          }
+        } else {
+          var countryCodes = this.countryCallingCodes()[callingCode];
+          if (countryCodes && countryCodes.length === 1 && countryCodes[0] === "001") {
+            return this.metadata.countries["001"];
+          }
+        }
+      }
+      // Deprecated.
+    }, {
+      key: "countryCallingCode",
+      value: function countryCallingCode() {
+        return this.numberingPlan.callingCode();
+      }
+      // Deprecated.
+    }, {
+      key: "IDDPrefix",
+      value: function IDDPrefix() {
+        return this.numberingPlan.IDDPrefix();
+      }
+      // Deprecated.
+    }, {
+      key: "defaultIDDPrefix",
+      value: function defaultIDDPrefix() {
+        return this.numberingPlan.defaultIDDPrefix();
+      }
+      // Deprecated.
+    }, {
+      key: "nationalNumberPattern",
+      value: function nationalNumberPattern() {
+        return this.numberingPlan.nationalNumberPattern();
+      }
+      // Deprecated.
+    }, {
+      key: "possibleLengths",
+      value: function possibleLengths() {
+        return this.numberingPlan.possibleLengths();
+      }
+      // Deprecated.
+    }, {
+      key: "formats",
+      value: function formats() {
+        return this.numberingPlan.formats();
+      }
+      // Deprecated.
+    }, {
+      key: "nationalPrefixForParsing",
+      value: function nationalPrefixForParsing() {
+        return this.numberingPlan.nationalPrefixForParsing();
+      }
+      // Deprecated.
+    }, {
+      key: "nationalPrefixTransformRule",
+      value: function nationalPrefixTransformRule() {
+        return this.numberingPlan.nationalPrefixTransformRule();
+      }
+      // Deprecated.
+    }, {
+      key: "leadingDigits",
+      value: function leadingDigits() {
+        return this.numberingPlan.leadingDigits();
+      }
+      // Deprecated.
+    }, {
+      key: "hasTypes",
+      value: function hasTypes() {
+        return this.numberingPlan.hasTypes();
+      }
+      // Deprecated.
+    }, {
+      key: "type",
+      value: function type(_type) {
+        return this.numberingPlan.type(_type);
+      }
+      // Deprecated.
+    }, {
+      key: "ext",
+      value: function ext() {
+        return this.numberingPlan.ext();
+      }
+    }, {
+      key: "countryCallingCodes",
+      value: function countryCallingCodes() {
+        if (this.v1) return this.metadata.country_phone_code_to_countries;
+        return this.metadata.country_calling_codes;
+      }
+      // Deprecated.
+    }, {
+      key: "chooseCountryByCountryCallingCode",
+      value: function chooseCountryByCountryCallingCode(callingCode) {
+        return this.selectNumberingPlan(callingCode);
+      }
+    }, {
+      key: "hasSelectedNumberingPlan",
+      value: function hasSelectedNumberingPlan() {
+        return this.numberingPlan !== void 0;
+      }
+    }]);
+    return Metadata2;
+  }();
+  var NumberingPlan = /* @__PURE__ */ function() {
+    function NumberingPlan2(metadata, globalMetadataObject) {
+      _classCallCheck(this, NumberingPlan2);
+      this.globalMetadataObject = globalMetadataObject;
+      this.metadata = metadata;
+      setVersion.call(this, globalMetadataObject.metadata);
+    }
+    _createClass(NumberingPlan2, [{
+      key: "callingCode",
+      value: function callingCode() {
+        return this.metadata[0];
+      }
+      // Formatting information for regions which share
+      // a country calling code is contained by only one region
+      // for performance reasons. For example, for NANPA region
+      // ("North American Numbering Plan Administration",
+      //  which includes USA, Canada, Cayman Islands, Bahamas, etc)
+      // it will be contained in the metadata for `US`.
+    }, {
+      key: "getDefaultCountryMetadataForRegion",
+      value: function getDefaultCountryMetadataForRegion() {
+        return this.globalMetadataObject.getNumberingPlanMetadata(this.callingCode());
+      }
+      // Is always present.
+    }, {
+      key: "IDDPrefix",
+      value: function IDDPrefix() {
+        if (this.v1 || this.v2) return;
+        return this.metadata[1];
+      }
+      // Is only present when a country supports multiple IDD prefixes.
+    }, {
+      key: "defaultIDDPrefix",
+      value: function defaultIDDPrefix() {
+        if (this.v1 || this.v2) return;
+        return this.metadata[12];
+      }
+    }, {
+      key: "nationalNumberPattern",
+      value: function nationalNumberPattern() {
+        if (this.v1 || this.v2) return this.metadata[1];
+        return this.metadata[2];
+      }
+      // "possible length" data is always present in Google's metadata.
+    }, {
+      key: "possibleLengths",
+      value: function possibleLengths() {
+        if (this.v1) return;
+        return this.metadata[this.v2 ? 2 : 3];
+      }
+    }, {
+      key: "_getFormats",
+      value: function _getFormats(metadata) {
+        return metadata[this.v1 ? 2 : this.v2 ? 3 : 4];
+      }
+      // For countries of the same region (e.g. NANPA)
+      // formats are all stored in the "main" country for that region.
+      // E.g. "RU" and "KZ", "US" and "CA".
+    }, {
+      key: "formats",
+      value: function formats() {
+        var _this = this;
+        var formats2 = this._getFormats(this.metadata) || this._getFormats(this.getDefaultCountryMetadataForRegion()) || [];
+        return formats2.map(function(_) {
+          return new Format(_, _this);
+        });
+      }
+    }, {
+      key: "nationalPrefix",
+      value: function nationalPrefix() {
+        return this.metadata[this.v1 ? 3 : this.v2 ? 4 : 5];
+      }
+    }, {
+      key: "_getNationalPrefixFormattingRule",
+      value: function _getNationalPrefixFormattingRule(metadata) {
+        return metadata[this.v1 ? 4 : this.v2 ? 5 : 6];
+      }
+      // For countries of the same region (e.g. NANPA)
+      // national prefix formatting rule is stored in the "main" country for that region.
+      // E.g. "RU" and "KZ", "US" and "CA".
+    }, {
+      key: "nationalPrefixFormattingRule",
+      value: function nationalPrefixFormattingRule() {
+        return this._getNationalPrefixFormattingRule(this.metadata) || this._getNationalPrefixFormattingRule(this.getDefaultCountryMetadataForRegion());
+      }
+    }, {
+      key: "_nationalPrefixForParsing",
+      value: function _nationalPrefixForParsing() {
+        return this.metadata[this.v1 ? 5 : this.v2 ? 6 : 7];
+      }
+    }, {
+      key: "nationalPrefixForParsing",
+      value: function nationalPrefixForParsing() {
+        return this._nationalPrefixForParsing() || this.nationalPrefix();
+      }
+    }, {
+      key: "nationalPrefixTransformRule",
+      value: function nationalPrefixTransformRule() {
+        return this.metadata[this.v1 ? 6 : this.v2 ? 7 : 8];
+      }
+    }, {
+      key: "_getNationalPrefixIsOptionalWhenFormatting",
+      value: function _getNationalPrefixIsOptionalWhenFormatting() {
+        return !!this.metadata[this.v1 ? 7 : this.v2 ? 8 : 9];
+      }
+      // For countries of the same region (e.g. NANPA)
+      // "national prefix is optional when formatting" flag is
+      // stored in the "main" country for that region.
+      // E.g. "RU" and "KZ", "US" and "CA".
+    }, {
+      key: "nationalPrefixIsOptionalWhenFormattingInNationalFormat",
+      value: function nationalPrefixIsOptionalWhenFormattingInNationalFormat() {
+        return this._getNationalPrefixIsOptionalWhenFormatting(this.metadata) || this._getNationalPrefixIsOptionalWhenFormatting(this.getDefaultCountryMetadataForRegion());
+      }
+    }, {
+      key: "leadingDigits",
+      value: function leadingDigits() {
+        return this.metadata[this.v1 ? 8 : this.v2 ? 9 : 10];
+      }
+    }, {
+      key: "types",
+      value: function types() {
+        return this.metadata[this.v1 ? 9 : this.v2 ? 10 : 11];
+      }
+    }, {
+      key: "hasTypes",
+      value: function hasTypes() {
+        if (this.types() && this.types().length === 0) {
+          return false;
+        }
+        return !!this.types();
+      }
+    }, {
+      key: "type",
+      value: function type(_type2) {
+        if (this.hasTypes() && getType2(this.types(), _type2)) {
+          return new Type(getType2(this.types(), _type2), this);
+        }
+      }
+    }, {
+      key: "ext",
+      value: function ext() {
+        if (this.v1 || this.v2) return DEFAULT_EXT_PREFIX;
+        return this.metadata[13] || DEFAULT_EXT_PREFIX;
+      }
+    }]);
+    return NumberingPlan2;
+  }();
+  var Format = /* @__PURE__ */ function() {
+    function Format2(format, metadata) {
+      _classCallCheck(this, Format2);
+      this._format = format;
+      this.metadata = metadata;
+    }
+    _createClass(Format2, [{
+      key: "pattern",
+      value: function pattern() {
+        return this._format[0];
+      }
+    }, {
+      key: "format",
+      value: function format() {
+        return this._format[1];
+      }
+    }, {
+      key: "leadingDigitsPatterns",
+      value: function leadingDigitsPatterns() {
+        return this._format[2] || [];
+      }
+    }, {
+      key: "nationalPrefixFormattingRule",
+      value: function nationalPrefixFormattingRule() {
+        return this._format[3] || this.metadata.nationalPrefixFormattingRule();
+      }
+    }, {
+      key: "nationalPrefixIsOptionalWhenFormattingInNationalFormat",
+      value: function nationalPrefixIsOptionalWhenFormattingInNationalFormat() {
+        return !!this._format[4] || this.metadata.nationalPrefixIsOptionalWhenFormattingInNationalFormat();
+      }
+    }, {
+      key: "nationalPrefixIsMandatoryWhenFormattingInNationalFormat",
+      value: function nationalPrefixIsMandatoryWhenFormattingInNationalFormat() {
+        return this.usesNationalPrefix() && !this.nationalPrefixIsOptionalWhenFormattingInNationalFormat();
+      }
+      // Checks whether national prefix formatting rule contains national prefix.
+    }, {
+      key: "usesNationalPrefix",
+      value: function usesNationalPrefix() {
+        return this.nationalPrefixFormattingRule() && // Check that national prefix formatting rule is not a "dummy" one.
+        !FIRST_GROUP_ONLY_PREFIX_PATTERN.test(this.nationalPrefixFormattingRule()) ? true : false;
+      }
+    }, {
+      key: "internationalFormat",
+      value: function internationalFormat() {
+        return this._format[5] || this.format();
+      }
+    }]);
+    return Format2;
+  }();
+  var FIRST_GROUP_ONLY_PREFIX_PATTERN = /^\(?\$1\)?$/;
+  var Type = /* @__PURE__ */ function() {
+    function Type2(type, metadata) {
+      _classCallCheck(this, Type2);
+      this.type = type;
+      this.metadata = metadata;
+    }
+    _createClass(Type2, [{
+      key: "pattern",
+      value: function pattern() {
+        if (this.metadata.v1) return this.type;
+        return this.type[0];
+      }
+    }, {
+      key: "possibleLengths",
+      value: function possibleLengths() {
+        if (this.metadata.v1) return;
+        return this.type[1] || this.metadata.possibleLengths();
+      }
+    }]);
+    return Type2;
+  }();
+  function getType2(types, type) {
+    switch (type) {
+      case "FIXED_LINE":
+        return types[0];
+      case "MOBILE":
+        return types[1];
+      case "TOLL_FREE":
+        return types[2];
+      case "PREMIUM_RATE":
+        return types[3];
+      case "PERSONAL_NUMBER":
+        return types[4];
+      case "VOICEMAIL":
+        return types[5];
+      case "UAN":
+        return types[6];
+      case "PAGER":
+        return types[7];
+      case "VOIP":
+        return types[8];
+      case "SHARED_COST":
+        return types[9];
+    }
+  }
+  function validateMetadata(metadata) {
+    if (!metadata) {
+      throw new Error("[libphonenumber-js] `metadata` argument not passed. Check your arguments.");
+    }
+    if (!isObject(metadata) || !isObject(metadata.countries)) {
+      throw new Error("[libphonenumber-js] `metadata` argument was passed but it's not a valid metadata. Must be an object having `.countries` child object property. Got ".concat(isObject(metadata) ? "an object of shape: { " + Object.keys(metadata).join(", ") + " }" : "a " + typeOf(metadata) + ": " + metadata, "."));
+    }
+  }
+  var typeOf = function typeOf2(_) {
+    return _typeof2(_);
+  };
+  function getCountryCallingCode(country, metadata) {
+    metadata = new Metadata(metadata);
+    if (metadata.hasCountry(country)) {
+      return metadata.country(country).countryCallingCode();
+    }
+    throw new Error("Unknown country: ".concat(country));
+  }
+  function isSupportedCountry(country, metadata) {
+    return metadata.countries.hasOwnProperty(country);
+  }
+  function setVersion(metadata) {
+    var version = metadata.version;
+    if (typeof version === "number") {
+      this.v1 = version === 1;
+      this.v2 = version === 2;
+      this.v3 = version === 3;
+      this.v4 = version === 4;
+    } else {
+      if (!version) {
+        this.v1 = true;
+      } else if (semver_compare_default(version, V3) === -1) {
+        this.v2 = true;
+      } else if (semver_compare_default(version, V4) === -1) {
+        this.v3 = true;
+      } else {
+        this.v4 = true;
+      }
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/mergeArrays.js
+  function _createForOfIteratorHelperLoose(o3, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+    if (it) return (it = it.call(o3)).next.bind(it);
+    if (Array.isArray(o3) || (it = _unsupportedIterableToArray(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+      if (it) o3 = it;
+      var i = 0;
+      return function() {
+        if (i >= o3.length) return { done: true };
+        return { done: false, value: o3[i++] };
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o3, minLen);
+  }
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  function mergeArrays(a3, b) {
+    var merged = a3.slice();
+    for (var _iterator = _createForOfIteratorHelperLoose(b), _step; !(_step = _iterator()).done; ) {
+      var element = _step.value;
+      if (a3.indexOf(element) < 0) {
+        merged.push(element);
+      }
+    }
+    return merged.sort(function(a4, b2) {
+      return a4 - b2;
+    });
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/checkNumberLength.js
+  function checkNumberLength(nationalNumber, metadata) {
+    return checkNumberLengthForType(nationalNumber, void 0, metadata);
+  }
+  function checkNumberLengthForType(nationalNumber, type, metadata) {
+    var type_info = metadata.type(type);
+    var possible_lengths = type_info && type_info.possibleLengths() || metadata.possibleLengths();
+    if (!possible_lengths) {
+      return "IS_POSSIBLE";
+    }
+    if (type === "FIXED_LINE_OR_MOBILE") {
+      if (!metadata.type("FIXED_LINE")) {
+        return checkNumberLengthForType(nationalNumber, "MOBILE", metadata);
+      }
+      var mobile_type = metadata.type("MOBILE");
+      if (mobile_type) {
+        possible_lengths = mergeArrays(possible_lengths, mobile_type.possibleLengths());
+      }
+    } else if (type && !type_info) {
+      return "INVALID_LENGTH";
+    }
+    var actual_length = nationalNumber.length;
+    var minimum_length = possible_lengths[0];
+    if (minimum_length === actual_length) {
+      return "IS_POSSIBLE";
+    }
+    if (minimum_length > actual_length) {
+      return "TOO_SHORT";
+    }
+    if (possible_lengths[possible_lengths.length - 1] < actual_length) {
+      return "TOO_LONG";
+    }
+    return possible_lengths.indexOf(actual_length, 1) >= 0 ? "IS_POSSIBLE" : "INVALID_LENGTH";
+  }
+
+  // node_modules/libphonenumber-js/es6/isPossible.js
+  function isPossiblePhoneNumber(input, options, metadata) {
+    if (options === void 0) {
+      options = {};
+    }
+    metadata = new Metadata(metadata);
+    if (options.v2) {
+      if (!input.countryCallingCode) {
+        throw new Error("Invalid phone number object passed");
+      }
+      metadata.selectNumberingPlan(input.countryCallingCode);
+    } else {
+      if (!input.phone) {
+        return false;
+      }
+      if (input.country) {
+        if (!metadata.hasCountry(input.country)) {
+          throw new Error("Unknown country: ".concat(input.country));
+        }
+        metadata.country(input.country);
+      } else {
+        if (!input.countryCallingCode) {
+          throw new Error("Invalid phone number object passed");
+        }
+        metadata.selectNumberingPlan(input.countryCallingCode);
+      }
+    }
+    if (metadata.possibleLengths()) {
+      return isPossibleNumber(input.phone || input.nationalNumber, metadata);
+    } else {
+      if (input.countryCallingCode && metadata.isNonGeographicCallingCode(input.countryCallingCode)) {
+        return true;
+      } else {
+        throw new Error('Missing "possibleLengths" in metadata. Perhaps the metadata has been generated before v1.0.18.');
+      }
+    }
+  }
+  function isPossibleNumber(nationalNumber, metadata) {
+    switch (checkNumberLength(nationalNumber, metadata)) {
+      case "IS_POSSIBLE":
+        return true;
+      // This library ignores "local-only" phone numbers (for simplicity).
+      // See the readme for more info on what are "local-only" phone numbers.
+      // case 'IS_POSSIBLE_LOCAL_ONLY':
+      // 	return !isInternational
+      default:
+        return false;
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/matchesEntirely.js
+  function matchesEntirely(text3, regular_expression) {
+    text3 = text3 || "";
+    return new RegExp("^(?:" + regular_expression + ")$").test(text3);
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/getNumberType.js
+  function _createForOfIteratorHelperLoose2(o3, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+    if (it) return (it = it.call(o3)).next.bind(it);
+    if (Array.isArray(o3) || (it = _unsupportedIterableToArray2(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+      if (it) o3 = it;
+      var i = 0;
+      return function() {
+        if (i >= o3.length) return { done: true };
+        return { done: false, value: o3[i++] };
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray2(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray2(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray2(o3, minLen);
+  }
+  function _arrayLikeToArray2(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  var NON_FIXED_LINE_PHONE_TYPES = ["MOBILE", "PREMIUM_RATE", "TOLL_FREE", "SHARED_COST", "VOIP", "PERSONAL_NUMBER", "PAGER", "UAN", "VOICEMAIL"];
+  function getNumberType(input, options, metadata) {
+    options = options || {};
+    if (!input.country && !input.countryCallingCode) {
+      return;
+    }
+    metadata = new Metadata(metadata);
+    metadata.selectNumberingPlan(input.country, input.countryCallingCode);
+    var nationalNumber = options.v2 ? input.nationalNumber : input.phone;
+    if (!matchesEntirely(nationalNumber, metadata.nationalNumberPattern())) {
+      return;
+    }
+    if (isNumberTypeEqualTo(nationalNumber, "FIXED_LINE", metadata)) {
+      if (metadata.type("MOBILE") && metadata.type("MOBILE").pattern() === "") {
+        return "FIXED_LINE_OR_MOBILE";
+      }
+      if (!metadata.type("MOBILE")) {
+        return "FIXED_LINE_OR_MOBILE";
+      }
+      if (isNumberTypeEqualTo(nationalNumber, "MOBILE", metadata)) {
+        return "FIXED_LINE_OR_MOBILE";
+      }
+      return "FIXED_LINE";
+    }
+    for (var _iterator = _createForOfIteratorHelperLoose2(NON_FIXED_LINE_PHONE_TYPES), _step; !(_step = _iterator()).done; ) {
+      var type = _step.value;
+      if (isNumberTypeEqualTo(nationalNumber, type, metadata)) {
+        return type;
+      }
+    }
+  }
+  function isNumberTypeEqualTo(nationalNumber, type, metadata) {
+    type = metadata.type(type);
+    if (!type || !type.pattern()) {
+      return false;
+    }
+    if (type.possibleLengths() && type.possibleLengths().indexOf(nationalNumber.length) < 0) {
+      return false;
+    }
+    return matchesEntirely(nationalNumber, type.pattern());
+  }
+
+  // node_modules/libphonenumber-js/es6/isValid.js
+  function isValidNumber(input, options, metadata) {
+    options = options || {};
+    metadata = new Metadata(metadata);
+    metadata.selectNumberingPlan(input.country, input.countryCallingCode);
+    if (metadata.hasTypes()) {
+      return getNumberType(input, options, metadata.metadata) !== void 0;
+    }
+    var nationalNumber = options.v2 ? input.nationalNumber : input.phone;
+    return matchesEntirely(nationalNumber, metadata.nationalNumberPattern());
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/getPossibleCountriesForNumber.js
+  function getPossibleCountriesForNumber(callingCode, nationalNumber, metadata) {
+    var _metadata = new Metadata(metadata);
+    var possibleCountries = _metadata.getCountryCodesForCallingCode(callingCode);
+    if (!possibleCountries) {
+      return [];
+    }
+    return possibleCountries.filter(function(country) {
+      return couldNationalNumberBelongToCountry(nationalNumber, country, metadata);
+    });
+  }
+  function couldNationalNumberBelongToCountry(nationalNumber, country, metadata) {
+    var _metadata = new Metadata(metadata);
+    _metadata.selectNumberingPlan(country);
+    if (_metadata.numberingPlan.possibleLengths().indexOf(nationalNumber.length) >= 0) {
+      return true;
+    }
+    return false;
+  }
+
+  // node_modules/libphonenumber-js/es6/constants.js
+  var MIN_LENGTH_FOR_NSN = 2;
+  var MAX_LENGTH_FOR_NSN = 17;
+  var MAX_LENGTH_COUNTRY_CODE = 3;
+  var VALID_DIGITS = "0-9\uFF10-\uFF19\u0660-\u0669\u06F0-\u06F9";
+  var DASHES = "-\u2010-\u2015\u2212\u30FC\uFF0D";
+  var SLASHES = "\uFF0F/";
+  var DOTS = "\uFF0E.";
+  var WHITESPACE = " \xA0\xAD\u200B\u2060\u3000";
+  var BRACKETS = "()\uFF08\uFF09\uFF3B\uFF3D\\[\\]";
+  var TILDES = "~\u2053\u223C\uFF5E";
+  var VALID_PUNCTUATION = "".concat(DASHES).concat(SLASHES).concat(DOTS).concat(WHITESPACE).concat(BRACKETS).concat(TILDES);
+  var PLUS_CHARS = "+\uFF0B";
+
+  // node_modules/libphonenumber-js/es6/helpers/stripIddPrefix.js
+  var CAPTURING_DIGIT_PATTERN = new RegExp("([" + VALID_DIGITS + "])");
+  function stripIddPrefix(number, country, callingCode, metadata) {
+    if (!country) {
+      return;
+    }
+    var countryMetadata = new Metadata(metadata);
+    countryMetadata.selectNumberingPlan(country, callingCode);
+    var IDDPrefixPattern = new RegExp(countryMetadata.IDDPrefix());
+    if (number.search(IDDPrefixPattern) !== 0) {
+      return;
+    }
+    number = number.slice(number.match(IDDPrefixPattern)[0].length);
+    var matchedGroups = number.match(CAPTURING_DIGIT_PATTERN);
+    if (matchedGroups && matchedGroups[1] != null && matchedGroups[1].length > 0) {
+      if (matchedGroups[1] === "0") {
+        return;
+      }
+    }
+    return number;
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractNationalNumberFromPossiblyIncompleteNumber.js
+  function extractNationalNumberFromPossiblyIncompleteNumber(number, metadata) {
+    if (number && metadata.numberingPlan.nationalPrefixForParsing()) {
+      var prefixPattern = new RegExp("^(?:" + metadata.numberingPlan.nationalPrefixForParsing() + ")");
+      var prefixMatch = prefixPattern.exec(number);
+      if (prefixMatch) {
+        var nationalNumber;
+        var carrierCode;
+        var capturedGroupsCount = prefixMatch.length - 1;
+        var hasCapturedGroups = capturedGroupsCount > 0 && prefixMatch[capturedGroupsCount];
+        if (metadata.nationalPrefixTransformRule() && hasCapturedGroups) {
+          nationalNumber = number.replace(prefixPattern, metadata.nationalPrefixTransformRule());
+          if (capturedGroupsCount > 1) {
+            carrierCode = prefixMatch[1];
+          }
+        } else {
+          var prefixBeforeNationalNumber = prefixMatch[0];
+          nationalNumber = number.slice(prefixBeforeNationalNumber.length);
+          if (hasCapturedGroups) {
+            carrierCode = prefixMatch[1];
+          }
+        }
+        var nationalPrefix;
+        if (hasCapturedGroups) {
+          var possiblePositionOfTheFirstCapturedGroup = number.indexOf(prefixMatch[1]);
+          var possibleNationalPrefix = number.slice(0, possiblePositionOfTheFirstCapturedGroup);
+          if (possibleNationalPrefix === metadata.numberingPlan.nationalPrefix()) {
+            nationalPrefix = metadata.numberingPlan.nationalPrefix();
+          }
+        } else {
+          nationalPrefix = prefixMatch[0];
+        }
+        return {
+          nationalNumber,
+          nationalPrefix,
+          carrierCode
+        };
+      }
+    }
+    return {
+      nationalNumber: number
+    };
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractNationalNumber.js
+  function extractNationalNumber(number, metadata) {
+    var _extractNationalNumbe = extractNationalNumberFromPossiblyIncompleteNumber(number, metadata), carrierCode = _extractNationalNumbe.carrierCode, nationalNumber = _extractNationalNumbe.nationalNumber;
+    if (nationalNumber !== number) {
+      if (!shouldHaveExtractedNationalPrefix(number, nationalNumber, metadata)) {
+        return {
+          nationalNumber: number
+        };
+      }
+      if (metadata.possibleLengths()) {
+        if (!isPossibleIncompleteNationalNumber(nationalNumber, metadata)) {
+          return {
+            nationalNumber: number
+          };
+        }
+      }
+    }
+    return {
+      nationalNumber,
+      carrierCode
+    };
+  }
+  function shouldHaveExtractedNationalPrefix(nationalNumberBefore, nationalNumberAfter, metadata) {
+    if (matchesEntirely(nationalNumberBefore, metadata.nationalNumberPattern()) && !matchesEntirely(nationalNumberAfter, metadata.nationalNumberPattern())) {
+      return false;
+    }
+    return true;
+  }
+  function isPossibleIncompleteNationalNumber(nationalNumber, metadata) {
+    switch (checkNumberLength(nationalNumber, metadata)) {
+      case "TOO_SHORT":
+      case "INVALID_LENGTH":
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractCountryCallingCodeFromInternationalNumberWithoutPlusSign.js
+  function extractCountryCallingCodeFromInternationalNumberWithoutPlusSign(number, country, callingCode, metadata) {
+    var countryCallingCode = country ? getCountryCallingCode(country, metadata) : callingCode;
+    if (number.indexOf(countryCallingCode) === 0) {
+      metadata = new Metadata(metadata);
+      metadata.selectNumberingPlan(country, callingCode);
+      var possibleShorterNumber = number.slice(countryCallingCode.length);
+      var _extractNationalNumbe = extractNationalNumber(possibleShorterNumber, metadata), possibleShorterNationalNumber = _extractNationalNumbe.nationalNumber;
+      var _extractNationalNumbe2 = extractNationalNumber(number, metadata), nationalNumber = _extractNationalNumbe2.nationalNumber;
+      if (!matchesEntirely(nationalNumber, metadata.nationalNumberPattern()) && matchesEntirely(possibleShorterNationalNumber, metadata.nationalNumberPattern()) || checkNumberLength(nationalNumber, metadata) === "TOO_LONG") {
+        return {
+          countryCallingCode,
+          number: possibleShorterNumber
+        };
+      }
+    }
+    return {
+      number
+    };
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractCountryCallingCode.js
+  function extractCountryCallingCode(number, country, callingCode, metadata) {
+    if (!number) {
+      return {};
+    }
+    var isNumberWithIddPrefix;
+    if (number[0] !== "+") {
+      var numberWithoutIDD = stripIddPrefix(number, country, callingCode, metadata);
+      if (numberWithoutIDD && numberWithoutIDD !== number) {
+        isNumberWithIddPrefix = true;
+        number = "+" + numberWithoutIDD;
+      } else {
+        if (country || callingCode) {
+          var _extractCountryCallin = extractCountryCallingCodeFromInternationalNumberWithoutPlusSign(number, country, callingCode, metadata), countryCallingCode = _extractCountryCallin.countryCallingCode, shorterNumber = _extractCountryCallin.number;
+          if (countryCallingCode) {
+            return {
+              countryCallingCodeSource: "FROM_NUMBER_WITHOUT_PLUS_SIGN",
+              countryCallingCode,
+              number: shorterNumber
+            };
+          }
+        }
+        return {
+          // No need to set it to `UNSPECIFIED`. It can be just `undefined`.
+          // countryCallingCodeSource: 'UNSPECIFIED',
+          number
+        };
+      }
+    }
+    if (number[1] === "0") {
+      return {};
+    }
+    metadata = new Metadata(metadata);
+    var i = 2;
+    while (i - 1 <= MAX_LENGTH_COUNTRY_CODE && i <= number.length) {
+      var _countryCallingCode = number.slice(1, i);
+      if (metadata.hasCallingCode(_countryCallingCode)) {
+        metadata.selectNumberingPlan(_countryCallingCode);
+        return {
+          countryCallingCodeSource: isNumberWithIddPrefix ? "FROM_NUMBER_WITH_IDD" : "FROM_NUMBER_WITH_PLUS_SIGN",
+          countryCallingCode: _countryCallingCode,
+          number: number.slice(i)
+        };
+      }
+      i++;
+    }
+    return {};
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/applyInternationalSeparatorStyle.js
+  function applyInternationalSeparatorStyle(formattedNumber) {
+    return formattedNumber.replace(new RegExp("[".concat(VALID_PUNCTUATION, "]+"), "g"), " ").trim();
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/formatNationalNumberUsingFormat.js
+  var FIRST_GROUP_PATTERN = /(\$\d)/;
+  function formatNationalNumberUsingFormat(number, format, _ref) {
+    var useInternationalFormat = _ref.useInternationalFormat, withNationalPrefix = _ref.withNationalPrefix, carrierCode = _ref.carrierCode, metadata = _ref.metadata;
+    var formattedNumber = number.replace(new RegExp(format.pattern()), useInternationalFormat ? format.internationalFormat() : (
+      // This library doesn't use `domestic_carrier_code_formatting_rule`,
+      // because that one is only used when formatting phone numbers
+      // for dialing from a mobile phone, and this is not a dialing library.
+      // carrierCode && format.domesticCarrierCodeFormattingRule()
+      // 	// First, replace the $CC in the formatting rule with the desired carrier code.
+      // 	// Then, replace the $FG in the formatting rule with the first group
+      // 	// and the carrier code combined in the appropriate way.
+      // 	? format.format().replace(FIRST_GROUP_PATTERN, format.domesticCarrierCodeFormattingRule().replace('$CC', carrierCode))
+      // 	: (
+      // 		withNationalPrefix && format.nationalPrefixFormattingRule()
+      // 			? format.format().replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule())
+      // 			: format.format()
+      // 	)
+      withNationalPrefix && format.nationalPrefixFormattingRule() ? format.format().replace(FIRST_GROUP_PATTERN, format.nationalPrefixFormattingRule()) : format.format()
+    ));
+    if (useInternationalFormat) {
+      return applyInternationalSeparatorStyle(formattedNumber);
+    }
+    return formattedNumber;
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/getIddPrefix.js
+  var SINGLE_IDD_PREFIX_REG_EXP = /^[\d]+(?:[~\u2053\u223C\uFF5E][\d]+)?$/;
+  function getIddPrefix(country, callingCode, metadata) {
+    var countryMetadata = new Metadata(metadata);
+    countryMetadata.selectNumberingPlan(country, callingCode);
+    if (countryMetadata.defaultIDDPrefix()) {
+      return countryMetadata.defaultIDDPrefix();
+    }
+    if (SINGLE_IDD_PREFIX_REG_EXP.test(countryMetadata.IDDPrefix())) {
+      return countryMetadata.IDDPrefix();
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extension/createExtensionPattern.js
+  var RFC3966_EXTN_PREFIX = ";ext=";
+  var getExtensionDigitsPattern = function getExtensionDigitsPattern2(maxLength) {
+    return "([".concat(VALID_DIGITS, "]{1,").concat(maxLength, "})");
+  };
+  function createExtensionPattern(purpose) {
+    var extLimitAfterExplicitLabel = "20";
+    var extLimitAfterLikelyLabel = "15";
+    var extLimitAfterAmbiguousChar = "9";
+    var extLimitWhenNotSure = "6";
+    var possibleSeparatorsBetweenNumberAndExtLabel = "[ \xA0\\t,]*";
+    var possibleCharsAfterExtLabel = "[:\\.\uFF0E]?[ \xA0\\t,-]*";
+    var optionalExtnSuffix = "#?";
+    var explicitExtLabels = "(?:e?xt(?:ensi(?:o\u0301?|\xF3))?n?|\uFF45?\uFF58\uFF54\uFF4E?|\u0434\u043E\u0431|anexo)";
+    var ambiguousExtLabels = "(?:[x\uFF58#\uFF03~\uFF5E]|int|\uFF49\uFF4E\uFF54)";
+    var ambiguousSeparator = "[- ]+";
+    var possibleSeparatorsNumberExtLabelNoComma = "[ \xA0\\t]*";
+    var autoDiallingAndExtLabelsFound = "(?:,{2}|;)";
+    var rfcExtn = RFC3966_EXTN_PREFIX + getExtensionDigitsPattern(extLimitAfterExplicitLabel);
+    var explicitExtn = possibleSeparatorsBetweenNumberAndExtLabel + explicitExtLabels + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterExplicitLabel) + optionalExtnSuffix;
+    var ambiguousExtn = possibleSeparatorsBetweenNumberAndExtLabel + ambiguousExtLabels + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterAmbiguousChar) + optionalExtnSuffix;
+    var americanStyleExtnWithSuffix = ambiguousSeparator + getExtensionDigitsPattern(extLimitWhenNotSure) + "#";
+    var autoDiallingExtn = possibleSeparatorsNumberExtLabelNoComma + autoDiallingAndExtLabelsFound + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterLikelyLabel) + optionalExtnSuffix;
+    var onlyCommasExtn = possibleSeparatorsNumberExtLabelNoComma + "(?:,)+" + possibleCharsAfterExtLabel + getExtensionDigitsPattern(extLimitAfterAmbiguousChar) + optionalExtnSuffix;
+    return rfcExtn + "|" + explicitExtn + "|" + ambiguousExtn + "|" + americanStyleExtnWithSuffix + "|" + autoDiallingExtn + "|" + onlyCommasExtn;
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/isViablePhoneNumber.js
+  var MIN_LENGTH_PHONE_NUMBER_PATTERN = "[" + VALID_DIGITS + "]{" + MIN_LENGTH_FOR_NSN + "}";
+  var VALID_PHONE_NUMBER = "[" + PLUS_CHARS + "]{0,1}(?:[" + VALID_PUNCTUATION + "]*[" + VALID_DIGITS + "]){3,}[" + VALID_PUNCTUATION + VALID_DIGITS + "]*";
+  var VALID_PHONE_NUMBER_START_REG_EXP = new RegExp("^[" + PLUS_CHARS + "]{0,1}(?:[" + VALID_PUNCTUATION + "]*[" + VALID_DIGITS + "]){1,2}$", "i");
+  var VALID_PHONE_NUMBER_WITH_EXTENSION = VALID_PHONE_NUMBER + // Phone number extensions
+  "(?:" + createExtensionPattern() + ")?";
+  var VALID_PHONE_NUMBER_PATTERN = new RegExp(
+    // Either a short two-digit-only phone number
+    "^" + MIN_LENGTH_PHONE_NUMBER_PATTERN + "$|^" + VALID_PHONE_NUMBER_WITH_EXTENSION + "$",
+    "i"
+  );
+  function isViablePhoneNumber(number) {
+    return number.length >= MIN_LENGTH_FOR_NSN && VALID_PHONE_NUMBER_PATTERN.test(number);
+  }
+  function isViablePhoneNumberStart(number) {
+    return VALID_PHONE_NUMBER_START_REG_EXP.test(number);
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/RFC3966.js
+  function formatRFC3966(_ref) {
+    var number = _ref.number, ext = _ref.ext;
+    if (!number) {
+      return "";
+    }
+    if (number[0] !== "+") {
+      throw new Error('"formatRFC3966()" expects "number" to be in E.164 format.');
+    }
+    return "tel:".concat(number).concat(ext ? ";ext=" + ext : "");
+  }
+
+  // node_modules/libphonenumber-js/es6/format.js
+  function _createForOfIteratorHelperLoose3(o3, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+    if (it) return (it = it.call(o3)).next.bind(it);
+    if (Array.isArray(o3) || (it = _unsupportedIterableToArray3(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+      if (it) o3 = it;
+      var i = 0;
+      return function() {
+        if (i >= o3.length) return { done: true };
+        return { done: false, value: o3[i++] };
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray3(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray3(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray3(o3, minLen);
+  }
+  function _arrayLikeToArray3(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  function ownKeys4(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread4(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys4(Object(source), true).forEach(function(key) {
+        _defineProperty4(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys4(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty4(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  var DEFAULT_OPTIONS = {
+    formatExtension: function formatExtension(formattedNumber, extension, metadata) {
+      return "".concat(formattedNumber).concat(metadata.ext()).concat(extension);
+    }
+  };
+  function formatNumber(input, format, options, metadata) {
+    if (options) {
+      options = _objectSpread4(_objectSpread4({}, DEFAULT_OPTIONS), options);
+    } else {
+      options = DEFAULT_OPTIONS;
+    }
+    metadata = new Metadata(metadata);
+    if (input.country && input.country !== "001") {
+      if (!metadata.hasCountry(input.country)) {
+        throw new Error("Unknown country: ".concat(input.country));
+      }
+      metadata.country(input.country);
+    } else if (input.countryCallingCode) {
+      metadata.selectNumberingPlan(input.countryCallingCode);
+    } else return input.phone || "";
+    var countryCallingCode = metadata.countryCallingCode();
+    var nationalNumber = options.v2 ? input.nationalNumber : input.phone;
+    var number;
+    switch (format) {
+      case "NATIONAL":
+        if (!nationalNumber) {
+          return "";
+        }
+        number = formatNationalNumber(nationalNumber, input.carrierCode, "NATIONAL", metadata, options);
+        return addExtension(number, input.ext, metadata, options.formatExtension);
+      case "INTERNATIONAL":
+        if (!nationalNumber) {
+          return "+".concat(countryCallingCode);
+        }
+        number = formatNationalNumber(nationalNumber, null, "INTERNATIONAL", metadata, options);
+        number = "+".concat(countryCallingCode, " ").concat(number);
+        return addExtension(number, input.ext, metadata, options.formatExtension);
+      case "E.164":
+        return "+".concat(countryCallingCode).concat(nationalNumber);
+      case "RFC3966":
+        return formatRFC3966({
+          number: "+".concat(countryCallingCode).concat(nationalNumber),
+          ext: input.ext
+        });
+      // For reference, here's Google's IDD formatter:
+      // https://github.com/google/libphonenumber/blob/32719cf74e68796788d1ca45abc85dcdc63ba5b9/java/libphonenumber/src/com/google/i18n/phonenumbers/PhoneNumberUtil.java#L1546
+      // Not saying that this IDD formatter replicates it 1:1, but it seems to work.
+      // Who would even need to format phone numbers in IDD format anyway?
+      case "IDD":
+        if (!options.fromCountry) {
+          return;
+        }
+        var formattedNumber = formatIDD(nationalNumber, input.carrierCode, countryCallingCode, options.fromCountry, metadata);
+        return addExtension(formattedNumber, input.ext, metadata, options.formatExtension);
+      default:
+        throw new Error('Unknown "format" argument passed to "formatNumber()": "'.concat(format, '"'));
+    }
+  }
+  function formatNationalNumber(number, carrierCode, formatAs, metadata, options) {
+    var format = chooseFormatForNumber(metadata.formats(), number);
+    if (!format) {
+      return number;
+    }
+    return formatNationalNumberUsingFormat(number, format, {
+      useInternationalFormat: formatAs === "INTERNATIONAL",
+      withNationalPrefix: format.nationalPrefixIsOptionalWhenFormattingInNationalFormat() && options && options.nationalPrefix === false ? false : true,
+      carrierCode,
+      metadata
+    });
+  }
+  function chooseFormatForNumber(availableFormats, nationalNnumber) {
+    for (var _iterator = _createForOfIteratorHelperLoose3(availableFormats), _step; !(_step = _iterator()).done; ) {
+      var format = _step.value;
+      if (format.leadingDigitsPatterns().length > 0) {
+        var lastLeadingDigitsPattern = format.leadingDigitsPatterns()[format.leadingDigitsPatterns().length - 1];
+        if (nationalNnumber.search(lastLeadingDigitsPattern) !== 0) {
+          continue;
+        }
+      }
+      if (matchesEntirely(nationalNnumber, format.pattern())) {
+        return format;
+      }
+    }
+  }
+  function addExtension(formattedNumber, ext, metadata, formatExtension2) {
+    return ext ? formatExtension2(formattedNumber, ext, metadata) : formattedNumber;
+  }
+  function formatIDD(nationalNumber, carrierCode, countryCallingCode, fromCountry, metadata) {
+    var fromCountryCallingCode = getCountryCallingCode(fromCountry, metadata.metadata);
+    if (fromCountryCallingCode === countryCallingCode) {
+      var formattedNumber = formatNationalNumber(nationalNumber, carrierCode, "NATIONAL", metadata);
+      if (countryCallingCode === "1") {
+        return countryCallingCode + " " + formattedNumber;
+      }
+      return formattedNumber;
+    }
+    var iddPrefix = getIddPrefix(fromCountry, void 0, metadata.metadata);
+    if (iddPrefix) {
+      return "".concat(iddPrefix, " ").concat(countryCallingCode, " ").concat(formatNationalNumber(nationalNumber, null, "INTERNATIONAL", metadata));
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/PhoneNumber.js
+  function ownKeys5(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread5(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys5(Object(source), true).forEach(function(key) {
+        _defineProperty5(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys5(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty5(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _classCallCheck2(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _defineProperties2(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  function _createClass2(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties2(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties2(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", { writable: false });
+    return Constructor;
+  }
+  var USE_NON_GEOGRAPHIC_COUNTRY_CODE = false;
+  var PhoneNumber = /* @__PURE__ */ function() {
+    function PhoneNumber2(countryOrCountryCallingCode, nationalNumber, metadata) {
+      _classCallCheck2(this, PhoneNumber2);
+      if (!countryOrCountryCallingCode) {
+        throw new TypeError("First argument is required");
+      }
+      if (typeof countryOrCountryCallingCode !== "string") {
+        throw new TypeError("First argument must be a string");
+      }
+      if (typeof countryOrCountryCallingCode === "string") {
+        if (countryOrCountryCallingCode[0] === "+" && !nationalNumber) {
+          throw new TypeError("`metadata` argument not passed");
+        }
+        if (isObject(nationalNumber) && isObject(nationalNumber.countries)) {
+          metadata = nationalNumber;
+          var e164Number = countryOrCountryCallingCode;
+          if (!E164_NUMBER_REGEXP.test(e164Number)) {
+            throw new Error('Invalid `number` argument passed: must consist of a "+" followed by digits');
+          }
+          var _extractCountryCallin = extractCountryCallingCode(e164Number, void 0, void 0, metadata), _countryCallingCode = _extractCountryCallin.countryCallingCode, number = _extractCountryCallin.number;
+          nationalNumber = number;
+          countryOrCountryCallingCode = _countryCallingCode;
+          if (!nationalNumber) {
+            throw new Error("Invalid `number` argument passed: too short");
+          }
+        }
+      }
+      if (!nationalNumber) {
+        throw new TypeError("`nationalNumber` argument is required");
+      }
+      if (typeof nationalNumber !== "string") {
+        throw new TypeError("`nationalNumber` argument must be a string");
+      }
+      validateMetadata(metadata);
+      var _getCountryAndCountry = getCountryAndCountryCallingCode(countryOrCountryCallingCode, metadata), country = _getCountryAndCountry.country, countryCallingCode = _getCountryAndCountry.countryCallingCode;
+      this.country = country;
+      this.countryCallingCode = countryCallingCode;
+      this.nationalNumber = nationalNumber;
+      this.number = "+" + this.countryCallingCode + this.nationalNumber;
+      this.getMetadata = function() {
+        return metadata;
+      };
+    }
+    _createClass2(PhoneNumber2, [{
+      key: "setExt",
+      value: function setExt(ext) {
+        this.ext = ext;
+      }
+    }, {
+      key: "getPossibleCountries",
+      value: function getPossibleCountries() {
+        if (this.country) {
+          return [this.country];
+        }
+        return getPossibleCountriesForNumber(this.countryCallingCode, this.nationalNumber, this.getMetadata());
+      }
+    }, {
+      key: "isPossible",
+      value: function isPossible() {
+        return isPossiblePhoneNumber(this, {
+          v2: true
+        }, this.getMetadata());
+      }
+    }, {
+      key: "isValid",
+      value: function isValid() {
+        return isValidNumber(this, {
+          v2: true
+        }, this.getMetadata());
+      }
+    }, {
+      key: "isNonGeographic",
+      value: function isNonGeographic() {
+        var metadata = new Metadata(this.getMetadata());
+        return metadata.isNonGeographicCallingCode(this.countryCallingCode);
+      }
+    }, {
+      key: "isEqual",
+      value: function isEqual(phoneNumber) {
+        return this.number === phoneNumber.number && this.ext === phoneNumber.ext;
+      }
+      // This function was originally meant to be an equivalent for `validatePhoneNumberLength()`,
+      // but later it was found out that it doesn't include the possible `TOO_SHORT` result
+      // returned from `parsePhoneNumberWithError()` in the original `validatePhoneNumberLength()`,
+      // so eventually I simply commented out this method from the `PhoneNumber` class
+      // and just left the `validatePhoneNumberLength()` function, even though that one would require
+      // and additional step to also validate the actual country / calling code of the phone number.
+      // validateLength() {
+      // 	const metadata = new Metadata(this.getMetadata())
+      // 	metadata.selectNumberingPlan(this.countryCallingCode)
+      // 	const result = checkNumberLength(this.nationalNumber, metadata)
+      // 	if (result !== 'IS_POSSIBLE') {
+      // 		return result
+      // 	}
+      // }
+    }, {
+      key: "getType",
+      value: function getType3() {
+        return getNumberType(this, {
+          v2: true
+        }, this.getMetadata());
+      }
+    }, {
+      key: "format",
+      value: function format(_format, options) {
+        return formatNumber(this, _format, options ? _objectSpread5(_objectSpread5({}, options), {}, {
+          v2: true
+        }) : {
+          v2: true
+        }, this.getMetadata());
+      }
+    }, {
+      key: "formatNational",
+      value: function formatNational(options) {
+        return this.format("NATIONAL", options);
+      }
+    }, {
+      key: "formatInternational",
+      value: function formatInternational(options) {
+        return this.format("INTERNATIONAL", options);
+      }
+    }, {
+      key: "getURI",
+      value: function getURI(options) {
+        return this.format("RFC3966", options);
+      }
+    }]);
+    return PhoneNumber2;
+  }();
+  var isCountryCode = function isCountryCode2(value) {
+    return /^[A-Z]{2}$/.test(value);
+  };
+  function getCountryAndCountryCallingCode(countryOrCountryCallingCode, metadataJson) {
+    var country;
+    var countryCallingCode;
+    var metadata = new Metadata(metadataJson);
+    if (isCountryCode(countryOrCountryCallingCode)) {
+      country = countryOrCountryCallingCode;
+      metadata.selectNumberingPlan(country);
+      countryCallingCode = metadata.countryCallingCode();
+    } else {
+      countryCallingCode = countryOrCountryCallingCode;
+      if (USE_NON_GEOGRAPHIC_COUNTRY_CODE) {
+        if (metadata.isNonGeographicCallingCode(countryCallingCode)) {
+          country = "001";
+        }
+      }
+    }
+    return {
+      country,
+      countryCallingCode
+    };
+  }
+  var E164_NUMBER_REGEXP = /^\+\d+$/;
+
+  // node_modules/libphonenumber-js/es6/ParseError.js
+  function _typeof3(obj) {
+    "@babel/helpers - typeof";
+    return _typeof3 = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj2) {
+      return typeof obj2;
+    } : function(obj2) {
+      return obj2 && "function" == typeof Symbol && obj2.constructor === Symbol && obj2 !== Symbol.prototype ? "symbol" : typeof obj2;
+    }, _typeof3(obj);
+  }
+  function _defineProperties3(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];
+      descriptor.enumerable = descriptor.enumerable || false;
+      descriptor.configurable = true;
+      if ("value" in descriptor) descriptor.writable = true;
+      Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }
+  function _createClass3(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties3(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties3(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", { writable: false });
+    return Constructor;
+  }
+  function _classCallCheck3(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } });
+    Object.defineProperty(subClass, "prototype", { writable: false });
+    if (superClass) _setPrototypeOf(subClass, superClass);
+  }
+  function _createSuper(Derived) {
+    var hasNativeReflectConstruct = _isNativeReflectConstruct();
+    return function _createSuperInternal() {
+      var Super = _getPrototypeOf(Derived), result2;
+      if (hasNativeReflectConstruct) {
+        var NewTarget = _getPrototypeOf(this).constructor;
+        result2 = Reflect.construct(Super, arguments, NewTarget);
+      } else {
+        result2 = Super.apply(this, arguments);
+      }
+      return _possibleConstructorReturn(this, result2);
+    };
+  }
+  function _possibleConstructorReturn(self2, call) {
+    if (call && (_typeof3(call) === "object" || typeof call === "function")) {
+      return call;
+    } else if (call !== void 0) {
+      throw new TypeError("Derived constructors may only return object or undefined");
+    }
+    return _assertThisInitialized(self2);
+  }
+  function _assertThisInitialized(self2) {
+    if (self2 === void 0) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }
+    return self2;
+  }
+  function _wrapNativeSuper(Class) {
+    var _cache = typeof Map === "function" ? /* @__PURE__ */ new Map() : void 0;
+    _wrapNativeSuper = function _wrapNativeSuper2(Class2) {
+      if (Class2 === null || !_isNativeFunction(Class2)) return Class2;
+      if (typeof Class2 !== "function") {
+        throw new TypeError("Super expression must either be null or a function");
+      }
+      if (typeof _cache !== "undefined") {
+        if (_cache.has(Class2)) return _cache.get(Class2);
+        _cache.set(Class2, Wrapper);
+      }
+      function Wrapper() {
+        return _construct(Class2, arguments, _getPrototypeOf(this).constructor);
+      }
+      Wrapper.prototype = Object.create(Class2.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } });
+      return _setPrototypeOf(Wrapper, Class2);
+    };
+    return _wrapNativeSuper(Class);
+  }
+  function _construct(Parent, args, Class) {
+    if (_isNativeReflectConstruct()) {
+      _construct = Reflect.construct;
+    } else {
+      _construct = function _construct2(Parent2, args2, Class2) {
+        var a3 = [null];
+        a3.push.apply(a3, args2);
+        var Constructor = Function.bind.apply(Parent2, a3);
+        var instance = new Constructor();
+        if (Class2) _setPrototypeOf(instance, Class2.prototype);
+        return instance;
+      };
+    }
+    return _construct.apply(null, arguments);
+  }
+  function _isNativeReflectConstruct() {
+    if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+    if (Reflect.construct.sham) return false;
+    if (typeof Proxy === "function") return true;
+    try {
+      Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {
+      }));
+      return true;
+    } catch (e2) {
+      return false;
+    }
+  }
+  function _isNativeFunction(fn) {
+    return Function.toString.call(fn).indexOf("[native code]") !== -1;
+  }
+  function _setPrototypeOf(o3, p2) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p3) {
+      o4.__proto__ = p3;
+      return o4;
+    };
+    return _setPrototypeOf(o3, p2);
+  }
+  function _getPrototypeOf(o3) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
+      return o4.__proto__ || Object.getPrototypeOf(o4);
+    };
+    return _getPrototypeOf(o3);
+  }
+  var ParseError = /* @__PURE__ */ function(_Error) {
+    _inherits(ParseError2, _Error);
+    var _super = _createSuper(ParseError2);
+    function ParseError2(code2) {
+      var _this;
+      _classCallCheck3(this, ParseError2);
+      _this = _super.call(this, code2);
+      Object.setPrototypeOf(_assertThisInitialized(_this), ParseError2.prototype);
+      _this.name = _this.constructor.name;
+      return _this;
+    }
+    return _createClass3(ParseError2);
+  }(/* @__PURE__ */ _wrapNativeSuper(Error));
+
+  // node_modules/libphonenumber-js/es6/helpers/extension/extractExtension.js
+  var EXTN_PATTERN = new RegExp("(?:" + createExtensionPattern() + ")$", "i");
+  function extractExtension(number) {
+    var start = number.search(EXTN_PATTERN);
+    if (start < 0) {
+      return {};
+    }
+    var numberWithoutExtension = number.slice(0, start);
+    var matches2 = number.match(EXTN_PATTERN);
+    var i = 1;
+    while (i < matches2.length) {
+      if (matches2[i]) {
+        return {
+          number: numberWithoutExtension,
+          ext: matches2[i]
+        };
+      }
+      i++;
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/parseDigits.js
+  var DIGITS = {
+    "0": "0",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "\uFF10": "0",
+    // Fullwidth digit 0
+    "\uFF11": "1",
+    // Fullwidth digit 1
+    "\uFF12": "2",
+    // Fullwidth digit 2
+    "\uFF13": "3",
+    // Fullwidth digit 3
+    "\uFF14": "4",
+    // Fullwidth digit 4
+    "\uFF15": "5",
+    // Fullwidth digit 5
+    "\uFF16": "6",
+    // Fullwidth digit 6
+    "\uFF17": "7",
+    // Fullwidth digit 7
+    "\uFF18": "8",
+    // Fullwidth digit 8
+    "\uFF19": "9",
+    // Fullwidth digit 9
+    "\u0660": "0",
+    // Arabic-indic digit 0
+    "\u0661": "1",
+    // Arabic-indic digit 1
+    "\u0662": "2",
+    // Arabic-indic digit 2
+    "\u0663": "3",
+    // Arabic-indic digit 3
+    "\u0664": "4",
+    // Arabic-indic digit 4
+    "\u0665": "5",
+    // Arabic-indic digit 5
+    "\u0666": "6",
+    // Arabic-indic digit 6
+    "\u0667": "7",
+    // Arabic-indic digit 7
+    "\u0668": "8",
+    // Arabic-indic digit 8
+    "\u0669": "9",
+    // Arabic-indic digit 9
+    "\u06F0": "0",
+    // Eastern-Arabic digit 0
+    "\u06F1": "1",
+    // Eastern-Arabic digit 1
+    "\u06F2": "2",
+    // Eastern-Arabic digit 2
+    "\u06F3": "3",
+    // Eastern-Arabic digit 3
+    "\u06F4": "4",
+    // Eastern-Arabic digit 4
+    "\u06F5": "5",
+    // Eastern-Arabic digit 5
+    "\u06F6": "6",
+    // Eastern-Arabic digit 6
+    "\u06F7": "7",
+    // Eastern-Arabic digit 7
+    "\u06F8": "8",
+    // Eastern-Arabic digit 8
+    "\u06F9": "9"
+    // Eastern-Arabic digit 9
+  };
+  function parseDigit(character) {
+    return DIGITS[character];
+  }
+
+  // node_modules/libphonenumber-js/es6/parseIncompletePhoneNumber.js
+  function _createForOfIteratorHelperLoose4(o3, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+    if (it) return (it = it.call(o3)).next.bind(it);
+    if (Array.isArray(o3) || (it = _unsupportedIterableToArray4(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+      if (it) o3 = it;
+      var i = 0;
+      return function() {
+        if (i >= o3.length) return { done: true };
+        return { done: false, value: o3[i++] };
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray4(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray4(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray4(o3, minLen);
+  }
+  function _arrayLikeToArray4(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  function parseIncompletePhoneNumber(string2) {
+    var result2 = "";
+    for (var _iterator = _createForOfIteratorHelperLoose4(string2.split("")), _step; !(_step = _iterator()).done; ) {
+      var character = _step.value;
+      result2 += parsePhoneNumberCharacter(character, result2) || "";
+    }
+    return result2;
+  }
+  function parsePhoneNumberCharacter(character, prevParsedCharacters, emitEvent) {
+    if (character === "+") {
+      if (prevParsedCharacters) {
+        if (typeof emitEvent === "function") {
+          emitEvent("end");
+        }
+        return;
+      }
+      return "+";
+    }
+    return parseDigit(character);
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/getCountryByNationalNumber.js
+  function _createForOfIteratorHelperLoose5(o3, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+    if (it) return (it = it.call(o3)).next.bind(it);
+    if (Array.isArray(o3) || (it = _unsupportedIterableToArray5(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+      if (it) o3 = it;
+      var i = 0;
+      return function() {
+        if (i >= o3.length) return { done: true };
+        return { done: false, value: o3[i++] };
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray5(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray5(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray5(o3, minLen);
+  }
+  function _arrayLikeToArray5(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  function getCountryByNationalNumber(nationalPhoneNumber, _ref) {
+    var countries = _ref.countries, defaultCountry = _ref.defaultCountry, metadata = _ref.metadata;
+    metadata = new Metadata(metadata);
+    for (var _iterator = _createForOfIteratorHelperLoose5(countries), _step; !(_step = _iterator()).done; ) {
+      var country = _step.value;
+      metadata.country(country);
+      if (metadata.leadingDigits()) {
+        if (nationalPhoneNumber && nationalPhoneNumber.search(metadata.leadingDigits()) === 0) {
+          return country;
+        }
+      } else if (getNumberType({
+        phone: nationalPhoneNumber,
+        country
+      }, void 0, metadata.metadata)) {
+        return country;
+      }
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/getCountryByCallingCode.js
+  var USE_NON_GEOGRAPHIC_COUNTRY_CODE2 = false;
+  function getCountryByCallingCode(callingCode, _ref) {
+    var nationalPhoneNumber = _ref.nationalNumber, defaultCountry = _ref.defaultCountry, metadata = _ref.metadata;
+    if (USE_NON_GEOGRAPHIC_COUNTRY_CODE2) {
+      if (metadata.isNonGeographicCallingCode(callingCode)) {
+        return "001";
+      }
+    }
+    var possibleCountries = metadata.getCountryCodesForCallingCode(callingCode);
+    if (!possibleCountries) {
+      return;
+    }
+    if (possibleCountries.length === 1) {
+      return possibleCountries[0];
+    }
+    return getCountryByNationalNumber(nationalPhoneNumber, {
+      countries: possibleCountries,
+      defaultCountry,
+      metadata: metadata.metadata
+    });
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractPhoneContext.js
+  var PLUS_SIGN = "+";
+  var RFC3966_VISUAL_SEPARATOR_ = "[\\-\\.\\(\\)]?";
+  var RFC3966_PHONE_DIGIT_ = "([" + VALID_DIGITS + "]|" + RFC3966_VISUAL_SEPARATOR_ + ")";
+  var RFC3966_GLOBAL_NUMBER_DIGITS_ = "^\\" + PLUS_SIGN + RFC3966_PHONE_DIGIT_ + "*[" + VALID_DIGITS + "]" + RFC3966_PHONE_DIGIT_ + "*$";
+  var RFC3966_GLOBAL_NUMBER_DIGITS_PATTERN_ = new RegExp(RFC3966_GLOBAL_NUMBER_DIGITS_, "g");
+  var ALPHANUM_ = VALID_DIGITS;
+  var RFC3966_DOMAINLABEL_ = "[" + ALPHANUM_ + "]+((\\-)*[" + ALPHANUM_ + "])*";
+  var VALID_ALPHA_ = "a-zA-Z";
+  var RFC3966_TOPLABEL_ = "[" + VALID_ALPHA_ + "]+((\\-)*[" + ALPHANUM_ + "])*";
+  var RFC3966_DOMAINNAME_ = "^(" + RFC3966_DOMAINLABEL_ + "\\.)*" + RFC3966_TOPLABEL_ + "\\.?$";
+  var RFC3966_DOMAINNAME_PATTERN_ = new RegExp(RFC3966_DOMAINNAME_, "g");
+  var RFC3966_PREFIX_ = "tel:";
+  var RFC3966_PHONE_CONTEXT_ = ";phone-context=";
+  var RFC3966_ISDN_SUBADDRESS_ = ";isub=";
+  function extractPhoneContext(numberToExtractFrom) {
+    var indexOfPhoneContext = numberToExtractFrom.indexOf(RFC3966_PHONE_CONTEXT_);
+    if (indexOfPhoneContext < 0) {
+      return null;
+    }
+    var phoneContextStart = indexOfPhoneContext + RFC3966_PHONE_CONTEXT_.length;
+    if (phoneContextStart >= numberToExtractFrom.length) {
+      return "";
+    }
+    var phoneContextEnd = numberToExtractFrom.indexOf(";", phoneContextStart);
+    if (phoneContextEnd >= 0) {
+      return numberToExtractFrom.substring(phoneContextStart, phoneContextEnd);
+    } else {
+      return numberToExtractFrom.substring(phoneContextStart);
+    }
+  }
+  function isPhoneContextValid(phoneContext) {
+    if (phoneContext === null) {
+      return true;
+    }
+    if (phoneContext.length === 0) {
+      return false;
+    }
+    return RFC3966_GLOBAL_NUMBER_DIGITS_PATTERN_.test(phoneContext) || RFC3966_DOMAINNAME_PATTERN_.test(phoneContext);
+  }
+
+  // node_modules/libphonenumber-js/es6/helpers/extractFormattedPhoneNumberFromPossibleRfc3966NumberUri.js
+  function extractFormattedPhoneNumberFromPossibleRfc3966NumberUri(numberToParse, _ref) {
+    var extractFormattedPhoneNumber = _ref.extractFormattedPhoneNumber;
+    var phoneContext = extractPhoneContext(numberToParse);
+    if (!isPhoneContextValid(phoneContext)) {
+      throw new ParseError("NOT_A_NUMBER");
+    }
+    var phoneNumberString;
+    if (phoneContext === null) {
+      phoneNumberString = extractFormattedPhoneNumber(numberToParse) || "";
+    } else {
+      phoneNumberString = "";
+      if (phoneContext.charAt(0) === PLUS_SIGN) {
+        phoneNumberString += phoneContext;
+      }
+      var indexOfRfc3966Prefix = numberToParse.indexOf(RFC3966_PREFIX_);
+      var indexOfNationalNumber;
+      if (indexOfRfc3966Prefix >= 0) {
+        indexOfNationalNumber = indexOfRfc3966Prefix + RFC3966_PREFIX_.length;
+      } else {
+        indexOfNationalNumber = 0;
+      }
+      var indexOfPhoneContext = numberToParse.indexOf(RFC3966_PHONE_CONTEXT_);
+      phoneNumberString += numberToParse.substring(indexOfNationalNumber, indexOfPhoneContext);
+    }
+    var indexOfIsdn = phoneNumberString.indexOf(RFC3966_ISDN_SUBADDRESS_);
+    if (indexOfIsdn > 0) {
+      phoneNumberString = phoneNumberString.substring(0, indexOfIsdn);
+    }
+    if (phoneNumberString !== "") {
+      return phoneNumberString;
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/parse.js
+  var MAX_INPUT_STRING_LENGTH = 250;
+  var PHONE_NUMBER_START_PATTERN = new RegExp("[" + PLUS_CHARS + VALID_DIGITS + "]");
+  var AFTER_PHONE_NUMBER_END_PATTERN = new RegExp("[^" + VALID_DIGITS + "#]+$");
+  var USE_NON_GEOGRAPHIC_COUNTRY_CODE3 = false;
+  function parse2(text3, options, metadata) {
+    options = options || {};
+    metadata = new Metadata(metadata);
+    if (options.defaultCountry && !metadata.hasCountry(options.defaultCountry)) {
+      if (options.v2) {
+        throw new ParseError("INVALID_COUNTRY");
+      }
+      throw new Error("Unknown country: ".concat(options.defaultCountry));
+    }
+    var _parseInput = parseInput(text3, options.v2, options.extract), formattedPhoneNumber = _parseInput.number, ext = _parseInput.ext, error = _parseInput.error;
+    if (!formattedPhoneNumber) {
+      if (options.v2) {
+        if (error === "TOO_SHORT") {
+          throw new ParseError("TOO_SHORT");
+        }
+        throw new ParseError("NOT_A_NUMBER");
+      }
+      return {};
+    }
+    var _parsePhoneNumber = parsePhoneNumber(formattedPhoneNumber, options.defaultCountry, options.defaultCallingCode, metadata), country = _parsePhoneNumber.country, nationalNumber = _parsePhoneNumber.nationalNumber, countryCallingCode = _parsePhoneNumber.countryCallingCode, countryCallingCodeSource = _parsePhoneNumber.countryCallingCodeSource, carrierCode = _parsePhoneNumber.carrierCode;
+    if (!metadata.hasSelectedNumberingPlan()) {
+      if (options.v2) {
+        throw new ParseError("INVALID_COUNTRY");
+      }
+      return {};
+    }
+    if (!nationalNumber || nationalNumber.length < MIN_LENGTH_FOR_NSN) {
+      if (options.v2) {
+        throw new ParseError("TOO_SHORT");
+      }
+      return {};
+    }
+    if (nationalNumber.length > MAX_LENGTH_FOR_NSN) {
+      if (options.v2) {
+        throw new ParseError("TOO_LONG");
+      }
+      return {};
+    }
+    if (options.v2) {
+      var phoneNumber = new PhoneNumber(countryCallingCode, nationalNumber, metadata.metadata);
+      if (country) {
+        phoneNumber.country = country;
+      }
+      if (carrierCode) {
+        phoneNumber.carrierCode = carrierCode;
+      }
+      if (ext) {
+        phoneNumber.ext = ext;
+      }
+      phoneNumber.__countryCallingCodeSource = countryCallingCodeSource;
+      return phoneNumber;
+    }
+    var valid = (options.extended ? metadata.hasSelectedNumberingPlan() : country) ? matchesEntirely(nationalNumber, metadata.nationalNumberPattern()) : false;
+    if (!options.extended) {
+      return valid ? result(country, nationalNumber, ext) : {};
+    }
+    return {
+      country,
+      countryCallingCode,
+      carrierCode,
+      valid,
+      possible: valid ? true : options.extended === true && metadata.possibleLengths() && isPossibleNumber(nationalNumber, metadata) ? true : false,
+      phone: nationalNumber,
+      ext
+    };
+  }
+  function _extractFormattedPhoneNumber(text3, extract, throwOnError) {
+    if (!text3) {
+      return;
+    }
+    if (text3.length > MAX_INPUT_STRING_LENGTH) {
+      if (throwOnError) {
+        throw new ParseError("TOO_LONG");
+      }
+      return;
+    }
+    if (extract === false) {
+      return text3;
+    }
+    var startsAt = text3.search(PHONE_NUMBER_START_PATTERN);
+    if (startsAt < 0) {
+      return;
+    }
+    return text3.slice(startsAt).replace(AFTER_PHONE_NUMBER_END_PATTERN, "");
+  }
+  function parseInput(text3, v2, extract) {
+    var number = extractFormattedPhoneNumberFromPossibleRfc3966NumberUri(text3, {
+      extractFormattedPhoneNumber: function extractFormattedPhoneNumber(text4) {
+        return _extractFormattedPhoneNumber(text4, extract, v2);
+      }
+    });
+    if (!number) {
+      return {};
+    }
+    if (!isViablePhoneNumber(number)) {
+      if (isViablePhoneNumberStart(number)) {
+        return {
+          error: "TOO_SHORT"
+        };
+      }
+      return {};
+    }
+    var withExtensionStripped = extractExtension(number);
+    if (withExtensionStripped.ext) {
+      return withExtensionStripped;
+    }
+    return {
+      number
+    };
+  }
+  function result(country, nationalNumber, ext) {
+    var result2 = {
+      country,
+      phone: nationalNumber
+    };
+    if (ext) {
+      result2.ext = ext;
+    }
+    return result2;
+  }
+  function parsePhoneNumber(formattedPhoneNumber, defaultCountry, defaultCallingCode, metadata) {
+    var _extractCountryCallin = extractCountryCallingCode(parseIncompletePhoneNumber(formattedPhoneNumber), defaultCountry, defaultCallingCode, metadata.metadata), countryCallingCodeSource = _extractCountryCallin.countryCallingCodeSource, countryCallingCode = _extractCountryCallin.countryCallingCode, number = _extractCountryCallin.number;
+    var country;
+    if (countryCallingCode) {
+      metadata.selectNumberingPlan(countryCallingCode);
+    } else if (number && (defaultCountry || defaultCallingCode)) {
+      metadata.selectNumberingPlan(defaultCountry, defaultCallingCode);
+      if (defaultCountry) {
+        country = defaultCountry;
+      } else {
+        if (USE_NON_GEOGRAPHIC_COUNTRY_CODE3) {
+          if (metadata.isNonGeographicCallingCode(defaultCallingCode)) {
+            country = "001";
+          }
+        }
+      }
+      countryCallingCode = defaultCallingCode || getCountryCallingCode(defaultCountry, metadata.metadata);
+    } else return {};
+    if (!number) {
+      return {
+        countryCallingCodeSource,
+        countryCallingCode
+      };
+    }
+    var _extractNationalNumbe = extractNationalNumber(parseIncompletePhoneNumber(number), metadata), nationalNumber = _extractNationalNumbe.nationalNumber, carrierCode = _extractNationalNumbe.carrierCode;
+    var exactCountry = getCountryByCallingCode(countryCallingCode, {
+      nationalNumber,
+      defaultCountry,
+      metadata
+    });
+    if (exactCountry) {
+      country = exactCountry;
+      if (exactCountry === "001") {
+      } else {
+        metadata.country(country);
+      }
+    }
+    return {
+      country,
+      countryCallingCode,
+      countryCallingCodeSource,
+      nationalNumber,
+      carrierCode
+    };
+  }
+
+  // node_modules/libphonenumber-js/es6/parsePhoneNumberWithError_.js
+  function ownKeys6(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread6(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys6(Object(source), true).forEach(function(key) {
+        _defineProperty6(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys6(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty6(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function parsePhoneNumberWithError(text3, options, metadata) {
+    return parse2(text3, _objectSpread6(_objectSpread6({}, options), {}, {
+      v2: true
+    }), metadata);
+  }
+
+  // node_modules/libphonenumber-js/es6/normalizeArguments.js
+  function ownKeys7(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread7(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys7(Object(source), true).forEach(function(key) {
+        _defineProperty7(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys7(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty7(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function _slicedToArray(arr, i) {
+    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray6(arr, i) || _nonIterableRest();
+  }
+  function _nonIterableRest() {
+    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _unsupportedIterableToArray6(o3, minLen) {
+    if (!o3) return;
+    if (typeof o3 === "string") return _arrayLikeToArray6(o3, minLen);
+    var n = Object.prototype.toString.call(o3).slice(8, -1);
+    if (n === "Object" && o3.constructor) n = o3.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o3);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray6(o3, minLen);
+  }
+  function _arrayLikeToArray6(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+    for (var i = 0, arr2 = new Array(len); i < len; i++) {
+      arr2[i] = arr[i];
+    }
+    return arr2;
+  }
+  function _iterableToArrayLimit(arr, i) {
+    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+    if (_i == null) return;
+    var _arr = [];
+    var _n = true;
+    var _d = false;
+    var _s, _e;
+    try {
+      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
+        _arr.push(_s.value);
+        if (i && _arr.length === i) break;
+      }
+    } catch (err) {
+      _d = true;
+      _e = err;
+    } finally {
+      try {
+        if (!_n && _i["return"] != null) _i["return"]();
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+    return _arr;
+  }
+  function _arrayWithHoles(arr) {
+    if (Array.isArray(arr)) return arr;
+  }
+  function normalizeArguments(args) {
+    var _Array$prototype$slic = Array.prototype.slice.call(args), _Array$prototype$slic2 = _slicedToArray(_Array$prototype$slic, 4), arg_1 = _Array$prototype$slic2[0], arg_2 = _Array$prototype$slic2[1], arg_3 = _Array$prototype$slic2[2], arg_4 = _Array$prototype$slic2[3];
+    var text3;
+    var options;
+    var metadata;
+    if (typeof arg_1 === "string") {
+      text3 = arg_1;
+    } else throw new TypeError("A text for parsing must be a string.");
+    if (!arg_2 || typeof arg_2 === "string") {
+      if (arg_4) {
+        options = arg_3;
+        metadata = arg_4;
+      } else {
+        options = void 0;
+        metadata = arg_3;
+      }
+      if (arg_2) {
+        options = _objectSpread7({
+          defaultCountry: arg_2
+        }, options);
+      }
+    } else if (isObject(arg_2)) {
+      if (arg_3) {
+        options = arg_2;
+        metadata = arg_3;
+      } else {
+        metadata = arg_2;
+      }
+    } else throw new Error("Invalid second argument: ".concat(arg_2));
+    return {
+      text: text3,
+      options,
+      metadata
+    };
+  }
+
+  // node_modules/libphonenumber-js/es6/parsePhoneNumber_.js
+  function ownKeys8(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread8(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys8(Object(source), true).forEach(function(key) {
+        _defineProperty8(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys8(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty8(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function parsePhoneNumber2(text3, options, metadata) {
+    if (options && options.defaultCountry && !isSupportedCountry(options.defaultCountry, metadata)) {
+      options = _objectSpread8(_objectSpread8({}, options), {}, {
+        defaultCountry: void 0
+      });
+    }
+    try {
+      return parsePhoneNumberWithError(text3, options, metadata);
+    } catch (error) {
+      if (error instanceof ParseError) {
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  // node_modules/libphonenumber-js/es6/isValidPhoneNumber.js
+  function ownKeys9(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread9(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys9(Object(source), true).forEach(function(key) {
+        _defineProperty9(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys9(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty9(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
+  function isValidPhoneNumber() {
+    var _normalizeArguments = normalizeArguments(arguments), text3 = _normalizeArguments.text, options = _normalizeArguments.options, metadata = _normalizeArguments.metadata;
+    options = _objectSpread9(_objectSpread9({}, options), {}, {
+      extract: false
+    });
+    var phoneNumber = parsePhoneNumber2(text3, options, metadata);
+    return phoneNumber && phoneNumber.isValid() || false;
+  }
+
+  // node_modules/libphonenumber-js/min/exports/isValidPhoneNumber.js
+  function isValidPhoneNumber2() {
+    return withMetadataArgument(isValidPhoneNumber, arguments);
+  }
+
+  // src/app/components/cj-forms/src/components/FormLead.js
+  var FormLead = class extends AppElement {
+    #default = {
+      form: {}
+    };
+    constructor(props = {}) {
+      super();
+      this.eventName = "user:click-form-lead";
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
+      this.ok = false;
+    }
+    static get observedAttributes() {
+      return ["stage"];
+    }
+    handleEvent(event) {
+      let leadForm = this.querySelector("form");
+      if (event.type === "click" && event.target.id === "cancel-lead") {
+        const lead = new CustomEvent(this.state.eventName, {
+          detail: { click: event.target.id },
+          bubbles: true,
+          composed: true
+        });
+        this.dispatchEvent(lead);
+      } else if (event.type === "change" && event.target.id === "phone") {
+        let code2 = leadForm.codes.options[leadForm.codes.selectedIndex].value;
+        let country = countryCodes_default.codes.find((country2) => country2.dial_code == code2);
+        let phone = code2 + " " + event.target.value;
+        if (isValidPhoneNumber2(phone, country.code)) {
+          this.querySelector("#help-phone").classList.add("is-hidden");
+          this.querySelector("#help2-phone").classList.add("is-hidden");
+          this.ok = true;
+        } else {
+          this.querySelector("#help2-phone").classList.remove("is-hidden");
+          this.ok = false;
+        }
+      } else if (event.type === "change" && event.target.id === "email") {
+        let regex = /^(?!\.)((?!.*\.{2})[a-zA-Z0-9\u00E0-\u00FC.!#$%&'*+-/=?^_`{|}~\-\d]+)@(?!\.)([a-zA-Z0-9\u00E0-\u00FC\-\.\d]+)((\.([a-zA-Z]){2,63})+)$/;
+        if (regex.test(event.target.value)) {
+          this.querySelector("#help-email").classList.add("is-hidden");
+          this.querySelector("#help2-email").classList.add("is-hidden");
+          this.ok = true;
+        } else {
+          this.querySelector("#help2-email").classList.remove("is-hidden");
+          this.ok = false;
+        }
+      } else if (event.type === "click" && event.target.id === "cancel-lead") {
+        event.preventDefault();
+        const cancelLead = new CustomEvent(this.state.eventName, {
+          detail: { click: event.target.id },
+          bubbles: true,
+          composed: true
+        });
+        this.dispatchEvent(cancelLead);
+      } else if (event.type === "submit") {
+        event.preventDefault();
+        let contact = this.querySelector("#contact");
+        let position = this.querySelector("#function");
+        let phone = this.querySelector("#phone");
+        let email = this.querySelector("#email");
+        let company = this.querySelector("#company");
+        let subject = this.querySelector("#subject");
+        let description = this.querySelector("#description");
+        let terms = this.querySelector("#terms");
+        if (contact != null && contact.required && contact.value.trim() === "") {
+          this.querySelector("#help-contact").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (contact != null) {
+          this.querySelector("#help-contact").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (position != null && position.required && position.value.trim() === "") {
+          this.querySelector("#help-function").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (position != null) {
+          this.querySelector("#help-function").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (company != null && company.required && company.value.trim() === "") {
+          this.querySelector("#help-company").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (company != null) {
+          this.querySelector("#help-company").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (phone != null && phone.required && phone.value.trim() === "") {
+          this.querySelector("#help-phone").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (phone != null) {
+          this.querySelector("#help-phone").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (email != null && email.required && email.value.trim() === "") {
+          this.querySelector("#help-email").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (email != null) {
+          this.querySelector("#help-email").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (subject != null && subject.required && subject.value.trim() === "") {
+          this.querySelector("#help-subject").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (subject != null) {
+          this.querySelector("#help-subject").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (description != null && description.required && description.value.trim() === "") {
+          this.querySelector("#help-description").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (description != null) {
+          this.querySelector("#help-description").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (terms != null && terms.required && terms.checked == false) {
+          this.querySelector("#help-terms").classList.remove("is-hidden");
+          this.ok = false;
+        } else if (terms != null) {
+          this.querySelector("#help-terms").classList.add("is-hidden");
+          this.ok = true;
+        }
+        if (this.ok === true) {
+          if (this.form?.eventName != void 0) {
+            this.eventName = this.state.form.eventName;
+          }
+          let data = {};
+          if (leadForm?.contact != void 0) {
+            data["name"] = leadForm.contact.value;
+          }
+          if (leadForm?.function != void 0) {
+            data["function"] = leadForm.function.value;
+          }
+          if (leadForm?.email != void 0) {
+            data["email"] = leadForm.email.value;
+          }
+          if (leadForm?.phone != void 0) {
+            data["phone"] = leadForm.codes.options[leadForm.codes.selectedIndex].value + " " + leadForm.phone.value;
+          }
+          if (leadForm?.company != void 0) {
+            data["company"] = leadForm.company.value;
+          }
+          if (leadForm?.subject != void 0) {
+            data["subject"] = leadForm.subject.value;
+          }
+          if (leadForm?.description != void 0) {
+            data["description"] = leadForm.description.value;
+          }
+          const lead = new CustomEvent(this.eventName, {
+            detail: { click: event.target.id, lead: data },
+            bubbles: true,
+            composed: true
+          });
+          this.dispatchEvent(lead);
+        }
+      }
+    }
+    render() {
+      this.state?.id != void 0 ? this.state.form.id = `${this.state.id}-form` : `form-${Math.floor(Math.random() * 100)}`;
+      this.innerHTML = /* html */
+      `
+        <section ${this.getClasses(["section"], this.state?.classList)} ${this.setAnimation(this.state.animation)} ${this.getBackground()}>
+            <div class="container py-4">
+                ${this.getTitles()}
+                <div class="columns is-centered">
+                    <div class="column ${this.state?.size != void 0 ? this.state.size : "is-4"}">
+                       ${this.state?.form != void 0 ? new CjForm(this.state.form, this.state.context).render() : ""}
+                    </div>
+                </div>
+            </div>
+        </section>
+        `;
+      addFormEvents(this);
+    }
+  };
+  customElements.define("form-lead", FormLead);
+
+  // node_modules/vanilla-calendar-pro/index.mjs
+  var __defProp2 = Object.defineProperty;
+  var __defProps = Object.defineProperties;
+  var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+  var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+  var __hasOwnProp2 = Object.prototype.hasOwnProperty;
+  var __propIsEnum = Object.prototype.propertyIsEnumerable;
+  var __defNormalProp = (e2, t2, n) => t2 in e2 ? __defProp2(e2, t2, { enumerable: true, configurable: true, writable: true, value: n }) : e2[t2] = n;
+  var __spreadValues = (e2, t2) => {
+    for (var n in t2 || (t2 = {})) __hasOwnProp2.call(t2, n) && __defNormalProp(e2, n, t2[n]);
+    if (__getOwnPropSymbols) for (var n of __getOwnPropSymbols(t2)) __propIsEnum.call(t2, n) && __defNormalProp(e2, n, t2[n]);
+    return e2;
+  };
+  var __spreadProps = (e2, t2) => __defProps(e2, __getOwnPropDescs(t2));
+  var __publicField = (e2, t2, n) => (__defNormalProp(e2, "symbol" != typeof t2 ? t2 + "" : t2, n), n);
+  var errorMessages = { notFoundSelector: (e2) => `${e2} is not found, check the first argument passed to new Calendar.`, notInit: 'The calendar has not been initialized, please initialize it using the "init()" method first.', notLocale: "You specified an incorrect language label or did not specify the required number of values \u200B\u200Bfor \xABlocale.weekdays\xBB or \xABlocale.months\xBB.", incorrectTime: "The value of the time property can be: false, 12 or 24.", incorrectMonthsCount: "For the \xABmultiple\xBB calendar type, the \xABdisplayMonthsCount\xBB parameter can have a value from 2 to 12, and for all others it cannot be greater than 1." };
+  var setContext = (e2, t2, n) => {
+    e2.context[t2] = n;
+  };
+  var destroy = (e2) => {
+    var t2, n, a3, l2, o3;
+    if (!e2.context.isInit) throw new Error(errorMessages.notInit);
+    e2.inputMode ? (null == (t2 = e2.context.mainElement.parentElement) || t2.removeChild(e2.context.mainElement), null == (a3 = null == (n = e2.context.inputElement) ? void 0 : n.replaceWith) || a3.call(n, e2.context.originalElement), setContext(e2, "inputElement", void 0)) : null == (o3 = (l2 = e2.context.mainElement).replaceWith) || o3.call(l2, e2.context.originalElement), setContext(e2, "mainElement", e2.context.originalElement), e2.onDestroy && e2.onDestroy(e2);
+  };
+  var hide = (e2) => {
+    e2.context.isShowInInputMode && e2.context.currentType && (e2.context.mainElement.dataset.vcCalendarHidden = "", setContext(e2, "isShowInInputMode", false), e2.context.cleanupHandlers[0] && (e2.context.cleanupHandlers.forEach((e3) => e3()), setContext(e2, "cleanupHandlers", [])), e2.onHide && e2.onHide(e2));
+  };
+  function getOffset(e2) {
+    if (!e2 || !e2.getBoundingClientRect) return { top: 0, bottom: 0, left: 0, right: 0 };
+    const t2 = e2.getBoundingClientRect(), n = document.documentElement;
+    return { bottom: t2.bottom, right: t2.right, top: t2.top + window.scrollY - n.clientTop, left: t2.left + window.scrollX - n.clientLeft };
+  }
+  function getViewportDimensions() {
+    return { vw: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0), vh: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0) };
+  }
+  function getWindowScrollPosition() {
+    return { left: window.scrollX || document.documentElement.scrollLeft || 0, top: window.scrollY || document.documentElement.scrollTop || 0 };
+  }
+  function calculateAvailableSpace(e2) {
+    const { top: t2, left: n } = getWindowScrollPosition(), { top: a3, left: l2 } = getOffset(e2), { vh: o3, vw: s2 } = getViewportDimensions(), i = a3 - t2, r3 = l2 - n;
+    return { top: i, bottom: o3 - (i + e2.clientHeight), left: r3, right: s2 - (r3 + e2.clientWidth) };
+  }
+  function getAvailablePosition(e2, t2, n = 5) {
+    const a3 = { top: true, bottom: true, left: true, right: true }, l2 = [];
+    if (!t2 || !e2) return { canShow: a3, parentPositions: l2 };
+    const { bottom: o3, top: s2 } = calculateAvailableSpace(e2), { top: i, left: r3 } = getOffset(e2), { height: c3, width: d2 } = t2.getBoundingClientRect(), { vh: u2, vw: m2 } = getViewportDimensions(), h2 = m2 / 2, p2 = u2 / 2;
+    return [{ condition: i < p2, position: "top" }, { condition: i > p2, position: "bottom" }, { condition: r3 < h2, position: "left" }, { condition: r3 > h2, position: "right" }].forEach(({ condition: e3, position: t3 }) => {
+      e3 && l2.push(t3);
+    }), Object.assign(a3, { top: c3 <= s2 - n, bottom: c3 <= o3 - n, left: d2 <= r3, right: d2 <= m2 - r3 }), { canShow: a3, parentPositions: l2 };
+  }
+  var handleDay = (e2, t2, n, a3) => {
+    var l2;
+    const o3 = a3.querySelector(`[data-vc-date="${t2}"]`), s2 = null == o3 ? void 0 : o3.querySelector("[data-vc-date-btn]");
+    if (!o3 || !s2) return;
+    if ((null == n ? void 0 : n.modifier) && s2.classList.add(...n.modifier.trim().split(" ")), !(null == n ? void 0 : n.html)) return;
+    const i = document.createElement("div");
+    i.className = e2.styles.datePopup, i.dataset.vcDatePopup = "", i.innerHTML = e2.sanitizerHTML(n.html), s2.ariaExpanded = "true", s2.ariaLabel = `${s2.ariaLabel}, ${null == (l2 = null == i ? void 0 : i.textContent) ? void 0 : l2.replace(/^\s+|\s+(?=\s)|\s+$/g, "").replace(/&nbsp;/g, " ")}`, o3.appendChild(i), requestAnimationFrame(() => {
+      if (!i) return;
+      const { canShow: e3 } = getAvailablePosition(o3, i), t3 = e3.bottom ? o3.offsetHeight : -i.offsetHeight, n2 = e3.left && !e3.right ? o3.offsetWidth - i.offsetWidth / 2 : !e3.left && e3.right ? i.offsetWidth / 2 : 0;
+      Object.assign(i.style, { left: `${n2}px`, top: `${t3}px` });
+    });
+  };
+  var createDatePopup = (e2, t2) => {
+    var n;
+    e2.popups && (null == (n = Object.entries(e2.popups)) || n.forEach(([n2, a3]) => handleDay(e2, n2, a3, t2)));
+  };
+  var getDate = (e2) => /* @__PURE__ */ new Date(`${e2}T00:00:00`);
+  var getDateString = (e2) => `${e2.getFullYear()}-${String(e2.getMonth() + 1).padStart(2, "0")}-${String(e2.getDate()).padStart(2, "0")}`;
+  var parseDates = (e2) => e2.reduce((e3, t2) => {
+    if (t2 instanceof Date || "number" == typeof t2) {
+      const n = t2 instanceof Date ? t2 : new Date(t2);
+      e3.push(n.toISOString().substring(0, 10));
+    } else t2.match(/^(\d{4}-\d{2}-\d{2})$/g) ? e3.push(t2) : t2.replace(/(\d{4}-\d{2}-\d{2}).*?(\d{4}-\d{2}-\d{2})/g, (t3, n, a3) => {
+      const l2 = getDate(n), o3 = getDate(a3), s2 = new Date(l2.getTime());
+      for (; s2 <= o3; s2.setDate(s2.getDate() + 1)) e3.push(getDateString(s2));
+      return t3;
+    });
+    return e3;
+  }, []);
+  var updateAttribute = (e2, t2, n, a3 = "") => {
+    t2 ? e2.setAttribute(n, a3) : e2.getAttribute(n) === a3 && e2.removeAttribute(n);
+  };
+  var setDateModifier = (e2, t2, n, a3, l2, o3, s2) => {
+    var i, r3, c3, d2;
+    const u2 = getDate(e2.context.displayDateMin) > getDate(o3) || getDate(e2.context.displayDateMax) < getDate(o3) || (null == (i = e2.context.disableDates) ? void 0 : i.includes(o3)) || !e2.selectionMonthsMode && "current" !== s2 || !e2.selectionYearsMode && getDate(o3).getFullYear() !== t2;
+    updateAttribute(n, u2, "data-vc-date-disabled"), a3 && updateAttribute(a3, u2, "aria-disabled", "true"), a3 && updateAttribute(a3, u2, "tabindex", "-1"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o3, "data-vc-date-today"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o3, "aria-current", "date"), updateAttribute(n, null == (r3 = e2.selectedWeekends) ? void 0 : r3.includes(l2), "data-vc-date-weekend");
+    const m2 = (null == (c3 = e2.selectedHolidays) ? void 0 : c3[0]) ? parseDates(e2.selectedHolidays) : [];
+    if (updateAttribute(n, m2.includes(o3), "data-vc-date-holiday"), (null == (d2 = e2.context.selectedDates) ? void 0 : d2.includes(o3)) ? (n.setAttribute("data-vc-date-selected", ""), a3 && a3.setAttribute("aria-selected", "true"), e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode && (e2.context.selectedDates[0] === o3 && e2.context.selectedDates[e2.context.selectedDates.length - 1] === o3 ? n.setAttribute("data-vc-date-selected", "first-and-last") : e2.context.selectedDates[0] === o3 ? n.setAttribute("data-vc-date-selected", "first") : e2.context.selectedDates[e2.context.selectedDates.length - 1] === o3 && n.setAttribute("data-vc-date-selected", "last"), e2.context.selectedDates[0] !== o3 && e2.context.selectedDates[e2.context.selectedDates.length - 1] !== o3 && n.setAttribute("data-vc-date-selected", "middle"))) : n.hasAttribute("data-vc-date-selected") && (n.removeAttribute("data-vc-date-selected"), a3 && a3.removeAttribute("aria-selected")), !e2.context.disableDates.includes(o3) && e2.enableEdgeDatesOnly && e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode) {
+      const t3 = getDate(e2.context.selectedDates[0]), a4 = getDate(e2.context.selectedDates[e2.context.selectedDates.length - 1]), l3 = getDate(o3);
+      updateAttribute(n, l3 > t3 && l3 < a4, "data-vc-date-selected", "middle");
+    }
+  };
+  var getLocaleString = (e2, t2, n) => (/* @__PURE__ */ new Date(`${e2}T00:00:00.000Z`)).toLocaleString(t2, n);
+  var getWeekNumber = (e2, t2) => {
+    const n = getDate(e2), a3 = (n.getDay() - t2 + 7) % 7;
+    n.setDate(n.getDate() + 4 - a3);
+    const l2 = new Date(n.getFullYear(), 0, 1), o3 = Math.ceil(((+n - +l2) / 864e5 + 1) / 7);
+    return { year: n.getFullYear(), week: o3 };
+  };
+  var addWeekNumberForDate = (e2, t2, n) => {
+    const a3 = getWeekNumber(n, e2.firstWeekday);
+    a3 && (t2.dataset.vcDateWeekNumber = String(a3.week));
+  };
+  var setDaysAsDisabled = (e2, t2, n) => {
+    var a3, l2, o3, s2, i;
+    const r3 = null == (a3 = e2.disableWeekdays) ? void 0 : a3.includes(n), c3 = e2.disableAllDates && !!(null == (l2 = e2.context.enableDates) ? void 0 : l2[0]);
+    !r3 && !c3 || (null == (o3 = e2.context.enableDates) ? void 0 : o3.includes(t2)) || (null == (s2 = e2.context.disableDates) ? void 0 : s2.includes(t2)) || (e2.context.disableDates.push(t2), null == (i = e2.context.disableDates) || i.sort((e3, t3) => +new Date(e3) - +new Date(t3)));
+  };
+  var createDate = (e2, t2, n, a3, l2, o3) => {
+    const s2 = getDate(l2).getDay(), i = "string" == typeof e2.locale && e2.locale.length ? e2.locale : "en", r3 = document.createElement("div");
+    let c3;
+    r3.className = e2.styles.date, r3.dataset.vcDate = l2, r3.dataset.vcDateMonth = o3, r3.dataset.vcDateWeekDay = String(s2), ("current" === o3 || e2.displayDatesOutside) && (c3 = document.createElement("button"), c3.className = e2.styles.dateBtn, c3.type = "button", c3.role = "gridcell", c3.ariaLabel = getLocaleString(l2, i, { dateStyle: "long", timeZone: "UTC" }), c3.dataset.vcDateBtn = "", c3.innerText = String(a3), r3.appendChild(c3)), e2.enableWeekNumbers && addWeekNumberForDate(e2, r3, l2), setDaysAsDisabled(e2, l2, s2), setDateModifier(e2, t2, r3, c3, s2, l2, o3), n.appendChild(r3), e2.onCreateDateEls && e2.onCreateDateEls(e2, r3);
+  };
+  var createDatesFromCurrentMonth = (e2, t2, n, a3, l2) => {
+    for (let o3 = 1; o3 <= n; o3++) {
+      const n2 = new Date(a3, l2, o3);
+      createDate(e2, a3, t2, o3, getDateString(n2), "current");
+    }
+  };
+  var createDatesFromNextMonth = (e2, t2, n, a3, l2, o3) => {
+    const s2 = o3 + n, i = 7 * Math.ceil(s2 / 7) - s2, r3 = l2 + 1 === 12 ? a3 + 1 : a3, c3 = l2 + 1 === 12 ? "01" : l2 + 2 < 10 ? `0${l2 + 2}` : l2 + 2;
+    for (let n2 = 1; n2 <= i; n2++) {
+      const l3 = n2 < 10 ? `0${n2}` : String(n2);
+      createDate(e2, a3, t2, n2, `${r3}-${c3}-${l3}`, "next");
+    }
+  };
+  var createDatesFromPrevMonth = (e2, t2, n, a3, l2) => {
+    let o3 = new Date(n, a3, 0).getDate() - (l2 - 1);
+    const s2 = 0 === a3 ? n - 1 : n, i = 0 === a3 ? 12 : a3 < 10 ? `0${a3}` : a3;
+    for (let a4 = l2; a4 > 0; a4--, o3++) {
+      createDate(e2, n, t2, o3, `${s2}-${i}-${o3}`, "prev");
+    }
+  };
+  var createWeekNumbers = (e2, t2, n, a3, l2) => {
+    if (!e2.enableWeekNumbers) return;
+    a3.textContent = "";
+    const o3 = document.createElement("b");
+    o3.className = e2.styles.weekNumbersTitle, o3.innerText = "#", o3.dataset.vcWeekNumbers = "title", a3.appendChild(o3);
+    const s2 = document.createElement("div");
+    s2.className = e2.styles.weekNumbersContent, s2.dataset.vcWeekNumbers = "content", a3.appendChild(s2);
+    const i = document.createElement("button");
+    i.type = "button", i.className = e2.styles.weekNumber;
+    const r3 = l2.querySelectorAll("[data-vc-date]"), c3 = Math.ceil((t2 + n) / 7);
+    for (let t3 = 0; t3 < c3; t3++) {
+      const n2 = r3[0 === t3 ? 6 : 7 * t3].dataset.vcDate, a4 = getWeekNumber(n2, e2.firstWeekday);
+      if (!a4) return;
+      const l3 = i.cloneNode(true);
+      l3.innerText = String(a4.week), l3.dataset.vcWeekNumber = String(a4.week), l3.dataset.vcWeekYear = String(a4.year), l3.role = "rowheader", l3.ariaLabel = `${a4.week}`, s2.appendChild(l3);
+    }
+  };
+  var createDates = (e2) => {
+    const t2 = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1), n = e2.context.mainElement.querySelectorAll('[data-vc="dates"]'), a3 = e2.context.mainElement.querySelectorAll('[data-vc-week="numbers"]');
+    n.forEach((n2, l2) => {
+      e2.selectionDatesMode || (n2.dataset.vcDatesDisabled = ""), n2.textContent = "";
+      const o3 = new Date(t2);
+      o3.setMonth(o3.getMonth() + l2);
+      const s2 = o3.getMonth(), i = o3.getFullYear(), r3 = (new Date(i, s2, 1).getDay() - e2.firstWeekday + 7) % 7, c3 = new Date(i, s2 + 1, 0).getDate();
+      createDatesFromPrevMonth(e2, n2, i, s2, r3), createDatesFromCurrentMonth(e2, n2, c3, i, s2), createDatesFromNextMonth(e2, n2, c3, i, s2, r3), createDatePopup(e2, n2), createWeekNumbers(e2, r3, c3, a3[l2], n2);
+    });
+  };
+  var layoutDefault = (e2) => `
+  <div class="${e2.styles.header}" data-vc="header" role="toolbar" aria-label="${e2.labels.navigation}">
+    <#ArrowPrev [month] />
+    <div class="${e2.styles.headerContent}" data-vc-header="content">
+      <#Month />
+      <#Year />
+    </div>
+    <#ArrowNext [month] />
+  </div>
+  <div class="${e2.styles.wrapper}" data-vc="wrapper">
+    <#WeekNumbers />
+    <div class="${e2.styles.content}" data-vc="content">
+      <#Week />
+      <#Dates />
+      <#DateRangeTooltip />
+    </div>
+  </div>
+  <#ControlTime />
+`;
+  var layoutMonths = (e2) => `
+  <div class="${e2.styles.header}" data-vc="header" role="toolbar" aria-label="${e2.labels.navigation}">
+    <div class="${e2.styles.headerContent}" data-vc-header="content">
+      <#Month />
+      <#Year />
+    </div>
+  </div>
+  <div class="${e2.styles.wrapper}" data-vc="wrapper">
+    <div class="${e2.styles.content}" data-vc="content">
+      <#Months />
+    </div>
+  </div>
+`;
+  var layoutMultiple = (e2) => `
+  <div class="${e2.styles.controls}" data-vc="controls" role="toolbar" aria-label="${e2.labels.navigation}">
+    <#ArrowPrev [month] />
+    <#ArrowNext [month] />
+  </div>
+  <div class="${e2.styles.grid}" data-vc="grid">
+    <#Multiple>
+      <div class="${e2.styles.column}" data-vc="column" role="region">
+        <div class="${e2.styles.header}" data-vc="header">
+          <div class="${e2.styles.headerContent}" data-vc-header="content">
+            <#Month />
+            <#Year />
+          </div>
+        </div>
+        <div class="${e2.styles.wrapper}" data-vc="wrapper">
+          <#WeekNumbers />
+          <div class="${e2.styles.content}" data-vc="content">
+            <#Week />
+            <#Dates />
+          </div>
+        </div>
+      </div>
+    <#/Multiple>
+    <#DateRangeTooltip />
+  </div>
+  <#ControlTime />
+`;
+  var layoutYears = (e2) => `
+  <div class="${e2.styles.header}" data-vc="header" role="toolbar" aria-label="${e2.labels.navigation}">
+    <#ArrowPrev [year] />
+    <div class="${e2.styles.headerContent}" data-vc-header="content">
+      <#Month />
+      <#Year />
+    </div>
+    <#ArrowNext [year] />
+  </div>
+  <div class="${e2.styles.wrapper}" data-vc="wrapper">
+    <div class="${e2.styles.content}" data-vc="content">
+      <#Years />
+    </div>
+  </div>
+`;
+  var ArrowNext = (e2, t2) => `<button type="button" class="${e2.styles.arrowNext}" data-vc-arrow="next" aria-label="${e2.labels.arrowNext[t2]}"></button>`;
+  var ArrowPrev = (e2, t2) => `<button type="button" class="${e2.styles.arrowPrev}" data-vc-arrow="prev" aria-label="${e2.labels.arrowPrev[t2]}"></button>`;
+  var ControlTime = (e2) => e2.selectionTimeMode ? `<div class="${e2.styles.time}" data-vc="time" role="group" aria-label="${e2.labels.selectingTime}"></div>` : "";
+  var DateRangeTooltip = (e2) => e2.onCreateDateRangeTooltip ? `<div class="${e2.styles.dateRangeTooltip}" data-vc-date-range-tooltip="hidden"></div>` : "";
+  var Dates = (e2) => `<div class="${e2.styles.dates}" data-vc="dates" role="grid" aria-live="assertive" aria-label="${e2.labels.dates}" ${"multiple" === e2.type ? "aria-multiselectable" : ""}></div>`;
+  var Month = (e2) => `<button type="button" class="${e2.styles.month}" data-vc="month"></button>`;
+  var Months = (e2) => `<div class="${e2.styles.months}" data-vc="months" role="grid" aria-live="assertive" aria-label="${e2.labels.months}"></div>`;
+  var Week = (e2) => `<div class="${e2.styles.week}" data-vc="week" role="row" aria-label="${e2.labels.week}"></div>`;
+  var WeekNumbers = (e2) => e2.enableWeekNumbers ? `<div class="${e2.styles.weekNumbers}" data-vc-week="numbers" role="row" aria-label="${e2.labels.weekNumber}"></div>` : "";
+  var Year = (e2) => `<button type="button" class="${e2.styles.year}" data-vc="year"></button>`;
+  var Years = (e2) => `<div class="${e2.styles.years}" data-vc="years" role="grid" aria-live="assertive" aria-label="${e2.labels.years}"></div>`;
+  var components = { ArrowNext, ArrowPrev, ControlTime, Dates, DateRangeTooltip, Month, Months, Week, WeekNumbers, Year, Years };
+  var getComponent = (e2) => components[e2];
+  var parseLayout = (e2, t2) => t2.replace(/[\n\t]/g, "").replace(/<#(?!\/?Multiple)(.*?)>/g, (t3, n) => {
+    const a3 = (n.match(/\[(.*?)\]/) || [])[1], l2 = n.replace(/[/\s\n\t]|\[(.*?)\]/g, ""), o3 = getComponent(l2), s2 = o3 ? o3(e2, null != a3 ? a3 : null) : "";
+    return e2.sanitizerHTML(s2);
+  }).replace(/[\n\t]/g, "");
+  var parseMultipleLayout = (e2, t2) => t2.replace(new RegExp("<#Multiple>(.*?)<#\\/Multiple>", "gs"), (t3, n) => {
+    const a3 = Array(e2.context.displayMonthsCount).fill(n).join("");
+    return e2.sanitizerHTML(a3);
+  }).replace(/[\n\t]/g, "");
+  var createLayouts = (e2, t2) => {
+    const n = { default: layoutDefault, month: layoutMonths, year: layoutYears, multiple: layoutMultiple };
+    if (Object.keys(n).forEach((t3) => {
+      const a3 = t3;
+      e2.layouts[a3].length || (e2.layouts[a3] = n[a3](e2));
+    }), e2.context.mainElement.className = e2.styles.calendar, e2.context.mainElement.dataset.vc = "calendar", e2.context.mainElement.dataset.vcType = e2.context.currentType, e2.context.mainElement.role = "application", e2.context.mainElement.tabIndex = 0, e2.context.mainElement.ariaLabel = e2.labels.application, "multiple" !== e2.context.currentType) {
+      if ("multiple" === e2.type && t2) {
+        const n2 = e2.context.mainElement.querySelector('[data-vc="controls"]'), a3 = e2.context.mainElement.querySelector('[data-vc="grid"]'), l2 = t2.closest('[data-vc="column"]');
+        return n2 && e2.context.mainElement.removeChild(n2), a3 && (a3.dataset.vcGrid = "hidden"), l2 && (l2.dataset.vcColumn = e2.context.currentType), void (l2 && (l2.innerHTML = e2.sanitizerHTML(parseLayout(e2, e2.layouts[e2.context.currentType]))));
+      }
+      e2.context.mainElement.innerHTML = e2.sanitizerHTML(parseLayout(e2, e2.layouts[e2.context.currentType]));
+    } else e2.context.mainElement.innerHTML = e2.sanitizerHTML(parseMultipleLayout(e2, parseLayout(e2, e2.layouts[e2.context.currentType])));
+  };
+  var setVisibilityArrows = (e2, t2, n, a3) => {
+    e2.style.visibility = n ? "hidden" : "", t2.style.visibility = a3 ? "hidden" : "";
+  };
+  var handleDefaultType = (e2, t2, n) => {
+    const a3 = getDate(getDateString(new Date(e2.context.selectedYear, e2.context.selectedMonth, 1))), l2 = new Date(a3.getTime()), o3 = new Date(a3.getTime());
+    l2.setMonth(l2.getMonth() - e2.monthsToSwitch), o3.setMonth(o3.getMonth() + e2.monthsToSwitch);
+    const s2 = getDate(e2.context.dateMin), i = getDate(e2.context.dateMax);
+    e2.selectionYearsMode || (s2.setFullYear(a3.getFullYear()), i.setFullYear(a3.getFullYear()));
+    const r3 = !e2.selectionMonthsMode || l2.getFullYear() < s2.getFullYear() || l2.getFullYear() === s2.getFullYear() && l2.getMonth() < s2.getMonth(), c3 = !e2.selectionMonthsMode || o3.getFullYear() > i.getFullYear() || o3.getFullYear() === i.getFullYear() && o3.getMonth() > i.getMonth() - (e2.context.displayMonthsCount - 1);
+    setVisibilityArrows(t2, n, r3, c3);
+  };
+  var handleYearType = (e2, t2, n) => {
+    const a3 = getDate(e2.context.dateMin), l2 = getDate(e2.context.dateMax), o3 = !!(a3.getFullYear() && e2.context.displayYear - 7 <= a3.getFullYear()), s2 = !!(l2.getFullYear() && e2.context.displayYear + 7 >= l2.getFullYear());
+    setVisibilityArrows(t2, n, o3, s2);
+  };
+  var visibilityArrows = (e2) => {
+    if ("month" === e2.context.currentType) return;
+    const t2 = e2.context.mainElement.querySelector('[data-vc-arrow="prev"]'), n = e2.context.mainElement.querySelector('[data-vc-arrow="next"]');
+    if (!t2 || !n) return;
+    ({ default: () => handleDefaultType(e2, t2, n), year: () => handleYearType(e2, t2, n) })["multiple" === e2.context.currentType ? "default" : e2.context.currentType]();
+  };
+  var visibilityHandler = (e2, t2, n, a3, l2) => {
+    const o3 = new Date(a3.setFullYear(e2.context.selectedYear, e2.context.selectedMonth + n)).getFullYear(), s2 = new Date(a3.setMonth(e2.context.selectedMonth + n)).getMonth(), i = e2.context.locale.months.long[s2], r3 = t2.closest('[data-vc="column"]');
+    r3 && (r3.ariaLabel = `${i} ${o3}`);
+    const c3 = { month: { id: s2, label: i }, year: { id: o3, label: o3 } };
+    t2.innerText = String(c3[l2].label), t2.dataset[`vc${l2.charAt(0).toUpperCase() + l2.slice(1)}`] = String(c3[l2].id), t2.ariaLabel = `${e2.labels[l2]} ${c3[l2].label}`;
+    const d2 = { month: e2.selectionMonthsMode, year: e2.selectionYearsMode }, u2 = false === d2[l2] || "only-arrows" === d2[l2];
+    u2 && (t2.tabIndex = -1), t2.disabled = u2;
+  };
+  var visibilityTitle = (e2) => {
+    const t2 = e2.context.mainElement.querySelectorAll('[data-vc="month"]'), n = e2.context.mainElement.querySelectorAll('[data-vc="year"]'), a3 = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1);
+    [t2, n].forEach((t3) => null == t3 ? void 0 : t3.forEach((t4, n2) => visibilityHandler(e2, t4, n2, a3, t4.dataset.vc)));
+  };
+  var setYearModifier = (e2, t2, n, a3, l2) => {
+    var o3;
+    const s2 = { month: "[data-vc-months-month]", year: "[data-vc-years-year]" }, i = { month: { selected: "data-vc-months-month-selected", aria: "aria-selected", value: "vcMonthsMonth", selectedProperty: "selectedMonth" }, year: { selected: "data-vc-years-year-selected", aria: "aria-selected", value: "vcYearsYear", selectedProperty: "selectedYear" } };
+    l2 && (null == (o3 = e2.context.mainElement.querySelectorAll(s2[n])) || o3.forEach((e3) => {
+      e3.removeAttribute(i[n].selected), e3.removeAttribute(i[n].aria);
+    }), setContext(e2, i[n].selectedProperty, Number(t2.dataset[i[n].value])), visibilityTitle(e2), "year" === n && visibilityArrows(e2)), a3 && (t2.setAttribute(i[n].selected, ""), t2.setAttribute(i[n].aria, "true"));
+  };
+  var getColumnID = (e2, t2) => {
+    var n;
+    if ("multiple" !== e2.type) return { currentValue: null, columnID: 0 };
+    const a3 = e2.context.mainElement.querySelectorAll('[data-vc="column"]'), l2 = Array.from(a3).findIndex((e3) => e3.closest(`[data-vc-column="${t2}"]`));
+    return { currentValue: l2 >= 0 ? Number(null == (n = a3[l2].querySelector(`[data-vc="${t2}"]`)) ? void 0 : n.getAttribute(`data-vc-${t2}`)) : null, columnID: Math.max(l2, 0) };
+  };
+  var createMonthEl = (e2, t2, n, a3, l2, o3, s2) => {
+    const i = t2.cloneNode(false);
+    return i.className = e2.styles.monthsMonth, i.innerText = a3, i.ariaLabel = l2, i.role = "gridcell", i.dataset.vcMonthsMonth = `${s2}`, o3 && (i.ariaDisabled = "true"), o3 && (i.tabIndex = -1), i.disabled = o3, setYearModifier(e2, i, "month", n === s2, false), i;
+  };
+  var createMonths = (e2, t2) => {
+    var n, a3;
+    const l2 = null == (n = null == t2 ? void 0 : t2.closest('[data-vc="header"]')) ? void 0 : n.querySelector('[data-vc="year"]'), o3 = l2 ? Number(l2.dataset.vcYear) : e2.context.selectedYear, s2 = (null == t2 ? void 0 : t2.dataset.vcMonth) ? Number(t2.dataset.vcMonth) : e2.context.selectedMonth;
+    setContext(e2, "currentType", "month"), createLayouts(e2, t2), visibilityTitle(e2);
+    const i = e2.context.mainElement.querySelector('[data-vc="months"]');
+    if (!e2.selectionMonthsMode || !i) return;
+    const r3 = e2.monthsToSwitch > 1 ? e2.context.locale.months.long.map((t3, n2) => s2 - e2.monthsToSwitch * n2).concat(e2.context.locale.months.long.map((t3, n2) => s2 + e2.monthsToSwitch * n2)).filter((e3) => e3 >= 0 && e3 <= 12) : Array.from(Array(12).keys()), c3 = document.createElement("button");
+    c3.type = "button";
+    for (let t3 = 0; t3 < 12; t3++) {
+      const n2 = getDate(e2.context.dateMin), a4 = getDate(e2.context.dateMax), l3 = e2.context.displayMonthsCount - 1, { columnID: d2 } = getColumnID(e2, "month"), u2 = o3 <= n2.getFullYear() && t3 < n2.getMonth() + d2 || o3 >= a4.getFullYear() && t3 > a4.getMonth() - l3 + d2 || o3 > a4.getFullYear() || t3 !== s2 && !r3.includes(t3), m2 = createMonthEl(e2, c3, s2, e2.context.locale.months.short[t3], e2.context.locale.months.long[t3], u2, t3);
+      i.appendChild(m2), e2.onCreateMonthEls && e2.onCreateMonthEls(e2, m2);
+    }
+    null == (a3 = e2.context.mainElement.querySelector("[data-vc-months-month]:not([disabled])")) || a3.focus();
+  };
+  var TimeInput = (e2, t2, n, a3, l2) => `
+  <label class="${t2}" data-vc-time-input="${e2}">
+    <input type="text" name="${e2}" maxlength="2" aria-label="${n[`input${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${a3}" ${l2 ? "disabled" : ""}>
+  </label>
+`;
+  var TimeRange = (e2, t2, n, a3, l2, o3, s2) => `
+  <label class="${t2}" data-vc-time-range="${e2}">
+    <input type="range" name="${e2}" min="${a3}" max="${l2}" step="${o3}" aria-label="${n[`range${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${s2}">
+  </label>
+`;
+  var handleActions = (e2, t2, n, a3) => {
+    ({ hour: () => setContext(e2, "selectedHours", n), minute: () => setContext(e2, "selectedMinutes", n) })[a3](), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${e2.context.selectedKeeping ? ` ${e2.context.selectedKeeping}` : ""}`), e2.onChangeTime && e2.onChangeTime(e2, t2, false), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
+  };
+  var transformTime24 = (e2, t2) => {
+    var n;
+    return (null == (n = { 0: { AM: "00", PM: "12" }, 1: { AM: "01", PM: "13" }, 2: { AM: "02", PM: "14" }, 3: { AM: "03", PM: "15" }, 4: { AM: "04", PM: "16" }, 5: { AM: "05", PM: "17" }, 6: { AM: "06", PM: "18" }, 7: { AM: "07", PM: "19" }, 8: { AM: "08", PM: "20" }, 9: { AM: "09", PM: "21" }, 10: { AM: "10", PM: "22" }, 11: { AM: "11", PM: "23" }, 12: { AM: "00", PM: "12" } }[Number(e2)]) ? void 0 : n[t2]) || String(e2);
+  };
+  var handleClickKeepingTime = (e2, t2, n, a3, l2) => {
+    const o3 = (o4) => {
+      const s2 = "AM" === e2.context.selectedKeeping ? "PM" : "AM", i = transformTime24(e2.context.selectedHours, s2);
+      Number(i) <= a3 && Number(i) >= l2 ? (setContext(e2, "selectedKeeping", s2), n.value = i, handleActions(e2, o4, e2.context.selectedHours, "hour"), t2.ariaLabel = `${e2.labels.btnKeeping} ${e2.context.selectedKeeping}`, t2.innerText = e2.context.selectedKeeping) : e2.onChangeTime && e2.onChangeTime(e2, o4, true);
+    };
+    return t2.addEventListener("click", o3), () => {
+      t2.removeEventListener("click", o3);
+    };
+  };
+  var transformTime12 = (e2) => ({ 0: "12", 13: "01", 14: "02", 15: "03", 16: "04", 17: "05", 18: "06", 19: "07", 20: "08", 21: "09", 22: "10", 23: "11" })[Number(e2)] || String(e2);
+  var updateInputAndRange = (e2, t2, n, a3) => {
+    e2.value = n, t2.value = a3;
+  };
+  var updateKeepingTime$1 = (e2, t2, n) => {
+    t2 && n && (setContext(e2, "selectedKeeping", n), t2.innerText = n);
+  };
+  var handleInput$1 = (e2, t2, n, a3, l2, o3, s2) => {
+    const i = { hour: (i2, r4, c3) => {
+      if (!e2.selectionTimeMode) return;
+      ({ 12: () => {
+        if (!e2.context.selectedKeeping) return;
+        const d2 = Number(transformTime24(r4, e2.context.selectedKeeping));
+        if (!(d2 <= o3 && d2 >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c3, true));
+        updateInputAndRange(n, t2, transformTime12(r4), transformTime24(r4, e2.context.selectedKeeping)), i2 > 12 && updateKeepingTime$1(e2, a3, "PM"), handleActions(e2, c3, transformTime12(r4), l2);
+      }, 24: () => {
+        if (!(i2 <= o3 && i2 >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c3, true));
+        updateInputAndRange(n, t2, r4, r4), handleActions(e2, c3, r4, l2);
+      } })[e2.selectionTimeMode]();
+    }, minute: (a4, i2, r4) => {
+      if (!(a4 <= o3 && a4 >= s2)) return n.value = e2.context.selectedMinutes, void (e2.onChangeTime && e2.onChangeTime(e2, r4, true));
+      n.value = i2, t2.value = i2, handleActions(e2, r4, i2, l2);
+    } }, r3 = (e3) => {
+      const t3 = Number(n.value), a4 = n.value.padStart(2, "0");
+      i[l2] && i[l2](t3, a4, e3);
+    };
+    return n.addEventListener("change", r3), () => {
+      n.removeEventListener("change", r3);
+    };
+  };
+  var updateInputAndTime = (e2, t2, n, a3, l2) => {
+    t2.value = l2, handleActions(e2, n, l2, a3);
+  };
+  var updateKeepingTime = (e2, t2, n) => {
+    t2 && (setContext(e2, "selectedKeeping", n), t2.innerText = n);
+  };
+  var handleRange = (e2, t2, n, a3, l2) => {
+    const o3 = (o4) => {
+      const s2 = Number(t2.value), i = t2.value.padStart(2, "0"), r3 = "hour" === l2, c3 = 24 === e2.selectionTimeMode, d2 = s2 > 0 && s2 < 12;
+      r3 && !c3 && updateKeepingTime(e2, a3, 0 === s2 || d2 ? "AM" : "PM"), updateInputAndTime(e2, n, o4, l2, !r3 || c3 || d2 ? i : transformTime12(t2.value));
+    };
+    return t2.addEventListener("input", o3), () => {
+      t2.removeEventListener("input", o3);
+    };
+  };
+  var handleMouseOver = (e2) => e2.setAttribute("data-vc-input-focus", "");
+  var handleMouseOut = (e2) => e2.removeAttribute("data-vc-input-focus");
+  var handleTime = (e2, t2) => {
+    const n = t2.querySelector('[data-vc-time-range="hour"] input[name="hour"]'), a3 = t2.querySelector('[data-vc-time-range="minute"] input[name="minute"]'), l2 = t2.querySelector('[data-vc-time-input="hour"] input[name="hour"]'), o3 = t2.querySelector('[data-vc-time-input="minute"] input[name="minute"]'), s2 = t2.querySelector('[data-vc-time="keeping"]');
+    if (!(n && a3 && l2 && o3)) return;
+    const i = (e3) => {
+      e3.target === n && handleMouseOver(l2), e3.target === a3 && handleMouseOver(o3);
+    }, r3 = (e3) => {
+      e3.target === n && handleMouseOut(l2), e3.target === a3 && handleMouseOut(o3);
+    };
+    return t2.addEventListener("mouseover", i), t2.addEventListener("mouseout", r3), handleInput$1(e2, n, l2, s2, "hour", e2.timeMaxHour, e2.timeMinHour), handleInput$1(e2, a3, o3, s2, "minute", e2.timeMaxMinute, e2.timeMinMinute), handleRange(e2, n, l2, s2, "hour"), handleRange(e2, a3, o3, s2, "minute"), s2 && handleClickKeepingTime(e2, s2, n, e2.timeMaxHour, e2.timeMinHour), () => {
+      t2.removeEventListener("mouseover", i), t2.removeEventListener("mouseout", r3);
+    };
+  };
+  var createTime = (e2) => {
+    const t2 = e2.context.mainElement.querySelector('[data-vc="time"]');
+    if (!e2.selectionTimeMode || !t2) return;
+    const [n, a3] = [e2.timeMinHour, e2.timeMaxHour], [l2, o3] = [e2.timeMinMinute, e2.timeMaxMinute], s2 = e2.context.selectedKeeping ? transformTime24(e2.context.selectedHours, e2.context.selectedKeeping) : e2.context.selectedHours, i = "range" === e2.timeControls;
+    var r3;
+    t2.innerHTML = e2.sanitizerHTML(`
+    <div class="${e2.styles.timeContent}" data-vc-time="content">
+      ${TimeInput("hour", e2.styles.timeHour, e2.labels, e2.context.selectedHours, i)}
+      ${TimeInput("minute", e2.styles.timeMinute, e2.labels, e2.context.selectedMinutes, i)}
+      ${12 === e2.selectionTimeMode ? (r3 = e2.context.selectedKeeping, `<button type="button" class="${e2.styles.timeKeeping}" aria-label="${e2.labels.btnKeeping} ${r3}" data-vc-time="keeping" ${i ? "disabled" : ""}>${r3}</button>`) : ""}
+    </div>
+    <div class="${e2.styles.timeRanges}" data-vc-time="ranges">
+      ${TimeRange("hour", e2.styles.timeRange, e2.labels, n, a3, e2.timeStepHour, s2)}
+      ${TimeRange("minute", e2.styles.timeRange, e2.labels, l2, o3, e2.timeStepMinute, e2.context.selectedMinutes)}
+    </div>
+  `), handleTime(e2, t2);
+  };
+  var createWeek = (e2) => {
+    const t2 = e2.selectedWeekends ? [...e2.selectedWeekends] : [], n = [...e2.context.locale.weekdays.long].reduce((n2, a4, l2) => [...n2, { id: l2, titleShort: e2.context.locale.weekdays.short[l2], titleLong: a4, isWeekend: t2.includes(l2) }], []), a3 = [...n.slice(e2.firstWeekday), ...n.slice(0, e2.firstWeekday)];
+    e2.context.mainElement.querySelectorAll('[data-vc="week"]').forEach((t3) => {
+      const n2 = e2.onClickWeekDay ? document.createElement("button") : document.createElement("b");
+      e2.onClickWeekDay && (n2.type = "button"), a3.forEach((a4) => {
+        const l2 = n2.cloneNode(true);
+        l2.innerText = a4.titleShort, l2.className = e2.styles.weekDay, l2.role = "columnheader", l2.ariaLabel = a4.titleLong, l2.dataset.vcWeekDay = String(a4.id), a4.isWeekend && (l2.dataset.vcWeekDayOff = ""), t3.appendChild(l2);
+      });
+    });
+  };
+  var createYearEl = (e2, t2, n, a3, l2) => {
+    const o3 = t2.cloneNode(false);
+    return o3.className = e2.styles.yearsYear, o3.innerText = String(l2), o3.ariaLabel = String(l2), o3.role = "gridcell", o3.dataset.vcYearsYear = `${l2}`, a3 && (o3.ariaDisabled = "true"), a3 && (o3.tabIndex = -1), o3.disabled = a3, setYearModifier(e2, o3, "year", n === l2, false), o3;
+  };
+  var createYears = (e2, t2) => {
+    var n;
+    const a3 = (null == t2 ? void 0 : t2.dataset.vcYear) ? Number(t2.dataset.vcYear) : e2.context.selectedYear;
+    setContext(e2, "currentType", "year"), createLayouts(e2, t2), visibilityTitle(e2), visibilityArrows(e2);
+    const l2 = e2.context.mainElement.querySelector('[data-vc="years"]');
+    if (!e2.selectionYearsMode || !l2) return;
+    const o3 = "multiple" !== e2.type || e2.context.selectedYear === a3 ? 0 : 1, s2 = document.createElement("button");
+    s2.type = "button";
+    for (let t3 = e2.context.displayYear - 7; t3 < e2.context.displayYear + 8; t3++) {
+      const n2 = t3 < getDate(e2.context.dateMin).getFullYear() + o3 || t3 > getDate(e2.context.dateMax).getFullYear(), i = createYearEl(e2, s2, a3, n2, t3);
+      l2.appendChild(i), e2.onCreateYearEls && e2.onCreateYearEls(e2, i);
+    }
+    null == (n = e2.context.mainElement.querySelector("[data-vc-years-year]:not([disabled])")) || n.focus();
+  };
+  var trackChangesHTMLElement = (e2, t2, n) => {
+    new MutationObserver((e3) => {
+      for (let a3 = 0; a3 < e3.length; a3++) {
+        if (e3[a3].attributeName === t2) {
+          n();
+          break;
+        }
+      }
+    }).observe(e2, { attributes: true });
+  };
+  var haveListener = { value: false, set: () => haveListener.value = true, check: () => haveListener.value };
+  var setTheme2 = (e2, t2) => e2.dataset.vcTheme = t2;
+  var trackChangesThemeInSystemSettings = (e2, t2) => {
+    if (setTheme2(e2.context.mainElement, t2.matches ? "dark" : "light"), "system" !== e2.selectedTheme || haveListener.check()) return;
+    const n = (e3) => {
+      const t3 = document.querySelectorAll('[data-vc="calendar"]');
+      null == t3 || t3.forEach((t4) => setTheme2(t4, e3.matches ? "dark" : "light"));
+    };
+    t2.addEventListener ? t2.addEventListener("change", n) : t2.addListener(n), haveListener.set();
+  };
+  var detectTheme = (e2, t2) => {
+    const n = e2.themeAttrDetect.length ? document.querySelector(e2.themeAttrDetect) : null, a3 = e2.themeAttrDetect.replace(/^.*\[(.+)\]/g, (e3, t3) => t3);
+    if (!n || "system" === n.getAttribute(a3)) return void trackChangesThemeInSystemSettings(e2, t2);
+    const l2 = n.getAttribute(a3);
+    l2 ? (setTheme2(e2.context.mainElement, l2), trackChangesHTMLElement(n, a3, () => {
+      const t3 = n.getAttribute(a3);
+      t3 && setTheme2(e2.context.mainElement, t3);
+    })) : trackChangesThemeInSystemSettings(e2, t2);
+  };
+  var handleTheme = (e2) => {
+    "not all" !== window.matchMedia("(prefers-color-scheme)").media ? "system" === e2.selectedTheme ? detectTheme(e2, window.matchMedia("(prefers-color-scheme: dark)")) : setTheme2(e2.context.mainElement, e2.selectedTheme) : setTheme2(e2.context.mainElement, "light");
+  };
+  var capitalizeFirstLetter = (e2) => e2.charAt(0).toUpperCase() + e2.slice(1).replace(/\./, "");
+  var getLocaleWeekday = (e2, t2, n) => {
+    const a3 = /* @__PURE__ */ new Date(`1978-01-0${t2 + 1}T00:00:00.000Z`), l2 = a3.toLocaleString(n, { weekday: "short", timeZone: "UTC" }), o3 = a3.toLocaleString(n, { weekday: "long", timeZone: "UTC" });
+    e2.context.locale.weekdays.short.push(capitalizeFirstLetter(l2)), e2.context.locale.weekdays.long.push(capitalizeFirstLetter(o3));
+  };
+  var getLocaleMonth = (e2, t2, n) => {
+    const a3 = /* @__PURE__ */ new Date(`1978-${String(t2 + 1).padStart(2, "0")}-01T00:00:00.000Z`), l2 = a3.toLocaleString(n, { month: "short", timeZone: "UTC" }), o3 = a3.toLocaleString(n, { month: "long", timeZone: "UTC" });
+    e2.context.locale.months.short.push(capitalizeFirstLetter(l2)), e2.context.locale.months.long.push(capitalizeFirstLetter(o3));
+  };
+  var getLocale = (e2) => {
+    var t2, n, a3, l2, o3, s2, i, r3;
+    if (!(e2.context.locale.weekdays.short[6] && e2.context.locale.weekdays.long[6] && e2.context.locale.months.short[11] && e2.context.locale.months.long[11])) if ("string" == typeof e2.locale) {
+      if ("string" == typeof e2.locale && !e2.locale.length) throw new Error(errorMessages.notLocale);
+      Array.from({ length: 7 }, (t3, n2) => getLocaleWeekday(e2, n2, e2.locale)), Array.from({ length: 12 }, (t3, n2) => getLocaleMonth(e2, n2, e2.locale));
+    } else {
+      if (!((null == (n = null == (t2 = e2.locale) ? void 0 : t2.weekdays) ? void 0 : n.short[6]) && (null == (l2 = null == (a3 = e2.locale) ? void 0 : a3.weekdays) ? void 0 : l2.long[6]) && (null == (s2 = null == (o3 = e2.locale) ? void 0 : o3.months) ? void 0 : s2.short[11]) && (null == (r3 = null == (i = e2.locale) ? void 0 : i.months) ? void 0 : r3.long[11]))) throw new Error(errorMessages.notLocale);
+      setContext(e2, "locale", __spreadValues({}, e2.locale));
+    }
+  };
+  var create = (e2) => {
+    const t2 = { default: () => {
+      createWeek(e2), createDates(e2);
+    }, multiple: () => {
+      createWeek(e2), createDates(e2);
+    }, month: () => createMonths(e2), year: () => createYears(e2) };
+    handleTheme(e2), getLocale(e2), createLayouts(e2), visibilityTitle(e2), visibilityArrows(e2), createTime(e2), t2[e2.context.currentType]();
+  };
+  var handleArrowKeys = (e2) => {
+    const t2 = (t3) => {
+      var n;
+      const a3 = t3.target;
+      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(t3.key) || "button" !== a3.localName) return;
+      const l2 = Array.from(e2.context.mainElement.querySelectorAll('[data-vc="calendar"] button')), o3 = l2.indexOf(a3);
+      if (-1 === o3) return;
+      const s2 = (i = l2[o3]).hasAttribute("data-vc-date-btn") ? 7 : i.hasAttribute("data-vc-months-month") ? 4 : i.hasAttribute("data-vc-years-year") ? 5 : 1;
+      var i;
+      const r3 = (0, { ArrowUp: () => Math.max(0, o3 - s2), ArrowDown: () => Math.min(l2.length - 1, o3 + s2), ArrowLeft: () => Math.max(0, o3 - 1), ArrowRight: () => Math.min(l2.length - 1, o3 + 1) }[t3.key])();
+      null == (n = l2[r3]) || n.focus();
+    };
+    return e2.context.mainElement.addEventListener("keydown", t2), () => e2.context.mainElement.removeEventListener("keydown", t2);
+  };
+  var handleMonth = (e2, t2) => {
+    const n = getDate(getDateString(new Date(e2.context.selectedYear, e2.context.selectedMonth, 1)));
+    ({ prev: () => n.setMonth(n.getMonth() - e2.monthsToSwitch), next: () => n.setMonth(n.getMonth() + e2.monthsToSwitch) })[t2](), setContext(e2, "selectedMonth", n.getMonth()), setContext(e2, "selectedYear", n.getFullYear()), visibilityTitle(e2), visibilityArrows(e2), createDates(e2);
+  };
+  var handleClickArrow = (e2, t2) => {
+    const n = t2.target.closest("[data-vc-arrow]");
+    if (n) {
+      if (["default", "multiple"].includes(e2.context.currentType)) handleMonth(e2, n.dataset.vcArrow);
+      else if ("year" === e2.context.currentType && void 0 !== e2.context.displayYear) {
+        const a3 = { prev: -15, next: 15 }[n.dataset.vcArrow];
+        setContext(e2, "displayYear", e2.context.displayYear + a3), createYears(e2, t2.target);
+      }
+      e2.onClickArrow && e2.onClickArrow(e2, t2);
+    }
+  };
+  var canToggleSelection = (e2) => void 0 === e2.enableDateToggle || ("function" == typeof e2.enableDateToggle ? e2.enableDateToggle(e2) : e2.enableDateToggle);
+  var handleSelectDate = (e2, t2, n) => {
+    const a3 = t2.dataset.vcDate, l2 = t2.closest("[data-vc-date][data-vc-date-selected]"), o3 = canToggleSelection(e2);
+    if (l2 && !o3) return;
+    const s2 = l2 ? e2.context.selectedDates.filter((e3) => e3 !== a3) : n ? [...e2.context.selectedDates, a3] : [a3];
+    setContext(e2, "selectedDates", s2);
+  };
+  var createDateRangeTooltip = (e2, t2, n) => {
+    if (!t2) return;
+    if (!n) return t2.dataset.vcDateRangeTooltip = "hidden", void (t2.textContent = "");
+    const a3 = e2.context.mainElement.getBoundingClientRect(), l2 = n.getBoundingClientRect();
+    t2.style.left = l2.left - a3.left + l2.width / 2 + "px", t2.style.top = l2.bottom - a3.top - l2.height + "px", t2.dataset.vcDateRangeTooltip = "visible", t2.innerHTML = e2.sanitizerHTML(e2.onCreateDateRangeTooltip(e2, n, t2, l2, a3));
+  };
+  var state = { self: null, lastDateEl: null, isHovering: false, rangeMin: void 0, rangeMax: void 0, tooltipEl: null, timeoutId: null };
+  var addHoverEffect = (e2, t2, n) => {
+    var a3, l2, o3;
+    if (!(null == (l2 = null == (a3 = state.self) ? void 0 : a3.context) ? void 0 : l2.selectedDates[0])) return;
+    const s2 = getDateString(e2);
+    (null == (o3 = state.self.context.disableDates) ? void 0 : o3.includes(s2)) || (state.self.context.mainElement.querySelectorAll(`[data-vc-date="${s2}"]`).forEach((e3) => e3.dataset.vcDateHover = ""), t2.forEach((e3) => e3.dataset.vcDateHover = "first"), n.forEach((e3) => {
+      "first" === e3.dataset.vcDateHover ? e3.dataset.vcDateHover = "first-and-last" : e3.dataset.vcDateHover = "last";
+    }));
+  };
+  var removeHoverEffect = () => {
+    var e2, t2;
+    if (!(null == (t2 = null == (e2 = state.self) ? void 0 : e2.context) ? void 0 : t2.mainElement)) return;
+    state.self.context.mainElement.querySelectorAll("[data-vc-date-hover]").forEach((e3) => e3.removeAttribute("data-vc-date-hover"));
+  };
+  var handleHoverDatesEvent = (e2) => {
+    var t2, n;
+    if (!e2.target || !(null == (n = null == (t2 = state.self) ? void 0 : t2.context) ? void 0 : n.selectedDates[0])) return;
+    if (!e2.target.closest('[data-vc="dates"]')) return state.lastDateEl = null, createDateRangeTooltip(state.self, state.tooltipEl, null), void removeHoverEffect();
+    const a3 = e2.target.closest("[data-vc-date]");
+    if (!a3 || state.lastDateEl === a3) return;
+    state.lastDateEl = a3, createDateRangeTooltip(state.self, state.tooltipEl, a3), removeHoverEffect();
+    const l2 = a3.dataset.vcDate, o3 = getDate(state.self.context.selectedDates[0]), s2 = getDate(l2), i = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${state.self.context.selectedDates[0]}"]`), r3 = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${l2}"]`), [c3, d2] = o3 < s2 ? [i, r3] : [r3, i], [u2, m2] = o3 < s2 ? [o3, s2] : [s2, o3];
+    for (let e3 = new Date(u2); e3 <= m2; e3.setDate(e3.getDate() + 1)) addHoverEffect(e3, c3, d2);
+  };
+  var handleHoverSelectedDatesRangeEvent = (e2) => {
+    const t2 = e2.target.closest("[data-vc-date-selected]");
+    if (!t2 && state.lastDateEl) return state.lastDateEl = null, void createDateRangeTooltip(state.self, state.tooltipEl, null);
+    t2 && state.lastDateEl !== t2 && (state.lastDateEl = t2, createDateRangeTooltip(state.self, state.tooltipEl, t2));
+  };
+  var optimizedHoverHandler = (e2) => (t2) => {
+    state.isHovering || (state.isHovering = true, requestAnimationFrame(() => {
+      e2(t2), state.isHovering = false;
+    }));
+  };
+  var optimizedHandleHoverDatesEvent = optimizedHoverHandler(handleHoverDatesEvent);
+  var optimizedHandleHoverSelectedDatesRangeEvent = optimizedHoverHandler(handleHoverSelectedDatesRangeEvent);
+  var handleCancelSelectionDates = (e2) => {
+    state.self && "Escape" === e2.key && (state.lastDateEl = null, setContext(state.self, "selectedDates", []), state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates), createDateRangeTooltip(state.self, state.tooltipEl, null), removeHoverEffect());
+  };
+  var handleMouseLeave = () => {
+    null !== state.timeoutId && clearTimeout(state.timeoutId), state.timeoutId = setTimeout(() => {
+      state.lastDateEl = null, createDateRangeTooltip(state.self, state.tooltipEl, null), removeHoverEffect();
+    }, 50);
+  };
+  var updateDisabledDates = () => {
+    var e2, t2, n, a3;
+    if (!(null == (n = null == (t2 = null == (e2 = state.self) ? void 0 : e2.context) ? void 0 : t2.selectedDates) ? void 0 : n[0]) || !(null == (a3 = state.self.context.disableDates) ? void 0 : a3[0])) return;
+    const l2 = getDate(state.self.context.selectedDates[0]), [o3, s2] = state.self.context.disableDates.map((e3) => getDate(e3)).reduce(([e3, t3], n2) => [l2 >= n2 ? n2 : e3, l2 < n2 && null === t3 ? n2 : t3], [null, null]);
+    o3 && setContext(state.self, "displayDateMin", getDateString(new Date(o3.setDate(o3.getDate() + 1)))), s2 && setContext(state.self, "displayDateMax", getDateString(new Date(s2.setDate(s2.getDate() - 1))));
+    state.self.disableDatesPast && !state.self.disableAllDates && getDate(state.self.context.displayDateMin) < getDate(state.self.context.dateToday) && setContext(state.self, "displayDateMin", state.self.context.dateToday);
+  };
+  var handleSelectDateRange = (e2, t2) => {
+    state.self = e2, state.lastDateEl = t2, removeHoverEffect(), e2.disableDatesGaps && (state.rangeMin = state.rangeMin ? state.rangeMin : e2.context.displayDateMin, state.rangeMax = state.rangeMax ? state.rangeMax : e2.context.displayDateMax), e2.onCreateDateRangeTooltip && (state.tooltipEl = e2.context.mainElement.querySelector("[data-vc-date-range-tooltip]"));
+    const n = null == t2 ? void 0 : t2.dataset.vcDate;
+    if (n) {
+      const t3 = 1 === e2.context.selectedDates.length && e2.context.selectedDates[0].includes(n), a3 = t3 && !canToggleSelection(e2) ? [n, n] : t3 && canToggleSelection(e2) ? [] : e2.context.selectedDates.length > 1 ? [n] : [...e2.context.selectedDates, n];
+      setContext(e2, "selectedDates", a3), e2.context.selectedDates.length > 1 && e2.context.selectedDates.sort((e3, t4) => +new Date(e3) - +new Date(t4));
+    }
+    ({ set: () => (e2.disableDatesGaps && updateDisabledDates(), createDateRangeTooltip(state.self, state.tooltipEl, t2), state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates), state.self.context.mainElement.addEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.addEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.addEventListener("keydown", handleCancelSelectionDates), () => {
+      state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates);
+    }), reset: () => {
+      const [n2, a3] = [e2.context.selectedDates[0], e2.context.selectedDates[e2.context.selectedDates.length - 1]], l2 = e2.context.selectedDates[0] !== e2.context.selectedDates[e2.context.selectedDates.length - 1], o3 = parseDates([`${n2}:${a3}`]).filter((t3) => !e2.context.disableDates.includes(t3)), s2 = l2 ? e2.enableEdgeDatesOnly ? [n2, a3] : o3 : [e2.context.selectedDates[0], e2.context.selectedDates[0]];
+      if (setContext(e2, "selectedDates", s2), e2.disableDatesGaps && (setContext(e2, "displayDateMin", state.rangeMin), setContext(e2, "displayDateMax", state.rangeMax)), state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates), e2.onCreateDateRangeTooltip) return e2.context.selectedDates[0] || (state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), createDateRangeTooltip(state.self, state.tooltipEl, null)), e2.context.selectedDates[0] && (state.self.context.mainElement.addEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.addEventListener("mouseleave", handleMouseLeave), createDateRangeTooltip(state.self, state.tooltipEl, t2)), () => {
+        state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    } })[1 === e2.context.selectedDates.length ? "set" : "reset"]();
+  };
+  var updateDateModifier = (e2) => {
+    e2.context.mainElement.querySelectorAll("[data-vc-date]").forEach((t2) => {
+      const n = t2.querySelector("[data-vc-date-btn]"), a3 = t2.dataset.vcDate, l2 = getDate(a3).getDay();
+      setDateModifier(e2, e2.context.selectedYear, t2, n, l2, a3, "current");
+    });
+  };
+  var handleClickDate = (e2, t2) => {
+    var n;
+    const a3 = t2.target, l2 = a3.closest("[data-vc-date-btn]");
+    if (!e2.selectionDatesMode || !["single", "multiple", "multiple-ranged"].includes(e2.selectionDatesMode) || !l2) return;
+    const o3 = l2.closest("[data-vc-date]");
+    ({ single: () => handleSelectDate(e2, o3, false), multiple: () => handleSelectDate(e2, o3, true), "multiple-ranged": () => handleSelectDateRange(e2, o3) })[e2.selectionDatesMode](), null == (n = e2.context.selectedDates) || n.sort((e3, t3) => +new Date(e3) - +new Date(t3)), e2.onClickDate && e2.onClickDate(e2, t2), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
+    const s2 = a3.closest('[data-vc-date-month="prev"]'), i = a3.closest('[data-vc-date-month="next"]');
+    ({ prev: () => e2.enableMonthChangeOnDayClick ? handleMonth(e2, "prev") : updateDateModifier(e2), next: () => e2.enableMonthChangeOnDayClick ? handleMonth(e2, "next") : updateDateModifier(e2), current: () => updateDateModifier(e2) })[s2 ? "prev" : i ? "next" : "current"]();
+  };
+  var typeClick = ["month", "year"];
+  var getValue = (e2, t2, n) => {
+    const { currentValue: a3, columnID: l2 } = getColumnID(e2, t2);
+    return "month" === e2.context.currentType && l2 >= 0 ? n - l2 : "year" === e2.context.currentType && e2.context.selectedYear !== a3 ? n - 1 : n;
+  };
+  var handleMultipleYearSelection = (e2, t2) => {
+    const n = getValue(e2, "year", Number(t2.dataset.vcYearsYear)), a3 = getDate(e2.context.dateMin), l2 = getDate(e2.context.dateMax), o3 = e2.context.displayMonthsCount - 1, { columnID: s2 } = getColumnID(e2, "year"), i = e2.context.selectedMonth < a3.getMonth() && n <= a3.getFullYear(), r3 = e2.context.selectedMonth > l2.getMonth() - o3 + s2 && n >= l2.getFullYear(), c3 = n < a3.getFullYear(), d2 = n > l2.getFullYear(), u2 = i || c3 ? a3.getFullYear() : r3 || d2 ? l2.getFullYear() : n, m2 = i || c3 ? a3.getMonth() : r3 || d2 ? l2.getMonth() - o3 + s2 : e2.context.selectedMonth;
+    setContext(e2, "selectedYear", u2), setContext(e2, "selectedMonth", m2);
+  };
+  var handleMultipleMonthSelection = (e2, t2) => {
+    const n = t2.closest('[data-vc-column="month"]').querySelector('[data-vc="year"]'), a3 = getValue(e2, "month", Number(t2.dataset.vcMonthsMonth)), l2 = Number(n.dataset.vcYear), o3 = getDate(e2.context.dateMin), s2 = getDate(e2.context.dateMax), i = a3 < o3.getMonth() && l2 <= o3.getFullYear(), r3 = a3 > s2.getMonth() && l2 >= s2.getFullYear();
+    setContext(e2, "selectedYear", l2), setContext(e2, "selectedMonth", i ? o3.getMonth() : r3 ? s2.getMonth() : a3);
+  };
+  var handleItemClick = (e2, t2, n, a3) => {
+    var l2;
+    ({ year: () => {
+      if ("multiple" === e2.type) return handleMultipleYearSelection(e2, a3);
+      setContext(e2, "selectedYear", Number(a3.dataset.vcYearsYear));
+    }, month: () => {
+      if ("multiple" === e2.type) return handleMultipleMonthSelection(e2, a3);
+      setContext(e2, "selectedMonth", Number(a3.dataset.vcMonthsMonth));
+    } })[n]();
+    ({ year: () => {
+      var n2;
+      return null == (n2 = e2.onClickYear) ? void 0 : n2.call(e2, e2, t2);
+    }, month: () => {
+      var n2;
+      return null == (n2 = e2.onClickMonth) ? void 0 : n2.call(e2, e2, t2);
+    } })[n](), e2.context.currentType !== e2.type ? (setContext(e2, "currentType", e2.type), create(e2), null == (l2 = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || l2.focus()) : setYearModifier(e2, a3, n, true, true);
+  };
+  var handleClickType = (e2, t2, n) => {
+    var a3;
+    const l2 = t2.target, o3 = l2.closest(`[data-vc="${n}"]`), s2 = { year: () => createYears(e2, l2), month: () => createMonths(e2, l2) };
+    if (o3 && e2.onClickTitle && e2.onClickTitle(e2, t2), o3 && e2.context.currentType !== n) return s2[n]();
+    const i = l2.closest(`[data-vc-${n}s-${n}]`);
+    if (i) return handleItemClick(e2, t2, n, i);
+    const r3 = l2.closest('[data-vc="grid"]'), c3 = l2.closest('[data-vc="column"]');
+    (e2.context.currentType === n && o3 || "multiple" === e2.type && e2.context.currentType === n && r3 && !c3) && (setContext(e2, "currentType", e2.type), create(e2), null == (a3 = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || a3.focus());
+  };
+  var handleClickMonthOrYear = (e2, t2) => {
+    const n = { month: e2.selectionMonthsMode, year: e2.selectionYearsMode };
+    typeClick.forEach((a3) => {
+      n[a3] && t2.target && handleClickType(e2, t2, a3);
+    });
+  };
+  var handleClickWeekNumber = (e2, t2) => {
+    if (!e2.enableWeekNumbers || !e2.onClickWeekNumber) return;
+    const n = t2.target.closest("[data-vc-week-number]"), a3 = e2.context.mainElement.querySelectorAll("[data-vc-date-week-number]");
+    if (!n || !a3[0]) return;
+    const l2 = Number(n.innerText), o3 = Number(n.dataset.vcWeekYear), s2 = Array.from(a3).filter((e3) => Number(e3.dataset.vcDateWeekNumber) === l2);
+    e2.onClickWeekNumber(e2, l2, o3, s2, t2);
+  };
+  var handleClickWeekDay = (e2, t2) => {
+    if (!e2.onClickWeekDay) return;
+    const n = t2.target.closest("[data-vc-week-day]"), a3 = t2.target.closest('[data-vc="column"]'), l2 = a3 ? a3.querySelectorAll("[data-vc-date-week-day]") : e2.context.mainElement.querySelectorAll("[data-vc-date-week-day]");
+    if (!n || !l2[0]) return;
+    const o3 = Number(n.dataset.vcWeekDay), s2 = Array.from(l2).filter((e3) => Number(e3.dataset.vcDateWeekDay) === o3);
+    e2.onClickWeekDay(e2, o3, s2, t2);
+  };
+  var handleClick = (e2) => {
+    const t2 = (t3) => {
+      handleClickArrow(e2, t3), handleClickWeekDay(e2, t3), handleClickWeekNumber(e2, t3), handleClickDate(e2, t3), handleClickMonthOrYear(e2, t3);
+    };
+    return e2.context.mainElement.addEventListener("click", t2), () => e2.context.mainElement.removeEventListener("click", t2);
+  };
+  var initMonthsCount = (e2) => {
+    if ("multiple" === e2.type && (e2.displayMonthsCount <= 1 || e2.displayMonthsCount > 12)) throw new Error(errorMessages.incorrectMonthsCount);
+    if ("multiple" !== e2.type && e2.displayMonthsCount > 1) throw new Error(errorMessages.incorrectMonthsCount);
+    setContext(e2, "displayMonthsCount", e2.displayMonthsCount ? e2.displayMonthsCount : "multiple" === e2.type ? 2 : 1);
+  };
+  var getLocalDate = () => {
+    const e2 = /* @__PURE__ */ new Date();
+    return new Date(e2.getTime() - 6e4 * e2.getTimezoneOffset()).toISOString().substring(0, 10);
+  };
+  var resolveDate = (e2, t2) => "today" === e2 ? getLocalDate() : e2 instanceof Date || "number" == typeof e2 || "string" == typeof e2 ? parseDates([e2])[0] : t2;
+  var initRange = (e2) => {
+    var t2, n, a3;
+    const l2 = resolveDate(e2.dateMin, e2.dateMin), o3 = resolveDate(e2.dateMax, e2.dateMax), s2 = resolveDate(e2.displayDateMin, l2), i = resolveDate(e2.displayDateMax, o3);
+    setContext(e2, "dateToday", resolveDate(e2.dateToday, e2.dateToday)), setContext(e2, "displayDateMin", s2 ? getDate(l2) >= getDate(s2) ? l2 : s2 : l2), setContext(e2, "displayDateMax", i ? getDate(o3) <= getDate(i) ? o3 : i : o3);
+    const r3 = e2.disableDatesPast && !e2.disableAllDates && getDate(s2) < getDate(e2.context.dateToday);
+    setContext(e2, "displayDateMin", r3 || e2.disableAllDates ? e2.context.dateToday : s2), setContext(e2, "displayDateMax", e2.disableAllDates ? e2.context.dateToday : i), setContext(e2, "disableDates", e2.disableDates[0] && !e2.disableAllDates ? parseDates(e2.disableDates) : e2.disableAllDates ? [e2.context.displayDateMin] : []), e2.context.disableDates.length > 1 && e2.context.disableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), setContext(e2, "enableDates", e2.enableDates[0] ? parseDates(e2.enableDates) : []), (null == (t2 = e2.context.enableDates) ? void 0 : t2[0]) && (null == (n = e2.context.disableDates) ? void 0 : n[0]) && setContext(e2, "disableDates", e2.context.disableDates.filter((t3) => !e2.context.enableDates.includes(t3))), e2.context.enableDates.length > 1 && e2.context.enableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), (null == (a3 = e2.context.enableDates) ? void 0 : a3[0]) && e2.disableAllDates && (setContext(e2, "displayDateMin", e2.context.enableDates[0]), setContext(e2, "displayDateMax", e2.context.enableDates[e2.context.enableDates.length - 1])), setContext(e2, "dateMin", e2.displayDisabledDates ? l2 : e2.context.displayDateMin), setContext(e2, "dateMax", e2.displayDisabledDates ? o3 : e2.context.displayDateMax);
+  };
+  var initSelectedDates = (e2) => {
+    var t2;
+    setContext(e2, "selectedDates", (null == (t2 = e2.selectedDates) ? void 0 : t2[0]) ? parseDates(e2.selectedDates) : []);
+  };
+  var setInitialContext = (e2, t2, n) => {
+    setContext(e2, "selectedMonth", t2), setContext(e2, "selectedYear", n), setContext(e2, "displayYear", n);
+  };
+  var initSelectedMonthYear = (e2) => {
+    var t2;
+    if (e2.enableJumpToSelectedDate && (null == (t2 = e2.selectedDates) ? void 0 : t2[0]) && void 0 === e2.selectedMonth && void 0 === e2.selectedYear) {
+      const t3 = getDate(parseDates(e2.selectedDates)[0]);
+      return void setInitialContext(e2, t3.getMonth(), t3.getFullYear());
+    }
+    const n = void 0 !== e2.selectedMonth && Number(e2.selectedMonth) >= 0 && Number(e2.selectedMonth) < 12, a3 = void 0 !== e2.selectedYear && Number(e2.selectedYear) >= 0 && Number(e2.selectedYear) <= 9999;
+    setInitialContext(e2, n ? Number(e2.selectedMonth) : getDate(e2.context.dateToday).getMonth(), a3 ? Number(e2.selectedYear) : getDate(e2.context.dateToday).getFullYear());
+  };
+  var initTime = (e2) => {
+    var t2, n, a3;
+    if (!e2.selectionTimeMode) return;
+    if (![12, 24].includes(e2.selectionTimeMode)) throw new Error(errorMessages.incorrectTime);
+    const l2 = 12 === e2.selectionTimeMode, o3 = l2 ? /^(0[1-9]|1[0-2]):([0-5][0-9]) ?(AM|PM)?$/i : /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    let [s2, i, r3] = null != (a3 = null == (n = null == (t2 = e2.selectedTime) ? void 0 : t2.match(o3)) ? void 0 : n.slice(1)) ? a3 : [];
+    s2 ? l2 && !r3 && (r3 = "AM") : (s2 = l2 ? transformTime12(String(e2.timeMinHour)) : String(e2.timeMinHour), i = String(e2.timeMinMinute), r3 = l2 ? Number(transformTime12(String(e2.timeMinHour))) >= 12 ? "PM" : "AM" : null), setContext(e2, "selectedHours", s2.padStart(2, "0")), setContext(e2, "selectedMinutes", i.padStart(2, "0")), setContext(e2, "selectedKeeping", r3), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${r3 ? ` ${r3}` : ""}`);
+  };
+  var initAllVariables = (e2) => {
+    setContext(e2, "currentType", e2.type), initMonthsCount(e2), initRange(e2), initSelectedMonthYear(e2), initSelectedDates(e2), initTime(e2);
+  };
+  var reset = (e2, { year: t2, month: n, dates: a3, time: l2, locale: o3 }, s2 = true) => {
+    var i;
+    const r3 = { year: e2.selectedYear, month: e2.selectedMonth, dates: e2.selectedDates, time: e2.selectedTime };
+    if (e2.selectedYear = t2 ? r3.year : e2.context.selectedYear, e2.selectedMonth = n ? r3.month : e2.context.selectedMonth, e2.selectedTime = l2 ? r3.time : e2.context.selectedTime, e2.selectedDates = "only-first" === a3 && (null == (i = e2.context.selectedDates) ? void 0 : i[0]) ? [e2.context.selectedDates[0]] : true === a3 ? r3.dates : e2.context.selectedDates, o3) {
+      setContext(e2, "locale", { months: { short: [], long: [] }, weekdays: { short: [], long: [] } });
+    }
+    initAllVariables(e2), s2 && create(e2), e2.selectedYear = r3.year, e2.selectedMonth = r3.month, e2.selectedDates = r3.dates, e2.selectedTime = r3.time, "multiple-ranged" === e2.selectionDatesMode && a3 && handleSelectDateRange(e2, null);
+  };
+  var createToInput = (e2) => {
+    const t2 = document.createElement("div");
+    return t2.className = e2.styles.calendar, t2.dataset.vc = "calendar", t2.dataset.vcInput = "", t2.dataset.vcCalendarHidden = "", setContext(e2, "inputModeInit", true), setContext(e2, "isShowInInputMode", false), setContext(e2, "mainElement", t2), document.body.appendChild(e2.context.mainElement), reset(e2, { year: true, month: true, dates: true, time: true, locale: true }), queueMicrotask(() => show(e2)), e2.onInit && e2.onInit(e2), handleArrowKeys(e2), handleClick(e2);
+  };
+  var handleInput = (e2) => {
+    setContext(e2, "inputElement", e2.context.mainElement);
+    const t2 = () => {
+      e2.context.inputModeInit ? queueMicrotask(() => show(e2)) : createToInput(e2);
+    };
+    return e2.context.inputElement.addEventListener("click", t2), e2.context.inputElement.addEventListener("focus", t2), () => {
+      e2.context.inputElement.removeEventListener("click", t2), e2.context.inputElement.removeEventListener("focus", t2);
+    };
+  };
+  var init = (e2) => (setContext(e2, "originalElement", e2.context.mainElement.cloneNode(true)), setContext(e2, "isInit", true), e2.inputMode ? handleInput(e2) : (initAllVariables(e2), create(e2), e2.onInit && e2.onInit(e2), handleArrowKeys(e2), handleClick(e2)));
+  var update = (e2, t2) => {
+    if (!e2.context.isInit) throw new Error(errorMessages.notInit);
+    reset(e2, __spreadValues(__spreadValues({}, { year: true, month: true, dates: true, time: true, locale: true }), t2), !(e2.inputMode && !e2.context.inputModeInit)), e2.onUpdate && e2.onUpdate(e2);
+  };
+  var replaceProperties = (e2, t2) => {
+    const n = Object.keys(t2);
+    for (let a3 = 0; a3 < n.length; a3++) {
+      const l2 = n[a3];
+      "object" != typeof e2[l2] || "object" != typeof t2[l2] || t2[l2] instanceof Date || Array.isArray(t2[l2]) ? void 0 !== t2[l2] && (e2[l2] = t2[l2]) : replaceProperties(e2[l2], t2[l2]);
+    }
+  };
+  var set2 = (e2, t2, n) => {
+    replaceProperties(e2, t2), e2.context.isInit && update(e2, n);
+  };
+  function findBestPickerPosition(e2, t2) {
+    const n = "left";
+    if (!t2 || !e2) return n;
+    const { canShow: a3, parentPositions: l2 } = getAvailablePosition(e2, t2), o3 = a3.left && a3.right;
+    return (o3 && a3.bottom ? "center" : o3 && a3.top ? ["top", "center"] : Array.isArray(l2) ? ["bottom" === l2[0] ? "top" : "bottom", ...l2.slice(1)] : l2) || n;
+  }
+  var setPosition = (e2, t2, n) => {
+    if (!e2) return;
+    const a3 = "auto" === n ? findBestPickerPosition(e2, t2) : n, l2 = { top: -t2.offsetHeight, bottom: e2.offsetHeight, left: 0, center: e2.offsetWidth / 2 - t2.offsetWidth / 2, right: e2.offsetWidth - t2.offsetWidth }, o3 = Array.isArray(a3) ? a3[0] : "bottom", s2 = Array.isArray(a3) ? a3[1] : a3;
+    t2.dataset.vcPosition = o3;
+    const { top: i, left: r3 } = getOffset(e2), c3 = i + l2[o3];
+    let d2 = r3 + l2[s2];
+    const { vw: u2 } = getViewportDimensions();
+    if (d2 + t2.clientWidth > u2) {
+      const e3 = window.innerWidth - document.body.clientWidth;
+      d2 = u2 - t2.clientWidth - e3;
+    } else d2 < 0 && (d2 = 0);
+    Object.assign(t2.style, { left: `${d2}px`, top: `${c3}px` });
+  };
+  var show = (e2) => {
+    if (e2.context.isShowInInputMode) return;
+    if (!e2.context.currentType) return void e2.context.mainElement.click();
+    setContext(e2, "cleanupHandlers", []), setContext(e2, "isShowInInputMode", true), setPosition(e2.context.inputElement, e2.context.mainElement, e2.positionToInput), e2.context.mainElement.removeAttribute("data-vc-calendar-hidden");
+    const t2 = () => {
+      setPosition(e2.context.inputElement, e2.context.mainElement, e2.positionToInput);
+    };
+    window.addEventListener("resize", t2), e2.context.cleanupHandlers.push(() => window.removeEventListener("resize", t2));
+    const n = (t3) => {
+      "Escape" === t3.key && hide(e2);
+    };
+    document.addEventListener("keydown", n), e2.context.cleanupHandlers.push(() => document.removeEventListener("keydown", n));
+    const a3 = (t3) => {
+      t3.target === e2.context.inputElement || e2.context.mainElement.contains(t3.target) || hide(e2);
+    };
+    document.addEventListener("click", a3, { capture: true }), e2.context.cleanupHandlers.push(() => document.removeEventListener("click", a3, { capture: true })), e2.onShow && e2.onShow(e2);
+  };
+  var labels = { application: "Calendar", navigation: "Calendar Navigation", arrowNext: { month: "Next month", year: "Next list of years" }, arrowPrev: { month: "Previous month", year: "Previous list of years" }, month: "Select month, current selected month:", months: "List of months", year: "Select year, current selected year:", years: "List of years", week: "Days of the week", weekNumber: "Numbers of weeks in a year", dates: "Dates in the current month", selectingTime: "Selecting a time ", inputHour: "Hours", inputMinute: "Minutes", rangeHour: "Slider for selecting hours", rangeMinute: "Slider for selecting minutes", btnKeeping: "Switch AM/PM, current position:" };
+  var styles2 = { calendar: "vc", controls: "vc-controls", grid: "vc-grid", column: "vc-column", header: "vc-header", headerContent: "vc-header__content", month: "vc-month", year: "vc-year", arrowPrev: "vc-arrow vc-arrow_prev", arrowNext: "vc-arrow vc-arrow_next", wrapper: "vc-wrapper", content: "vc-content", months: "vc-months", monthsMonth: "vc-months__month", years: "vc-years", yearsYear: "vc-years__year", week: "vc-week", weekDay: "vc-week__day", weekNumbers: "vc-week-numbers", weekNumbersTitle: "vc-week-numbers__title", weekNumbersContent: "vc-week-numbers__content", weekNumber: "vc-week-number", dates: "vc-dates", date: "vc-date", dateBtn: "vc-date__btn", datePopup: "vc-date__popup", dateRangeTooltip: "vc-date-range-tooltip", time: "vc-time", timeContent: "vc-time__content", timeHour: "vc-time__hour", timeMinute: "vc-time__minute", timeKeeping: "vc-time__keeping", timeRanges: "vc-time__ranges", timeRange: "vc-time__range" };
+  var OptionsCalendar = class {
+    constructor() {
+      __publicField(this, "type", "default"), __publicField(this, "inputMode", false), __publicField(this, "positionToInput", "left"), __publicField(this, "firstWeekday", 1), __publicField(this, "monthsToSwitch", 1), __publicField(this, "themeAttrDetect", "html[data-theme]"), __publicField(this, "locale", "en"), __publicField(this, "dateToday", "today"), __publicField(this, "dateMin", "1970-01-01"), __publicField(this, "dateMax", "2470-12-31"), __publicField(this, "displayDateMin"), __publicField(this, "displayDateMax"), __publicField(this, "displayDatesOutside", true), __publicField(this, "displayDisabledDates", false), __publicField(this, "displayMonthsCount"), __publicField(this, "disableDates", []), __publicField(this, "disableAllDates", false), __publicField(this, "disableDatesPast", false), __publicField(this, "disableDatesGaps", false), __publicField(this, "disableWeekdays", []), __publicField(this, "disableToday", false), __publicField(this, "enableDates", []), __publicField(this, "enableEdgeDatesOnly", true), __publicField(this, "enableDateToggle", true), __publicField(this, "enableWeekNumbers", false), __publicField(this, "enableMonthChangeOnDayClick", true), __publicField(this, "enableJumpToSelectedDate", false), __publicField(this, "selectionDatesMode", "single"), __publicField(this, "selectionMonthsMode", true), __publicField(this, "selectionYearsMode", true), __publicField(this, "selectionTimeMode", false), __publicField(this, "selectedDates", []), __publicField(this, "selectedMonth"), __publicField(this, "selectedYear"), __publicField(this, "selectedHolidays", []), __publicField(this, "selectedWeekends", [0, 6]), __publicField(this, "selectedTime"), __publicField(this, "selectedTheme", "system"), __publicField(this, "timeMinHour", 0), __publicField(this, "timeMaxHour", 23), __publicField(this, "timeMinMinute", 0), __publicField(this, "timeMaxMinute", 59), __publicField(this, "timeControls", "all"), __publicField(this, "timeStepHour", 1), __publicField(this, "timeStepMinute", 1), __publicField(this, "sanitizerHTML", (e2) => e2), __publicField(this, "onClickDate"), __publicField(this, "onClickWeekDay"), __publicField(this, "onClickWeekNumber"), __publicField(this, "onClickTitle"), __publicField(this, "onClickMonth"), __publicField(this, "onClickYear"), __publicField(this, "onClickArrow"), __publicField(this, "onChangeTime"), __publicField(this, "onChangeToInput"), __publicField(this, "onCreateDateRangeTooltip"), __publicField(this, "onCreateDateEls"), __publicField(this, "onCreateMonthEls"), __publicField(this, "onCreateYearEls"), __publicField(this, "onInit"), __publicField(this, "onUpdate"), __publicField(this, "onDestroy"), __publicField(this, "onShow"), __publicField(this, "onHide"), __publicField(this, "popups", {}), __publicField(this, "labels", __spreadValues({}, labels)), __publicField(this, "layouts", { default: "", multiple: "", month: "", year: "" }), __publicField(this, "styles", __spreadValues({}, styles2));
+    }
+  };
+  var _Calendar = class e extends OptionsCalendar {
+    constructor(t2, n) {
+      var a3;
+      super(), __publicField(this, "init", () => init(this)), __publicField(this, "update", (e2) => update(this, e2)), __publicField(this, "destroy", () => destroy(this)), __publicField(this, "show", () => show(this)), __publicField(this, "hide", () => hide(this)), __publicField(this, "set", (e2, t3) => set2(this, e2, t3)), __publicField(this, "context"), this.context = __spreadProps(__spreadValues({}, this.context), { locale: { months: { short: [], long: [] }, weekdays: { short: [], long: [] } } }), setContext(this, "mainElement", "string" == typeof t2 ? null != (a3 = e.memoizedElements.get(t2)) ? a3 : this.queryAndMemoize(t2) : t2), n && replaceProperties(this, n);
+    }
+    queryAndMemoize(t2) {
+      const n = document.querySelector(t2);
+      if (!n) throw new Error(errorMessages.notFoundSelector(t2));
+      return e.memoizedElements.set(t2, n), n;
+    }
+  };
+  __publicField(_Calendar, "memoizedElements", /* @__PURE__ */ new Map());
+
+  // src/app/components/cj-forms/src/components/FormAppoiment.js
+  var FormAppoinment = class extends FormLead {
+    #default = {
+      eventName: "user:click-form-modal",
+      form: {
+        function: {
+          disabled: true
+        },
+        company: {
+          disabled: true
+        },
+        subject: {
+          disabled: true
+        },
+        description: {
+          disabled: true
+        }
+      }
+    };
+    constructor(props = {}) {
+      super();
+      this.eventName = "user:click-form-modal";
+      this.state = this.initState(this.#default, props);
+      this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
+      this.setAttribute("stage", "awaiting");
+      this.ok = false;
+    }
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch (newValue) {
+        case "open":
+          this.querySelector(".modal").classList.toggle("is-active");
+          break;
+      }
+    }
+    render() {
+      this.state?.id != void 0 ? this.state.form.id = `${this.state.id}-form` : `form-${Math.floor(Math.random() * 100)}`;
+      this.innerHTML = /* html */
+      `
+        <div class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                ${this.state.title?.text[this.state.context.lang] != void 0 ? `
+                <header ${this.getClasses(["modal-card-head"], this.state.title?.classList)}  ${this.setAnimation(this.state.title?.animation)}>
+                    <p class="modal-card-title">${this.state.title.text[this.state.context.lang]}</p>
+                </header>` : ""}
+                <section class="modal-card-body">
+                    <div class="column">
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                        </div>
+                        <div class="column">
+                            ${this.state?.form != void 0 ? new CjForm(this.state.form, this.state.context).render() : ""}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        /div>
+        `;
+      addFormEvents(this);
+    }
+  };
+  customElements.define("form-appoinment", FormAppoinment);
+
   // src/app/pages/updaters/homeUpdater.js
   function homeUpdater(previousValue, currentValue) {
     let page2 = document.querySelector("app-page");
@@ -23150,6 +28076,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         },
         {
+          id: "cta",
+          content: {
+            text: {
+              en: "Make an appointment",
+              es: "Concertar una cita",
+              fr: "Prendre rendez-vous"
+            }
+          },
+          buttons: {
+            eventName: "appoinmentclick",
+            classList: ["is-centered"],
+            buttons: [
+              {
+                id: "appoinment-button",
+                text: {
+                  es: "Adquiere Mara Ahora",
+                  en: "Get Mara Now",
+                  fr: "Obtenez Mara maintenant"
+                },
+                classList: ["is-rounded", "is-info"]
+              }
+            ]
+          }
+        },
+        {
           id: "footer",
           brand: {
             src: "/images/Buyer Journey.png"
@@ -23169,6 +28120,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             },
             url: "/"
           }
+        },
+        {
+          id: "appoinment",
+          form: {
+            terms: {
+              disabled: true
+            }
+          }
         }
       ]
     }
@@ -23183,19 +28142,25 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     <image-text id="interest"></image-text>
     <text-columns id="desire"></text-columns>
     <image-banner id="action"></image-banner>
+    <cta-banner id="cta"></cta-banner>
     <page-footer id="footer"></page-footer>
+    <form-appoinment id="appoinment"></form-appoinment>
     `;
     let currentValue = store.getState();
     home_default.context = context = currentValue.context;
     page = new AppPage(home_default, template);
     const pageEvents = {
-      handleEvent: (e) => {
-        switch (e.type) {
+      handleEvent: (e2) => {
+        switch (e2.type) {
           case "user:select-lang":
-            store.dispatch(setLanguaje(e.detail));
+            store.dispatch(setLanguaje(e2.detail));
             break;
           case "user:select-theme":
-            store.dispatch(setTheme(e.detail));
+            store.dispatch(setTheme(e2.detail));
+            break;
+          case "appoinmentclick":
+            console.log("Hay");
+            page.querySelector(`#appoinment`).setAttribute("stage", "open");
             break;
         }
       }
@@ -23212,7 +28177,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       "user:select-theme",
       "viewedelement",
       "leavingapp",
-      "leavedapp"
+      "leavedapp",
+      "appoinmentclick"
     ], pageEvents);
     store.subscribe(handleChange);
   }
@@ -23240,4 +28206,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
    * Copyright 2024 Fonticons, Inc.
    *)
+
+vanilla-calendar-pro/index.mjs:
+  (*! name: vanilla-calendar-pro v3.0.4 | url: https://github.com/uvarov-frontend/vanilla-calendar-pro *)
 */

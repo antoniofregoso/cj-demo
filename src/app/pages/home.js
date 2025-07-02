@@ -1,5 +1,6 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
-import { HeroBanner, ImageText, TextColumns, ImageBanner } from "@customerjourney/cj-components";
+import { HeroBanner, ImageText, TextColumns, ImageBanner, CtaBanner } from "@customerjourney/cj-components";
+import { FormAppoinment } from "../components/cj-forms/src/components/FormAppoiment";
 import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
@@ -16,7 +17,9 @@ export function home(req, router){
     <image-text id="interest"></image-text>
     <text-columns id="desire"></text-columns>
     <image-banner id="action"></image-banner>
+    <cta-banner id="cta"></cta-banner>
     <page-footer id="footer"></page-footer>
+    <form-appoinment id="appoinment"></form-appoinment>
     `;
     
     let currentValue = store.getState();
@@ -32,6 +35,10 @@ export function home(req, router){
                 case 'user:select-theme':
                     store.dispatch(setTheme(e.detail));
                     break;
+                case 'appoinmentclick':
+                    console.log('Hay')
+                    page.querySelector(`#appoinment`).setAttribute('stage', 'open');
+                    break;
             }
         }}
 
@@ -44,7 +51,7 @@ export function home(req, router){
         }
 
     page.eventsToListen(["user:select-lang","user:select-theme", "viewedelement", 
-        "leavingapp", "leavedapp"], pageEvents)
+        "leavingapp", "leavedapp", "appoinmentclick"], pageEvents)
 
     store.subscribe(handleChange);
 }
