@@ -36,7 +36,6 @@ export function home(req, router){
                     store.dispatch(setTheme(e.detail));
                     break;
                 case 'appoinmentclick':
-                    console.log('Hay')
                     page.querySelector(`#appoinment`).setAttribute('stage', 'open');
                     break;
             }

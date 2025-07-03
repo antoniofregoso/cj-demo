@@ -24435,7 +24435,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return values;
     }
     render() {
-      console.log(this.state);
       return `
         <form id="${this.state.id}" ${this.getClasses(["box"], this.state.form?.box?.classList)}  ${this.setAnimation(this.state.form?.animation)} novalidate>
                 ${this.state.name?.disabled != true ? `
@@ -27853,6 +27852,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   };
   __publicField(_Calendar, "memoizedElements", /* @__PURE__ */ new Map());
+  var Calendar = _Calendar;
 
   // src/app/components/cj-forms/src/components/FormAppoiment.js
   var FormAppoinment = class extends FormLead {
@@ -27871,6 +27871,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         description: {
           disabled: true
         }
+      },
+      appoinment: {
+        initialTime: 9,
+        finalTime: 17,
+        deltaTime: 60
       }
     };
     constructor(props = {}) {
@@ -27884,8 +27889,41 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, oldValue, newValue) {
       switch (newValue) {
         case "open":
+          const calendar = new Calendar("#calendar");
+          calendar.init({
+            onClickDate(self2, event) {
+              console.log(event);
+            }
+          });
           this.querySelector(".modal").classList.toggle("is-active");
           break;
+      }
+    }
+    #pad(num) {
+      return num.toString().padStart(2, "0");
+    }
+    #getTimes() {
+      let times = "";
+      let deltaTime = this.state.appoinment.deltaTime;
+      let currentMinutes = this.state.appoinment.initialTime * 60;
+      const endMinutes = this.state.appoinment.finalTime * 60 + deltaTime;
+      if (currentMinutes < endMinutes) {
+        while (currentMinutes <= endMinutes) {
+          const hours = Math.floor(currentMinutes / 60);
+          const minutes = currentMinutes % 60;
+          const timeStr = `${this.#pad(hours)}:${this.#pad(minutes)}`;
+          currentMinutes += deltaTime;
+          times += `<div class="cell"><button class="button is-small is-time" data-time="${timeStr}" disabled>${timeStr}</button></div>`;
+        }
+      } else {
+        console.warn("finalTime must be greater than initialTime. It is expressed as integers in 24-hour format.");
+      }
+      return times;
+    }
+    addTimeEvents() {
+      let options = this.querySelectorAll(".is-time");
+      for (let opt in options) {
+        console.log(opt);
       }
     }
     render() {
@@ -27900,15 +27938,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     <p class="modal-card-title">${this.state.title.text[this.state.context.lang]}</p>
                 </header>` : ""}
                 <section class="modal-card-body">
-                    <div class="column">
-                        <div class="column">
+                        <div>
+                            <div id="calendar"></div>
                         </div>
-                        <div class="column">
+                        <div class="pt-2">
+                            <div class="fixed-grid has-6-cols">
+                                <div class="grid">
+                                    ${this.#getTimes()}
+                                </div>
+                            </div>
                         </div>
-                        <div class="column">
+                        <div class="pt-2">
                             ${this.state?.form != void 0 ? new CjForm(this.state.form, this.state.context).render() : ""}
                         </div>
-                    </div>
                 </section>
             </div>
         /div>
@@ -28159,7 +28201,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             store.dispatch(setTheme(e2.detail));
             break;
           case "appoinmentclick":
-            console.log("Hay");
             page.querySelector(`#appoinment`).setAttribute("stage", "open");
             break;
         }
