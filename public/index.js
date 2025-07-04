@@ -3053,6 +3053,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.dispatchEvent(clickFunnel);
       }
     }
+    registerExtraEvents() {
+    }
     /**
      * Generate click events on the component's CTA buttons
      */
@@ -27889,18 +27891,34 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, oldValue, newValue) {
       switch (newValue) {
         case "open":
-          const calendar = new Calendar("#calendar");
-          calendar.init({
-            onClickDate(self2, event) {
-              console.log(event);
-            }
-          });
+          const calendar = new Calendar("#calendar", this.#getCalendarOptions());
+          calendar.init();
           this.querySelector(".modal").classList.toggle("is-active");
           break;
       }
     }
     #pad(num) {
       return num.toString().padStart(2, "0");
+    }
+    #getCalendarOptions() {
+      let options = {
+        locale: this.state.context.lang,
+        onClickDate(self2, event) {
+          let selection = event.target.parentNode;
+          let appoinmentDate = selection.dataset.vcDate;
+          const [year, month, day] = appoinmentDate.split("-");
+          console.log(selection.dataset.vcDate);
+        }
+      };
+      if (this.state.calendar.disablePastDays === true) {
+        const today = /* @__PURE__ */ new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+        options["displayDateMin"] = `${yyyy}-${mm}-${dd}`;
+      }
+      console.log(options);
+      return options;
     }
     #getTimes() {
       let times = "";
@@ -28165,6 +28183,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         },
         {
           id: "appoinment",
+          calendar: {
+            disablePastDays: true
+          },
           form: {
             terms: {
               disabled: true

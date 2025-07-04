@@ -13,7 +13,7 @@ const homeSlice = createSlice({
         },
         setBreadcrumb:(state, action) => {
             state.breadcrumb = action.payload;
-        }
+        } 
     }
 });
 

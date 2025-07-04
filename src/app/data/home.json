@@ -55,7 +55,7 @@
                     }
                 },
                 "buttons":{
-                    "eventName":"attentionclick",
+                    "eventName":"app-click",
                     "classList":["is-centered"],
                     "buttons":[
                         {
@@ -131,8 +131,8 @@
                         "fr":"**N'attendez plus !**\n\nDécouvrez la magie d'Mara et transformez votre présence avec une fragrance qui parle pour vous. Cliquez sur le bouton ci-dessous pour explorer notre collection et trouver votre signature olfactive parfaite."
                     }
                 },
-                "buttons":{
-                    "eventName":"attentionclick",
+                "buttons":{                    
+                    "eventName":"app-click",
                     "classList":["is-centered"],
                     "buttons":[
                         {
@@ -157,8 +157,8 @@
                         "fr":"Prendre rendez-vous"
                     }
                 },
-                "buttons":{
-                    "eventName":"appoinmentclick",
+                "buttons":{                    
+                    "eventName":"app-click",
                     "classList":["is-centered"],
                     "buttons":[
                         {
@@ -196,6 +196,12 @@
             },
             {
                 "id":"appoinment",
+                "calendar":{
+                    "disablePastDays":true,
+                    "initialTime":9,
+                    "finalTime":17,
+                    "deltaTime":30
+                },
                 "form":{
                     "terms":{
                         "disabled":true

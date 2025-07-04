@@ -6,6 +6,7 @@ import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
 import data from "../data/home.json";
+import { getSchedules } from '../components/appoinments'
 
 export function home(req, router){
 
@@ -28,6 +29,7 @@ export function home(req, router){
 
     const pageEvents = {
         handleEvent: (e) => {
+            console.log(e)
             switch(e.type){
                 case 'user:select-lang':
                     store.dispatch(setLanguaje(e.detail));
@@ -35,11 +37,20 @@ export function home(req, router){
                 case 'user:select-theme':
                     store.dispatch(setTheme(e.detail));
                     break;
-                case 'appoinmentclick':
-                    page.querySelector(`#appoinment`).setAttribute('stage', 'open');
+                case 'app-click':
+                    switch (e.detail.source){
+                        case "appoinment-button":
+                             store.dispatch(setStage('action/open'));
+                            break;
                     break;
+                    }
+                case 'date-selected':
+                    let calendar = data.props.components.find(el => el.id === 'appoinment').calendar;
+                    let options = getSchedules(e.detail.date, calendar)
+                    break;
+                }
             }
-        }}
+        }
 
     function handleChange(){
             let previousValue = currentValue;
@@ -50,7 +61,7 @@ export function home(req, router){
         }
 
     page.eventsToListen(["user:select-lang","user:select-theme", "viewedelement", 
-        "leavingapp", "leavedapp", "appoinmentclick"], pageEvents)
+        "leavingapp", "leavedapp", "app-click","date-selected"], pageEvents)
 
     store.subscribe(handleChange);
 }
