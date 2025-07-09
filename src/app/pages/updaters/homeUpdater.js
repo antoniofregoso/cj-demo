@@ -7,9 +7,16 @@ export function homeUpdater(previousValue, currentValue){
         page.data.context = currentValue.context;
         page.loadData();
     }else if(previousValue.home.stage!=currentValue.home.stage){
+        let appoinment = page.querySelector('#appoinment');
         switch (currentValue.home.stage){
             case 'action/open':
-                page.querySelector(`#appoinment`).setAttribute('stage', 'open');
+               appoinment.setAttribute('stage', 'open');
+                break;
+            case 'action/close':
+                appoinment.setAttribute('stage', 'awaiting');
+                break;
+            case 'action/appoinment':
+                appoinment.setAttribute('stage', 'appoinment');
                 break;
         }
     }

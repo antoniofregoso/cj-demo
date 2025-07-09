@@ -13,25 +13,12 @@ export function getSchedules(dateSelected, calendar){
     const endMinutes = calendar.finalTime * 60 + deltaTime;
     options = [];
     while (currentMinutes <= endMinutes) {
-        currentMinutes += deltaTime;
         const hours = Math.floor(currentMinutes / 60);
         const minutes = currentMinutes % 60;
         const timeStr = `${pad(hours)}:${pad(minutes)}`;
         options.push(timeStr);
+        currentMinutes += deltaTime;
         }
     return options;
     }
 
-/*
- let container = document.querySelector('.cj-schedules');
-if (currentMinutes<endMinutes){
-        while (currentMinutes <= endMinutes) {
-            const hours = Math.floor(currentMinutes / 60);
-            const minutes = currentMinutes % 60;
-            const timeStr = `${pad(hours)}:${pad(minutes)}`;
-            el = container.querySelector(`[data-time="${timeStr}"]`);
-            el.removeAttribute("disabled");
-            currentMinutes += deltaTime;
-        }
-    }
-        */

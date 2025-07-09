@@ -8,6 +8,12 @@ import { App } from './App';
 
 loading({color:"is-dark", direction:"is-right-to-left"});
 
+let currentValue = store.getState();
+    let theme = currentValue?.context?.theme;
+    if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+
 persistor.subscribe(()=>{
     const rehydratedState = store.getState();   
     store.dispatch(setStage('start'));

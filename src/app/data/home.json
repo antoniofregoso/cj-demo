@@ -152,10 +152,11 @@
                 "id":"cta",
                 "content":{
                     "text":{
-                        "en":"Make an appointment",
-                        "es":"Concertar una cita",
-                        "fr":"Prendre rendez-vous"
-                    }
+                        "es":"# El Secreto De Los Hombres Que Facturan Millones (Y Visten Como Tal)\n\n**Vístete Como El Éxito Que Estás Buscando: Ropa Que Te Abre Puertas Y Te Da La Confianza Para Cerrar Tratos Millonarios**\n\nLa ropa no es solo tela. Es una declaración. ¿Estás enviando el mensaje correcto? Nuestros clientes no esperan el éxito, lo crean. Y visten para ello.",
+                        "en":"# The Secret of Men Who Make Millions (And Dress Like It)\n\n**Dress Like the Success You're Seeking: Clothing That Opens Doors and Gives You the Confidence to Close Million-Dollar Deals**\n\nClothes aren't just fabric. They're a statement. Are you sending the right message? Our clients don't expect success, they create it. And they dress for it.",
+                        "fr":"# Le secret des hommes qui gagnent des millions (et s'habillent comme tel)\n\n**Habillez-vous comme le succès que vous recherchez : des vêtements qui ouvrent des portes et vous donnent la confiance nécessaire pour conclure des affaires de plusieurs millions de dollars**\n\nLes vêtements ne sont pas que du tissu. Ils sont une déclaration. Envoyez-vous le bon message ? Nos clients n'attendent pas le succès, ils le créent. Et ils s'habillent pour cela."
+                    },
+                    "size":"is-8"
                 },
                 "buttons":{                    
                     "eventName":"app-click",
@@ -195,14 +196,268 @@
                 }
             },
             {
+                "id":"slider",
+                "caption":{
+                    "text":{
+                        "es":"No son anteojos. Es una declaración silenciosa.",
+                        "en":"They are not glasses. It's a silent statement.",
+                        "fr":"Ce ne sont pas des lunettes. C'est une déclaration silencieuse."
+                    },
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }   
+                },
+                "title":{
+                    "text":{
+                        "es":"Diseñados para los que no necesitan pedir atención. La imponen.",
+                        "en":"Designed for those who don't need to ask for attention. They impose it.",
+                        "fr":"Conçus pour ceux qui n'ont pas besoin de demander de l'attention. Ils l'imposent."
+                    },
+                    "classList":["is-size-2"],
+                    "animation":{
+                        "effect":"fadeIn"
+                    }
+                },
+                "subtitle":{
+                    "text":{
+                        "es":"Hechos a mano. Inspirados en el poder. Llevados por quienes deciden las reglas.",
+                        "en":"Handmade. Inspired by power. Worn by those who set the rules.",
+                        "fr":"Faits à la main. Inspirés par le pouvoir. Portés par ceux qui décident des règles."
+                    },
+                    "classList":["is-size-4"],
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }  
+                },
+                "swipers":[
+                    {
+                        "id":"slider1",
+                        "setup":{
+                            "cards":true,
+                            "effect":"coverflow",
+                            "navigation":true,
+                            "navigationColor":"#ffb70f",
+                            "pagination":"bullets",
+                            "paginationColor":"#ffb70f",
+                            "paginationGap":true
+                        },
+                        "slides":[
+                            {
+                                "id":"sdsf",
+                                "header":{
+                                    "text":{
+                                        "en":"Furniture",
+                                        "es":"Muebles",
+                                        "fr":"Meubles"
+                                    },
+                                    "classList":["is-size-2"]
+                                },
+                                "image":{
+                                    "src":"https://c.pxhere.com/photos/5e/c1/sunset_lake_abendstimmung_nature_romance_sun_landscape_atmospheric-626848.jpg!d",
+                                    "classList":["is-4by3"]
+                                },
+                                "content":{
+                                    "title":{
+                                        "text":{
+                                            "en":"Beds",
+                                            "es":"Camas",
+                                            "fr":"Lits"
+                                        },
+                                    "classList":["is-size-2"]
+                                    },
+
+                                    "subtitle":{
+                                        "text":{
+                                            "en":"Economic and Luxury",
+                                            "es":"Económicas y de Lujo",
+                                            "fr":"Economic and Luxury"
+                                        },
+                                    "classList":["is-size-2"]
+                                    },
+                                    "description":{
+                                        "text":{
+                                            "en":"Discover our range of beds, from economic to luxury options, designed to provide comfort and style for every bedroom.",
+                                            "es":"Descubre nuestra gama de camas, desde opciones económicas hasta de lujo, diseñadas para proporcionar comodidad y estilo a cada dormitorio.",
+                                            "fr":"Découvrez notre gamme de lits, des options économiques aux options de luxe, conçues pour offrir confort et style à chaque chambre."
+                                        },
+                                    "classList":["is-size-2"]
+                                    }
+                                },
+                                "footer":{
+                                    "buttons":[
+                                        {"id":"sdsf-button",
+                                        "text":{
+                                            "en":"Explore Beds",
+                                            "es":"Explorar Camas",
+                                            "fr":"Explorer les Lits"
+                                        }}
+                                    ],
+                                    "classList":["is-centered"]
+                                }
+                            },
+                            {
+                                "id":"sdsf2",
+                                "image":{
+                                    "src":"/images/sofa.webp",
+                                    "classList":["is-4by3"]
+                                },
+                                "content":{
+                                    "title":{
+                                        "text":{
+                                            "en":"Sofas",
+                                            "es":"Sofás",
+                                            "fr":"Canapés"
+                                        }
+                                    },
+
+                                    "subtitle":{
+                                        "text":{
+                                            "en":"Economic and Luxury",
+                                            "es":"Económicos y de Lujo",
+                                            "fr":"Economic and Luxury"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "id":"sdsf3",
+                                "image":{
+                                    "src":"/images/armario.webp",
+                                    "classList":["is-4by3"]
+                                },
+                                "content":{
+                                    "title":{
+                                        "text":{
+                                            "en":"Wardrobes",
+                                            "es":"Armarios",
+                                            "fr":"Armoires"
+                                        }
+                                    },
+
+                                    "subtitle":{
+                                        "text":{
+                                            "en":"Economic and Luxury",
+                                            "es":"Económicos y de Lujo",
+                                            "fr":"Economic and Luxury"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id":"slider2",
+                        "setup":{
+                            "navigation":true,
+                            "pagination":true,
+                            "effect":"parallax",
+                            "speed": 600,
+                            "parallaxImage":"https://images.unsplash.com/photo-1558637845-c8b7ead71a3e"
+                        },
+                        "slides":[
+                            {
+                                "title":{
+                                    "text":{
+                                        "en":"Luxury Furniture",
+                                        "es":"Muebles de Lujo",
+                                        "fr":"Meubles de Luxe"
+                                    },
+                                    "classList":["is-size-2"]
+                                },
+                                "subtitle":{
+                                    "text":{
+                                        "en":"Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                                        "es":"Descubre nuestra colección exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                                        "fr":"Découvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'élégance et de confort."
+                                    },
+                                    "classList":["is-size-4"]
+                                },
+                                "description":{
+                                    "text":{
+                                        "en":"From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                                        "es":"Desde camas hechas a mano hasta sofás exquisitos, cada pieza está diseñada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adición perfecta para tu hogar.",
+                                        "fr":"Des lits faits à la main aux canapés exquis, chaque pièce est conçue pour élever votre expérience de vie. Explorez notre gamme et trouvez l'ajout parfait à votre maison."
+                                    },
+                                    "classList":["is-size-4"]
+                                }
+                            },
+                            {
+                                "title":{
+                                    "text":{
+                                        "en":"Luxury Furniture",
+                                        "es":"Muebles de Lujo",
+                                        "fr":"Meubles de Luxe"
+                                    },
+                                    "classList":["is-size-2"]
+                                },
+                                "subtitle":{
+                                    "text":{
+                                        "en":"Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                                        "es":"Descubre nuestra colección exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                                        "fr":"Découvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'élégance et de confort."
+                                    },
+                                    "classList":["is-size-4"]
+                                },
+                                "description":{
+                                    "text":{
+                                        "en":"From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                                        "es":"Desde camas hechas a mano hasta sofás exquisitos, cada pieza está diseñada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adición perfecta para tu hogar.",
+                                        "fr":"Des lits faits à la main aux canapés exquis, chaque pièce est conçue pour élever votre expérience de vie. Explorez notre gamme et trouvez l'ajout parfait à votre maison."
+                                    }
+                                }
+                            },
+                            {
+                                "title":{
+                                    "text":{
+                                        "en":"Luxury Furniture",
+                                        "es":"Muebles de Lujo",
+                                        "fr":"Meubles de Luxe"
+                                    },
+                                    "classList":["is-size-2"]
+                                },
+                                "subtitle":{
+                                    "text":{
+                                        "en":"Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                                        "es":"Descubre nuestra colección exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                                        "fr":"Découvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'élégance et de confort."
+                                    },
+                                    "classList":["is-size-4"]
+                                },
+                                "description":{
+                                    "text":{
+                                        "en":"From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                                        "es":"Desde camas hechas a mano hasta sofás exquisitos, cada pieza está diseñada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adición perfecta para tu hogar.",
+                                        "fr":"Des lits faits à la main aux canapés exquis, chaque pièce est conçue pour élever votre expérience de vie. Explorez notre gamme et trouvez l'ajout parfait à votre maison."
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ]
+
+            },
+            {
                 "id":"appoinment",
+                "eventName":"submitappoinment",
+                "title":{
+                    "text":{
+                        "es":"Agenda tu cita",
+                        "en":"Schedule your appointment",
+                        "fr":"Planifiez votre rendez-vous"
+                    },
+                    "classList":["is-size-2"]
+                },
                 "calendar":{
                     "disablePastDays":true,
+                    "deltaDays":15,
                     "initialTime":9,
                     "finalTime":17,
                     "deltaTime":30
                 },
                 "form":{
+                    "code":"MX",
                     "terms":{
                         "disabled":true
                     }

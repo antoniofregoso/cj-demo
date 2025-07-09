@@ -1,0 +1,101 @@
+{
+    "props":{
+        "id":"BJ App",
+        "noCache":true,
+        "title":{
+            "es":"App|BuyerJourney.js",
+            "en":"App|BuyerJourney.js",
+            "fr":"App|BuyerJourney.js"
+
+        },
+        "description":{
+            "es":"Aplicación BJ Mínima",
+            "en":"Minimal BJ App",
+            "fr":"Application BJ Minimale"
+        },
+        "image":"/images/og.webp",
+        "type":"business.business",
+        "components":[
+            {
+                "id":"header",
+                "brand":{
+                    "src":"/images/Buyer Journey.png"
+                },
+                "i18n":{
+                    "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
+                }
+            },
+            {
+                "id":"hero",
+                "backgroundImage":{
+                    "url":"/images/atention.jpg"
+                },
+                "classList":["is-fullheight-with-navbar", " is-link"],
+                "title":{
+                    "classList":["is-size-1"],
+                    "text":{
+                        "es":"Gracias por concertar una cita en nuestra galería",
+                        "en":"Thank you for making an appointment at our gallery.",
+                        "fr":"Merci d'avoir pris rendez-vous dans notre galerie."
+                    },
+                    "animation":{
+                        "effect":"fadeIn"
+                    }
+                },
+                "subtitle":{
+                    "classList":["is-size-3"],
+                    "text":{
+                        "es":"Descubre 'Mara', la fragancia que no solo se usa, se vive. Envuélvete en la esencia de la elegancia y el misterio.",
+                        "en":"Discover 'Mara', the fragrance that no one wears, lives on. Envuelvete in the essence of elegance and mistery.",
+                        "fr":"Découvrez 'Mara', la fragancia que no solo se usa, se vive. Découvrez l'essence de l'élégance et du mystère."
+                    },
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }
+                }
+            },
+            {
+                "id":"message",
+                "title":{
+                    "classList":["has-text-centered"],
+                    "text":{
+                        "es":"Dale un vistazo a nuestra colección de arte",
+                        "en":"Take a look at our art collection",
+                        "fr":"Jetez un œil à notre collection d'art"
+                    }
+                },
+                "content":{
+                    "classList":["has-text-centered"],
+                    "text":{
+                        "es":"_Nos dedicamos a exhibir y vender obras cuidadosamente seleccionadas, contribuyendo al reconocimiento de estos creadores y enriqueciendo el panorama artístico de nuestro país._\n\n[Galería Arte Conference](https://arte.conference.com.mx/es/shop)",
+                        "en":"_We are dedicated to exhibiting and selling carefully selected works, contributing to the recognition of these creators and enriching our country's artistic landscape._\n\n[Gallery Arte Conference](https://arte.conference.com.mx/es/shop)",
+                        "fr":"_Nous nous consacrons à l'exposition et à la vente d'œuvres soigneusement sélectionnées, contribuant ainsi à la reconnaissance de ces créateurs et enrichissant le paysage artistique de notre pays._\n\n[Galerie Arte Conference](https://arte.conference.com.mx/es/shop)"
+                    }
+                }
+            },
+            {
+                "id":"footer",
+                "brand":{
+                    "src":"/images/Buyer Journey.png"
+                },
+                "content":{
+                    "text":{
+                        "es":"Tu esencia, elevada",
+                        "en":"Your essence, elevated",
+                        "fr":"Votre essence, élevée"
+                    }
+                },
+                "privacyPolicy":{
+                    "text":{
+                        "es":"Política de Privacidad",
+                        "en":"Privacy Policy",
+                        "fr":"Politique de confidentialité"
+                    },
+                    "url":"/"
+                }
+            }
+        ]       
+    }
+}
+    
