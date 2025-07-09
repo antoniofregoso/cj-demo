@@ -127,6 +127,958 @@
     }
   });
 
+  // node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js
+  var require_react_development = __commonJS({
+    "node_modules/@customerjourney/cj-components/node_modules/react/cjs/react.development.js"(exports, module) {
+      "use strict";
+      (function() {
+        function defineDeprecationWarning(methodName, info) {
+          Object.defineProperty(Component.prototype, methodName, {
+            get: function() {
+              console.warn(
+                "%s(...) is deprecated in plain JavaScript React classes. %s",
+                info[0],
+                info[1]
+              );
+            }
+          });
+        }
+        function getIteratorFn(maybeIterable) {
+          if (null === maybeIterable || "object" !== typeof maybeIterable)
+            return null;
+          maybeIterable = MAYBE_ITERATOR_SYMBOL && maybeIterable[MAYBE_ITERATOR_SYMBOL] || maybeIterable["@@iterator"];
+          return "function" === typeof maybeIterable ? maybeIterable : null;
+        }
+        function warnNoop(publicInstance, callerName) {
+          publicInstance = (publicInstance = publicInstance.constructor) && (publicInstance.displayName || publicInstance.name) || "ReactClass";
+          var warningKey = publicInstance + "." + callerName;
+          didWarnStateUpdateForUnmountedComponent[warningKey] || (console.error(
+            "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
+            callerName,
+            publicInstance
+          ), didWarnStateUpdateForUnmountedComponent[warningKey] = true);
+        }
+        function Component(props, context, updater) {
+          this.props = props;
+          this.context = context;
+          this.refs = emptyObject;
+          this.updater = updater || ReactNoopUpdateQueue;
+        }
+        function ComponentDummy() {
+        }
+        function PureComponent(props, context, updater) {
+          this.props = props;
+          this.context = context;
+          this.refs = emptyObject;
+          this.updater = updater || ReactNoopUpdateQueue;
+        }
+        function testStringCoercion(value) {
+          return "" + value;
+        }
+        function checkKeyStringCoercion(value) {
+          try {
+            testStringCoercion(value);
+            var JSCompiler_inline_result = false;
+          } catch (e2) {
+            JSCompiler_inline_result = true;
+          }
+          if (JSCompiler_inline_result) {
+            JSCompiler_inline_result = console;
+            var JSCompiler_temp_const = JSCompiler_inline_result.error;
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            JSCompiler_temp_const.call(
+              JSCompiler_inline_result,
+              "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
+              JSCompiler_inline_result$jscomp$0
+            );
+            return testStringCoercion(value);
+          }
+        }
+        function getComponentNameFromType(type) {
+          if (null == type) return null;
+          if ("function" === typeof type)
+            return type.$$typeof === REACT_CLIENT_REFERENCE ? null : type.displayName || type.name || null;
+          if ("string" === typeof type) return type;
+          switch (type) {
+            case REACT_FRAGMENT_TYPE:
+              return "Fragment";
+            case REACT_PROFILER_TYPE:
+              return "Profiler";
+            case REACT_STRICT_MODE_TYPE:
+              return "StrictMode";
+            case REACT_SUSPENSE_TYPE:
+              return "Suspense";
+            case REACT_SUSPENSE_LIST_TYPE:
+              return "SuspenseList";
+            case REACT_ACTIVITY_TYPE:
+              return "Activity";
+          }
+          if ("object" === typeof type)
+            switch ("number" === typeof type.tag && console.error(
+              "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
+            ), type.$$typeof) {
+              case REACT_PORTAL_TYPE:
+                return "Portal";
+              case REACT_CONTEXT_TYPE:
+                return (type.displayName || "Context") + ".Provider";
+              case REACT_CONSUMER_TYPE:
+                return (type._context.displayName || "Context") + ".Consumer";
+              case REACT_FORWARD_REF_TYPE:
+                var innerType = type.render;
+                type = type.displayName;
+                type || (type = innerType.displayName || innerType.name || "", type = "" !== type ? "ForwardRef(" + type + ")" : "ForwardRef");
+                return type;
+              case REACT_MEMO_TYPE:
+                return innerType = type.displayName || null, null !== innerType ? innerType : getComponentNameFromType(type.type) || "Memo";
+              case REACT_LAZY_TYPE:
+                innerType = type._payload;
+                type = type._init;
+                try {
+                  return getComponentNameFromType(type(innerType));
+                } catch (x3) {
+                }
+            }
+          return null;
+        }
+        function getTaskName(type) {
+          if (type === REACT_FRAGMENT_TYPE) return "<>";
+          if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
+            return "<...>";
+          try {
+            var name = getComponentNameFromType(type);
+            return name ? "<" + name + ">" : "<...>";
+          } catch (x3) {
+            return "<...>";
+          }
+        }
+        function getOwner() {
+          var dispatcher = ReactSharedInternals.A;
+          return null === dispatcher ? null : dispatcher.getOwner();
+        }
+        function UnknownOwner() {
+          return Error("react-stack-top-frame");
+        }
+        function hasValidKey(config3) {
+          if (hasOwnProperty.call(config3, "key")) {
+            var getter = Object.getOwnPropertyDescriptor(config3, "key").get;
+            if (getter && getter.isReactWarning) return false;
+          }
+          return void 0 !== config3.key;
+        }
+        function defineKeyPropWarningGetter(props, displayName) {
+          function warnAboutAccessingKey() {
+            specialPropKeyWarningShown || (specialPropKeyWarningShown = true, console.error(
+              "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
+              displayName
+            ));
+          }
+          warnAboutAccessingKey.isReactWarning = true;
+          Object.defineProperty(props, "key", {
+            get: warnAboutAccessingKey,
+            configurable: true
+          });
+        }
+        function elementRefGetterWithDeprecationWarning() {
+          var componentName = getComponentNameFromType(this.type);
+          didWarnAboutElementRef[componentName] || (didWarnAboutElementRef[componentName] = true, console.error(
+            "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
+          ));
+          componentName = this.props.ref;
+          return void 0 !== componentName ? componentName : null;
+        }
+        function ReactElement(type, key, self2, source, owner, props, debugStack, debugTask) {
+          self2 = props.ref;
+          type = {
+            $$typeof: REACT_ELEMENT_TYPE,
+            type,
+            key,
+            props,
+            _owner: owner
+          };
+          null !== (void 0 !== self2 ? self2 : null) ? Object.defineProperty(type, "ref", {
+            enumerable: false,
+            get: elementRefGetterWithDeprecationWarning
+          }) : Object.defineProperty(type, "ref", { enumerable: false, value: null });
+          type._store = {};
+          Object.defineProperty(type._store, "validated", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: 0
+          });
+          Object.defineProperty(type, "_debugInfo", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: null
+          });
+          Object.defineProperty(type, "_debugStack", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugStack
+          });
+          Object.defineProperty(type, "_debugTask", {
+            configurable: false,
+            enumerable: false,
+            writable: true,
+            value: debugTask
+          });
+          Object.freeze && (Object.freeze(type.props), Object.freeze(type));
+          return type;
+        }
+        function cloneAndReplaceKey(oldElement, newKey) {
+          newKey = ReactElement(
+            oldElement.type,
+            newKey,
+            void 0,
+            void 0,
+            oldElement._owner,
+            oldElement.props,
+            oldElement._debugStack,
+            oldElement._debugTask
+          );
+          oldElement._store && (newKey._store.validated = oldElement._store.validated);
+          return newKey;
+        }
+        function isValidElement(object) {
+          return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
+        }
+        function escape2(key) {
+          var escaperLookup = { "=": "=0", ":": "=2" };
+          return "$" + key.replace(/[=:]/g, function(match) {
+            return escaperLookup[match];
+          });
+        }
+        function getElementKey(element, index) {
+          return "object" === typeof element && null !== element && null != element.key ? (checkKeyStringCoercion(element.key), escape2("" + element.key)) : index.toString(36);
+        }
+        function noop$12() {
+        }
+        function resolveThenable(thenable) {
+          switch (thenable.status) {
+            case "fulfilled":
+              return thenable.value;
+            case "rejected":
+              throw thenable.reason;
+            default:
+              switch ("string" === typeof thenable.status ? thenable.then(noop$12, noop$12) : (thenable.status = "pending", thenable.then(
+                function(fulfilledValue) {
+                  "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
+                },
+                function(error) {
+                  "pending" === thenable.status && (thenable.status = "rejected", thenable.reason = error);
+                }
+              )), thenable.status) {
+                case "fulfilled":
+                  return thenable.value;
+                case "rejected":
+                  throw thenable.reason;
+              }
+          }
+          throw thenable;
+        }
+        function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+          var type = typeof children;
+          if ("undefined" === type || "boolean" === type) children = null;
+          var invokeCallback = false;
+          if (null === children) invokeCallback = true;
+          else
+            switch (type) {
+              case "bigint":
+              case "string":
+              case "number":
+                invokeCallback = true;
+                break;
+              case "object":
+                switch (children.$$typeof) {
+                  case REACT_ELEMENT_TYPE:
+                  case REACT_PORTAL_TYPE:
+                    invokeCallback = true;
+                    break;
+                  case REACT_LAZY_TYPE:
+                    return invokeCallback = children._init, mapIntoArray(
+                      invokeCallback(children._payload),
+                      array,
+                      escapedPrefix,
+                      nameSoFar,
+                      callback
+                    );
+                }
+            }
+          if (invokeCallback) {
+            invokeCallback = children;
+            callback = callback(invokeCallback);
+            var childKey = "" === nameSoFar ? "." + getElementKey(invokeCallback, 0) : nameSoFar;
+            isArrayImpl(callback) ? (escapedPrefix = "", null != childKey && (escapedPrefix = childKey.replace(userProvidedKeyEscapeRegex, "$&/") + "/"), mapIntoArray(callback, array, escapedPrefix, "", function(c) {
+              return c;
+            })) : null != callback && (isValidElement(callback) && (null != callback.key && (invokeCallback && invokeCallback.key === callback.key || checkKeyStringCoercion(callback.key)), escapedPrefix = cloneAndReplaceKey(
+              callback,
+              escapedPrefix + (null == callback.key || invokeCallback && invokeCallback.key === callback.key ? "" : ("" + callback.key).replace(
+                userProvidedKeyEscapeRegex,
+                "$&/"
+              ) + "/") + childKey
+            ), "" !== nameSoFar && null != invokeCallback && isValidElement(invokeCallback) && null == invokeCallback.key && invokeCallback._store && !invokeCallback._store.validated && (escapedPrefix._store.validated = 2), callback = escapedPrefix), array.push(callback));
+            return 1;
+          }
+          invokeCallback = 0;
+          childKey = "" === nameSoFar ? "." : nameSoFar + ":";
+          if (isArrayImpl(children))
+            for (var i = 0; i < children.length; i++)
+              nameSoFar = children[i], type = childKey + getElementKey(nameSoFar, i), invokeCallback += mapIntoArray(
+                nameSoFar,
+                array,
+                escapedPrefix,
+                type,
+                callback
+              );
+          else if (i = getIteratorFn(children), "function" === typeof i)
+            for (i === children.entries && (didWarnAboutMaps || console.warn(
+              "Using Maps as children is not supported. Use an array of keyed ReactElements instead."
+            ), didWarnAboutMaps = true), children = i.call(children), i = 0; !(nameSoFar = children.next()).done; )
+              nameSoFar = nameSoFar.value, type = childKey + getElementKey(nameSoFar, i++), invokeCallback += mapIntoArray(
+                nameSoFar,
+                array,
+                escapedPrefix,
+                type,
+                callback
+              );
+          else if ("object" === type) {
+            if ("function" === typeof children.then)
+              return mapIntoArray(
+                resolveThenable(children),
+                array,
+                escapedPrefix,
+                nameSoFar,
+                callback
+              );
+            array = String(children);
+            throw Error(
+              "Objects are not valid as a React child (found: " + ("[object Object]" === array ? "object with keys {" + Object.keys(children).join(", ") + "}" : array) + "). If you meant to render a collection of children, use an array instead."
+            );
+          }
+          return invokeCallback;
+        }
+        function mapChildren(children, func, context) {
+          if (null == children) return children;
+          var result2 = [], count = 0;
+          mapIntoArray(children, result2, "", "", function(child) {
+            return func.call(context, child, count++);
+          });
+          return result2;
+        }
+        function lazyInitializer(payload) {
+          if (-1 === payload._status) {
+            var ctor = payload._result;
+            ctor = ctor();
+            ctor.then(
+              function(moduleObject) {
+                if (0 === payload._status || -1 === payload._status)
+                  payload._status = 1, payload._result = moduleObject;
+              },
+              function(error) {
+                if (0 === payload._status || -1 === payload._status)
+                  payload._status = 2, payload._result = error;
+              }
+            );
+            -1 === payload._status && (payload._status = 0, payload._result = ctor);
+          }
+          if (1 === payload._status)
+            return ctor = payload._result, void 0 === ctor && console.error(
+              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))\n\nDid you accidentally put curly braces around the import?",
+              ctor
+            ), "default" in ctor || console.error(
+              "lazy: Expected the result of a dynamic import() call. Instead received: %s\n\nYour code should look like: \n  const MyComponent = lazy(() => import('./MyComponent'))",
+              ctor
+            ), ctor.default;
+          throw payload._result;
+        }
+        function resolveDispatcher() {
+          var dispatcher = ReactSharedInternals.H;
+          null === dispatcher && console.error(
+            "Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:\n1. You might have mismatching versions of React and the renderer (such as React DOM)\n2. You might be breaking the Rules of Hooks\n3. You might have more than one copy of React in the same app\nSee https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem."
+          );
+          return dispatcher;
+        }
+        function noop3() {
+        }
+        function enqueueTask(task) {
+          if (null === enqueueTaskImpl)
+            try {
+              var requireString = ("require" + Math.random()).slice(0, 7);
+              enqueueTaskImpl = (module && module[requireString]).call(
+                module,
+                "timers"
+              ).setImmediate;
+            } catch (_err) {
+              enqueueTaskImpl = function(callback) {
+                false === didWarnAboutMessageChannel && (didWarnAboutMessageChannel = true, "undefined" === typeof MessageChannel && console.error(
+                  "This browser does not have a MessageChannel implementation, so enqueuing tasks via await act(async () => ...) will fail. Please file an issue at https://github.com/facebook/react/issues if you encounter this warning."
+                ));
+                var channel = new MessageChannel();
+                channel.port1.onmessage = callback;
+                channel.port2.postMessage(void 0);
+              };
+            }
+          return enqueueTaskImpl(task);
+        }
+        function aggregateErrors(errors2) {
+          return 1 < errors2.length && "function" === typeof AggregateError ? new AggregateError(errors2) : errors2[0];
+        }
+        function popActScope(prevActQueue, prevActScopeDepth) {
+          prevActScopeDepth !== actScopeDepth - 1 && console.error(
+            "You seem to have overlapping act() calls, this is not supported. Be sure to await previous act() calls before making a new one. "
+          );
+          actScopeDepth = prevActScopeDepth;
+        }
+        function recursivelyFlushAsyncActWork(returnValue, resolve, reject) {
+          var queue = ReactSharedInternals.actQueue;
+          if (null !== queue)
+            if (0 !== queue.length)
+              try {
+                flushActQueue(queue);
+                enqueueTask(function() {
+                  return recursivelyFlushAsyncActWork(returnValue, resolve, reject);
+                });
+                return;
+              } catch (error) {
+                ReactSharedInternals.thrownErrors.push(error);
+              }
+            else ReactSharedInternals.actQueue = null;
+          0 < ReactSharedInternals.thrownErrors.length ? (queue = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, reject(queue)) : resolve(returnValue);
+        }
+        function flushActQueue(queue) {
+          if (!isFlushing) {
+            isFlushing = true;
+            var i = 0;
+            try {
+              for (; i < queue.length; i++) {
+                var callback = queue[i];
+                do {
+                  ReactSharedInternals.didUsePromise = false;
+                  var continuation = callback(false);
+                  if (null !== continuation) {
+                    if (ReactSharedInternals.didUsePromise) {
+                      queue[i] = callback;
+                      queue.splice(0, i);
+                      return;
+                    }
+                    callback = continuation;
+                  } else break;
+                } while (1);
+              }
+              queue.length = 0;
+            } catch (error) {
+              queue.splice(0, i + 1), ReactSharedInternals.thrownErrors.push(error);
+            } finally {
+              isFlushing = false;
+            }
+          }
+        }
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
+        var REACT_ELEMENT_TYPE = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = Symbol.for("react.profiler");
+        Symbol.for("react.provider");
+        var REACT_CONSUMER_TYPE = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = Symbol.for("react.memo"), REACT_LAZY_TYPE = Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = Symbol.for("react.activity"), MAYBE_ITERATOR_SYMBOL = Symbol.iterator, didWarnStateUpdateForUnmountedComponent = {}, ReactNoopUpdateQueue = {
+          isMounted: function() {
+            return false;
+          },
+          enqueueForceUpdate: function(publicInstance) {
+            warnNoop(publicInstance, "forceUpdate");
+          },
+          enqueueReplaceState: function(publicInstance) {
+            warnNoop(publicInstance, "replaceState");
+          },
+          enqueueSetState: function(publicInstance) {
+            warnNoop(publicInstance, "setState");
+          }
+        }, assign3 = Object.assign, emptyObject = {};
+        Object.freeze(emptyObject);
+        Component.prototype.isReactComponent = {};
+        Component.prototype.setState = function(partialState, callback) {
+          if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
+            throw Error(
+              "takes an object of state variables to update or a function which returns an object of state variables."
+            );
+          this.updater.enqueueSetState(this, partialState, callback, "setState");
+        };
+        Component.prototype.forceUpdate = function(callback) {
+          this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
+        };
+        var deprecatedAPIs = {
+          isMounted: [
+            "isMounted",
+            "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks."
+          ],
+          replaceState: [
+            "replaceState",
+            "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."
+          ]
+        }, fnName;
+        for (fnName in deprecatedAPIs)
+          deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
+        ComponentDummy.prototype = Component.prototype;
+        deprecatedAPIs = PureComponent.prototype = new ComponentDummy();
+        deprecatedAPIs.constructor = PureComponent;
+        assign3(deprecatedAPIs, Component.prototype);
+        deprecatedAPIs.isPureReactComponent = true;
+        var isArrayImpl = Array.isArray, REACT_CLIENT_REFERENCE = Symbol.for("react.client.reference"), ReactSharedInternals = {
+          H: null,
+          A: null,
+          T: null,
+          S: null,
+          V: null,
+          actQueue: null,
+          isBatchingLegacy: false,
+          didScheduleLegacyUpdate: false,
+          didUsePromise: false,
+          thrownErrors: [],
+          getCurrentStack: null,
+          recentlyCreatedOwnerStacks: 0
+        }, hasOwnProperty = Object.prototype.hasOwnProperty, createTask = console.createTask ? console.createTask : function() {
+          return null;
+        };
+        deprecatedAPIs = {
+          "react-stack-bottom-frame": function(callStackForError) {
+            return callStackForError();
+          }
+        };
+        var specialPropKeyWarningShown, didWarnAboutOldJSXRuntime;
+        var didWarnAboutElementRef = {};
+        var unknownOwnerDebugStack = deprecatedAPIs["react-stack-bottom-frame"].bind(deprecatedAPIs, UnknownOwner)();
+        var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
+        var didWarnAboutMaps = false, userProvidedKeyEscapeRegex = /\/+/g, reportGlobalError = "function" === typeof reportError ? reportError : function(error) {
+          if ("object" === typeof window && "function" === typeof window.ErrorEvent) {
+            var event2 = new window.ErrorEvent("error", {
+              bubbles: true,
+              cancelable: true,
+              message: "object" === typeof error && null !== error && "string" === typeof error.message ? String(error.message) : String(error),
+              error
+            });
+            if (!window.dispatchEvent(event2)) return;
+          } else if ("object" === typeof process && "function" === typeof process.emit) {
+            process.emit("uncaughtException", error);
+            return;
+          }
+          console.error(error);
+        }, didWarnAboutMessageChannel = false, enqueueTaskImpl = null, actScopeDepth = 0, didWarnNoAwaitAct = false, isFlushing = false, queueSeveralMicrotasks = "function" === typeof queueMicrotask ? function(callback) {
+          queueMicrotask(function() {
+            return queueMicrotask(callback);
+          });
+        } : enqueueTask;
+        deprecatedAPIs = Object.freeze({
+          __proto__: null,
+          c: function(size) {
+            return resolveDispatcher().useMemoCache(size);
+          }
+        });
+        exports.Children = {
+          map: mapChildren,
+          forEach: function(children, forEachFunc, forEachContext) {
+            mapChildren(
+              children,
+              function() {
+                forEachFunc.apply(this, arguments);
+              },
+              forEachContext
+            );
+          },
+          count: function(children) {
+            var n = 0;
+            mapChildren(children, function() {
+              n++;
+            });
+            return n;
+          },
+          toArray: function(children) {
+            return mapChildren(children, function(child) {
+              return child;
+            }) || [];
+          },
+          only: function(children) {
+            if (!isValidElement(children))
+              throw Error(
+                "React.Children.only expected to receive a single React element child."
+              );
+            return children;
+          }
+        };
+        exports.Component = Component;
+        exports.Fragment = REACT_FRAGMENT_TYPE;
+        exports.Profiler = REACT_PROFILER_TYPE;
+        exports.PureComponent = PureComponent;
+        exports.StrictMode = REACT_STRICT_MODE_TYPE;
+        exports.Suspense = REACT_SUSPENSE_TYPE;
+        exports.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE = ReactSharedInternals;
+        exports.__COMPILER_RUNTIME = deprecatedAPIs;
+        exports.act = function(callback) {
+          var prevActQueue = ReactSharedInternals.actQueue, prevActScopeDepth = actScopeDepth;
+          actScopeDepth++;
+          var queue = ReactSharedInternals.actQueue = null !== prevActQueue ? prevActQueue : [], didAwaitActCall = false;
+          try {
+            var result2 = callback();
+          } catch (error) {
+            ReactSharedInternals.thrownErrors.push(error);
+          }
+          if (0 < ReactSharedInternals.thrownErrors.length)
+            throw popActScope(prevActQueue, prevActScopeDepth), callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
+          if (null !== result2 && "object" === typeof result2 && "function" === typeof result2.then) {
+            var thenable = result2;
+            queueSeveralMicrotasks(function() {
+              didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
+                "You called act(async () => ...) without await. This could lead to unexpected testing behaviour, interleaving multiple act calls and mixing their scopes. You should - await act(async () => ...);"
+              ));
+            });
+            return {
+              then: function(resolve, reject) {
+                didAwaitActCall = true;
+                thenable.then(
+                  function(returnValue) {
+                    popActScope(prevActQueue, prevActScopeDepth);
+                    if (0 === prevActScopeDepth) {
+                      try {
+                        flushActQueue(queue), enqueueTask(function() {
+                          return recursivelyFlushAsyncActWork(
+                            returnValue,
+                            resolve,
+                            reject
+                          );
+                        });
+                      } catch (error$0) {
+                        ReactSharedInternals.thrownErrors.push(error$0);
+                      }
+                      if (0 < ReactSharedInternals.thrownErrors.length) {
+                        var _thrownError = aggregateErrors(
+                          ReactSharedInternals.thrownErrors
+                        );
+                        ReactSharedInternals.thrownErrors.length = 0;
+                        reject(_thrownError);
+                      }
+                    } else resolve(returnValue);
+                  },
+                  function(error) {
+                    popActScope(prevActQueue, prevActScopeDepth);
+                    0 < ReactSharedInternals.thrownErrors.length ? (error = aggregateErrors(
+                      ReactSharedInternals.thrownErrors
+                    ), ReactSharedInternals.thrownErrors.length = 0, reject(error)) : reject(error);
+                  }
+                );
+              }
+            };
+          }
+          var returnValue$jscomp$0 = result2;
+          popActScope(prevActQueue, prevActScopeDepth);
+          0 === prevActScopeDepth && (flushActQueue(queue), 0 !== queue.length && queueSeveralMicrotasks(function() {
+            didAwaitActCall || didWarnNoAwaitAct || (didWarnNoAwaitAct = true, console.error(
+              "A component suspended inside an `act` scope, but the `act` call was not awaited. When testing React components that depend on asynchronous data, you must await the result:\n\nawait act(() => ...)"
+            ));
+          }), ReactSharedInternals.actQueue = null);
+          if (0 < ReactSharedInternals.thrownErrors.length)
+            throw callback = aggregateErrors(ReactSharedInternals.thrownErrors), ReactSharedInternals.thrownErrors.length = 0, callback;
+          return {
+            then: function(resolve, reject) {
+              didAwaitActCall = true;
+              0 === prevActScopeDepth ? (ReactSharedInternals.actQueue = queue, enqueueTask(function() {
+                return recursivelyFlushAsyncActWork(
+                  returnValue$jscomp$0,
+                  resolve,
+                  reject
+                );
+              })) : resolve(returnValue$jscomp$0);
+            }
+          };
+        };
+        exports.cache = function(fn) {
+          return function() {
+            return fn.apply(null, arguments);
+          };
+        };
+        exports.captureOwnerStack = function() {
+          var getCurrentStack = ReactSharedInternals.getCurrentStack;
+          return null === getCurrentStack ? null : getCurrentStack();
+        };
+        exports.cloneElement = function(element, config3, children) {
+          if (null === element || void 0 === element)
+            throw Error(
+              "The argument must be a React element, but you passed " + element + "."
+            );
+          var props = assign3({}, element.props), key = element.key, owner = element._owner;
+          if (null != config3) {
+            var JSCompiler_inline_result;
+            a: {
+              if (hasOwnProperty.call(config3, "ref") && (JSCompiler_inline_result = Object.getOwnPropertyDescriptor(
+                config3,
+                "ref"
+              ).get) && JSCompiler_inline_result.isReactWarning) {
+                JSCompiler_inline_result = false;
+                break a;
+              }
+              JSCompiler_inline_result = void 0 !== config3.ref;
+            }
+            JSCompiler_inline_result && (owner = getOwner());
+            hasValidKey(config3) && (checkKeyStringCoercion(config3.key), key = "" + config3.key);
+            for (propName in config3)
+              !hasOwnProperty.call(config3, propName) || "key" === propName || "__self" === propName || "__source" === propName || "ref" === propName && void 0 === config3.ref || (props[propName] = config3[propName]);
+          }
+          var propName = arguments.length - 2;
+          if (1 === propName) props.children = children;
+          else if (1 < propName) {
+            JSCompiler_inline_result = Array(propName);
+            for (var i = 0; i < propName; i++)
+              JSCompiler_inline_result[i] = arguments[i + 2];
+            props.children = JSCompiler_inline_result;
+          }
+          props = ReactElement(
+            element.type,
+            key,
+            void 0,
+            void 0,
+            owner,
+            props,
+            element._debugStack,
+            element._debugTask
+          );
+          for (key = 2; key < arguments.length; key++)
+            owner = arguments[key], isValidElement(owner) && owner._store && (owner._store.validated = 1);
+          return props;
+        };
+        exports.createContext = function(defaultValue) {
+          defaultValue = {
+            $$typeof: REACT_CONTEXT_TYPE,
+            _currentValue: defaultValue,
+            _currentValue2: defaultValue,
+            _threadCount: 0,
+            Provider: null,
+            Consumer: null
+          };
+          defaultValue.Provider = defaultValue;
+          defaultValue.Consumer = {
+            $$typeof: REACT_CONSUMER_TYPE,
+            _context: defaultValue
+          };
+          defaultValue._currentRenderer = null;
+          defaultValue._currentRenderer2 = null;
+          return defaultValue;
+        };
+        exports.createElement = function(type, config3, children) {
+          for (var i = 2; i < arguments.length; i++) {
+            var node = arguments[i];
+            isValidElement(node) && node._store && (node._store.validated = 1);
+          }
+          i = {};
+          node = null;
+          if (null != config3)
+            for (propName in didWarnAboutOldJSXRuntime || !("__self" in config3) || "key" in config3 || (didWarnAboutOldJSXRuntime = true, console.warn(
+              "Your app (or one of its dependencies) is using an outdated JSX transform. Update to the modern JSX transform for faster performance: https://react.dev/link/new-jsx-transform"
+            )), hasValidKey(config3) && (checkKeyStringCoercion(config3.key), node = "" + config3.key), config3)
+              hasOwnProperty.call(config3, propName) && "key" !== propName && "__self" !== propName && "__source" !== propName && (i[propName] = config3[propName]);
+          var childrenLength = arguments.length - 2;
+          if (1 === childrenLength) i.children = children;
+          else if (1 < childrenLength) {
+            for (var childArray = Array(childrenLength), _i = 0; _i < childrenLength; _i++)
+              childArray[_i] = arguments[_i + 2];
+            Object.freeze && Object.freeze(childArray);
+            i.children = childArray;
+          }
+          if (type && type.defaultProps)
+            for (propName in childrenLength = type.defaultProps, childrenLength)
+              void 0 === i[propName] && (i[propName] = childrenLength[propName]);
+          node && defineKeyPropWarningGetter(
+            i,
+            "function" === typeof type ? type.displayName || type.name || "Unknown" : type
+          );
+          var propName = 1e4 > ReactSharedInternals.recentlyCreatedOwnerStacks++;
+          return ReactElement(
+            type,
+            node,
+            void 0,
+            void 0,
+            getOwner(),
+            i,
+            propName ? Error("react-stack-top-frame") : unknownOwnerDebugStack,
+            propName ? createTask(getTaskName(type)) : unknownOwnerDebugTask
+          );
+        };
+        exports.createRef = function() {
+          var refObject = { current: null };
+          Object.seal(refObject);
+          return refObject;
+        };
+        exports.forwardRef = function(render2) {
+          null != render2 && render2.$$typeof === REACT_MEMO_TYPE ? console.error(
+            "forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...))."
+          ) : "function" !== typeof render2 ? console.error(
+            "forwardRef requires a render function but was given %s.",
+            null === render2 ? "null" : typeof render2
+          ) : 0 !== render2.length && 2 !== render2.length && console.error(
+            "forwardRef render functions accept exactly two parameters: props and ref. %s",
+            1 === render2.length ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined."
+          );
+          null != render2 && null != render2.defaultProps && console.error(
+            "forwardRef render functions do not support defaultProps. Did you accidentally pass a React component?"
+          );
+          var elementType = { $$typeof: REACT_FORWARD_REF_TYPE, render: render2 }, ownName;
+          Object.defineProperty(elementType, "displayName", {
+            enumerable: false,
+            configurable: true,
+            get: function() {
+              return ownName;
+            },
+            set: function(name) {
+              ownName = name;
+              render2.name || render2.displayName || (Object.defineProperty(render2, "name", { value: name }), render2.displayName = name);
+            }
+          });
+          return elementType;
+        };
+        exports.isValidElement = isValidElement;
+        exports.lazy = function(ctor) {
+          return {
+            $$typeof: REACT_LAZY_TYPE,
+            _payload: { _status: -1, _result: ctor },
+            _init: lazyInitializer
+          };
+        };
+        exports.memo = function(type, compare) {
+          null == type && console.error(
+            "memo: The first argument must be a component. Instead received: %s",
+            null === type ? "null" : typeof type
+          );
+          compare = {
+            $$typeof: REACT_MEMO_TYPE,
+            type,
+            compare: void 0 === compare ? null : compare
+          };
+          var ownName;
+          Object.defineProperty(compare, "displayName", {
+            enumerable: false,
+            configurable: true,
+            get: function() {
+              return ownName;
+            },
+            set: function(name) {
+              ownName = name;
+              type.name || type.displayName || (Object.defineProperty(type, "name", { value: name }), type.displayName = name);
+            }
+          });
+          return compare;
+        };
+        exports.startTransition = function(scope) {
+          var prevTransition = ReactSharedInternals.T, currentTransition = {};
+          ReactSharedInternals.T = currentTransition;
+          currentTransition._updatedFibers = /* @__PURE__ */ new Set();
+          try {
+            var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
+            null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && returnValue.then(noop3, reportGlobalError);
+          } catch (error) {
+            reportGlobalError(error);
+          } finally {
+            null === prevTransition && currentTransition._updatedFibers && (scope = currentTransition._updatedFibers.size, currentTransition._updatedFibers.clear(), 10 < scope && console.warn(
+              "Detected a large number of updates inside startTransition. If this is due to a subscription please re-write it to use React provided hooks. Otherwise concurrent mode guarantees are off the table."
+            )), ReactSharedInternals.T = prevTransition;
+          }
+        };
+        exports.unstable_useCacheRefresh = function() {
+          return resolveDispatcher().useCacheRefresh();
+        };
+        exports.use = function(usable) {
+          return resolveDispatcher().use(usable);
+        };
+        exports.useActionState = function(action, initialState2, permalink) {
+          return resolveDispatcher().useActionState(
+            action,
+            initialState2,
+            permalink
+          );
+        };
+        exports.useCallback = function(callback, deps) {
+          return resolveDispatcher().useCallback(callback, deps);
+        };
+        exports.useContext = function(Context) {
+          var dispatcher = resolveDispatcher();
+          Context.$$typeof === REACT_CONSUMER_TYPE && console.error(
+            "Calling useContext(Context.Consumer) is not supported and will cause bugs. Did you mean to call useContext(Context) instead?"
+          );
+          return dispatcher.useContext(Context);
+        };
+        exports.useDebugValue = function(value, formatterFn) {
+          return resolveDispatcher().useDebugValue(value, formatterFn);
+        };
+        exports.useDeferredValue = function(value, initialValue) {
+          return resolveDispatcher().useDeferredValue(value, initialValue);
+        };
+        exports.useEffect = function(create2, createDeps, update3) {
+          null == create2 && console.warn(
+            "React Hook useEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          var dispatcher = resolveDispatcher();
+          if ("function" === typeof update3)
+            throw Error(
+              "useEffect CRUD overload is not enabled in this build of React."
+            );
+          return dispatcher.useEffect(create2, createDeps);
+        };
+        exports.useId = function() {
+          return resolveDispatcher().useId();
+        };
+        exports.useImperativeHandle = function(ref, create2, deps) {
+          return resolveDispatcher().useImperativeHandle(ref, create2, deps);
+        };
+        exports.useInsertionEffect = function(create2, deps) {
+          null == create2 && console.warn(
+            "React Hook useInsertionEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          return resolveDispatcher().useInsertionEffect(create2, deps);
+        };
+        exports.useLayoutEffect = function(create2, deps) {
+          null == create2 && console.warn(
+            "React Hook useLayoutEffect requires an effect callback. Did you forget to pass a callback to the hook?"
+          );
+          return resolveDispatcher().useLayoutEffect(create2, deps);
+        };
+        exports.useMemo = function(create2, deps) {
+          return resolveDispatcher().useMemo(create2, deps);
+        };
+        exports.useOptimistic = function(passthrough, reducer) {
+          return resolveDispatcher().useOptimistic(passthrough, reducer);
+        };
+        exports.useReducer = function(reducer, initialArg, init2) {
+          return resolveDispatcher().useReducer(reducer, initialArg, init2);
+        };
+        exports.useRef = function(initialValue) {
+          return resolveDispatcher().useRef(initialValue);
+        };
+        exports.useState = function(initialState2) {
+          return resolveDispatcher().useState(initialState2);
+        };
+        exports.useSyncExternalStore = function(subscribe, getSnapshot, getServerSnapshot) {
+          return resolveDispatcher().useSyncExternalStore(
+            subscribe,
+            getSnapshot,
+            getServerSnapshot
+          );
+        };
+        exports.useTransition = function() {
+          return resolveDispatcher().useTransition();
+        };
+        exports.version = "19.1.0";
+        "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(Error());
+      })();
+    }
+  });
+
+  // node_modules/@customerjourney/cj-components/node_modules/react/index.js
+  var require_react = __commonJS({
+    "node_modules/@customerjourney/cj-components/node_modules/react/index.js"(exports, module) {
+      "use strict";
+      if (false) {
+        module.exports = null;
+      } else {
+        module.exports = require_react_development();
+      }
+    }
+  });
+
   // node_modules/redux/dist/redux.mjs
   var $$observable = /* @__PURE__ */ (() => typeof Symbol === "function" && Symbol.observable || "@@observable")();
   var symbol_observable_default = $$observable;
@@ -440,7 +1392,7 @@
     if (funcs.length === 1) {
       return funcs[0];
     }
-    return funcs.reduce((a3, b) => (...args) => a3(b(...args)));
+    return funcs.reduce((a, b2) => (...args) => a(b2(...args)));
   }
   function applyMiddleware(...middlewares) {
     return (createStore2) => (reducer, preloadedState) => {
@@ -556,11 +1508,11 @@
     } else
       thing[propOrOldValue] = value;
   }
-  function is(x, y2) {
-    if (x === y2) {
-      return x !== 0 || 1 / x === 1 / y2;
+  function is(x3, y) {
+    if (x3 === y) {
+      return x3 !== 0 || 1 / x3 === 1 / y;
     } else {
-      return x !== x && y2 !== y2;
+      return x3 !== x3 && y !== y;
     }
   }
   function isMap(target) {
@@ -1157,8 +2109,8 @@
       return noop3;
     };
   };
-  var hasMatchFunction = (v) => {
-    return v && typeof v.match === "function";
+  var hasMatchFunction = (v2) => {
+    return v2 && typeof v2.match === "function";
   };
   function createAction(type, prepareAction) {
     function actionCreator(...args) {
@@ -1510,8 +2462,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   }
-  function isBoolean(x) {
-    return typeof x === "boolean";
+  function isBoolean(x3) {
+    return typeof x3 === "boolean";
   }
   var buildGetDefaultMiddleware = () => function getDefaultMiddleware(options2) {
     const {
@@ -1573,7 +2525,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
         shouldNotifyAtEndOfTick = false;
-        listeners.forEach((l2) => l2());
+        listeners.forEach((l) => l());
       }
     };
     return Object.assign({}, store2, {
@@ -1724,8 +2676,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     builderCallback(builder);
     return [actionsMap, actionMatchers, defaultCaseReducer];
   }
-  function isStateFunction(x) {
-    return typeof x === "function";
+  function isStateFunction(x3) {
+    return typeof x3 === "function";
   }
   function createReducer(initialState2, mapOrBuilderCallback) {
     if (true) {
@@ -2367,8 +3319,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var storage2 = config3.storage;
     var serialize;
     if (config3.serialize === false) {
-      serialize = function serialize2(x) {
-        return x;
+      serialize = function serialize2(x3) {
+        return x3;
       };
     } else if (typeof config3.serialize === "function") {
       serialize = config3.serialize;
@@ -2463,8 +3415,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var debug = config3.debug;
     var deserialize;
     if (config3.deserialize === false) {
-      deserialize = function deserialize2(x) {
-        return x;
+      deserialize = function deserialize2(x3) {
+        return x3;
       };
     } else if (typeof config3.deserialize === "function") {
       deserialize = config3.deserialize;
@@ -2614,7 +3566,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (typeof action.rehydrate !== "function" || typeof action.register !== "function") throw new Error("redux-persist: either rehydrate or register is not a function on the PERSIST action. This can happen if the action is being replayed. This is an unexplored use case, please open an issue and we will figure out a resolution.");
         action.register(config3.key);
         getStoredState2(config3).then(function(restoredState) {
-          var migrate = config3.migrate || function(s2, v) {
+          var migrate = config3.migrate || function(s2, v2) {
             return Promise.resolve(s2);
           };
           migrate(restoredState, version).then(function(migratedState) {
@@ -2755,8 +3707,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (true) {
       var optionsToTest = options2 || {};
       var bannedKeys = ["blacklist", "whitelist", "transforms", "storage", "keyPrefix", "migrate"];
-      bannedKeys.forEach(function(k) {
-        if (!!optionsToTest[k]) console.error('redux-persist: invalid option passed to persistStore: "'.concat(k, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
+      bannedKeys.forEach(function(k2) {
+        if (!!optionsToTest[k2]) console.error('redux-persist: invalid option passed to persistStore: "'.concat(k2, '". You may be incorrectly passing persistConfig into persistStore, whereas it should be passed into persistReducer.'));
       });
     }
     var boostrappedCb = cb || false;
@@ -2932,7 +3884,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      * @returns  {String}
      */
     camelCase2attribute(camelCase) {
-      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c3) => c3.toUpperCase());
+      return camelCase.replace(new RegExp("-([a-z])", "g"), (m2, c) => c.toUpperCase());
     }
     /**
      * Initializes the component state and renders it.
@@ -3465,6 +4417,49 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   customElements.define("page-footer", PageFooter);
 
   // node_modules/@fortawesome/fontawesome-svg-core/index.mjs
+  function _defineProperty4(e2, r2, t2) {
+    return (r2 = _toPropertyKey(r2)) in e2 ? Object.defineProperty(e2, r2, {
+      value: t2,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    }) : e2[r2] = t2, e2;
+  }
+  function ownKeys4(e2, r2) {
+    var t2 = Object.keys(e2);
+    if (Object.getOwnPropertySymbols) {
+      var o2 = Object.getOwnPropertySymbols(e2);
+      r2 && (o2 = o2.filter(function(r3) {
+        return Object.getOwnPropertyDescriptor(e2, r3).enumerable;
+      })), t2.push.apply(t2, o2);
+    }
+    return t2;
+  }
+  function _objectSpread22(e2) {
+    for (var r2 = 1; r2 < arguments.length; r2++) {
+      var t2 = null != arguments[r2] ? arguments[r2] : {};
+      r2 % 2 ? ownKeys4(Object(t2), true).forEach(function(r3) {
+        _defineProperty4(e2, r3, t2[r3]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e2, Object.getOwnPropertyDescriptors(t2)) : ownKeys4(Object(t2)).forEach(function(r3) {
+        Object.defineProperty(e2, r3, Object.getOwnPropertyDescriptor(t2, r3));
+      });
+    }
+    return e2;
+  }
+  function _toPrimitive(t2, r2) {
+    if ("object" != typeof t2 || !t2) return t2;
+    var e2 = t2[Symbol.toPrimitive];
+    if (void 0 !== e2) {
+      var i = e2.call(t2, r2 || "default");
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r2 ? String : Number)(t2);
+  }
+  function _toPropertyKey(t2) {
+    var i = _toPrimitive(t2, "string");
+    return "symbol" == typeof i ? i : i + "";
+  }
   var noop2 = () => {
   };
   var _WINDOW = {};
@@ -3491,18 +4486,82 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var IS_BROWSER = !!WINDOW.document;
   var IS_DOM = !!DOCUMENT.documentElement && !!DOCUMENT.head && typeof DOCUMENT.addEventListener === "function" && typeof DOCUMENT.createElement === "function";
   var IS_IE = ~userAgent.indexOf("MSIE") || ~userAgent.indexOf("Trident/");
-  var a = "classic";
+  var p = /fa(s|r|l|t|d|dr|dl|dt|b|k|kd|ss|sr|sl|st|sds|sdr|sdl|sdt)?[\-\ ]/;
+  var g = /Font ?Awesome ?([56 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit)?.*/i;
+  var S = {
+    classic: {
+      fa: "solid",
+      fas: "solid",
+      "fa-solid": "solid",
+      far: "regular",
+      "fa-regular": "regular",
+      fal: "light",
+      "fa-light": "light",
+      fat: "thin",
+      "fa-thin": "thin",
+      fab: "brands",
+      "fa-brands": "brands"
+    },
+    duotone: {
+      fa: "solid",
+      fad: "solid",
+      "fa-solid": "solid",
+      "fa-duotone": "solid",
+      fadr: "regular",
+      "fa-regular": "regular",
+      fadl: "light",
+      "fa-light": "light",
+      fadt: "thin",
+      "fa-thin": "thin"
+    },
+    sharp: {
+      fa: "solid",
+      fass: "solid",
+      "fa-solid": "solid",
+      fasr: "regular",
+      "fa-regular": "regular",
+      fasl: "light",
+      "fa-light": "light",
+      fast: "thin",
+      "fa-thin": "thin"
+    },
+    "sharp-duotone": {
+      fa: "solid",
+      fasds: "solid",
+      "fa-solid": "solid",
+      fasdr: "regular",
+      "fa-regular": "regular",
+      fasdl: "light",
+      "fa-light": "light",
+      fasdt: "thin",
+      "fa-thin": "thin"
+    }
+  };
+  var A = {
+    GROUP: "duotone-group",
+    SWAP_OPACITY: "swap-opacity",
+    PRIMARY: "primary",
+    SECONDARY: "secondary"
+  };
+  var P = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
+  var s = "classic";
   var t = "duotone";
   var r = "sharp";
   var o = "sharp-duotone";
-  var c = [a, t, r, o];
-  var et$1 = {
+  var L = [s, t, r, o];
+  var G = {
     classic: {
       900: "fas",
       400: "far",
       normal: "far",
       300: "fal",
       100: "fat"
+    },
+    duotone: {
+      900: "fad",
+      400: "fadr",
+      300: "fadl",
+      100: "fadt"
     },
     sharp: {
       900: "fass",
@@ -3511,42 +4570,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       100: "fast"
     },
     "sharp-duotone": {
-      900: "fasds"
+      900: "fasds",
+      400: "fasdr",
+      300: "fasdl",
+      100: "fasdt"
     }
   };
-  var bt = {
-    kit: {
-      fak: "kit",
-      "fa-kit": "kit"
-    },
-    "kit-duotone": {
-      fakd: "kit-duotone",
-      "fa-kit-duotone": "kit-duotone"
-    }
-  };
-  var Ct = ["kit"];
-  var Dt = /fa(s|r|l|t|d|b|k|kd|ss|sr|sl|st|sds)?[\-\ ]/;
-  var Kt = /Font ?Awesome ?([56 ]*)(Solid|Regular|Light|Thin|Duotone|Brands|Free|Pro|Sharp Duotone|Sharp|Kit)?.*/i;
-  var ao = {
-    "Font Awesome 5 Free": {
-      900: "fas",
-      400: "far"
-    },
-    "Font Awesome 5 Pro": {
-      900: "fas",
-      400: "far",
-      normal: "far",
-      300: "fal"
-    },
-    "Font Awesome 5 Brands": {
-      400: "fab",
-      normal: "fab"
-    },
-    "Font Awesome 5 Duotone": {
-      900: "fad"
-    }
-  };
-  var eo = {
+  var lt = {
     "Font Awesome 6 Free": {
       900: "fas",
       400: "far"
@@ -3563,7 +4593,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       normal: "fab"
     },
     "Font Awesome 6 Duotone": {
-      900: "fad"
+      900: "fad",
+      400: "fadr",
+      normal: "fadr",
+      300: "fadl",
+      100: "fadt"
     },
     "Font Awesome 6 Sharp": {
       900: "fass",
@@ -3573,60 +4607,51 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       100: "fast"
     },
     "Font Awesome 6 Sharp Duotone": {
-      900: "fasds"
+      900: "fasds",
+      400: "fasdr",
+      normal: "fasdr",
+      300: "fasdl",
+      100: "fasdt"
     }
   };
-  var lo = {
-    classic: {
-      "fa-brands": "fab",
-      "fa-duotone": "fad",
-      "fa-light": "fal",
-      "fa-regular": "far",
-      "fa-solid": "fas",
-      "fa-thin": "fat"
-    },
-    sharp: {
-      "fa-solid": "fass",
-      "fa-regular": "fasr",
-      "fa-light": "fasl",
-      "fa-thin": "fast"
-    },
-    "sharp-duotone": {
-      "fa-solid": "fasds"
-    }
-  };
-  var y = {
-    classic: ["fas", "far", "fal", "fat"],
-    sharp: ["fass", "fasr", "fasl", "fast"],
-    "sharp-duotone": ["fasds"]
-  };
-  var no = {
-    classic: {
-      fab: "fa-brands",
-      fad: "fa-duotone",
-      fal: "fa-light",
-      far: "fa-regular",
-      fas: "fa-solid",
-      fat: "fa-thin"
-    },
-    sharp: {
-      fass: "fa-solid",
-      fasr: "fa-regular",
-      fasl: "fa-light",
-      fast: "fa-thin"
-    },
-    "sharp-duotone": {
-      fasds: "fa-solid"
-    }
-  };
-  var fo = {
+  var pt = /* @__PURE__ */ new Map([["classic", {
+    defaultShortPrefixId: "fas",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin", "brands"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["sharp", {
+    defaultShortPrefixId: "fass",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["duotone", {
+    defaultShortPrefixId: "fad",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }], ["sharp-duotone", {
+    defaultShortPrefixId: "fasds",
+    defaultStyleId: "solid",
+    styleIds: ["solid", "regular", "light", "thin"],
+    futureStyleIds: [],
+    defaultFontWeight: 900
+  }]]);
+  var xt = {
     classic: {
       solid: "fas",
       regular: "far",
       light: "fal",
       thin: "fat",
-      duotone: "fad",
       brands: "fab"
+    },
+    duotone: {
+      solid: "fad",
+      regular: "fadr",
+      light: "fadl",
+      thin: "fadt"
     },
     sharp: {
       solid: "fass",
@@ -3635,53 +4660,58 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       thin: "fast"
     },
     "sharp-duotone": {
-      solid: "fasds"
+      solid: "fasds",
+      regular: "fasdr",
+      light: "fasdl",
+      thin: "fasdt"
     }
   };
-  var ho = {
-    classic: {
-      fa: "solid",
-      fas: "solid",
-      "fa-solid": "solid",
-      far: "regular",
-      "fa-regular": "regular",
-      fal: "light",
-      "fa-light": "light",
-      fat: "thin",
-      "fa-thin": "thin",
-      fad: "duotone",
-      "fa-duotone": "duotone",
-      fab: "brands",
-      "fa-brands": "brands"
+  var Ft = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
+  var St = {
+    kit: {
+      fak: "kit",
+      "fa-kit": "kit"
     },
-    sharp: {
-      fa: "solid",
-      fass: "solid",
-      "fa-solid": "solid",
-      fasr: "regular",
-      "fa-regular": "regular",
-      fasl: "light",
-      "fa-light": "light",
-      fast: "thin",
-      "fa-thin": "thin"
-    },
-    "sharp-duotone": {
-      fa: "solid",
-      fasds: "solid",
-      "fa-solid": "solid"
+    "kit-duotone": {
+      fakd: "kit-duotone",
+      "fa-kit-duotone": "kit-duotone"
     }
   };
-  var x$1 = ["solid", "regular", "light", "thin", "duotone", "brands"];
-  var u$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  var m$1 = u$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+  var At = ["kit"];
+  var Ct = {
+    kit: {
+      "fa-kit": "fak"
+    },
+    "kit-duotone": {
+      "fa-kit-duotone": "fakd"
+    }
+  };
+  var Lt = ["fak", "fakd"];
+  var Wt = {
+    kit: {
+      fak: "fa-kit"
+    },
+    "kit-duotone": {
+      fakd: "fa-kit-duotone"
+    }
+  };
+  var Et = {
+    kit: {
+      kit: "fak"
+    },
+    "kit-duotone": {
+      "kit-duotone": "fakd"
+    }
+  };
   var t$1 = {
     GROUP: "duotone-group",
     SWAP_OPACITY: "swap-opacity",
     PRIMARY: "primary",
     SECONDARY: "secondary"
   };
-  var yo = [...Object.keys(y), ...x$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(u$1.map((o3) => "".concat(o3, "x"))).concat(m$1.map((o3) => "w-".concat(o3)));
-  var mo = {
+  var r$1 = ["fa-classic", "fa-duotone", "fa-sharp", "fa-sharp-duotone"];
+  var bt$1 = ["fak", "fa-kit", "fakd", "fa-kit-duotone"];
+  var Yt = {
     "Font Awesome Kit": {
       400: "fak",
       normal: "fak"
@@ -3691,28 +4721,89 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       normal: "fakd"
     }
   };
-  var Io = {
-    kit: {
-      "fa-kit": "fak"
+  var ua = {
+    classic: {
+      "fa-brands": "fab",
+      "fa-duotone": "fad",
+      "fa-light": "fal",
+      "fa-regular": "far",
+      "fa-solid": "fas",
+      "fa-thin": "fat"
     },
-    "kit-duotone": {
-      "fa-kit-duotone": "fakd"
+    duotone: {
+      "fa-regular": "fadr",
+      "fa-light": "fadl",
+      "fa-thin": "fadt"
+    },
+    sharp: {
+      "fa-solid": "fass",
+      "fa-regular": "fasr",
+      "fa-light": "fasl",
+      "fa-thin": "fast"
+    },
+    "sharp-duotone": {
+      "fa-solid": "fasds",
+      "fa-regular": "fasdr",
+      "fa-light": "fasdl",
+      "fa-thin": "fasdt"
     }
   };
-  var Fo = {
-    kit: {
-      fak: "fa-kit"
+  var I$1 = {
+    classic: ["fas", "far", "fal", "fat", "fad"],
+    duotone: ["fadr", "fadl", "fadt"],
+    sharp: ["fass", "fasr", "fasl", "fast"],
+    "sharp-duotone": ["fasds", "fasdr", "fasdl", "fasdt"]
+  };
+  var ga = {
+    classic: {
+      fab: "fa-brands",
+      fad: "fa-duotone",
+      fal: "fa-light",
+      far: "fa-regular",
+      fas: "fa-solid",
+      fat: "fa-thin"
     },
-    "kit-duotone": {
-      fakd: "fa-kit-duotone"
+    duotone: {
+      fadr: "fa-regular",
+      fadl: "fa-light",
+      fadt: "fa-thin"
+    },
+    sharp: {
+      fass: "fa-solid",
+      fasr: "fa-regular",
+      fasl: "fa-light",
+      fast: "fa-thin"
+    },
+    "sharp-duotone": {
+      fasds: "fa-solid",
+      fasdr: "fa-regular",
+      fasdl: "fa-light",
+      fasdt: "fa-thin"
     }
   };
-  var So = {
-    kit: {
-      kit: "fak"
+  var x = ["fa-solid", "fa-regular", "fa-light", "fa-thin", "fa-duotone", "fa-brands"];
+  var Ia = ["fa", "fas", "far", "fal", "fat", "fad", "fadr", "fadl", "fadt", "fab", "fass", "fasr", "fasl", "fast", "fasds", "fasdr", "fasdl", "fasdt", ...r$1, ...x];
+  var m$1 = ["solid", "regular", "light", "thin", "duotone", "brands"];
+  var c$1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  var F$1 = c$1.concat([11, 12, 13, 14, 15, 16, 17, 18, 19, 20]);
+  var ma = [...Object.keys(I$1), ...m$1, "2xs", "xs", "sm", "lg", "xl", "2xl", "beat", "border", "fade", "beat-fade", "bounce", "flip-both", "flip-horizontal", "flip-vertical", "flip", "fw", "inverse", "layers-counter", "layers-text", "layers", "li", "pull-left", "pull-right", "pulse", "rotate-180", "rotate-270", "rotate-90", "rotate-by", "shake", "spin-pulse", "spin-reverse", "spin", "stack-1x", "stack-2x", "stack", "ul", t$1.GROUP, t$1.SWAP_OPACITY, t$1.PRIMARY, t$1.SECONDARY].concat(c$1.map((a) => "".concat(a, "x"))).concat(F$1.map((a) => "w-".concat(a)));
+  var wa = {
+    "Font Awesome 5 Free": {
+      900: "fas",
+      400: "far"
     },
-    "kit-duotone": {
-      "kit-duotone": "fakd"
+    "Font Awesome 5 Pro": {
+      900: "fas",
+      400: "far",
+      normal: "far",
+      300: "fal"
+    },
+    "Font Awesome 5 Brands": {
+      400: "fab",
+      normal: "fab"
+    },
+    "Font Awesome 5 Duotone": {
+      900: "fad"
     }
   };
   var NAMESPACE_IDENTIFIER = "___FONT_AWESOME___";
@@ -3734,62 +4825,37 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return false;
     }
   })();
-  var FAMILIES = [a, r, o];
   function familyProxy(obj) {
     return new Proxy(obj, {
       get(target, prop) {
-        return prop in target ? target[prop] : target[a];
+        return prop in target ? target[prop] : target[s];
       }
     });
   }
-  var _PREFIX_TO_STYLE = {
-    ...ho
-  };
-  _PREFIX_TO_STYLE[a] = {
-    ...ho[a],
-    ...bt["kit"],
-    ...bt["kit-duotone"]
-  };
+  var _PREFIX_TO_STYLE = _objectSpread22({}, S);
+  _PREFIX_TO_STYLE[s] = _objectSpread22(_objectSpread22(_objectSpread22(_objectSpread22({}, {
+    "fa-duotone": "duotone"
+  }), S[s]), St["kit"]), St["kit-duotone"]);
   var PREFIX_TO_STYLE = familyProxy(_PREFIX_TO_STYLE);
-  var _STYLE_TO_PREFIX = {
-    ...fo
-  };
-  _STYLE_TO_PREFIX[a] = {
-    ..._STYLE_TO_PREFIX[a],
-    ...So["kit"],
-    ...So["kit-duotone"]
-  };
+  var _STYLE_TO_PREFIX = _objectSpread22({}, xt);
+  _STYLE_TO_PREFIX[s] = _objectSpread22(_objectSpread22(_objectSpread22(_objectSpread22({}, {
+    duotone: "fad"
+  }), _STYLE_TO_PREFIX[s]), Et["kit"]), Et["kit-duotone"]);
   var STYLE_TO_PREFIX = familyProxy(_STYLE_TO_PREFIX);
-  var _PREFIX_TO_LONG_STYLE = {
-    ...no
-  };
-  _PREFIX_TO_LONG_STYLE[a] = {
-    ..._PREFIX_TO_LONG_STYLE[a],
-    ...Fo["kit"]
-  };
+  var _PREFIX_TO_LONG_STYLE = _objectSpread22({}, ga);
+  _PREFIX_TO_LONG_STYLE[s] = _objectSpread22(_objectSpread22({}, _PREFIX_TO_LONG_STYLE[s]), Wt["kit"]);
   var PREFIX_TO_LONG_STYLE = familyProxy(_PREFIX_TO_LONG_STYLE);
-  var _LONG_STYLE_TO_PREFIX = {
-    ...lo
-  };
-  _LONG_STYLE_TO_PREFIX[a] = {
-    ..._LONG_STYLE_TO_PREFIX[a],
-    ...Io["kit"]
-  };
+  var _LONG_STYLE_TO_PREFIX = _objectSpread22({}, ua);
+  _LONG_STYLE_TO_PREFIX[s] = _objectSpread22(_objectSpread22({}, _LONG_STYLE_TO_PREFIX[s]), Ct["kit"]);
   var LONG_STYLE_TO_PREFIX = familyProxy(_LONG_STYLE_TO_PREFIX);
-  var ICON_SELECTION_SYNTAX_PATTERN = Dt;
+  var ICON_SELECTION_SYNTAX_PATTERN = p;
   var LAYERS_TEXT_CLASSNAME = "fa-layers-text";
-  var FONT_FAMILY_PATTERN = Kt;
-  var _FONT_WEIGHT_TO_PREFIX = {
-    ...et$1
-  };
+  var FONT_FAMILY_PATTERN = g;
+  var _FONT_WEIGHT_TO_PREFIX = _objectSpread22({}, G);
   var FONT_WEIGHT_TO_PREFIX = familyProxy(_FONT_WEIGHT_TO_PREFIX);
   var ATTRIBUTES_WATCHED_FOR_MUTATION = ["class", "data-prefix", "data-icon", "data-fa-transform", "data-fa-mask"];
-  var DUOTONE_CLASSES = t$1;
-  var prefixes = /* @__PURE__ */ new Set();
-  Object.keys(STYLE_TO_PREFIX[a]).map(prefixes.add.bind(prefixes));
-  Object.keys(STYLE_TO_PREFIX[r]).map(prefixes.add.bind(prefixes));
-  Object.keys(STYLE_TO_PREFIX[o]).map(prefixes.add.bind(prefixes));
-  var RESERVED_CLASSES = [...Ct, ...yo];
+  var DUOTONE_CLASSES = A;
+  var RESERVED_CLASSES = [...At, ...ma];
   var initial = WINDOW.FontAwesomeConfig || {};
   function getAttrConfig(attr) {
     var element = DOCUMENT.querySelector("script[" + attr + "]");
@@ -3815,7 +4881,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
   var _default = {
     styleDefault: "solid",
-    familyDefault: "classic",
+    familyDefault: s,
     cssPrefix: DEFAULT_CSS_PREFIX,
     replacementClass: DEFAULT_REPLACEMENT_CLASS,
     autoReplaceSvg: true,
@@ -3831,10 +4897,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   if (initial.familyPrefix) {
     initial.cssPrefix = initial.familyPrefix;
   }
-  var _config = {
-    ..._default,
-    ...initial
-  };
+  var _config = _objectSpread22(_objectSpread22({}, _default), initial);
   if (!_config.autoReplaceSvg) _config.observeMutations = false;
   var config = {};
   Object.keys(_default).forEach((key) => {
@@ -3977,7 +5040,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     val += "rotate(".concat(transform.rotate, "deg) ");
     return val;
   }
-  var baseStyles = ':root, :host {\n  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";\n  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";\n  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Pro";\n  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Pro";\n  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";\n  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 6 Sharp Duotone";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    animation-delay: -1ms;\n    animation-duration: 1ms;\n    animation-iteration-count: 1;\n    transition-delay: 0s;\n    transition-duration: 0s;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}\n\n.fad.fa-inverse,\n.fa-duotone.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}';
+  var baseStyles = ':root, :host {\n  --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";\n  --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";\n  --fa-font-light: normal 300 1em/1 "Font Awesome 6 Pro";\n  --fa-font-thin: normal 100 1em/1 "Font Awesome 6 Pro";\n  --fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-duotone-regular: normal 400 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-duotone-light: normal 300 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-duotone-thin: normal 100 1em/1 "Font Awesome 6 Duotone";\n  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";\n  --fa-font-sharp-solid: normal 900 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-regular: normal 400 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-light: normal 300 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-thin: normal 100 1em/1 "Font Awesome 6 Sharp";\n  --fa-font-sharp-duotone-solid: normal 900 1em/1 "Font Awesome 6 Sharp Duotone";\n  --fa-font-sharp-duotone-regular: normal 400 1em/1 "Font Awesome 6 Sharp Duotone";\n  --fa-font-sharp-duotone-light: normal 300 1em/1 "Font Awesome 6 Sharp Duotone";\n  --fa-font-sharp-duotone-thin: normal 100 1em/1 "Font Awesome 6 Sharp Duotone";\n}\n\nsvg:not(:root).svg-inline--fa, svg:not(:host).svg-inline--fa {\n  overflow: visible;\n  box-sizing: content-box;\n}\n\n.svg-inline--fa {\n  display: var(--fa-display, inline-block);\n  height: 1em;\n  overflow: visible;\n  vertical-align: -0.125em;\n}\n.svg-inline--fa.fa-2xs {\n  vertical-align: 0.1em;\n}\n.svg-inline--fa.fa-xs {\n  vertical-align: 0em;\n}\n.svg-inline--fa.fa-sm {\n  vertical-align: -0.0714285705em;\n}\n.svg-inline--fa.fa-lg {\n  vertical-align: -0.2em;\n}\n.svg-inline--fa.fa-xl {\n  vertical-align: -0.25em;\n}\n.svg-inline--fa.fa-2xl {\n  vertical-align: -0.3125em;\n}\n.svg-inline--fa.fa-pull-left {\n  margin-right: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-pull-right {\n  margin-left: var(--fa-pull-margin, 0.3em);\n  width: auto;\n}\n.svg-inline--fa.fa-li {\n  width: var(--fa-li-width, 2em);\n  top: 0.25em;\n}\n.svg-inline--fa.fa-fw {\n  width: var(--fa-fw-width, 1.25em);\n}\n\n.fa-layers svg.svg-inline--fa {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n}\n\n.fa-layers-counter, .fa-layers-text {\n  display: inline-block;\n  position: absolute;\n  text-align: center;\n}\n\n.fa-layers {\n  display: inline-block;\n  height: 1em;\n  position: relative;\n  text-align: center;\n  vertical-align: -0.125em;\n  width: 1em;\n}\n.fa-layers svg.svg-inline--fa {\n  transform-origin: center center;\n}\n\n.fa-layers-text {\n  left: 50%;\n  top: 50%;\n  transform: translate(-50%, -50%);\n  transform-origin: center center;\n}\n\n.fa-layers-counter {\n  background-color: var(--fa-counter-background-color, #ff253a);\n  border-radius: var(--fa-counter-border-radius, 1em);\n  box-sizing: border-box;\n  color: var(--fa-inverse, #fff);\n  line-height: var(--fa-counter-line-height, 1);\n  max-width: var(--fa-counter-max-width, 5em);\n  min-width: var(--fa-counter-min-width, 1.5em);\n  overflow: hidden;\n  padding: var(--fa-counter-padding, 0.25em 0.5em);\n  right: var(--fa-right, 0);\n  text-overflow: ellipsis;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-counter-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-bottom-right {\n  bottom: var(--fa-bottom, 0);\n  right: var(--fa-right, 0);\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom right;\n}\n\n.fa-layers-bottom-left {\n  bottom: var(--fa-bottom, 0);\n  left: var(--fa-left, 0);\n  right: auto;\n  top: auto;\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: bottom left;\n}\n\n.fa-layers-top-right {\n  top: var(--fa-top, 0);\n  right: var(--fa-right, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top right;\n}\n\n.fa-layers-top-left {\n  left: var(--fa-left, 0);\n  right: auto;\n  top: var(--fa-top, 0);\n  transform: scale(var(--fa-layers-scale, 0.25));\n  transform-origin: top left;\n}\n\n.fa-1x {\n  font-size: 1em;\n}\n\n.fa-2x {\n  font-size: 2em;\n}\n\n.fa-3x {\n  font-size: 3em;\n}\n\n.fa-4x {\n  font-size: 4em;\n}\n\n.fa-5x {\n  font-size: 5em;\n}\n\n.fa-6x {\n  font-size: 6em;\n}\n\n.fa-7x {\n  font-size: 7em;\n}\n\n.fa-8x {\n  font-size: 8em;\n}\n\n.fa-9x {\n  font-size: 9em;\n}\n\n.fa-10x {\n  font-size: 10em;\n}\n\n.fa-2xs {\n  font-size: 0.625em;\n  line-height: 0.1em;\n  vertical-align: 0.225em;\n}\n\n.fa-xs {\n  font-size: 0.75em;\n  line-height: 0.0833333337em;\n  vertical-align: 0.125em;\n}\n\n.fa-sm {\n  font-size: 0.875em;\n  line-height: 0.0714285718em;\n  vertical-align: 0.0535714295em;\n}\n\n.fa-lg {\n  font-size: 1.25em;\n  line-height: 0.05em;\n  vertical-align: -0.075em;\n}\n\n.fa-xl {\n  font-size: 1.5em;\n  line-height: 0.0416666682em;\n  vertical-align: -0.125em;\n}\n\n.fa-2xl {\n  font-size: 2em;\n  line-height: 0.03125em;\n  vertical-align: -0.1875em;\n}\n\n.fa-fw {\n  text-align: center;\n  width: 1.25em;\n}\n\n.fa-ul {\n  list-style-type: none;\n  margin-left: var(--fa-li-margin, 2.5em);\n  padding-left: 0;\n}\n.fa-ul > li {\n  position: relative;\n}\n\n.fa-li {\n  left: calc(-1 * var(--fa-li-width, 2em));\n  position: absolute;\n  text-align: center;\n  width: var(--fa-li-width, 2em);\n  line-height: inherit;\n}\n\n.fa-border {\n  border-color: var(--fa-border-color, #eee);\n  border-radius: var(--fa-border-radius, 0.1em);\n  border-style: var(--fa-border-style, solid);\n  border-width: var(--fa-border-width, 0.08em);\n  padding: var(--fa-border-padding, 0.2em 0.25em 0.15em);\n}\n\n.fa-pull-left {\n  float: left;\n  margin-right: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-pull-right {\n  float: right;\n  margin-left: var(--fa-pull-margin, 0.3em);\n}\n\n.fa-beat {\n  animation-name: fa-beat;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-bounce {\n  animation-name: fa-bounce;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.28, 0.84, 0.42, 1));\n}\n\n.fa-fade {\n  animation-name: fa-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-beat-fade {\n  animation-name: fa-beat-fade;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, cubic-bezier(0.4, 0, 0.6, 1));\n}\n\n.fa-flip {\n  animation-name: fa-flip;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, ease-in-out);\n}\n\n.fa-shake {\n  animation-name: fa-shake;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin {\n  animation-name: fa-spin;\n  animation-delay: var(--fa-animation-delay, 0s);\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 2s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, linear);\n}\n\n.fa-spin-reverse {\n  --fa-animation-direction: reverse;\n}\n\n.fa-pulse,\n.fa-spin-pulse {\n  animation-name: fa-spin;\n  animation-direction: var(--fa-animation-direction, normal);\n  animation-duration: var(--fa-animation-duration, 1s);\n  animation-iteration-count: var(--fa-animation-iteration-count, infinite);\n  animation-timing-function: var(--fa-animation-timing, steps(8));\n}\n\n@media (prefers-reduced-motion: reduce) {\n  .fa-beat,\n.fa-bounce,\n.fa-fade,\n.fa-beat-fade,\n.fa-flip,\n.fa-pulse,\n.fa-shake,\n.fa-spin,\n.fa-spin-pulse {\n    animation-delay: -1ms;\n    animation-duration: 1ms;\n    animation-iteration-count: 1;\n    transition-delay: 0s;\n    transition-duration: 0s;\n  }\n}\n@keyframes fa-beat {\n  0%, 90% {\n    transform: scale(1);\n  }\n  45% {\n    transform: scale(var(--fa-beat-scale, 1.25));\n  }\n}\n@keyframes fa-bounce {\n  0% {\n    transform: scale(1, 1) translateY(0);\n  }\n  10% {\n    transform: scale(var(--fa-bounce-start-scale-x, 1.1), var(--fa-bounce-start-scale-y, 0.9)) translateY(0);\n  }\n  30% {\n    transform: scale(var(--fa-bounce-jump-scale-x, 0.9), var(--fa-bounce-jump-scale-y, 1.1)) translateY(var(--fa-bounce-height, -0.5em));\n  }\n  50% {\n    transform: scale(var(--fa-bounce-land-scale-x, 1.05), var(--fa-bounce-land-scale-y, 0.95)) translateY(0);\n  }\n  57% {\n    transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));\n  }\n  64% {\n    transform: scale(1, 1) translateY(0);\n  }\n  100% {\n    transform: scale(1, 1) translateY(0);\n  }\n}\n@keyframes fa-fade {\n  50% {\n    opacity: var(--fa-fade-opacity, 0.4);\n  }\n}\n@keyframes fa-beat-fade {\n  0%, 100% {\n    opacity: var(--fa-beat-fade-opacity, 0.4);\n    transform: scale(1);\n  }\n  50% {\n    opacity: 1;\n    transform: scale(var(--fa-beat-fade-scale, 1.125));\n  }\n}\n@keyframes fa-flip {\n  50% {\n    transform: rotate3d(var(--fa-flip-x, 0), var(--fa-flip-y, 1), var(--fa-flip-z, 0), var(--fa-flip-angle, -180deg));\n  }\n}\n@keyframes fa-shake {\n  0% {\n    transform: rotate(-15deg);\n  }\n  4% {\n    transform: rotate(15deg);\n  }\n  8%, 24% {\n    transform: rotate(-18deg);\n  }\n  12%, 28% {\n    transform: rotate(18deg);\n  }\n  16% {\n    transform: rotate(-22deg);\n  }\n  20% {\n    transform: rotate(22deg);\n  }\n  32% {\n    transform: rotate(-12deg);\n  }\n  36% {\n    transform: rotate(12deg);\n  }\n  40%, 100% {\n    transform: rotate(0deg);\n  }\n}\n@keyframes fa-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.fa-rotate-90 {\n  transform: rotate(90deg);\n}\n\n.fa-rotate-180 {\n  transform: rotate(180deg);\n}\n\n.fa-rotate-270 {\n  transform: rotate(270deg);\n}\n\n.fa-flip-horizontal {\n  transform: scale(-1, 1);\n}\n\n.fa-flip-vertical {\n  transform: scale(1, -1);\n}\n\n.fa-flip-both,\n.fa-flip-horizontal.fa-flip-vertical {\n  transform: scale(-1, -1);\n}\n\n.fa-rotate-by {\n  transform: rotate(var(--fa-rotate-angle, 0));\n}\n\n.fa-stack {\n  display: inline-block;\n  vertical-align: middle;\n  height: 2em;\n  position: relative;\n  width: 2.5em;\n}\n\n.fa-stack-1x,\n.fa-stack-2x {\n  bottom: 0;\n  left: 0;\n  margin: auto;\n  position: absolute;\n  right: 0;\n  top: 0;\n  z-index: var(--fa-stack-z-index, auto);\n}\n\n.svg-inline--fa.fa-stack-1x {\n  height: 1em;\n  width: 1.25em;\n}\n.svg-inline--fa.fa-stack-2x {\n  height: 2em;\n  width: 2.5em;\n}\n\n.fa-inverse {\n  color: var(--fa-inverse, #fff);\n}\n\n.sr-only,\n.fa-sr-only {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.sr-only-focusable:not(:focus),\n.fa-sr-only-focusable:not(:focus) {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border-width: 0;\n}\n\n.svg-inline--fa .fa-primary {\n  fill: var(--fa-primary-color, currentColor);\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa .fa-secondary {\n  fill: var(--fa-secondary-color, currentColor);\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-primary {\n  opacity: var(--fa-secondary-opacity, 0.4);\n}\n\n.svg-inline--fa.fa-swap-opacity .fa-secondary {\n  opacity: var(--fa-primary-opacity, 1);\n}\n\n.svg-inline--fa mask .fa-primary,\n.svg-inline--fa mask .fa-secondary {\n  fill: black;\n}';
   function css() {
     const dcp = DEFAULT_CSS_PREFIX;
     const drc = DEFAULT_REPLACEMENT_CLASS;
@@ -4019,12 +5082,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       };
     }
   };
-  var w$1 = WINDOW || {};
-  if (!w$1[NAMESPACE_IDENTIFIER]) w$1[NAMESPACE_IDENTIFIER] = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].styles) w$1[NAMESPACE_IDENTIFIER].styles = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].hooks) w$1[NAMESPACE_IDENTIFIER].hooks = {};
-  if (!w$1[NAMESPACE_IDENTIFIER].shims) w$1[NAMESPACE_IDENTIFIER].shims = [];
-  var namespace = w$1[NAMESPACE_IDENTIFIER];
+  var w = WINDOW || {};
+  if (!w[NAMESPACE_IDENTIFIER]) w[NAMESPACE_IDENTIFIER] = {};
+  if (!w[NAMESPACE_IDENTIFIER].styles) w[NAMESPACE_IDENTIFIER].styles = {};
+  if (!w[NAMESPACE_IDENTIFIER].hooks) w[NAMESPACE_IDENTIFIER].hooks = {};
+  if (!w[NAMESPACE_IDENTIFIER].shims) w[NAMESPACE_IDENTIFIER].shims = [];
+  var namespace = w[NAMESPACE_IDENTIFIER];
   var functions = [];
   var listener2 = function() {
     DOCUMENT.removeEventListener("DOMContentLoaded", listener2);
@@ -4062,8 +5125,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   var bindInternal4 = function bindInternal42(func, thisContext) {
-    return function(a3, b, c3, d2) {
-      return func.call(thisContext, a3, b, c3, d2);
+    return function(a, b2, c, d) {
+      return func.call(thisContext, a, b2, c, d);
     };
   };
   var reduce = function fastReduceObject(subject, fn, initialValue, thisContext) {
@@ -4138,10 +5201,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (typeof namespace.hooks.addPack === "function" && !skipHooks) {
       namespace.hooks.addPack(prefix, normalizeIcons(icons3));
     } else {
-      namespace.styles[prefix] = {
-        ...namespace.styles[prefix] || {},
-        ...normalized
-      };
+      namespace.styles[prefix] = _objectSpread22(_objectSpread22({}, namespace.styles[prefix] || {}), normalized);
     }
     if (prefix === "fas") {
       defineIcons("fa", icons3);
@@ -4151,22 +5211,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     styles,
     shims
   } = namespace;
-  var LONG_STYLE = {
-    [a]: Object.values(PREFIX_TO_LONG_STYLE[a]),
-    [r]: Object.values(PREFIX_TO_LONG_STYLE[r]),
-    [o]: Object.values(PREFIX_TO_LONG_STYLE[o])
-  };
+  var FAMILY_NAMES = Object.keys(PREFIX_TO_LONG_STYLE);
+  var PREFIXES_FOR_FAMILY = FAMILY_NAMES.reduce((acc, familyId) => {
+    acc[familyId] = Object.keys(PREFIX_TO_LONG_STYLE[familyId]);
+    return acc;
+  }, {});
   var _defaultUsablePrefix = null;
   var _byUnicode = {};
   var _byLigature = {};
   var _byOldName = {};
   var _byOldUnicode = {};
   var _byAlias = {};
-  var PREFIXES = {
-    [a]: Object.keys(PREFIX_TO_STYLE[a]),
-    [r]: Object.keys(PREFIX_TO_STYLE[r]),
-    [o]: Object.keys(PREFIX_TO_STYLE[o])
-  };
   function isReserved(name) {
     return ~RESERVED_CLASSES.indexOf(name);
   }
@@ -4294,83 +5349,136 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       rest: []
     };
   };
+  function getFamilyId(values) {
+    let family = s;
+    const famProps = FAMILY_NAMES.reduce((acc, familyId) => {
+      acc[familyId] = "".concat(config.cssPrefix, "-").concat(familyId);
+      return acc;
+    }, {});
+    L.forEach((familyId) => {
+      if (values.includes(famProps[familyId]) || values.some((v$$1) => PREFIXES_FOR_FAMILY[familyId].includes(v$$1))) {
+        family = familyId;
+      }
+    });
+    return family;
+  }
   function getCanonicalPrefix(styleOrPrefix) {
     let params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     const {
-      family = a
+      family = s
     } = params;
     const style = PREFIX_TO_STYLE[family][styleOrPrefix];
+    if (family === t && !styleOrPrefix) {
+      return "fad";
+    }
     const prefix = STYLE_TO_PREFIX[family][styleOrPrefix] || STYLE_TO_PREFIX[family][style];
     const defined = styleOrPrefix in namespace.styles ? styleOrPrefix : null;
     const result2 = prefix || defined || null;
     return result2;
   }
-  var PREFIXES_FOR_FAMILY = {
-    [a]: Object.keys(PREFIX_TO_LONG_STYLE[a]),
-    [r]: Object.keys(PREFIX_TO_LONG_STYLE[r]),
-    [o]: Object.keys(PREFIX_TO_LONG_STYLE[o])
-  };
+  function moveNonFaClassesToRest(classNames) {
+    let rest = [];
+    let iconName = null;
+    classNames.forEach((cls) => {
+      const result2 = getIconName(config.cssPrefix, cls);
+      if (result2) {
+        iconName = result2;
+      } else if (cls) {
+        rest.push(cls);
+      }
+    });
+    return {
+      iconName,
+      rest
+    };
+  }
+  function sortedUniqueValues(arr) {
+    return arr.sort().filter((value, index, arr2) => {
+      return arr2.indexOf(value) === index;
+    });
+  }
   function getCanonicalIcon(values) {
     let params = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     const {
       skipLookups = false
     } = params;
-    const famProps = {
-      [a]: "".concat(config.cssPrefix, "-").concat(a),
-      [r]: "".concat(config.cssPrefix, "-").concat(r),
-      [o]: "".concat(config.cssPrefix, "-").concat(o)
-    };
     let givenPrefix = null;
-    let family = a;
-    const nonDuotoneFamilyIds = c.filter((familyId) => familyId !== t);
-    nonDuotoneFamilyIds.forEach((familyId) => {
-      if (values.includes(famProps[familyId]) || values.some((v$$1) => PREFIXES_FOR_FAMILY[familyId].includes(v$$1))) {
-        family = familyId;
-      }
+    const faCombinedClasses = Ia.concat(bt$1);
+    const faStyleOrFamilyClasses = sortedUniqueValues(values.filter((cls) => faCombinedClasses.includes(cls)));
+    const nonStyleOrFamilyClasses = sortedUniqueValues(values.filter((cls) => !Ia.includes(cls)));
+    const faStyles = faStyleOrFamilyClasses.filter((cls) => {
+      givenPrefix = cls;
+      return !P.includes(cls);
     });
-    const canonical = values.reduce((acc, cls) => {
-      const iconName = getIconName(config.cssPrefix, cls);
-      if (styles[cls]) {
-        cls = LONG_STYLE[family].includes(cls) ? LONG_STYLE_TO_PREFIX[family][cls] : cls;
-        givenPrefix = cls;
-        acc.prefix = cls;
-      } else if (PREFIXES[family].indexOf(cls) > -1) {
-        givenPrefix = cls;
-        acc.prefix = getCanonicalPrefix(cls, {
-          family
-        });
-      } else if (iconName) {
-        acc.iconName = iconName;
-      } else if (cls !== config.replacementClass && !nonDuotoneFamilyIds.some((familyName) => cls === famProps[familyName])) {
-        acc.rest.push(cls);
-      }
-      if (!skipLookups && acc.prefix && acc.iconName) {
-        const shim = givenPrefix === "fa" ? byOldName(acc.iconName) : {};
-        const aliasIconName = byAlias(acc.prefix, acc.iconName);
-        if (shim.prefix) {
-          givenPrefix = null;
-        }
-        acc.iconName = shim.iconName || aliasIconName || acc.iconName;
-        acc.prefix = shim.prefix || acc.prefix;
-        if (acc.prefix === "far" && !styles["far"] && styles["fas"] && !config.autoFetchSvg) {
-          acc.prefix = "fas";
-        }
-      }
-      return acc;
-    }, emptyCanonicalIcon());
+    const [styleFromValues = null] = faStyles;
+    const family = getFamilyId(faStyleOrFamilyClasses);
+    const canonical = _objectSpread22(_objectSpread22({}, moveNonFaClassesToRest(nonStyleOrFamilyClasses)), {}, {
+      prefix: getCanonicalPrefix(styleFromValues, {
+        family
+      })
+    });
+    return _objectSpread22(_objectSpread22(_objectSpread22({}, canonical), getDefaultCanonicalPrefix({
+      values,
+      family,
+      styles,
+      config,
+      canonical,
+      givenPrefix
+    })), applyShimAndAlias(skipLookups, givenPrefix, canonical));
+  }
+  function applyShimAndAlias(skipLookups, givenPrefix, canonical) {
+    let {
+      prefix,
+      iconName
+    } = canonical;
+    if (skipLookups || !prefix || !iconName) {
+      return {
+        prefix,
+        iconName
+      };
+    }
+    const shim = givenPrefix === "fa" ? byOldName(iconName) : {};
+    const aliasIconName = byAlias(prefix, iconName);
+    iconName = shim.iconName || aliasIconName || iconName;
+    prefix = shim.prefix || prefix;
+    if (prefix === "far" && !styles["far"] && styles["fas"] && !config.autoFetchSvg) {
+      prefix = "fas";
+    }
+    return {
+      prefix,
+      iconName
+    };
+  }
+  var newCanonicalFamilies = L.filter((familyId) => {
+    return familyId !== s || familyId !== t;
+  });
+  var newCanonicalStyles = Object.keys(ga).filter((key) => key !== s).map((key) => Object.keys(ga[key])).flat();
+  function getDefaultCanonicalPrefix(prefixOptions) {
+    const {
+      values,
+      family,
+      canonical,
+      givenPrefix = "",
+      styles: styles3 = {},
+      config: config$$1 = {}
+    } = prefixOptions;
+    const isDuotoneFamily = family === t;
+    const valuesHasDuotone = values.includes("fa-duotone") || values.includes("fad");
+    const defaultFamilyIsDuotone = config$$1.familyDefault === "duotone";
+    const canonicalPrefixIsDuotone = canonical.prefix === "fad" || canonical.prefix === "fa-duotone";
+    if (!isDuotoneFamily && (valuesHasDuotone || defaultFamilyIsDuotone || canonicalPrefixIsDuotone)) {
+      canonical.prefix = "fad";
+    }
     if (values.includes("fa-brands") || values.includes("fab")) {
       canonical.prefix = "fab";
     }
-    if (values.includes("fa-duotone") || values.includes("fad")) {
-      canonical.prefix = "fad";
-    }
-    if (!canonical.prefix && family === r && (styles["fass"] || config.autoFetchSvg)) {
-      canonical.prefix = "fass";
-      canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
-    }
-    if (!canonical.prefix && family === o && (styles["fasds"] || config.autoFetchSvg)) {
-      canonical.prefix = "fasds";
-      canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
+    if (!canonical.prefix && newCanonicalFamilies.includes(family)) {
+      const validPrefix = Object.keys(styles3).find((key) => newCanonicalStyles.includes(key));
+      if (validPrefix || config$$1.autoFetchSvg) {
+        const defaultPrefix = pt.get(family).defaultShortPrefixId;
+        canonical.prefix = defaultPrefix;
+        canonical.iconName = byAlias(canonical.prefix, canonical.iconName) || canonical.iconName;
+      }
     }
     if (canonical.prefix === "fa" || givenPrefix === "fa") {
       canonical.prefix = getDefaultUsablePrefix() || "fas";
@@ -4387,12 +5495,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const additions = definitions.reduce(this._pullDefinitions, {});
       Object.keys(additions).forEach((key) => {
-        this.definitions[key] = {
-          ...this.definitions[key] || {},
-          ...additions[key]
-        };
+        this.definitions[key] = _objectSpread22(_objectSpread22({}, this.definitions[key] || {}), additions[key]);
         defineIcons(key, additions[key]);
-        const longPrefix = PREFIX_TO_LONG_STYLE[a][key];
+        const longPrefix = PREFIX_TO_LONG_STYLE[s][key];
         if (longPrefix) defineIcons(longPrefix, additions[key]);
         build();
       });
@@ -4434,9 +5539,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     } = _ref;
     _plugins = nextPlugins;
     _hooks = {};
-    Object.keys(providers).forEach((k) => {
-      if (defaultProviderKeys.indexOf(k) === -1) {
-        delete providers[k];
+    Object.keys(providers).forEach((k2) => {
+      if (defaultProviderKeys.indexOf(k2) === -1) {
+        delete providers[k2];
       }
     });
     _plugins.forEach((plugin) => {
@@ -4601,7 +5706,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
     Object.defineProperty(val, "html", {
       get: function() {
-        return val.abstract.map((a3) => toHtml(a3));
+        return val.abstract.map((a) => toHtml(a));
       }
     });
     Object.defineProperty(val, "node", {
@@ -4632,10 +5737,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         x: width / height / 2,
         y: 0.5
       };
-      attributes["style"] = joinStyles({
-        ...styles3,
+      attributes["style"] = joinStyles(_objectSpread22(_objectSpread22({}, styles3), {}, {
         "transform-origin": "".concat(offset.x + transform.x / 16, "em ").concat(offset.y + transform.y / 16, "em")
-      });
+      }));
     }
     return [{
       tag: "svg",
@@ -4659,10 +5763,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       },
       children: [{
         tag: "symbol",
-        attributes: {
-          ...attributes,
+        attributes: _objectSpread22(_objectSpread22({}, attributes), {}, {
           id
-        },
+        }),
         children
       }]
     }];
@@ -4687,19 +5790,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       width,
       height
     } = mask.found ? mask : main;
-    const isUploadedIcon = prefix === "fak";
-    const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter((c3) => extra.classes.indexOf(c3) === -1).filter((c3) => c3 !== "" || !!c3).concat(extra.classes).join(" ");
+    const isUploadedIcon = Lt.includes(prefix);
+    const attrClass = [config.replacementClass, iconName ? "".concat(config.cssPrefix, "-").concat(iconName) : ""].filter((c$$1) => extra.classes.indexOf(c$$1) === -1).filter((c$$1) => c$$1 !== "" || !!c$$1).concat(extra.classes).join(" ");
     let content = {
       children: [],
-      attributes: {
-        ...extra.attributes,
+      attributes: _objectSpread22(_objectSpread22({}, extra.attributes), {}, {
         "data-prefix": prefix,
         "data-icon": iconName,
         "class": attrClass,
         "role": extra.attributes.role || "img",
         "xmlns": "http://www.w3.org/2000/svg",
         "viewBox": "0 0 ".concat(width, " ").concat(height)
-      }
+      })
     };
     const uploadedIconWidthStyle = isUploadedIcon && !~extra.classes.indexOf("fa-fw") ? {
       width: "".concat(width / height * 16 * 0.0625, "em")
@@ -4717,8 +5819,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
       delete content.attributes.title;
     }
-    const args = {
-      ...content,
+    const args = _objectSpread22(_objectSpread22({}, content), {}, {
       prefix,
       iconName,
       main,
@@ -4726,11 +5827,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       maskId,
       transform,
       symbol,
-      styles: {
-        ...uploadedIconWidthStyle,
-        ...extra.styles
-      }
-    };
+      styles: _objectSpread22(_objectSpread22({}, uploadedIconWidthStyle), extra.styles)
+    });
     const {
       children,
       attributes
@@ -4759,19 +5857,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       extra,
       watchable = false
     } = params;
-    const attributes = {
-      ...extra.attributes,
-      ...title ? {
-        "title": title
-      } : {},
+    const attributes = _objectSpread22(_objectSpread22(_objectSpread22({}, extra.attributes), title ? {
+      "title": title
+    } : {}), {}, {
       "class": extra.classes.join(" ")
-    };
+    });
     if (watchable) {
       attributes[DATA_FA_I2SVG] = "";
     }
-    const styles3 = {
-      ...extra.styles
-    };
+    const styles3 = _objectSpread22({}, extra.styles);
     if (transformIsMeaningful(transform)) {
       styles3["transform"] = transformForCss({
         transform,
@@ -4808,13 +5902,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       title,
       extra
     } = params;
-    const attributes = {
-      ...extra.attributes,
-      ...title ? {
-        "title": title
-      } : {},
+    const attributes = _objectSpread22(_objectSpread22(_objectSpread22({}, extra.attributes), title ? {
+      "title": title
+    } : {}), {}, {
       "class": extra.classes.join(" ")
-    };
+    });
     const styleString = joinStyles(extra.styles);
     if (styleString.length > 0) {
       attributes["style"] = styleString;
@@ -4908,10 +6000,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return resolve(asFoundIcon(icon2));
       }
       maybeNotifyMissing(iconName, prefix);
-      resolve({
-        ...missingIconResolutionMixin,
+      resolve(_objectSpread22(_objectSpread22({}, missingIconResolutionMixin), {}, {
         icon: config.showMissingIcons && iconName ? callProvided("missingIconAbstract") || {} : {}
-      });
+      }));
     });
   }
   var noop$1 = () => {
@@ -4920,7 +6011,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     mark: noop$1,
     measure: noop$1
   };
-  var preamble = 'FA "6.6.0"';
+  var preamble = 'FA "6.7.2"';
   var begin = (name) => {
     p$2.mark("".concat(preamble, " ").concat(name, " begins"));
     return () => end(name);
@@ -5027,7 +6118,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           node.setAttribute("class", splitClasses.toNode.join(" "));
         }
       }
-      const newInnerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
+      const newInnerHTML = abstract.map((a) => toHtml(a)).join("\n");
       node.setAttribute(DATA_FA_I2SVG, "");
       node.innerHTML = newInnerHTML;
     }
@@ -5060,7 +6151,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function enableObservation() {
     disabled = false;
   }
-  var mo$1 = null;
+  var mo = null;
   function observe(options2) {
     if (!MUTATION_OBSERVER) {
       return;
@@ -5074,7 +6165,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       pseudoElementsCallback = noop$2,
       observeMutationsRoot = DOCUMENT
     } = options2;
-    mo$1 = new MUTATION_OBSERVER((objects) => {
+    mo = new MUTATION_OBSERVER((objects) => {
       if (disabled) return;
       const defaultPrefix = getDefaultUsablePrefix();
       toArray(objects).forEach((mutationRecord) => {
@@ -5102,7 +6193,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
     });
     if (!IS_DOM) return;
-    mo$1.observe(observeMutationsRoot, {
+    mo.observe(observeMutationsRoot, {
       childList: true,
       attributes: true,
       characterData: true,
@@ -5110,8 +6201,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     });
   }
   function disconnect() {
-    if (!mo$1) return;
-    mo$1.disconnect();
+    if (!mo) return;
+    mo.disconnect();
   }
   function styleParser(node) {
     const style = node.getAttribute("style");
@@ -5204,7 +6295,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const extraAttributes = attributesParser(node);
     const pluginMeta = chainHooks("parseNodeAttributes", {}, node);
     let extraStyles = parser.styleParser ? styleParser(node) : [];
-    return {
+    return _objectSpread22({
       iconName,
       title: node.getAttribute("title"),
       titleId: node.getAttribute("data-fa-title-id"),
@@ -5221,9 +6312,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         classes: extraClasses,
         styles: extraStyles,
         attributes: extraAttributes
-      },
-      ...pluginMeta
-    };
+      }
+    }, pluginMeta);
   }
   var {
     styles: styles$2
@@ -5238,25 +6328,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       return callProvided("generateSvgReplacementMutation", node, nodeMeta);
     }
   }
-  var knownPrefixes = /* @__PURE__ */ new Set();
-  FAMILIES.map((family) => {
-    knownPrefixes.add("fa-".concat(family));
-  });
-  Object.keys(PREFIX_TO_STYLE[a]).map(knownPrefixes.add.bind(knownPrefixes));
-  Object.keys(PREFIX_TO_STYLE[r]).map(knownPrefixes.add.bind(knownPrefixes));
-  Object.keys(PREFIX_TO_STYLE[o]).map(knownPrefixes.add.bind(knownPrefixes));
-  knownPrefixes = [...knownPrefixes];
+  function getKnownPrefixes() {
+    return [...Ft, ...Ia];
+  }
   function onTree(root) {
     let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
     if (!IS_DOM) return Promise.resolve();
     const htmlClassList = DOCUMENT.documentElement.classList;
     const hclAdd = (suffix) => htmlClassList.add("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
     const hclRemove = (suffix) => htmlClassList.remove("".concat(HTML_CLASS_I2SVG_BASE_CLASS, "-").concat(suffix));
-    const prefixes2 = config.autoFetchSvg ? knownPrefixes : FAMILIES.map((f$$1) => "fa-".concat(f$$1)).concat(Object.keys(styles$2));
-    if (!prefixes2.includes("fa")) {
-      prefixes2.push("fa");
+    const prefixes = config.autoFetchSvg ? getKnownPrefixes() : P.concat(Object.keys(styles$2));
+    if (!prefixes.includes("fa")) {
+      prefixes.push("fa");
     }
-    const prefixesDomQuery = [".".concat(LAYERS_TEXT_CLASSNAME, ":not([").concat(DATA_FA_I2SVG, "])")].concat(prefixes2.map((p$$1) => ".".concat(p$$1, ":not([").concat(DATA_FA_I2SVG, "])"))).join(", ");
+    const prefixesDomQuery = [".".concat(LAYERS_TEXT_CLASSNAME, ":not([").concat(DATA_FA_I2SVG, "])")].concat(prefixes.map((p$$1) => ".".concat(p$$1, ":not([").concat(DATA_FA_I2SVG, "])"))).join(", ");
     if (prefixesDomQuery.length === 0) {
       return Promise.resolve();
     }
@@ -5321,10 +6406,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (mask) {
         mask = (mask || {}).icon ? mask : findIconDefinition(mask || {});
       }
-      return next(iconDefinition, {
-        ...params,
+      return next(iconDefinition, _objectSpread22(_objectSpread22({}, params), {}, {
         mask
-      });
+      }));
     };
   }
   var render = function(iconDefinition) {
@@ -5346,10 +6430,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       iconName,
       icon: icon2
     } = iconDefinition;
-    return domVariants({
-      type: "icon",
-      ...iconDefinition
-    }, () => {
+    return domVariants(_objectSpread22({
+      type: "icon"
+    }, iconDefinition), () => {
       callHooks("beforeDOMElementCreation", {
         iconDefinition,
         params
@@ -5374,10 +6457,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         },
         prefix,
         iconName,
-        transform: {
-          ...meaninglessTransform,
-          ...transform
-        },
+        transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform),
         symbol,
         title,
         maskId,
@@ -5498,8 +6578,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             });
             let children = [];
             assembler((args) => {
-              Array.isArray(args) ? args.map((a3) => {
-                children = children.concat(a3.abstract);
+              Array.isArray(args) ? args.map((a) => {
+                children = children.concat(a.abstract);
               }) : children = children.concat(args.abstract);
             });
             return [{
@@ -5569,10 +6649,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             });
             return makeLayersTextAbstract({
               content,
-              transform: {
-                ...meaninglessTransform,
-                ...transform
-              },
+              transform: _objectSpread22(_objectSpread22({}, meaninglessTransform), transform),
               title,
               extra: {
                 attributes,
@@ -5616,17 +6693,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var CLEAN_CONTENT_PATTERN = new RegExp('"', "ug");
   var SECONDARY_UNICODE_RANGE = [1105920, 1112319];
-  var _FONT_FAMILY_WEIGHT_TO_PREFIX = {
-    ...{
-      FontAwesome: {
-        normal: "fas",
-        400: "fas"
-      }
-    },
-    ...eo,
-    ...ao,
-    ...mo
-  };
+  var _FONT_FAMILY_WEIGHT_TO_PREFIX = _objectSpread22(_objectSpread22(_objectSpread22(_objectSpread22({}, {
+    FontAwesome: {
+      normal: "fas",
+      400: "fas"
+    }
+  }), lt), wa), Yt);
   var FONT_FAMILY_WEIGHT_TO_PREFIX = Object.keys(_FONT_FAMILY_WEIGHT_TO_PREFIX).reduce((acc, key) => {
     acc[key.toLowerCase()] = _FONT_FAMILY_WEIGHT_TO_PREFIX[key];
     return acc;
@@ -5659,7 +6731,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         return resolve();
       }
       const children = toArray(node.children);
-      const alreadyProcessedPseudoElement = children.filter((c3) => c3.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
+      const alreadyProcessedPseudoElement = children.filter((c$$1) => c$$1.getAttribute(DATA_FA_PSEUDO_ELEMENT) === position)[0];
       const styles3 = WINDOW.getComputedStyle(node, position);
       const fontFamily = styles3.getPropertyValue("font-family");
       const fontFamilyMatch = fontFamily.match(FONT_FAMILY_PATTERN);
@@ -5696,8 +6768,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           } = meta;
           extra.attributes[DATA_FA_PSEUDO_ELEMENT] = position;
           findIcon(iconName, prefix).then((main) => {
-            const abstract = makeInlineSvgAbstract({
-              ...meta,
+            const abstract = makeInlineSvgAbstract(_objectSpread22(_objectSpread22({}, meta), {}, {
               icons: {
                 main,
                 mask: emptyCanonicalIcon()
@@ -5706,14 +6777,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               iconName: iconIdentifier,
               extra,
               watchable: true
-            });
+            }));
             const element = DOCUMENT.createElementNS("http://www.w3.org/2000/svg", "svg");
             if (position === "::before") {
               node.insertBefore(element, node.firstChild);
             } else {
               node.appendChild(element);
             }
-            element.outerHTML = abstract.map((a3) => toHtml(a3)).join("\n");
+            element.outerHTML = abstract.map((a$$1) => toHtml(a$$1)).join("\n");
             node.removeAttribute(pendingAttribute);
             resolve();
           }).catch(reject);
@@ -5902,21 +6973,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
         return {
           tag: "g",
-          attributes: {
-            ...operations.outer
-          },
+          attributes: _objectSpread22({}, operations.outer),
           children: [{
             tag: "g",
-            attributes: {
-              ...operations.inner
-            },
+            attributes: _objectSpread22({}, operations.inner),
             children: [{
               tag: main.icon.tag,
               children: main.icon.children,
-              attributes: {
-                ...main.icon.attributes,
-                ...operations.path
-              }
+              attributes: _objectSpread22(_objectSpread22({}, main.icon.attributes), operations.path)
             }]
           }]
         };
@@ -5983,45 +7047,35 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         });
         const maskRect = {
           tag: "rect",
-          attributes: {
-            ...ALL_SPACE,
+          attributes: _objectSpread22(_objectSpread22({}, ALL_SPACE), {}, {
             fill: "white"
-          }
+          })
         };
         const maskInnerGroupChildrenMixin = mainPath.children ? {
           children: mainPath.children.map(fillBlack)
         } : {};
         const maskInnerGroup = {
           tag: "g",
-          attributes: {
-            ...trans.inner
-          },
-          children: [fillBlack({
+          attributes: _objectSpread22({}, trans.inner),
+          children: [fillBlack(_objectSpread22({
             tag: mainPath.tag,
-            attributes: {
-              ...mainPath.attributes,
-              ...trans.path
-            },
-            ...maskInnerGroupChildrenMixin
-          })]
+            attributes: _objectSpread22(_objectSpread22({}, mainPath.attributes), trans.path)
+          }, maskInnerGroupChildrenMixin))]
         };
         const maskOuterGroup = {
           tag: "g",
-          attributes: {
-            ...trans.outer
-          },
+          attributes: _objectSpread22({}, trans.outer),
           children: [maskInnerGroup]
         };
         const maskId = "mask-".concat(explicitMaskId || nextUniqueId());
         const clipId = "clip-".concat(explicitMaskId || nextUniqueId());
         const maskTag = {
           tag: "mask",
-          attributes: {
-            ...ALL_SPACE,
+          attributes: _objectSpread22(_objectSpread22({}, ALL_SPACE), {}, {
             id: maskId,
             maskUnits: "userSpaceOnUse",
             maskContentUnits: "userSpaceOnUse"
-          },
+          }),
           children: [maskRect, maskOuterGroup]
         };
         const defs = {
@@ -6036,12 +7090,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
         children.push(defs, {
           tag: "rect",
-          attributes: {
+          attributes: _objectSpread22({
             fill: "currentColor",
             "clip-path": "url(#".concat(clipId, ")"),
-            mask: "url(#".concat(maskId, ")"),
-            ...ALL_SPACE
-          }
+            mask: "url(#".concat(maskId, ")")
+          }, ALL_SPACE)
         });
         return {
           children,
@@ -6068,71 +7121,62 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         };
         gChildren.push({
           tag: "path",
-          attributes: {
-            ...FILL,
+          attributes: _objectSpread22(_objectSpread22({}, FILL), {}, {
             d: "M156.5,447.7l-12.6,29.5c-18.7-9.5-35.9-21.2-51.5-34.9l22.7-22.7C127.6,430.5,141.5,440,156.5,447.7z M40.6,272H8.5 c1.4,21.2,5.4,41.7,11.7,61.1L50,321.2C45.1,305.5,41.8,289,40.6,272z M40.6,240c1.4-18.8,5.2-37,11.1-54.1l-29.5-12.6 C14.7,194.3,10,216.7,8.5,240H40.6z M64.3,156.5c7.8-14.9,17.2-28.8,28.1-41.5L69.7,92.3c-13.7,15.6-25.5,32.8-34.9,51.5 L64.3,156.5z M397,419.6c-13.9,12-29.4,22.3-46.1,30.4l11.9,29.8c20.7-9.9,39.8-22.6,56.9-37.6L397,419.6z M115,92.4 c13.9-12,29.4-22.3,46.1-30.4l-11.9-29.8c-20.7,9.9-39.8,22.6-56.8,37.6L115,92.4z M447.7,355.5c-7.8,14.9-17.2,28.8-28.1,41.5 l22.7,22.7c13.7-15.6,25.5-32.9,34.9-51.5L447.7,355.5z M471.4,272c-1.4,18.8-5.2,37-11.1,54.1l29.5,12.6 c7.5-21.1,12.2-43.5,13.6-66.8H471.4z M321.2,462c-15.7,5-32.2,8.2-49.2,9.4v32.1c21.2-1.4,41.7-5.4,61.1-11.7L321.2,462z M240,471.4c-18.8-1.4-37-5.2-54.1-11.1l-12.6,29.5c21.1,7.5,43.5,12.2,66.8,13.6V471.4z M462,190.8c5,15.7,8.2,32.2,9.4,49.2h32.1 c-1.4-21.2-5.4-41.7-11.7-61.1L462,190.8z M92.4,397c-12-13.9-22.3-29.4-30.4-46.1l-29.8,11.9c9.9,20.7,22.6,39.8,37.6,56.9 L92.4,397z M272,40.6c18.8,1.4,36.9,5.2,54.1,11.1l12.6-29.5C317.7,14.7,295.3,10,272,8.5V40.6z M190.8,50 c15.7-5,32.2-8.2,49.2-9.4V8.5c-21.2,1.4-41.7,5.4-61.1,11.7L190.8,50z M442.3,92.3L419.6,115c12,13.9,22.3,29.4,30.5,46.1 l29.8-11.9C470,128.5,457.3,109.4,442.3,92.3z M397,92.4l22.7-22.7c-15.6-13.7-32.8-25.5-51.5-34.9l-12.6,29.5 C370.4,72.1,384.4,81.5,397,92.4z"
-          }
+          })
         });
-        const OPACITY_ANIMATE = {
-          ...ANIMATION_BASE,
+        const OPACITY_ANIMATE = _objectSpread22(_objectSpread22({}, ANIMATION_BASE), {}, {
           attributeName: "opacity"
-        };
+        });
         const dot = {
           tag: "circle",
-          attributes: {
-            ...FILL,
+          attributes: _objectSpread22(_objectSpread22({}, FILL), {}, {
             cx: "256",
             cy: "364",
             r: "28"
-          },
+          }),
           children: []
         };
         if (!reduceMotion) {
           dot.children.push({
             tag: "animate",
-            attributes: {
-              ...ANIMATION_BASE,
+            attributes: _objectSpread22(_objectSpread22({}, ANIMATION_BASE), {}, {
               attributeName: "r",
               values: "28;14;28;28;14;28;"
-            }
+            })
           }, {
             tag: "animate",
-            attributes: {
-              ...OPACITY_ANIMATE,
+            attributes: _objectSpread22(_objectSpread22({}, OPACITY_ANIMATE), {}, {
               values: "1;0;1;1;0;1;"
-            }
+            })
           });
         }
         gChildren.push(dot);
         gChildren.push({
           tag: "path",
-          attributes: {
-            ...FILL,
+          attributes: _objectSpread22(_objectSpread22({}, FILL), {}, {
             opacity: "1",
             d: "M263.7,312h-16c-6.6,0-12-5.4-12-12c0-71,77.4-63.9,77.4-107.8c0-20-17.8-40.2-57.4-40.2c-29.1,0-44.3,9.6-59.2,28.7 c-3.9,5-11.1,6-16.2,2.4l-13.1-9.2c-5.6-3.9-6.9-11.8-2.6-17.2c21.2-27.2,46.4-44.7,91.2-44.7c52.3,0,97.4,29.8,97.4,80.2 c0,67.6-77.4,63.5-77.4,107.8C275.7,306.6,270.3,312,263.7,312z"
-          },
+          }),
           children: reduceMotion ? [] : [{
             tag: "animate",
-            attributes: {
-              ...OPACITY_ANIMATE,
+            attributes: _objectSpread22(_objectSpread22({}, OPACITY_ANIMATE), {}, {
               values: "1;0;0;0;0;1;"
-            }
+            })
           }]
         });
         if (!reduceMotion) {
           gChildren.push({
             tag: "path",
-            attributes: {
-              ...FILL,
+            attributes: _objectSpread22(_objectSpread22({}, FILL), {}, {
               opacity: "0",
               d: "M232.5,134.5l7,168c0.3,6.4,5.6,11.5,12,11.5h9c6.4,0,11.7-5.1,12-11.5l7-168c0.3-6.8-5.2-12.5-12-12.5h-23 C237.7,122,232.2,127.7,232.5,134.5z"
-            },
+            }),
             children: [{
               tag: "animate",
-              attributes: {
-                ...OPACITY_ANIMATE,
+              attributes: _objectSpread22(_objectSpread22({}, OPACITY_ANIMATE), {}, {
                 values: "0;0;1;1;0;0;"
-              }
+              })
             }]
           });
         }
@@ -8495,6 +9539,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     icon: [512, 512, [127864, "glass-martini-alt"], "f57b", "M32 0C19.1 0 7.4 7.8 2.4 19.8s-2.2 25.7 6.9 34.9L224 269.3 224 448l-64 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-64 0 0-178.7L502.6 54.6c9.2-9.2 11.9-22.9 6.9-34.9S492.9 0 480 0L32 0zM173.3 128l-64-64 293.5 0-64 64-165.5 0z"]
   };
   var faGlassMartiniAlt = faMartiniGlass;
+  var faSquareBinary = {
+    prefix: "fas",
+    iconName: "square-binary",
+    icon: [448, 512, [], "e69b", "M0 96C0 60.7 28.7 32 64 32l320 0c35.3 0 64 28.7 64 64l0 320c0 35.3-28.7 64-64 64L64 480c-35.3 0-64-28.7-64-64L0 96zm144 4c-24.3 0-44 19.7-44 44l0 48c0 24.3 19.7 44 44 44l32 0c24.3 0 44-19.7 44-44l0-48c0-24.3-19.7-44-44-44l-32 0zm-4 44c0-2.2 1.8-4 4-4l32 0c2.2 0 4 1.8 4 4l0 48c0 2.2-1.8 4-4 4l-32 0c-2.2 0-4-1.8-4-4l0-48zm140-44c-11 0-20 9-20 20c0 9.7 6.9 17.7 16 19.6l0 76.4c0 11 9 20 20 20s20-9 20-20l0-96c0-11-9-20-20-20l-16 0zM132 296c0 9.7 6.9 17.7 16 19.6l0 76.4c0 11 9 20 20 20s20-9 20-20l0-96c0-11-9-20-20-20l-16 0c-11 0-20 9-20 20zm96 24l0 48c0 24.3 19.7 44 44 44l32 0c24.3 0 44-19.7 44-44l0-48c0-24.3-19.7-44-44-44l-32 0c-24.3 0-44 19.7-44 44zm44-4l32 0c2.2 0 4 1.8 4 4l0 48c0 2.2-1.8 4-4 4l-32 0c-2.2 0-4-1.8-4-4l0-48c0-2.2 1.8-4 4-4z"]
+  };
   var faRotateLeft = {
     prefix: "fas",
     iconName: "rotate-left",
@@ -10113,6 +11162,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     icon: [576, 512, ["hand-holding-usd"], "f4c0", "M312 24l0 10.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3s0 0 0 0c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8l0 10.6c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-11.4c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2L264 24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5L192 512 32 512c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l36.8 0 44.9-36c22.7-18.2 50.9-28 80-28l78.3 0 16 0 64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0-16 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l120.6 0 119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384c0 0 0 0 0 0l-.9 0c.3 0 .6 0 .9 0z"]
   };
   var faHandHoldingUsd = faHandHoldingDollar;
+  var faChartDiagram = {
+    prefix: "fas",
+    iconName: "chart-diagram",
+    icon: [512, 512, [], "e695", "M80 32C53.5 32 32 53.5 32 80s21.5 48 48 48l152 0 0 40-48 48-56 0c-48.6 0-88 39.4-88 88l0 48-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-48c0-22.1 17.9-40 40-40l56 0 48 48 0 40-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-40 48-48 56 0c22.1 0 40 17.9 40 40l0 48-8 0c-17.7 0-32 14.3-32 32l0 64c0 17.7 14.3 32 32 32l64 0c17.7 0 32-14.3 32-32l0-64c0-17.7-14.3-32-32-32l-8 0 0-48c0-48.6-39.4-88-88-88l-56 0-48-48 0-40 152 0c26.5 0 48-21.5 48-48s-21.5-48-48-48L80 32z"]
+  };
   var faBacterium = {
     prefix: "fas",
     iconName: "bacterium",
@@ -10241,6 +11295,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     prefix: "fas",
     iconName: "mosquito-net",
     icon: [640, 512, [], "e52c", "M168.8 462.3c-7.9-4-11.1-13.6-7.2-21.5L192 380.2l0-44.2c0-4.2 1.7-8.3 4.7-11.3L256 265.4l0-23.1L139.2 344C87.8 395.3 0 358.9 0 286.3c0-41.1 30.6-75.8 71.4-80.9l159.9-23.9-49.6-41.3c-5.1-4.2-7-11.1-4.9-17.4l13.9-41.7-29-58.1c-4-7.9-.7-17.5 7.2-21.5s17.5-.7 21.5 7.2l32 64c1.9 3.8 2.2 8.2 .9 12.2l-12.5 37.6L256 160.5l0-22.6c0-14.9 10.1-27.3 23.8-31l0-43.3c0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2l0 43.3c13.7 3.6 23.8 16.1 23.8 31l0 22.6 45.4-37.8L352.8 85.1c-1.3-4-1-8.4 .9-12.2l32-64c4-7.9 13.6-11.1 21.5-7.2s11.1 13.6 7.2 21.5l-29 58.1 13.9 41.7c2.1 6.2 .1 13.1-4.9 17.4l-49.6 41.3 159.9 23.9c22.5 2.8 41.8 14.6 54.7 31.4c-2.7 2.6-5.2 5.4-7.3 8.6c-8.6-12.9-23.3-21.5-40-21.5s-31.4 8.5-40 21.5c-8.6-12.9-23.3-21.5-40-21.5c-21.7 0-40 14.3-45.9 34.1c-10.7 3.2-19.8 10.1-25.9 19.2l-40.2-35 0 23.1 32.4 32.4c-.3 2-.4 4.1-.4 6.2c0 16.7 8.5 31.4 21.5 40c-4 2.6-7.5 5.9-10.6 9.5L320 310.6l0 50c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-50-32 32 0 41.4c0 2.5-.6 4.9-1.7 7.2l-32 64c-4 7.9-13.6 11.1-21.5 7.2zM512 256c8.8 0 16 7.2 16 16l0 16 48 0 0-16c0-8.8 7.2-16 16-16s16 7.2 16 16l0 16 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 48 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 48 16 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-16 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-48 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-48 0 0 16c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-16-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-48-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-48-16 0c-8.8 0-16-7.2-16-16s7.2-16 16-16l16 0 0-16c0-8.8 7.2-16 16-16s16 7.2 16 16l0 16 48 0 0-16c0-8.8 7.2-16 16-16zm16 112l48 0 0-48-48 0 0 48zm0 80l48 0 0-48-48 0 0 48zM448 320l0 48 48 0 0-48-48 0zm0 80l0 48 48 0 0-48-48 0z"]
+  };
+  var faFileFragment = {
+    prefix: "fas",
+    iconName: "file-fragment",
+    icon: [384, 512, [], "e697", "M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64l-128 0 0-128c0-35.3-28.7-64-64-64L0 320 0 64zm384 64l-128 0L256 0 384 128zM32 352l96 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-96 0c-17.7 0-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32z"]
   };
   var faBridgeWater = {
     prefix: "fas",
@@ -10934,6 +11993,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     prefix: "fas",
     iconName: "grip-vertical",
     icon: [320, 512, [], "f58e", "M40 352l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zm192 0l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 320c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 192l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40zM40 160c-22.1 0-40-17.9-40-40L0 72C0 49.9 17.9 32 40 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0zM232 32l48 0c22.1 0 40 17.9 40 40l0 48c0 22.1-17.9 40-40 40l-48 0c-22.1 0-40-17.9-40-40l0-48c0-22.1 17.9-40 40-40z"]
+  };
+  var faHexagonNodes = {
+    prefix: "fas",
+    iconName: "hexagon-nodes",
+    icon: [448, 512, [], "e699", "M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56s56-25.1 56-56c0-22.3-13.1-41.6-32-50.6l0-98.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-1.6 20.8 8.6 41.6 27.8 52.8c26.8 15.5 61 6.3 76.5-20.5s6.3-61-20.5-76.5c-1.3-.8-2.7-1.5-4-2.1l0-90.8c1.4-.6 2.7-1.3 4-2.1c26.8-15.5 36-49.7 20.5-76.5S390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c2.6 1.8 5.2 3.3 8 4.7l0 90.8c-2.8 1.3-5.5 2.9-8 4.6l-80.1-45.8c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8z"]
   };
   var faArrowTurnUp = {
     prefix: "fas",
@@ -12384,6 +13448,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     iconName: "folder-minus",
     icon: [512, 512, [], "f65d", "M448 480L64 480c-35.3 0-64-28.7-64-64L0 96C0 60.7 28.7 32 64 32l128 0c20.1 0 39.1 9.5 51.2 25.6l19.2 25.6c6 8.1 15.5 12.8 25.6 12.8l160 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64zM184 272c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z"]
   };
+  var faHexagonNodesBolt = {
+    prefix: "fas",
+    iconName: "hexagon-nodes-bolt",
+    icon: [576, 512, [], "e69a", "M248 106.6c18.9-9 32-28.3 32-50.6c0-30.9-25.1-56-56-56s-56 25.1-56 56c0 22.3 13.1 41.6 32 50.6l0 98.8c-2.8 1.3-5.5 2.9-8 4.7l-80.1-45.8c1.6-20.8-8.6-41.6-27.9-52.8C57.2 96 23 105.2 7.5 132S1.2 193 28 208.5c1.3 .8 2.6 1.5 4 2.1l0 90.8c-1.3 .6-2.7 1.3-4 2.1C1.2 319-8 353.2 7.5 380S57.2 416 84 400.5c19.3-11.1 29.4-32 27.8-52.8l50.5-28.9c-11.5-11.2-19.9-25.6-23.8-41.7L88 306.1c-2.6-1.8-5.2-3.3-8-4.7l0-90.8c2.8-1.3 5.5-2.9 8-4.7l80.1 45.8c-.1 1.4-.2 2.8-.2 4.3c0 22.3 13.1 41.6 32 50.6l0 98.8c-18.9 9-32 28.3-32 50.6c0 30.9 25.1 56 56 56c30.7 0 55.6-24.7 56-55.2c-7.5-12.9-13.5-26.8-17.6-41.5c-4.2-4-9.1-7.3-14.4-9.9l0-98.8c2.8-1.3 5.5-2.9 8-4.7l10.5 6c5.5-15.3 13.1-29.5 22.4-42.5l-9.1-5.2c.1-1.4 .2-2.8 .2-4.3c0-22.3-13.1-41.6-32-50.6l0-98.8zM440.5 132C425 105.2 390.8 96 364 111.5c-19.3 11.1-29.4 32-27.8 52.8l-50.6 28.9c11.5 11.2 19.9 25.6 23.8 41.7L360 205.9c.4 .3 .8 .6 1.3 .9c21.7-9.5 45.6-14.8 70.8-14.8c2 0 4 0 5.9 .1c12.1-17.3 13.8-40.6 2.6-60.1zM432 512a144 144 0 1 0 0-288 144 144 0 1 0 0 288zm47.9-225c4.3 3.7 5.4 9.9 2.6 14.9L452.4 356l35.6 0c5.2 0 9.8 3.3 11.4 8.2s-.1 10.3-4.2 13.4l-96 72c-4.5 3.4-10.8 3.2-15.1-.6s-5.4-9.9-2.6-14.9L411.6 380 376 380c-5.2 0-9.8-3.3-11.4-8.2s.1-10.3 4.2-13.4l96-72c4.5-3.4 10.8-3.2 15.1 .6z"]
+  };
   var faStore = {
     prefix: "fas",
     iconName: "store",
@@ -12735,6 +13804,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     icon: [576, 512, ["sort-amount-up-alt"], "f885", "M151.6 42.4C145.5 35.8 137 32 128 32s-17.5 3.8-23.6 10.4l-88 96c-11.9 13-11.1 33.3 2 45.2s33.3 11.1 45.2-2L96 146.3 96 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-301.7 32.4 35.4c11.9 13 32.2 13.9 45.2 2s13.9-32.2 2-45.2l-88-96zM320 32c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-32 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l160 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-160 0zm0 128c-17.7 0-32 14.3-32 32s14.3 32 32 32l224 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0z"]
   };
   var faSortAmountUpAlt = faArrowUpShortWide;
+  var faCommentNodes = {
+    prefix: "fas",
+    iconName: "comment-nodes",
+    icon: [640, 512, [], "e696", "M256 448c10.8 0 21.5-.5 32-1.6c.3-15.8 4.4-31.7 12.9-46.4c16-27.7 43.7-44.4 73.2-47.5l16.7-29.2c-4.3-11-6.7-22.9-6.7-35.4c0-53 43-96 96-96c9.1 0 17.8 1.3 26.2 3.6C481.1 102.1 378.6 32 256 32C114.6 32 0 125.1 0 240c0 45.1 17.7 86.8 47.7 120.9c-1.9 24.5-11.4 46.3-21.4 62.9c-5.5 9.2-11.1 16.6-15.2 21.6c-2.1 2.5-3.7 4.4-4.9 5.7c-.2 .3-.4 .5-.6 .7c-.3 .3-.5 .5-.6 .7l-.3 .3c0 0 0 0 0 0c0 0 0 0 0 0s0 0 0 0s0 0 0 0c-4.6 4.6-5.9 11.4-3.4 17.4c2.5 6 8.3 9.9 14.8 9.9c28.7 0 57.6-8.9 81.6-19.3c22.9-10 42.4-21.9 54.3-30.6c31.8 11.5 67 17.9 104.1 17.9zm72.6-32c-17.7 30.6-7.2 69.7 23.4 87.4s69.7 7.2 87.4-23.4c1.5-2.6 2.8-5.3 3.9-8l73.3 0c1.1 2.7 2.4 5.4 3.9 8c17.7 30.6 56.8 41.1 87.4 23.4s41.1-56.8 23.4-87.4c-13.4-23.2-39.1-34.8-64-31.4l-17.6-30.7c-11 11.7-25 20.6-40.6 25.6l16.5 28.9c-3.8 4.8-6.8 10-9 15.6l-73.4 0c-2.2-5.6-5.3-10.8-9-15.6l33-57.7c4.1 .8 8.4 1.3 12.8 1.3c35.3 0 64-28.7 64-64s-28.7-64-64-64s-64 28.7-64 64c0 13.4 4.1 25.8 11.2 36.1l-34.6 60.5c-25-3.4-50.6 8.3-64 31.4z"]
+  };
   var faHouseMedical = {
     prefix: "fas",
     iconName: "house-medical",
@@ -13452,6 +14526,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     prefix: "fas",
     iconName: "brush",
     icon: [384, 512, [], "f55d", "M162.4 6c-1.5-3.6-5-6-8.9-6l-19 0c-3.9 0-7.5 2.4-8.9 6L104.9 57.7c-3.2 8-14.6 8-17.8 0L66.4 6c-1.5-3.6-5-6-8.9-6L48 0C21.5 0 0 21.5 0 48L0 224l0 22.4L0 256l9.6 0 364.8 0 9.6 0 0-9.6 0-22.4 0-176c0-26.5-21.5-48-48-48L230.5 0c-3.9 0-7.5 2.4-8.9 6L200.9 57.7c-3.2 8-14.6 8-17.8 0L162.4 6zM0 288l0 32c0 35.3 28.7 64 64 64l64 0 0 64c0 35.3 28.7 64 64 64s64-28.7 64-64l0-64 64 0c35.3 0 64-28.7 64-64l0-32L0 288zM192 432a16 16 0 1 1 0 32 16 16 0 1 1 0-32z"]
+  };
+  var faFileHalfDashed = {
+    prefix: "fas",
+    iconName: "file-half-dashed",
+    icon: [384, 512, [], "e698", "M64 0C28.7 0 0 28.7 0 64L0 320l384 0 0-160-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM0 416l64 0 0-64L0 352l0 64zm288 32l-80 0 0 64 80 0 0-64zm-112 0l-80 0 0 64 80 0 0-64zM64 448L0 448c0 35.3 28.7 64 64 64l0-64zm256 0l0 64c35.3 0 64-28.7 64-64l-64 0zm64-32l0-64-64 0 0 64 64 0z"]
   };
   var faMask = {
     prefix: "fas",
@@ -14303,6 +15382,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faArrowUpFromGroundWater,
     faMartiniGlass,
     faGlassMartiniAlt,
+    faSquareBinary,
     faRotateLeft,
     faRotateBack,
     faRotateBackward,
@@ -14725,6 +15805,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faGrinSquint,
     faHandHoldingDollar,
     faHandHoldingUsd,
+    faChartDiagram,
     faBacterium,
     faHandPointer,
     faDrumSteelpan,
@@ -14758,6 +15839,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faShieldVirus,
     faDiceSix,
     faMosquitoNet,
+    faFileFragment,
     faBridgeWater,
     faPersonBooth,
     faTextWidth,
@@ -14939,6 +16021,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faPlugCirclePlus,
     faPlaceOfWorship,
     faGripVertical,
+    faHexagonNodes,
     faArrowTurnUp,
     faLevelUp,
     faU,
@@ -15328,6 +16411,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faPhotoFilm,
     faPhotoVideo,
     faFolderMinus,
+    faHexagonNodesBolt,
     faStore,
     faArrowTrendUp,
     faPlugCircleMinus,
@@ -15415,6 +16499,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faShieldBlank,
     faArrowUpShortWide,
     faSortAmountUpAlt,
+    faCommentNodes,
     faHouseMedical,
     faGolfBallTee,
     faGolfBall,
@@ -15605,6 +16690,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     faMugSaucer,
     faCoffee,
     faBrush,
+    faFileHalfDashed,
     faMask,
     faMagnifyingGlassMinus,
     faSearchMinus,
@@ -16181,8 +17267,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             if (array.length !== Object.getOwnPropertyNames(parameters).length) throw new Error(`The route with name [${name}] contains ${array.length} parameters. ${Object.getOwnPropertyNames(parameters).length} given`);
             for (let parameter in parameters) {
               if (!array.includes(parameter)) throw new Error(`Invalid parameter name [${parameter}]`);
-              let r3 = new RegExp(`{${parameter}}`, "g");
-              uri = uri.replace(r3, parameters[parameter]);
+              let r2 = new RegExp(`{${parameter}}`, "g");
+              uri = uri.replace(r2, parameters[parameter]);
             }
           }
         } else {
@@ -16283,40 +17369,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return str.replace(UNESCAPE_MD_RE, "$1");
   }
-  function isValidEntityCode(c3) {
-    if (c3 >= 55296 && c3 <= 57343) {
+  function isValidEntityCode(c) {
+    if (c >= 55296 && c <= 57343) {
       return false;
     }
-    if (c3 >= 64976 && c3 <= 65007) {
+    if (c >= 64976 && c <= 65007) {
       return false;
     }
-    if ((c3 & 65535) === 65535 || (c3 & 65535) === 65534) {
+    if ((c & 65535) === 65535 || (c & 65535) === 65534) {
       return false;
     }
-    if (c3 >= 0 && c3 <= 8) {
+    if (c >= 0 && c <= 8) {
       return false;
     }
-    if (c3 === 11) {
+    if (c === 11) {
       return false;
     }
-    if (c3 >= 14 && c3 <= 31) {
+    if (c >= 14 && c <= 31) {
       return false;
     }
-    if (c3 >= 127 && c3 <= 159) {
+    if (c >= 127 && c <= 159) {
       return false;
     }
-    if (c3 > 1114111) {
+    if (c > 1114111) {
       return false;
     }
     return true;
   }
-  function fromCodePoint(c3) {
-    if (c3 > 65535) {
-      c3 -= 65536;
-      var surrogate1 = 55296 + (c3 >> 10), surrogate2 = 56320 + (c3 & 1023);
+  function fromCodePoint(c) {
+    if (c > 65535) {
+      c -= 65536;
+      var surrogate1 = 55296 + (c >> 10), surrogate2 = 56320 + (c & 1023);
       return String.fromCharCode(surrogate1, surrogate2);
     }
-    return String.fromCharCode(c3);
+    return String.fromCharCode(c);
   }
   var NAMED_ENTITY_RE = /&([a-z#][a-z0-9]{1,31});/gi;
   var DIGITAL_ENTITY_TEST_RE = /^#((?:x[a-f0-9]{1,8}|[0-9]{1,8}))/i;
@@ -16875,11 +17961,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function abbr(state2) {
-    var tokens = state2.tokens, i, l2, content, pos;
+    var tokens = state2.tokens, i, l, content, pos;
     if (state2.inlineMode) {
       return;
     }
-    for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
+    for (i = 1, l = tokens.length - 1; i < l; i++) {
       if (tokens[i - 1].type === "paragraph_open" && tokens[i].type === "inline" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
@@ -17048,12 +18134,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function references(state2) {
-    var tokens = state2.tokens, i, l2, content, pos;
+    var tokens = state2.tokens, i, l, content, pos;
     state2.env.references = state2.env.references || {};
     if (state2.inlineMode) {
       return;
     }
-    for (i = 1, l2 = tokens.length - 1; i < l2; i++) {
+    for (i = 1, l = tokens.length - 1; i < l; i++) {
       if (tokens[i].type === "inline" && tokens[i - 1].type === "paragraph_open" && tokens[i + 1].type === "paragraph_close") {
         content = tokens[i].content;
         while (content.length) {
@@ -17072,8 +18158,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function inline(state2) {
-    var tokens = state2.tokens, tok, i, l2;
-    for (i = 0, l2 = tokens.length; i < l2; i++) {
+    var tokens = state2.tokens, tok, i, l;
+    for (i = 0, l = tokens.length; i < l; i++) {
       tok = tokens[i];
       if (tok.type === "inline") {
         state2.inline.parse(tok.content, state2.options, state2.env, tok.children);
@@ -17081,7 +18167,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function footnote_block(state2) {
-    var i, l2, j, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
+    var i, l, j2, t2, lastParagraph, list2, tokens, current2, currentLabel, level = 0, insideRef = false, refTokens = {};
     if (!state2.env.footnotes) {
       return;
     }
@@ -17110,7 +18196,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       type: "footnote_block_open",
       level: level++
     });
-    for (i = 0, l2 = list2.length; i < l2; i++) {
+    for (i = 0, l = list2.length; i < l; i++) {
       state2.tokens.push({
         type: "footnote_open",
         id: i,
@@ -17144,11 +18230,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         lastParagraph = null;
       }
       t2 = list2[i].count > 0 ? list2[i].count : 1;
-      for (j = 0; j < t2; j++) {
+      for (j2 = 0; j2 < t2; j2++) {
         state2.tokens.push({
           type: "footnote_anchor",
           id: i,
-          subId: j,
+          subId: j2,
           level
         });
       }
@@ -17171,24 +18257,24 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return s2.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1");
   }
   function abbr2(state2) {
-    var i, j, l2, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state2.tokens;
+    var i, j2, l, tokens, token, text3, nodes, pos, level, reg, m2, regText, blockTokens = state2.tokens;
     if (!state2.env.abbreviations) {
       return;
     }
     if (!state2.env.abbrRegExp) {
-      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state2.env.abbreviations).map(function(x) {
-        return x.substr(1);
-      }).sort(function(a3, b) {
-        return b.length - a3.length;
+      regText = "(^|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])(" + Object.keys(state2.env.abbreviations).map(function(x3) {
+        return x3.substr(1);
+      }).sort(function(a, b2) {
+        return b2.length - a.length;
       }).map(regEscape).join("|") + ")($|[" + PUNCT_CHARS.split("").map(regEscape).join("") + "])";
       state2.env.abbrRegExp = new RegExp(regText, "g");
     }
     reg = state2.env.abbrRegExp;
-    for (j = 0, l2 = blockTokens.length; j < l2; j++) {
-      if (blockTokens[j].type !== "inline") {
+    for (j2 = 0, l = blockTokens.length; j2 < l; j2++) {
+      if (blockTokens[j2].type !== "inline") {
         continue;
       }
-      tokens = blockTokens[j].children;
+      tokens = blockTokens[j2].children;
       for (i = tokens.length - 1; i >= 0; i--) {
         token = tokens[i];
         if (token.type !== "text") {
@@ -17233,7 +18319,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             level
           });
         }
-        blockTokens[j].children = tokens = [].concat(tokens.slice(0, i), nodes, tokens.slice(i + 1));
+        blockTokens[j2].children = tokens = [].concat(tokens.slice(0, i), nodes, tokens.slice(i + 1));
       }
     }
   }
@@ -17290,7 +18376,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return str.substr(0, index) + ch + str.substr(index + 1);
   }
   function smartquotes(state2) {
-    var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j, isSingle, blkIdx, tokens, stack;
+    var i, token, text3, t2, pos, max, thisLevel, lastSpace, nextSpace, item, canOpen, canClose, j2, isSingle, blkIdx, tokens, stack;
     if (!state2.options.typographer) {
       return;
     }
@@ -17307,12 +18393,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           continue;
         }
         thisLevel = tokens[i].level;
-        for (j = stack.length - 1; j >= 0; j--) {
-          if (stack[j].level <= thisLevel) {
+        for (j2 = stack.length - 1; j2 >= 0; j2--) {
+          if (stack[j2].level <= thisLevel) {
             break;
           }
         }
-        stack.length = j + 1;
+        stack.length = j2 + 1;
         text3 = token.content;
         pos = 0;
         max = text3.length;
@@ -17336,13 +18422,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             canOpen = !nextSpace;
             canClose = !lastSpace;
             if (canClose) {
-              for (j = stack.length - 1; j >= 0; j--) {
-                item = stack[j];
-                if (stack[j].level < thisLevel) {
+              for (j2 = stack.length - 1; j2 >= 0; j2--) {
+                item = stack[j2];
+                if (stack[j2].level < thisLevel) {
                   break;
                 }
-                if (item.single === isSingle && stack[j].level === thisLevel) {
-                  item = stack[j];
+                if (item.single === isSingle && stack[j2].level === thisLevel) {
+                  item = stack[j2];
                   if (isSingle) {
                     tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state2.options.quotes[2]);
                     token.content = replaceAt(token.content, t2.index, state2.options.quotes[3]);
@@ -17350,7 +18436,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     tokens[item.token].content = replaceAt(tokens[item.token].content, item.pos, state2.options.quotes[0]);
                     token.content = replaceAt(token.content, t2.index, state2.options.quotes[1]);
                   }
-                  stack.length = j;
+                  stack.length = j2;
                   continue OUTER;
                 }
               }
@@ -17387,9 +18473,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   Core.prototype.process = function(state2) {
-    var i, l2, rules2;
+    var i, l, rules2;
     rules2 = this.ruler.getRules("");
-    for (i = 0, l2 = rules2.length; i < l2; i++) {
+    for (i = 0, l = rules2.length; i < l; i++) {
       rules2[i](state2);
     }
   };
@@ -17598,7 +18684,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return true;
   }
   function blockquote(state2, startLine, endLine, silent) {
-    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l2, terminate, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
+    var nextLine, lastLineEmpty, oldTShift, oldBMarks, oldIndent, oldParentType, lines, terminatorRules, i, l, terminate, pos = state2.bMarks[startLine] + state2.tShift[startLine], max = state2.eMarks[startLine];
     if (pos > max) {
       return false;
     }
@@ -17645,7 +18731,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         break;
       }
       terminate = false;
-      for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
+      for (i = 0, l = terminatorRules.length; i < l; i++) {
         if (terminatorRules[i](state2, nextLine, endLine, true)) {
           terminate = true;
           break;
@@ -17757,8 +18843,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function markTightParagraphs(state2, idx) {
-    var i, l2, level = state2.level + 2;
-    for (i = idx + 2, l2 = state2.tokens.length - 2; i < l2; i++) {
+    var i, l, level = state2.level + 2;
+    for (i = idx + 2, l = state2.tokens.length - 2; i < l; i++) {
       if (state2.tokens[i].level === level && state2.tokens[i].type === "paragraph_open") {
         state2.tokens[i + 2].tight = true;
         state2.tokens[i].tight = true;
@@ -17767,7 +18853,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
   function list(state2, startLine, endLine, silent) {
-    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l2, terminate;
+    var nextLine, indent, oldTShift, oldIndent, oldTight, oldParentType, start, posAfterMarker, max, indentAfterMarker, markerValue, markerCharCode, isOrdered, contentStart, listTokIdx, prevEmptyEnd, listLines, itemLines, tight = true, terminatorRules, i, l, terminate;
     if ((posAfterMarker = skipOrderedListMarker(state2, startLine)) >= 0) {
       isOrdered = true;
     } else if ((posAfterMarker = skipBulletListMarker(state2, startLine)) >= 0) {
@@ -17856,7 +18942,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         break;
       }
       terminate = false;
-      for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
+      for (i = 0, l = terminatorRules.length; i < l; i++) {
         if (terminatorRules[i](state2, nextLine, endLine, true)) {
           terminate = true;
           break;
@@ -18312,8 +19398,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return pos;
   }
   function markTightParagraphs$1(state2, idx) {
-    var i, l2, level = state2.level + 2;
-    for (i = idx + 2, l2 = state2.tokens.length - 2; i < l2; i++) {
+    var i, l, level = state2.level + 2;
+    for (i = idx + 2, l = state2.tokens.length - 2; i < l; i++) {
       if (state2.tokens[i].level === level && state2.tokens[i].type === "paragraph_open") {
         state2.tokens[i + 2].tight = true;
         state2.tokens[i].tight = true;
@@ -18455,7 +19541,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return true;
   }
   function paragraph(state2, startLine) {
-    var endLine, content, terminate, i, l2, nextLine = startLine + 1, terminatorRules;
+    var endLine, content, terminate, i, l, nextLine = startLine + 1, terminatorRules;
     endLine = state2.lineMax;
     if (nextLine < endLine && !state2.isEmpty(nextLine)) {
       terminatorRules = state2.parser.ruler.getRules("paragraph");
@@ -18464,7 +19550,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           continue;
         }
         terminate = false;
-        for (i = 0, l2 = terminatorRules.length; i < l2; i++) {
+        for (i = 0, l = terminatorRules.length; i < l; i++) {
           if (terminatorRules[i](state2, nextLine, endLine, true)) {
             terminate = true;
             break;
@@ -20466,204 +21552,255 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("hero-banner", HeroBanner);
 
-  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
-  var h = (i) => NodeList.prototype.isPrototypeOf(i) || HTMLCollection.prototype.isPrototypeOf(i) ? Array.from(i) : typeof i == "string" || i instanceof String ? document.querySelectorAll(i) : [i];
-  var d = () => Element.prototype.closest && "IntersectionObserver" in window;
-  var c2 = class {
+  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/react/simpleParallax.es.js
+  var import_react = __toESM(require_react(), 1);
+  var v = (e2) => {
+    const [t2, n] = (0, import_react.useState)(0), [a, c] = (0, import_react.useState)(false), s2 = (0, import_react.useRef)(null), r2 = (0, import_react.useCallback)(() => {
+      s2.current && n(s2.current.height);
+    }, []);
+    return (0, import_react.useEffect)(() => {
+      const l = () => {
+        c(true), r2();
+      }, d = s2.current;
+      return d && (d.complete ? l() : d.addEventListener("load", l)), window.addEventListener("resize", r2), () => {
+        d && d.removeEventListener("load", l), window.removeEventListener("resize", r2);
+      };
+    }, [e2, r2]), [s2, t2, a];
+  };
+  var P2 = (e2 = {}) => {
+    const [t2, n] = (0, import_react.useState)(false), a = (0, import_react.useRef)(null);
+    return (0, import_react.useEffect)(() => {
+      const c = new IntersectionObserver(
+        (r2) => {
+          const [l] = r2;
+          l && (l.isIntersecting ? n(true) : n(false));
+        },
+        {
+          ...e2
+        }
+      ), { current: s2 } = a;
+      return s2 && c.observe(s2), () => {
+        s2 && c.unobserve(s2);
+      };
+    }, [e2]), [a, t2];
+  };
+  var x2 = class _x {
     constructor() {
-      this.positions = {
-        top: 0,
-        bottom: 0,
-        height: 0
+      this.callbacks = /* @__PURE__ */ new Set(), this.animationFrameId = null;
+    }
+    static getInstance() {
+      return _x.instance || (_x.instance = new _x()), _x.instance;
+    }
+    register(t2) {
+      this.callbacks.add(t2), this.animationFrameId === null && this.start();
+    }
+    unregister(t2) {
+      this.callbacks.delete(t2), this.callbacks.size === 0 && this.animationFrameId !== null && this.stop();
+    }
+    start() {
+      const t2 = () => {
+        this.callbacks.forEach((n) => n()), this.animationFrameId = requestAnimationFrame(t2);
       };
+      this.animationFrameId = requestAnimationFrame(t2);
     }
-    setViewportTop(t2) {
-      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions;
-    }
-    setViewportBottom() {
-      return this.positions.bottom = this.positions.top + this.positions.height, this.positions;
-    }
-    setViewportAll(t2) {
-      return this.positions.top = t2 ? t2.scrollTop : window.pageYOffset, this.positions.height = t2 ? t2.clientHeight : document.documentElement.clientHeight, this.positions.bottom = this.positions.top + this.positions.height, this.positions;
+    stop() {
+      this.animationFrameId !== null && (cancelAnimationFrame(this.animationFrameId), this.animationFrameId = null);
     }
   };
-  var s = new c2();
-  var m = () => {
-    const i = "transform webkitTransform mozTransform oTransform msTransform".split(" ");
-    let t2, e2 = 0;
-    for (; t2 === void 0; )
-      t2 = document.createElement("div").style[i[e2]] !== void 0 ? i[e2] : void 0, e2 += 1;
-    return t2;
+  var k = x2.getInstance();
+  var z = (e2, t2) => e2 * t2 - e2;
+  var A2 = (e2, t2) => Math.ceil(e2 / 100 * t2 - t2 / 2);
+  var C = (e2, t2) => {
+    const { top: n, height: a } = e2;
+    let c = -a;
+    const s2 = t2;
+    if (n < c)
+      return 0;
+    if (n > s2)
+      return 100;
+    const r2 = (n - c) / (s2 - c) * 100;
+    return Math.round(Math.min(Math.max(r2, 0), 100) * 100) / 100;
   };
-  var r2 = m();
-  var p = (i) => i.tagName.toLowerCase() !== "img" && i.tagName.toLowerCase() !== "picture" ? true : !(!i || !i.complete || typeof i.naturalWidth < "u" && i.naturalWidth === 0);
-  var f = class {
-    constructor(t2, e2, n = false) {
-      this.element = t2, this.elementContainer = t2, this.settings = e2, this.isVisible = true, this.isInit = false, this.oldTranslateValue = -1, this.prefersReducedMotion = n, this.init = this.init.bind(this), this.customWrapper = this.settings.customWrapper && this.element.closest(this.settings.customWrapper) ? this.element.closest(this.settings.customWrapper) : null, !this.prefersReducedMotion && (p(t2) ? this.init() : this.element.addEventListener("load", () => {
-        setTimeout(() => {
-          this.init(true);
-        }, 50);
-      }));
+  var N = (e2, t2) => {
+    switch (t2) {
+      case "up":
+        return `0, ${e2}px, 0`;
+      case "right":
+        return `${-e2}px, 0, 0`;
+      case "down":
+        return `0, ${-e2}px, 0`;
+      case "left":
+        return `${e2}px, 0, 0`;
+      case "up left":
+        return `${e2}px, ${e2}px, 0`;
+      case "up right":
+        return `${-e2}px, ${e2}px, 0`;
+      case "down left":
+        return `${e2}px, ${-e2}px, 0`;
+      case "down right":
+        return `${-e2}px, ${-e2}px, 0`;
+      default:
+        return `0, ${e2}px, 0`;
     }
-    init(t2) {
-      this.prefersReducedMotion || this.isInit || (t2 && (this.rangeMax = null), !this.element.closest(".simpleParallax") && (this.settings.overflow === false && this.wrapElement(this.element), this.setTransformCSS(), this.getElementOffset(), this.intersectionObserver(), this.getTranslateValue(), this.animate(), this.settings.delay > 0 ? setTimeout(() => {
-        this.setTransitionCSS(), this.elementContainer.classList.add("simple-parallax-initialized");
-      }, 10) : this.elementContainer.classList.add("simple-parallax-initialized"), this.isInit = true));
-    }
-    // if overflow option is set to false
-    // wrap the element into a .simpleParallax div and apply overflow hidden to hide the image excedant (result of the scale)
-    wrapElement() {
-      const t2 = this.element.closest("picture") || this.element;
-      let e2 = this.customWrapper || document.createElement("div");
-      e2.classList.add("simpleParallax"), e2.style.overflow = "hidden", this.customWrapper || (t2.parentNode.insertBefore(e2, t2), e2.appendChild(t2)), this.elementContainer = e2;
-    }
-    // unwrap the element from .simpleParallax wrapper container
-    unWrapElement() {
-      const t2 = this.elementContainer;
-      this.customWrapper ? (t2.classList.remove("simpleParallax"), t2.style.overflow = "") : t2.replaceWith(...t2.childNodes);
-    }
-    // apply default style on element
-    setTransformCSS() {
-      this.settings.overflow === false && (this.element.style[r2] = `scale(${this.settings.scale})`), this.element.style.willChange = "transform";
-    }
-    // apply the transition effect
-    setTransitionCSS() {
-      this.element.style.transition = `transform ${this.settings.delay}s ${this.settings.transition}`;
-    }
-    // remove style of the element
-    unSetStyle() {
-      this.element.style.willChange = "", this.element.style[r2] = "", this.element.style.transition = "";
-    }
-    // get the current element offset
-    getElementOffset() {
-      const t2 = this.elementContainer.getBoundingClientRect();
-      if (this.elementHeight = t2.height, this.elementTop = t2.top + s.positions.top, this.settings.customContainer) {
-        const e2 = this.settings.customContainer.getBoundingClientRect();
-        this.elementTop = t2.top - e2.top + s.positions.top;
-      }
-      this.elementBottom = this.elementHeight + this.elementTop;
-    }
-    // build the Threshold array to cater change for every pixel scrolled
-    buildThresholdList() {
-      const t2 = [];
-      for (let e2 = 1; e2 <= this.elementHeight; e2++) {
-        const n = e2 / this.elementHeight;
-        t2.push(n);
-      }
-      return t2;
-    }
-    // create the Intersection Observer
-    intersectionObserver() {
-      const t2 = {
-        root: null,
-        threshold: this.buildThresholdList()
+  };
+  var B = () => {
+    const [e2, t2] = (0, import_react.useState)(null);
+    return (0, import_react.useEffect)(() => {
+      const n = () => {
+        t2(window.innerHeight);
       };
-      this.observer = new IntersectionObserver(
-        this.intersectionObserverCallback.bind(this),
-        t2
-      ), this.observer.observe(this.element);
-    }
-    // Intersection Observer Callback to set the element at visible state or not
-    intersectionObserverCallback(t2) {
-      t2.forEach((e2) => {
-        e2.isIntersecting ? this.isVisible = true : this.isVisible = false;
-      });
-    }
-    // check if the current element is visible in the Viewport
-    // for browser that not support Intersection Observer API
-    checkIfVisible() {
-      return this.elementBottom > s.positions.top && this.elementTop < s.positions.bottom;
-    }
-    // calculate the range between image will be translated
-    getRangeMax() {
-      const t2 = this.element.clientHeight;
-      this.rangeMax = t2 * this.settings.scale - t2;
-    }
-    // get the percentage and the translate value to apply on the element
-    getTranslateValue() {
-      let t2 = ((s.positions.bottom - this.elementTop) / ((s.positions.height + this.elementHeight) / 100)).toFixed(1);
-      return t2 = Math.min(100, Math.max(0, t2)), this.settings.maxTransition !== 0 && t2 > this.settings.maxTransition && (t2 = this.settings.maxTransition), this.oldPercentage === t2 || (this.rangeMax || this.getRangeMax(), this.translateValue = (t2 / 100 * this.rangeMax - this.rangeMax / 2).toFixed(0), this.oldTranslateValue === this.translateValue) ? false : (this.oldPercentage = t2, this.oldTranslateValue = this.translateValue, true);
-    }
-    // animate the image
-    animate() {
-      let t2 = 0, e2 = 0, n;
-      (this.settings.orientation.includes("left") || this.settings.orientation.includes("right")) && (e2 = `${this.settings.orientation.includes("left") ? this.translateValue * -1 : this.translateValue}px`), (this.settings.orientation.includes("up") || this.settings.orientation.includes("down")) && (t2 = `${this.settings.orientation.includes("up") ? this.translateValue * -1 : this.translateValue}px`), this.settings.overflow === false ? n = `translate3d(${e2}, ${t2}, 0) scale(${this.settings.scale})` : n = `translate3d(${e2}, ${t2}, 0)`, this.element.style[r2] = n;
-    }
+      if (typeof window < "u")
+        return t2(window.innerHeight), window.addEventListener("resize", n), () => {
+          window.removeEventListener("resize", n);
+        };
+    }, []), e2;
   };
-  var a2 = false;
-  var o2 = [];
-  var l;
-  var u;
-  var g = class {
-    constructor(t2, e2) {
-      t2 && d() && (this.prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ).matches, this.reducedMotionMediaQuery = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-      ), this.handleReducedMotionChange = this.handleReducedMotionChange.bind(this), this.reducedMotionMediaQuery.addEventListener(
-        "change",
-        this.handleReducedMotionChange
-      ), !this.prefersReducedMotion && (this.elements = h(t2), this.defaults = {
-        delay: 0,
-        orientation: "up",
-        scale: 1.3,
-        overflow: false,
-        transition: "cubic-bezier(0,0,0,1)",
-        customContainer: "",
-        customWrapper: "",
-        maxTransition: 0
-      }, this.settings = Object.assign(this.defaults, e2), this.settings.customContainer && ([this.customContainer] = h(this.settings.customContainer)), this.lastPosition = -1, this.resizeIsDone = this.resizeIsDone.bind(this), this.refresh = this.refresh.bind(this), this.proceedRequestAnimationFrame = this.proceedRequestAnimationFrame.bind(this), this.init()));
-    }
-    // Handle changes to reduced motion preference
-    handleReducedMotionChange(t2) {
-      this.prefersReducedMotion = t2.matches, this.prefersReducedMotion ? this.destroy() : this.init();
-    }
-    init() {
-      this.prefersReducedMotion || (s.setViewportAll(this.customContainer), o2 = [
-        ...this.elements.map(
-          (t2) => new f(
-            t2,
-            this.settings,
-            this.prefersReducedMotion
-          )
-        ),
-        ...o2
-      ], a2 || (this.proceedRequestAnimationFrame(), window.addEventListener("resize", this.resizeIsDone), a2 = true));
-    }
-    // wait for resize to be completely done
-    resizeIsDone() {
-      clearTimeout(u), u = setTimeout(this.refresh, 200);
-    }
-    // animation frame
-    proceedRequestAnimationFrame() {
-      if (s.setViewportTop(this.customContainer), this.lastPosition === s.positions.top) {
-        l = window.requestAnimationFrame(this.proceedRequestAnimationFrame);
+  var R = ({
+    isLoaded: e2,
+    imageHeight: t2,
+    scale: n,
+    boundingClientRect: a,
+    orientation: c,
+    maxTransition: s2
+  }) => {
+    const [r2, l] = (0, import_react.useState)(""), d = (0, import_react.useRef)({
+      rangeMax: 0,
+      lastImageHeight: 0,
+      lastScale: 0,
+      lastTranslateValue: -999999,
+      lastTransformString: ""
+    }), o2 = B();
+    return (0, import_react.useEffect)(() => {
+      if (!e2 || !a || !o2)
         return;
+      const i = d.current;
+      (i.lastImageHeight !== t2 || i.lastScale !== n) && (i.rangeMax = z(t2, n), i.lastImageHeight = t2, i.lastScale = n);
+      let h = C(a, o2);
+      s2 && (h = Math.min(h, 100 - s2));
+      const p2 = A2(h, i.rangeMax);
+      if (i.lastTranslateValue !== p2) {
+        const g2 = N(p2, c);
+        g2 !== i.lastTransformString && (i.lastTranslateValue = p2, i.lastTransformString = g2, l(g2));
       }
-      s.setViewportBottom(), o2.forEach((t2) => {
-        this.proceedElement(t2);
-      }), l = window.requestAnimationFrame(this.proceedRequestAnimationFrame), this.lastPosition = s.positions.top;
-    }
-    // proceed the element
-    proceedElement(t2) {
-      let e2 = false;
-      this.customContainer ? e2 = t2.checkIfVisible() : e2 = t2.isVisible, e2 && t2.getTranslateValue() && t2.animate();
-    }
-    refresh() {
-      s.setViewportAll(this.customContainer), o2.forEach((t2) => {
-        t2.getElementOffset(), t2.getRangeMax();
-      }), this.lastPosition = -1;
-    }
-    destroy() {
-      this.reducedMotionMediaQuery && this.reducedMotionMediaQuery.removeEventListener(
-        "change",
-        this.handleReducedMotionChange
-      );
-      const t2 = [];
-      o2 = o2.filter((e2) => this.elements && this.elements.includes(e2.element) ? (t2.push(e2), false) : e2), t2.forEach((e2) => {
-        e2.unSetStyle(), this.settings && this.settings.overflow === false && e2.unWrapElement();
-      }), o2.length || (window.cancelAnimationFrame(l), window.removeEventListener("resize", this.refresh), a2 = false);
-    }
+    }, [
+      e2,
+      t2,
+      n,
+      a,
+      c,
+      s2,
+      o2
+    ]), r2;
+  };
+  var j = () => {
+    const [e2, t2] = (0, import_react.useState)(false);
+    return (0, import_react.useEffect)(() => {
+      if (typeof window > "u")
+        return;
+      const n = window.matchMedia("(prefers-reduced-motion: reduce)");
+      t2(n.matches);
+      const a = (c) => {
+        t2(c.matches);
+      };
+      return n.addEventListener("change", a), () => {
+        n.removeEventListener("change", a);
+      };
+    }, []), e2;
+  };
+  var q = ({
+    scale: e2,
+    overflow: t2,
+    delay: n,
+    transition: a,
+    orientation: c,
+    maxTransition: s2,
+    isVisible: r2,
+    isLoaded: l,
+    imageHeight: d,
+    imageRef: o2
+  }) => {
+    const [i, h] = (0, import_react.useState)(false), [p2, g2] = (0, import_react.useState)(0), [T, y] = (0, import_react.useState)(
+      null
+    ), [$, E] = (0, import_react.useState)(false), u = j(), M = R({
+      isLoaded: l,
+      imageHeight: d,
+      scale: e2,
+      boundingClientRect: T,
+      orientation: c,
+      maxTransition: s2
+    }), S2 = (0, import_react.useCallback)(
+      (w2) => {
+        if (!o2.current || u || !w2) return;
+        let I = `translate3d(${w2})`;
+        t2 || (I += ` scale(${e2})`), o2.current.style.transform = I;
+      },
+      [o2, e2, t2, u]
+    ), L2 = (0, import_react.useCallback)(
+      (w2) => {
+        if (!o2.current || u) return;
+        const I = w2 && n > 0 ? `transform ${n}s ${a}` : "";
+        o2.current.style.transition = I;
+      },
+      [o2, n, a, u]
+    ), V = (0, import_react.useCallback)(() => {
+      var w2;
+      if (!(!r2 && i || u) && (window.scrollY !== p2 || !i)) {
+        const I = (w2 = o2.current) == null ? void 0 : w2.getBoundingClientRect();
+        I && y(I), i || setTimeout(() => {
+          E(true);
+        }, 50), g2(window.scrollY);
+      }
+    }, [p2, r2, o2, i, u]);
+    (0, import_react.useEffect)(() => {
+      M && (r2 || !i) && (S2(M), h(true));
+    }, [M, r2, i, S2]), (0, import_react.useEffect)(() => {
+      !t2 && l && o2.current && !u && (o2.current.style.transform = `scale(${e2})`);
+    }, [e2, t2, l, u]), (0, import_react.useEffect)(() => {
+      L2($);
+    }, [$, L2]), (0, import_react.useEffect)(() => (u || k.register(V), () => {
+      k.unregister(V);
+    }), [V, u]), (0, import_react.useEffect)(() => {
+      u && o2.current && (o2.current.style.transform = "", o2.current.style.transition = "");
+    }, [u]);
+  };
+  var G2 = "/Users/geoffrey/Desktop/perso/simpleParallax.js/src/react/index.tsx";
+  var W = ({
+    delay: e2 = 0.4,
+    orientation: t2 = "up",
+    scale: n = 1.4,
+    overflow: a = false,
+    transition: c = "cubic-bezier(0,0,0,1)",
+    maxTransition: s2 = null,
+    children: r2
+  }) => {
+    var $;
+    const l = t2 ?? "up", d = n ?? 1.2, o2 = ($ = r2 == null ? void 0 : r2.props) == null ? void 0 : $.src, [i, h, p2] = v(o2), [g2, T] = P2({
+      root: null,
+      rootMargin: "0px",
+      threshold: Array.from(Array(101).keys(), (E) => E / 100)
+    });
+    q({
+      scale: d,
+      overflow: a,
+      delay: e2,
+      transition: c,
+      orientation: l,
+      maxTransition: s2,
+      isVisible: T,
+      isLoaded: p2,
+      imageHeight: h,
+      imageRef: i
+    });
+    const y = import_react.default.isValidElement(r2) ? import_react.default.cloneElement(r2, {
+      ref: i
+    }) : null;
+    return /* @__PURE__ */ import_react.default.createElement("div", { ref: g2, style: {
+      overflow: a ? "visible" : "hidden"
+    }, __self: void 0, __source: {
+      fileName: G2,
+      lineNumber: 47,
+      columnNumber: 3
+    } }, y);
   };
 
   // node_modules/@customerjourney/cj-components/src/components/ImageBanner.js
@@ -20704,7 +21841,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new g(image, this.state.image.paralax);
+        new W(image, this.state.image.paralax);
       }
     }
   };
@@ -20786,7 +21923,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.addEvents();
       if (this.state.image?.paralax != void 0) {
         var image = this.querySelector("img");
-        new g(image, this.state.image.paralax);
+        new W(image, this.state.image.paralax);
       }
     }
   };
@@ -24537,11 +25674,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/tools/semver-compare.js
-  function semver_compare_default(a3, b) {
-    a3 = a3.split("-");
-    b = b.split("-");
-    var pa = a3[0].split(".");
-    var pb = b[0].split(".");
+  function semver_compare_default(a, b2) {
+    a = a.split("-");
+    b2 = b2.split("-");
+    var pa = a[0].split(".");
+    var pb = b2[0].split(".");
     for (var i = 0; i < 3; i++) {
       var na = Number(pa[i]);
       var nb = Number(pb[i]);
@@ -24550,10 +25687,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (!isNaN(na) && isNaN(nb)) return 1;
       if (isNaN(na) && !isNaN(nb)) return -1;
     }
-    if (a3[1] && b[1]) {
-      return a3[1] > b[1] ? 1 : a3[1] < b[1] ? -1 : 0;
+    if (a[1] && b2[1]) {
+      return a[1] > b2[1] ? 1 : a[1] < b2[1] ? -1 : 0;
     }
-    return !a3[1] && b[1] ? 1 : a3[1] && !b[1] ? -1 : 0;
+    return !a[1] && b2[1] ? 1 : a[1] && !b2[1] ? -1 : 0;
   }
 
   // node_modules/libphonenumber-js/es6/helpers/isObject.js
@@ -25096,26 +26233,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/helpers/mergeArrays.js
-  function _createForOfIteratorHelperLoose(o3, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-    if (it) return (it = it.call(o3)).next.bind(it);
-    if (Array.isArray(o3) || (it = _unsupportedIterableToArray(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-      if (it) o3 = it;
+  function _createForOfIteratorHelperLoose(o2, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+    if (it) return (it = it.call(o2)).next.bind(it);
+    if (Array.isArray(o2) || (it = _unsupportedIterableToArray(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+      if (it) o2 = it;
       var i = 0;
       return function() {
-        if (i >= o3.length) return { done: true };
-        return { done: false, value: o3[i++] };
+        if (i >= o2.length) return { done: true };
+        return { done: false, value: o2[i++] };
       };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o3, minLen);
+  function _unsupportedIterableToArray(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o2, minLen);
   }
   function _arrayLikeToArray(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -25124,16 +26261,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return arr2;
   }
-  function mergeArrays(a3, b) {
-    var merged = a3.slice();
-    for (var _iterator = _createForOfIteratorHelperLoose(b), _step; !(_step = _iterator()).done; ) {
+  function mergeArrays(a, b2) {
+    var merged = a.slice();
+    for (var _iterator = _createForOfIteratorHelperLoose(b2), _step; !(_step = _iterator()).done; ) {
       var element = _step.value;
-      if (a3.indexOf(element) < 0) {
+      if (a.indexOf(element) < 0) {
         merged.push(element);
       }
     }
-    return merged.sort(function(a4, b2) {
-      return a4 - b2;
+    return merged.sort(function(a2, b3) {
+      return a2 - b3;
     });
   }
 
@@ -25229,26 +26366,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/helpers/getNumberType.js
-  function _createForOfIteratorHelperLoose2(o3, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-    if (it) return (it = it.call(o3)).next.bind(it);
-    if (Array.isArray(o3) || (it = _unsupportedIterableToArray2(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-      if (it) o3 = it;
+  function _createForOfIteratorHelperLoose2(o2, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+    if (it) return (it = it.call(o2)).next.bind(it);
+    if (Array.isArray(o2) || (it = _unsupportedIterableToArray2(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+      if (it) o2 = it;
       var i = 0;
       return function() {
-        if (i >= o3.length) return { done: true };
-        return { done: false, value: o3[i++] };
+        if (i >= o2.length) return { done: true };
+        return { done: false, value: o2[i++] };
       };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray2(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray2(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray2(o3, minLen);
+  function _unsupportedIterableToArray2(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray2(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray2(o2, minLen);
   }
   function _arrayLikeToArray2(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -25621,26 +26758,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/format.js
-  function _createForOfIteratorHelperLoose3(o3, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-    if (it) return (it = it.call(o3)).next.bind(it);
-    if (Array.isArray(o3) || (it = _unsupportedIterableToArray3(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-      if (it) o3 = it;
+  function _createForOfIteratorHelperLoose3(o2, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+    if (it) return (it = it.call(o2)).next.bind(it);
+    if (Array.isArray(o2) || (it = _unsupportedIterableToArray3(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+      if (it) o2 = it;
       var i = 0;
       return function() {
-        if (i >= o3.length) return { done: true };
-        return { done: false, value: o3[i++] };
+        if (i >= o2.length) return { done: true };
+        return { done: false, value: o2[i++] };
       };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray3(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray3(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray3(o3, minLen);
+  function _unsupportedIterableToArray3(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray3(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray3(o2, minLen);
   }
   function _arrayLikeToArray3(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -25649,7 +26786,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return arr2;
   }
-  function ownKeys4(object, enumerableOnly) {
+  function ownKeys5(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
@@ -25662,15 +26799,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _objectSpread4(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys4(Object(source), true).forEach(function(key) {
-        _defineProperty4(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys4(Object(source)).forEach(function(key) {
+      i % 2 ? ownKeys5(Object(source), true).forEach(function(key) {
+        _defineProperty5(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys5(Object(source)).forEach(function(key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
     return target;
   }
-  function _defineProperty4(obj, key, value) {
+  function _defineProperty5(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
     } else {
@@ -25781,7 +26918,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/PhoneNumber.js
-  function ownKeys5(object, enumerableOnly) {
+  function ownKeys6(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
@@ -25794,15 +26931,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _objectSpread5(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys5(Object(source), true).forEach(function(key) {
-        _defineProperty5(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys5(Object(source)).forEach(function(key) {
+      i % 2 ? ownKeys6(Object(source), true).forEach(function(key) {
+        _defineProperty6(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys6(Object(source)).forEach(function(key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
     return target;
   }
-  function _defineProperty5(obj, key, value) {
+  function _defineProperty6(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
     } else {
@@ -26074,9 +27211,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       _construct = Reflect.construct;
     } else {
       _construct = function _construct2(Parent2, args2, Class2) {
-        var a3 = [null];
-        a3.push.apply(a3, args2);
-        var Constructor = Function.bind.apply(Parent2, a3);
+        var a = [null];
+        a.push.apply(a, args2);
+        var Constructor = Function.bind.apply(Parent2, a);
         var instance = new Constructor();
         if (Class2) _setPrototypeOf(instance, Class2.prototype);
         return instance;
@@ -26099,18 +27236,18 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _isNativeFunction(fn) {
     return Function.toString.call(fn).indexOf("[native code]") !== -1;
   }
-  function _setPrototypeOf(o3, p2) {
-    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p3) {
-      o4.__proto__ = p3;
-      return o4;
+  function _setPrototypeOf(o2, p2) {
+    _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o3, p3) {
+      o3.__proto__ = p3;
+      return o3;
     };
-    return _setPrototypeOf(o3, p2);
+    return _setPrototypeOf(o2, p2);
   }
-  function _getPrototypeOf(o3) {
-    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
-      return o4.__proto__ || Object.getPrototypeOf(o4);
+  function _getPrototypeOf(o2) {
+    _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o3) {
+      return o3.__proto__ || Object.getPrototypeOf(o3);
     };
-    return _getPrototypeOf(o3);
+    return _getPrototypeOf(o2);
   }
   var ParseError = /* @__PURE__ */ function(_Error) {
     _inherits(ParseError2, _Error);
@@ -26225,26 +27362,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/parseIncompletePhoneNumber.js
-  function _createForOfIteratorHelperLoose4(o3, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-    if (it) return (it = it.call(o3)).next.bind(it);
-    if (Array.isArray(o3) || (it = _unsupportedIterableToArray4(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-      if (it) o3 = it;
+  function _createForOfIteratorHelperLoose4(o2, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+    if (it) return (it = it.call(o2)).next.bind(it);
+    if (Array.isArray(o2) || (it = _unsupportedIterableToArray4(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+      if (it) o2 = it;
       var i = 0;
       return function() {
-        if (i >= o3.length) return { done: true };
-        return { done: false, value: o3[i++] };
+        if (i >= o2.length) return { done: true };
+        return { done: false, value: o2[i++] };
       };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray4(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray4(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray4(o3, minLen);
+  function _unsupportedIterableToArray4(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray4(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray4(o2, minLen);
   }
   function _arrayLikeToArray4(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -26275,26 +27412,26 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/helpers/getCountryByNationalNumber.js
-  function _createForOfIteratorHelperLoose5(o3, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-    if (it) return (it = it.call(o3)).next.bind(it);
-    if (Array.isArray(o3) || (it = _unsupportedIterableToArray5(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-      if (it) o3 = it;
+  function _createForOfIteratorHelperLoose5(o2, allowArrayLike) {
+    var it = typeof Symbol !== "undefined" && o2[Symbol.iterator] || o2["@@iterator"];
+    if (it) return (it = it.call(o2)).next.bind(it);
+    if (Array.isArray(o2) || (it = _unsupportedIterableToArray5(o2)) || allowArrayLike && o2 && typeof o2.length === "number") {
+      if (it) o2 = it;
       var i = 0;
       return function() {
-        if (i >= o3.length) return { done: true };
-        return { done: false, value: o3[i++] };
+        if (i >= o2.length) return { done: true };
+        return { done: false, value: o2[i++] };
       };
     }
     throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray5(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray5(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray5(o3, minLen);
+  function _unsupportedIterableToArray5(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray5(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray5(o2, minLen);
   }
   function _arrayLikeToArray5(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -26592,42 +27729,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/parsePhoneNumberWithError_.js
-  function ownKeys6(object, enumerableOnly) {
-    var keys = Object.keys(object);
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      enumerableOnly && (symbols = symbols.filter(function(sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      })), keys.push.apply(keys, symbols);
-    }
-    return keys;
-  }
-  function _objectSpread6(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys6(Object(source), true).forEach(function(key) {
-        _defineProperty6(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys6(Object(source)).forEach(function(key) {
-        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-      });
-    }
-    return target;
-  }
-  function _defineProperty6(obj, key, value) {
-    if (key in obj) {
-      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
-    } else {
-      obj[key] = value;
-    }
-    return obj;
-  }
-  function parsePhoneNumberWithError(text3, options2, metadata) {
-    return parse2(text3, _objectSpread6(_objectSpread6({}, options2), {}, {
-      v2: true
-    }), metadata);
-  }
-
-  // node_modules/libphonenumber-js/es6/normalizeArguments.js
   function ownKeys7(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
@@ -26638,7 +27739,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return keys;
   }
-  function _objectSpread7(target) {
+  function _objectSpread6(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
       i % 2 ? ownKeys7(Object(source), true).forEach(function(key) {
@@ -26657,19 +27758,55 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return obj;
   }
+  function parsePhoneNumberWithError(text3, options2, metadata) {
+    return parse2(text3, _objectSpread6(_objectSpread6({}, options2), {}, {
+      v2: true
+    }), metadata);
+  }
+
+  // node_modules/libphonenumber-js/es6/normalizeArguments.js
+  function ownKeys8(object, enumerableOnly) {
+    var keys = Object.keys(object);
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+      enumerableOnly && (symbols = symbols.filter(function(sym) {
+        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+      })), keys.push.apply(keys, symbols);
+    }
+    return keys;
+  }
+  function _objectSpread7(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = null != arguments[i] ? arguments[i] : {};
+      i % 2 ? ownKeys8(Object(source), true).forEach(function(key) {
+        _defineProperty8(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys8(Object(source)).forEach(function(key) {
+        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+      });
+    }
+    return target;
+  }
+  function _defineProperty8(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
+    } else {
+      obj[key] = value;
+    }
+    return obj;
+  }
   function _slicedToArray(arr, i) {
     return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray6(arr, i) || _nonIterableRest();
   }
   function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
-  function _unsupportedIterableToArray6(o3, minLen) {
-    if (!o3) return;
-    if (typeof o3 === "string") return _arrayLikeToArray6(o3, minLen);
-    var n = Object.prototype.toString.call(o3).slice(8, -1);
-    if (n === "Object" && o3.constructor) n = o3.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o3);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray6(o3, minLen);
+  function _unsupportedIterableToArray6(o2, minLen) {
+    if (!o2) return;
+    if (typeof o2 === "string") return _arrayLikeToArray6(o2, minLen);
+    var n = Object.prototype.toString.call(o2).slice(8, -1);
+    if (n === "Object" && o2.constructor) n = o2.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o2);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray6(o2, minLen);
   }
   function _arrayLikeToArray6(arr, len) {
     if (len == null || len > arr.length) len = arr.length;
@@ -26742,7 +27879,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/parsePhoneNumber_.js
-  function ownKeys8(object, enumerableOnly) {
+  function ownKeys9(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
@@ -26755,15 +27892,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _objectSpread8(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys8(Object(source), true).forEach(function(key) {
-        _defineProperty8(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys8(Object(source)).forEach(function(key) {
+      i % 2 ? ownKeys9(Object(source), true).forEach(function(key) {
+        _defineProperty9(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys9(Object(source)).forEach(function(key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
     return target;
   }
-  function _defineProperty8(obj, key, value) {
+  function _defineProperty9(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
     } else {
@@ -26788,7 +27925,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   }
 
   // node_modules/libphonenumber-js/es6/isValidPhoneNumber.js
-  function ownKeys9(object, enumerableOnly) {
+  function ownKeys10(object, enumerableOnly) {
     var keys = Object.keys(object);
     if (Object.getOwnPropertySymbols) {
       var symbols = Object.getOwnPropertySymbols(object);
@@ -26801,15 +27938,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function _objectSpread9(target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = null != arguments[i] ? arguments[i] : {};
-      i % 2 ? ownKeys9(Object(source), true).forEach(function(key) {
-        _defineProperty9(target, key, source[key]);
-      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys9(Object(source)).forEach(function(key) {
+      i % 2 ? ownKeys10(Object(source), true).forEach(function(key) {
+        _defineProperty10(target, key, source[key]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys10(Object(source)).forEach(function(key) {
         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
       });
     }
     return target;
   }
-  function _defineProperty9(obj, key, value) {
+  function _defineProperty10(obj, key, value) {
     if (key in obj) {
       Object.defineProperty(obj, key, { value, enumerable: true, configurable: true, writable: true });
     } else {
@@ -27138,9 +28275,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     e2.context[t2] = n;
   };
   var destroy = (e2) => {
-    var t2, n, a3, l2, o3;
+    var t2, n, a, l, o2;
     if (!e2.context.isInit) throw new Error(errorMessages.notInit);
-    e2.inputMode ? (null == (t2 = e2.context.mainElement.parentElement) || t2.removeChild(e2.context.mainElement), null == (a3 = null == (n = e2.context.inputElement) ? void 0 : n.replaceWith) || a3.call(n, e2.context.originalElement), setContext(e2, "inputElement", void 0)) : null == (o3 = (l2 = e2.context.mainElement).replaceWith) || o3.call(l2, e2.context.originalElement), setContext(e2, "mainElement", e2.context.originalElement), e2.onDestroy && e2.onDestroy(e2);
+    e2.inputMode ? (null == (t2 = e2.context.mainElement.parentElement) || t2.removeChild(e2.context.mainElement), null == (a = null == (n = e2.context.inputElement) ? void 0 : n.replaceWith) || a.call(n, e2.context.originalElement), setContext(e2, "inputElement", void 0)) : null == (o2 = (l = e2.context.mainElement).replaceWith) || o2.call(l, e2.context.originalElement), setContext(e2, "mainElement", e2.context.originalElement), e2.onDestroy && e2.onDestroy(e2);
   };
   var hide = (e2) => {
     e2.context.isShowInInputMode && e2.context.currentType && (e2.context.mainElement.dataset.vcCalendarHidden = "", setContext(e2, "isShowInInputMode", false), e2.context.cleanupHandlers[0] && (e2.context.cleanupHandlers.forEach((e3) => e3()), setContext(e2, "cleanupHandlers", [])), e2.onHide && e2.onHide(e2));
@@ -27157,32 +28294,32 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return { left: window.scrollX || document.documentElement.scrollLeft || 0, top: window.scrollY || document.documentElement.scrollTop || 0 };
   }
   function calculateAvailableSpace(e2) {
-    const { top: t2, left: n } = getWindowScrollPosition(), { top: a3, left: l2 } = getOffset(e2), { vh: o3, vw: s2 } = getViewportDimensions(), i = a3 - t2, r3 = l2 - n;
-    return { top: i, bottom: o3 - (i + e2.clientHeight), left: r3, right: s2 - (r3 + e2.clientWidth) };
+    const { top: t2, left: n } = getWindowScrollPosition(), { top: a, left: l } = getOffset(e2), { vh: o2, vw: s2 } = getViewportDimensions(), i = a - t2, r2 = l - n;
+    return { top: i, bottom: o2 - (i + e2.clientHeight), left: r2, right: s2 - (r2 + e2.clientWidth) };
   }
   function getAvailablePosition(e2, t2, n = 5) {
-    const a3 = { top: true, bottom: true, left: true, right: true }, l2 = [];
-    if (!t2 || !e2) return { canShow: a3, parentPositions: l2 };
-    const { bottom: o3, top: s2 } = calculateAvailableSpace(e2), { top: i, left: r3 } = getOffset(e2), { height: c3, width: d2 } = t2.getBoundingClientRect(), { vh: u2, vw: m2 } = getViewportDimensions(), h2 = m2 / 2, p2 = u2 / 2;
-    return [{ condition: i < p2, position: "top" }, { condition: i > p2, position: "bottom" }, { condition: r3 < h2, position: "left" }, { condition: r3 > h2, position: "right" }].forEach(({ condition: e3, position: t3 }) => {
-      e3 && l2.push(t3);
-    }), Object.assign(a3, { top: c3 <= s2 - n, bottom: c3 <= o3 - n, left: d2 <= r3, right: d2 <= m2 - r3 }), { canShow: a3, parentPositions: l2 };
+    const a = { top: true, bottom: true, left: true, right: true }, l = [];
+    if (!t2 || !e2) return { canShow: a, parentPositions: l };
+    const { bottom: o2, top: s2 } = calculateAvailableSpace(e2), { top: i, left: r2 } = getOffset(e2), { height: c, width: d } = t2.getBoundingClientRect(), { vh: u, vw: m2 } = getViewportDimensions(), h = m2 / 2, p2 = u / 2;
+    return [{ condition: i < p2, position: "top" }, { condition: i > p2, position: "bottom" }, { condition: r2 < h, position: "left" }, { condition: r2 > h, position: "right" }].forEach(({ condition: e3, position: t3 }) => {
+      e3 && l.push(t3);
+    }), Object.assign(a, { top: c <= s2 - n, bottom: c <= o2 - n, left: d <= r2, right: d <= m2 - r2 }), { canShow: a, parentPositions: l };
   }
-  var handleDay = (e2, t2, n, a3) => {
-    var l2;
-    const o3 = a3.querySelector(`[data-vc-date="${t2}"]`), s2 = null == o3 ? void 0 : o3.querySelector("[data-vc-date-btn]");
-    if (!o3 || !s2) return;
+  var handleDay = (e2, t2, n, a) => {
+    var l;
+    const o2 = a.querySelector(`[data-vc-date="${t2}"]`), s2 = null == o2 ? void 0 : o2.querySelector("[data-vc-date-btn]");
+    if (!o2 || !s2) return;
     if ((null == n ? void 0 : n.modifier) && s2.classList.add(...n.modifier.trim().split(" ")), !(null == n ? void 0 : n.html)) return;
     const i = document.createElement("div");
-    i.className = e2.styles.datePopup, i.dataset.vcDatePopup = "", i.innerHTML = e2.sanitizerHTML(n.html), s2.ariaExpanded = "true", s2.ariaLabel = `${s2.ariaLabel}, ${null == (l2 = null == i ? void 0 : i.textContent) ? void 0 : l2.replace(/^\s+|\s+(?=\s)|\s+$/g, "").replace(/&nbsp;/g, " ")}`, o3.appendChild(i), requestAnimationFrame(() => {
+    i.className = e2.styles.datePopup, i.dataset.vcDatePopup = "", i.innerHTML = e2.sanitizerHTML(n.html), s2.ariaExpanded = "true", s2.ariaLabel = `${s2.ariaLabel}, ${null == (l = null == i ? void 0 : i.textContent) ? void 0 : l.replace(/^\s+|\s+(?=\s)|\s+$/g, "").replace(/&nbsp;/g, " ")}`, o2.appendChild(i), requestAnimationFrame(() => {
       if (!i) return;
-      const { canShow: e3 } = getAvailablePosition(o3, i), t3 = e3.bottom ? o3.offsetHeight : -i.offsetHeight, n2 = e3.left && !e3.right ? o3.offsetWidth - i.offsetWidth / 2 : !e3.left && e3.right ? i.offsetWidth / 2 : 0;
+      const { canShow: e3 } = getAvailablePosition(o2, i), t3 = e3.bottom ? o2.offsetHeight : -i.offsetHeight, n2 = e3.left && !e3.right ? o2.offsetWidth - i.offsetWidth / 2 : !e3.left && e3.right ? i.offsetWidth / 2 : 0;
       Object.assign(i.style, { left: `${n2}px`, top: `${t3}px` });
     });
   };
   var createDatePopup = (e2, t2) => {
     var n;
-    e2.popups && (null == (n = Object.entries(e2.popups)) || n.forEach(([n2, a3]) => handleDay(e2, n2, a3, t2)));
+    e2.popups && (null == (n = Object.entries(e2.popups)) || n.forEach(([n2, a]) => handleDay(e2, n2, a, t2)));
   };
   var getDate = (e2) => /* @__PURE__ */ new Date(`${e2}T00:00:00`);
   var getDateString = (e2) => `${e2.getFullYear()}-${String(e2.getMonth() + 1).padStart(2, "0")}-${String(e2.getDate()).padStart(2, "0")}`;
@@ -27190,92 +28327,92 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (t2 instanceof Date || "number" == typeof t2) {
       const n = t2 instanceof Date ? t2 : new Date(t2);
       e3.push(n.toISOString().substring(0, 10));
-    } else t2.match(/^(\d{4}-\d{2}-\d{2})$/g) ? e3.push(t2) : t2.replace(/(\d{4}-\d{2}-\d{2}).*?(\d{4}-\d{2}-\d{2})/g, (t3, n, a3) => {
-      const l2 = getDate(n), o3 = getDate(a3), s2 = new Date(l2.getTime());
-      for (; s2 <= o3; s2.setDate(s2.getDate() + 1)) e3.push(getDateString(s2));
+    } else t2.match(/^(\d{4}-\d{2}-\d{2})$/g) ? e3.push(t2) : t2.replace(/(\d{4}-\d{2}-\d{2}).*?(\d{4}-\d{2}-\d{2})/g, (t3, n, a) => {
+      const l = getDate(n), o2 = getDate(a), s2 = new Date(l.getTime());
+      for (; s2 <= o2; s2.setDate(s2.getDate() + 1)) e3.push(getDateString(s2));
       return t3;
     });
     return e3;
   }, []);
-  var updateAttribute = (e2, t2, n, a3 = "") => {
-    t2 ? e2.setAttribute(n, a3) : e2.getAttribute(n) === a3 && e2.removeAttribute(n);
+  var updateAttribute = (e2, t2, n, a = "") => {
+    t2 ? e2.setAttribute(n, a) : e2.getAttribute(n) === a && e2.removeAttribute(n);
   };
-  var setDateModifier = (e2, t2, n, a3, l2, o3, s2) => {
-    var i, r3, c3, d2;
-    const u2 = getDate(e2.context.displayDateMin) > getDate(o3) || getDate(e2.context.displayDateMax) < getDate(o3) || (null == (i = e2.context.disableDates) ? void 0 : i.includes(o3)) || !e2.selectionMonthsMode && "current" !== s2 || !e2.selectionYearsMode && getDate(o3).getFullYear() !== t2;
-    updateAttribute(n, u2, "data-vc-date-disabled"), a3 && updateAttribute(a3, u2, "aria-disabled", "true"), a3 && updateAttribute(a3, u2, "tabindex", "-1"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o3, "data-vc-date-today"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o3, "aria-current", "date"), updateAttribute(n, null == (r3 = e2.selectedWeekends) ? void 0 : r3.includes(l2), "data-vc-date-weekend");
-    const m2 = (null == (c3 = e2.selectedHolidays) ? void 0 : c3[0]) ? parseDates(e2.selectedHolidays) : [];
-    if (updateAttribute(n, m2.includes(o3), "data-vc-date-holiday"), (null == (d2 = e2.context.selectedDates) ? void 0 : d2.includes(o3)) ? (n.setAttribute("data-vc-date-selected", ""), a3 && a3.setAttribute("aria-selected", "true"), e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode && (e2.context.selectedDates[0] === o3 && e2.context.selectedDates[e2.context.selectedDates.length - 1] === o3 ? n.setAttribute("data-vc-date-selected", "first-and-last") : e2.context.selectedDates[0] === o3 ? n.setAttribute("data-vc-date-selected", "first") : e2.context.selectedDates[e2.context.selectedDates.length - 1] === o3 && n.setAttribute("data-vc-date-selected", "last"), e2.context.selectedDates[0] !== o3 && e2.context.selectedDates[e2.context.selectedDates.length - 1] !== o3 && n.setAttribute("data-vc-date-selected", "middle"))) : n.hasAttribute("data-vc-date-selected") && (n.removeAttribute("data-vc-date-selected"), a3 && a3.removeAttribute("aria-selected")), !e2.context.disableDates.includes(o3) && e2.enableEdgeDatesOnly && e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode) {
-      const t3 = getDate(e2.context.selectedDates[0]), a4 = getDate(e2.context.selectedDates[e2.context.selectedDates.length - 1]), l3 = getDate(o3);
-      updateAttribute(n, l3 > t3 && l3 < a4, "data-vc-date-selected", "middle");
+  var setDateModifier = (e2, t2, n, a, l, o2, s2) => {
+    var i, r2, c, d;
+    const u = getDate(e2.context.displayDateMin) > getDate(o2) || getDate(e2.context.displayDateMax) < getDate(o2) || (null == (i = e2.context.disableDates) ? void 0 : i.includes(o2)) || !e2.selectionMonthsMode && "current" !== s2 || !e2.selectionYearsMode && getDate(o2).getFullYear() !== t2;
+    updateAttribute(n, u, "data-vc-date-disabled"), a && updateAttribute(a, u, "aria-disabled", "true"), a && updateAttribute(a, u, "tabindex", "-1"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o2, "data-vc-date-today"), updateAttribute(n, !e2.disableToday && e2.context.dateToday === o2, "aria-current", "date"), updateAttribute(n, null == (r2 = e2.selectedWeekends) ? void 0 : r2.includes(l), "data-vc-date-weekend");
+    const m2 = (null == (c = e2.selectedHolidays) ? void 0 : c[0]) ? parseDates(e2.selectedHolidays) : [];
+    if (updateAttribute(n, m2.includes(o2), "data-vc-date-holiday"), (null == (d = e2.context.selectedDates) ? void 0 : d.includes(o2)) ? (n.setAttribute("data-vc-date-selected", ""), a && a.setAttribute("aria-selected", "true"), e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode && (e2.context.selectedDates[0] === o2 && e2.context.selectedDates[e2.context.selectedDates.length - 1] === o2 ? n.setAttribute("data-vc-date-selected", "first-and-last") : e2.context.selectedDates[0] === o2 ? n.setAttribute("data-vc-date-selected", "first") : e2.context.selectedDates[e2.context.selectedDates.length - 1] === o2 && n.setAttribute("data-vc-date-selected", "last"), e2.context.selectedDates[0] !== o2 && e2.context.selectedDates[e2.context.selectedDates.length - 1] !== o2 && n.setAttribute("data-vc-date-selected", "middle"))) : n.hasAttribute("data-vc-date-selected") && (n.removeAttribute("data-vc-date-selected"), a && a.removeAttribute("aria-selected")), !e2.context.disableDates.includes(o2) && e2.enableEdgeDatesOnly && e2.context.selectedDates.length > 1 && "multiple-ranged" === e2.selectionDatesMode) {
+      const t3 = getDate(e2.context.selectedDates[0]), a2 = getDate(e2.context.selectedDates[e2.context.selectedDates.length - 1]), l2 = getDate(o2);
+      updateAttribute(n, l2 > t3 && l2 < a2, "data-vc-date-selected", "middle");
     }
   };
   var getLocaleString = (e2, t2, n) => (/* @__PURE__ */ new Date(`${e2}T00:00:00.000Z`)).toLocaleString(t2, n);
   var getWeekNumber = (e2, t2) => {
-    const n = getDate(e2), a3 = (n.getDay() - t2 + 7) % 7;
-    n.setDate(n.getDate() + 4 - a3);
-    const l2 = new Date(n.getFullYear(), 0, 1), o3 = Math.ceil(((+n - +l2) / 864e5 + 1) / 7);
-    return { year: n.getFullYear(), week: o3 };
+    const n = getDate(e2), a = (n.getDay() - t2 + 7) % 7;
+    n.setDate(n.getDate() + 4 - a);
+    const l = new Date(n.getFullYear(), 0, 1), o2 = Math.ceil(((+n - +l) / 864e5 + 1) / 7);
+    return { year: n.getFullYear(), week: o2 };
   };
   var addWeekNumberForDate = (e2, t2, n) => {
-    const a3 = getWeekNumber(n, e2.firstWeekday);
-    a3 && (t2.dataset.vcDateWeekNumber = String(a3.week));
+    const a = getWeekNumber(n, e2.firstWeekday);
+    a && (t2.dataset.vcDateWeekNumber = String(a.week));
   };
   var setDaysAsDisabled = (e2, t2, n) => {
-    var a3, l2, o3, s2, i;
-    const r3 = null == (a3 = e2.disableWeekdays) ? void 0 : a3.includes(n), c3 = e2.disableAllDates && !!(null == (l2 = e2.context.enableDates) ? void 0 : l2[0]);
-    !r3 && !c3 || (null == (o3 = e2.context.enableDates) ? void 0 : o3.includes(t2)) || (null == (s2 = e2.context.disableDates) ? void 0 : s2.includes(t2)) || (e2.context.disableDates.push(t2), null == (i = e2.context.disableDates) || i.sort((e3, t3) => +new Date(e3) - +new Date(t3)));
+    var a, l, o2, s2, i;
+    const r2 = null == (a = e2.disableWeekdays) ? void 0 : a.includes(n), c = e2.disableAllDates && !!(null == (l = e2.context.enableDates) ? void 0 : l[0]);
+    !r2 && !c || (null == (o2 = e2.context.enableDates) ? void 0 : o2.includes(t2)) || (null == (s2 = e2.context.disableDates) ? void 0 : s2.includes(t2)) || (e2.context.disableDates.push(t2), null == (i = e2.context.disableDates) || i.sort((e3, t3) => +new Date(e3) - +new Date(t3)));
   };
-  var createDate = (e2, t2, n, a3, l2, o3) => {
-    const s2 = getDate(l2).getDay(), i = "string" == typeof e2.locale && e2.locale.length ? e2.locale : "en", r3 = document.createElement("div");
-    let c3;
-    r3.className = e2.styles.date, r3.dataset.vcDate = l2, r3.dataset.vcDateMonth = o3, r3.dataset.vcDateWeekDay = String(s2), ("current" === o3 || e2.displayDatesOutside) && (c3 = document.createElement("button"), c3.className = e2.styles.dateBtn, c3.type = "button", c3.role = "gridcell", c3.ariaLabel = getLocaleString(l2, i, { dateStyle: "long", timeZone: "UTC" }), c3.dataset.vcDateBtn = "", c3.innerText = String(a3), r3.appendChild(c3)), e2.enableWeekNumbers && addWeekNumberForDate(e2, r3, l2), setDaysAsDisabled(e2, l2, s2), setDateModifier(e2, t2, r3, c3, s2, l2, o3), n.appendChild(r3), e2.onCreateDateEls && e2.onCreateDateEls(e2, r3);
+  var createDate = (e2, t2, n, a, l, o2) => {
+    const s2 = getDate(l).getDay(), i = "string" == typeof e2.locale && e2.locale.length ? e2.locale : "en", r2 = document.createElement("div");
+    let c;
+    r2.className = e2.styles.date, r2.dataset.vcDate = l, r2.dataset.vcDateMonth = o2, r2.dataset.vcDateWeekDay = String(s2), ("current" === o2 || e2.displayDatesOutside) && (c = document.createElement("button"), c.className = e2.styles.dateBtn, c.type = "button", c.role = "gridcell", c.ariaLabel = getLocaleString(l, i, { dateStyle: "long", timeZone: "UTC" }), c.dataset.vcDateBtn = "", c.innerText = String(a), r2.appendChild(c)), e2.enableWeekNumbers && addWeekNumberForDate(e2, r2, l), setDaysAsDisabled(e2, l, s2), setDateModifier(e2, t2, r2, c, s2, l, o2), n.appendChild(r2), e2.onCreateDateEls && e2.onCreateDateEls(e2, r2);
   };
-  var createDatesFromCurrentMonth = (e2, t2, n, a3, l2) => {
-    for (let o3 = 1; o3 <= n; o3++) {
-      const n2 = new Date(a3, l2, o3);
-      createDate(e2, a3, t2, o3, getDateString(n2), "current");
+  var createDatesFromCurrentMonth = (e2, t2, n, a, l) => {
+    for (let o2 = 1; o2 <= n; o2++) {
+      const n2 = new Date(a, l, o2);
+      createDate(e2, a, t2, o2, getDateString(n2), "current");
     }
   };
-  var createDatesFromNextMonth = (e2, t2, n, a3, l2, o3) => {
-    const s2 = o3 + n, i = 7 * Math.ceil(s2 / 7) - s2, r3 = l2 + 1 === 12 ? a3 + 1 : a3, c3 = l2 + 1 === 12 ? "01" : l2 + 2 < 10 ? `0${l2 + 2}` : l2 + 2;
+  var createDatesFromNextMonth = (e2, t2, n, a, l, o2) => {
+    const s2 = o2 + n, i = 7 * Math.ceil(s2 / 7) - s2, r2 = l + 1 === 12 ? a + 1 : a, c = l + 1 === 12 ? "01" : l + 2 < 10 ? `0${l + 2}` : l + 2;
     for (let n2 = 1; n2 <= i; n2++) {
-      const l3 = n2 < 10 ? `0${n2}` : String(n2);
-      createDate(e2, a3, t2, n2, `${r3}-${c3}-${l3}`, "next");
+      const l2 = n2 < 10 ? `0${n2}` : String(n2);
+      createDate(e2, a, t2, n2, `${r2}-${c}-${l2}`, "next");
     }
   };
-  var createDatesFromPrevMonth = (e2, t2, n, a3, l2) => {
-    let o3 = new Date(n, a3, 0).getDate() - (l2 - 1);
-    const s2 = 0 === a3 ? n - 1 : n, i = 0 === a3 ? 12 : a3 < 10 ? `0${a3}` : a3;
-    for (let a4 = l2; a4 > 0; a4--, o3++) {
-      createDate(e2, n, t2, o3, `${s2}-${i}-${o3}`, "prev");
+  var createDatesFromPrevMonth = (e2, t2, n, a, l) => {
+    let o2 = new Date(n, a, 0).getDate() - (l - 1);
+    const s2 = 0 === a ? n - 1 : n, i = 0 === a ? 12 : a < 10 ? `0${a}` : a;
+    for (let a2 = l; a2 > 0; a2--, o2++) {
+      createDate(e2, n, t2, o2, `${s2}-${i}-${o2}`, "prev");
     }
   };
-  var createWeekNumbers = (e2, t2, n, a3, l2) => {
+  var createWeekNumbers = (e2, t2, n, a, l) => {
     if (!e2.enableWeekNumbers) return;
-    a3.textContent = "";
-    const o3 = document.createElement("b");
-    o3.className = e2.styles.weekNumbersTitle, o3.innerText = "#", o3.dataset.vcWeekNumbers = "title", a3.appendChild(o3);
+    a.textContent = "";
+    const o2 = document.createElement("b");
+    o2.className = e2.styles.weekNumbersTitle, o2.innerText = "#", o2.dataset.vcWeekNumbers = "title", a.appendChild(o2);
     const s2 = document.createElement("div");
-    s2.className = e2.styles.weekNumbersContent, s2.dataset.vcWeekNumbers = "content", a3.appendChild(s2);
+    s2.className = e2.styles.weekNumbersContent, s2.dataset.vcWeekNumbers = "content", a.appendChild(s2);
     const i = document.createElement("button");
     i.type = "button", i.className = e2.styles.weekNumber;
-    const r3 = l2.querySelectorAll("[data-vc-date]"), c3 = Math.ceil((t2 + n) / 7);
-    for (let t3 = 0; t3 < c3; t3++) {
-      const n2 = r3[0 === t3 ? 6 : 7 * t3].dataset.vcDate, a4 = getWeekNumber(n2, e2.firstWeekday);
-      if (!a4) return;
-      const l3 = i.cloneNode(true);
-      l3.innerText = String(a4.week), l3.dataset.vcWeekNumber = String(a4.week), l3.dataset.vcWeekYear = String(a4.year), l3.role = "rowheader", l3.ariaLabel = `${a4.week}`, s2.appendChild(l3);
+    const r2 = l.querySelectorAll("[data-vc-date]"), c = Math.ceil((t2 + n) / 7);
+    for (let t3 = 0; t3 < c; t3++) {
+      const n2 = r2[0 === t3 ? 6 : 7 * t3].dataset.vcDate, a2 = getWeekNumber(n2, e2.firstWeekday);
+      if (!a2) return;
+      const l2 = i.cloneNode(true);
+      l2.innerText = String(a2.week), l2.dataset.vcWeekNumber = String(a2.week), l2.dataset.vcWeekYear = String(a2.year), l2.role = "rowheader", l2.ariaLabel = `${a2.week}`, s2.appendChild(l2);
     }
   };
   var createDates = (e2) => {
-    const t2 = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1), n = e2.context.mainElement.querySelectorAll('[data-vc="dates"]'), a3 = e2.context.mainElement.querySelectorAll('[data-vc-week="numbers"]');
-    n.forEach((n2, l2) => {
+    const t2 = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1), n = e2.context.mainElement.querySelectorAll('[data-vc="dates"]'), a = e2.context.mainElement.querySelectorAll('[data-vc-week="numbers"]');
+    n.forEach((n2, l) => {
       e2.selectionDatesMode || (n2.dataset.vcDatesDisabled = ""), n2.textContent = "";
-      const o3 = new Date(t2);
-      o3.setMonth(o3.getMonth() + l2);
-      const s2 = o3.getMonth(), i = o3.getFullYear(), r3 = (new Date(i, s2, 1).getDay() - e2.firstWeekday + 7) % 7, c3 = new Date(i, s2 + 1, 0).getDate();
-      createDatesFromPrevMonth(e2, n2, i, s2, r3), createDatesFromCurrentMonth(e2, n2, c3, i, s2), createDatesFromNextMonth(e2, n2, c3, i, s2, r3), createDatePopup(e2, n2), createWeekNumbers(e2, r3, c3, a3[l2], n2);
+      const o2 = new Date(t2);
+      o2.setMonth(o2.getMonth() + l);
+      const s2 = o2.getMonth(), i = o2.getFullYear(), r2 = (new Date(i, s2, 1).getDay() - e2.firstWeekday + 7) % 7, c = new Date(i, s2 + 1, 0).getDate();
+      createDatesFromPrevMonth(e2, n2, i, s2, r2), createDatesFromCurrentMonth(e2, n2, c, i, s2), createDatesFromNextMonth(e2, n2, c, i, s2, r2), createDatePopup(e2, n2), createWeekNumbers(e2, r2, c, a[l], n2);
     });
   };
   var layoutDefault = (e2) => `
@@ -27366,40 +28503,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var components = { ArrowNext, ArrowPrev, ControlTime, Dates, DateRangeTooltip, Month, Months, Week, WeekNumbers, Year, Years };
   var getComponent = (e2) => components[e2];
   var parseLayout = (e2, t2) => t2.replace(/[\n\t]/g, "").replace(/<#(?!\/?Multiple)(.*?)>/g, (t3, n) => {
-    const a3 = (n.match(/\[(.*?)\]/) || [])[1], l2 = n.replace(/[/\s\n\t]|\[(.*?)\]/g, ""), o3 = getComponent(l2), s2 = o3 ? o3(e2, null != a3 ? a3 : null) : "";
+    const a = (n.match(/\[(.*?)\]/) || [])[1], l = n.replace(/[/\s\n\t]|\[(.*?)\]/g, ""), o2 = getComponent(l), s2 = o2 ? o2(e2, null != a ? a : null) : "";
     return e2.sanitizerHTML(s2);
   }).replace(/[\n\t]/g, "");
   var parseMultipleLayout = (e2, t2) => t2.replace(new RegExp("<#Multiple>(.*?)<#\\/Multiple>", "gs"), (t3, n) => {
-    const a3 = Array(e2.context.displayMonthsCount).fill(n).join("");
-    return e2.sanitizerHTML(a3);
+    const a = Array(e2.context.displayMonthsCount).fill(n).join("");
+    return e2.sanitizerHTML(a);
   }).replace(/[\n\t]/g, "");
   var createLayouts = (e2, t2) => {
     const n = { default: layoutDefault, month: layoutMonths, year: layoutYears, multiple: layoutMultiple };
     if (Object.keys(n).forEach((t3) => {
-      const a3 = t3;
-      e2.layouts[a3].length || (e2.layouts[a3] = n[a3](e2));
+      const a = t3;
+      e2.layouts[a].length || (e2.layouts[a] = n[a](e2));
     }), e2.context.mainElement.className = e2.styles.calendar, e2.context.mainElement.dataset.vc = "calendar", e2.context.mainElement.dataset.vcType = e2.context.currentType, e2.context.mainElement.role = "application", e2.context.mainElement.tabIndex = 0, e2.context.mainElement.ariaLabel = e2.labels.application, "multiple" !== e2.context.currentType) {
       if ("multiple" === e2.type && t2) {
-        const n2 = e2.context.mainElement.querySelector('[data-vc="controls"]'), a3 = e2.context.mainElement.querySelector('[data-vc="grid"]'), l2 = t2.closest('[data-vc="column"]');
-        return n2 && e2.context.mainElement.removeChild(n2), a3 && (a3.dataset.vcGrid = "hidden"), l2 && (l2.dataset.vcColumn = e2.context.currentType), void (l2 && (l2.innerHTML = e2.sanitizerHTML(parseLayout(e2, e2.layouts[e2.context.currentType]))));
+        const n2 = e2.context.mainElement.querySelector('[data-vc="controls"]'), a = e2.context.mainElement.querySelector('[data-vc="grid"]'), l = t2.closest('[data-vc="column"]');
+        return n2 && e2.context.mainElement.removeChild(n2), a && (a.dataset.vcGrid = "hidden"), l && (l.dataset.vcColumn = e2.context.currentType), void (l && (l.innerHTML = e2.sanitizerHTML(parseLayout(e2, e2.layouts[e2.context.currentType]))));
       }
       e2.context.mainElement.innerHTML = e2.sanitizerHTML(parseLayout(e2, e2.layouts[e2.context.currentType]));
     } else e2.context.mainElement.innerHTML = e2.sanitizerHTML(parseMultipleLayout(e2, parseLayout(e2, e2.layouts[e2.context.currentType])));
   };
-  var setVisibilityArrows = (e2, t2, n, a3) => {
-    e2.style.visibility = n ? "hidden" : "", t2.style.visibility = a3 ? "hidden" : "";
+  var setVisibilityArrows = (e2, t2, n, a) => {
+    e2.style.visibility = n ? "hidden" : "", t2.style.visibility = a ? "hidden" : "";
   };
   var handleDefaultType = (e2, t2, n) => {
-    const a3 = getDate(getDateString(new Date(e2.context.selectedYear, e2.context.selectedMonth, 1))), l2 = new Date(a3.getTime()), o3 = new Date(a3.getTime());
-    l2.setMonth(l2.getMonth() - e2.monthsToSwitch), o3.setMonth(o3.getMonth() + e2.monthsToSwitch);
+    const a = getDate(getDateString(new Date(e2.context.selectedYear, e2.context.selectedMonth, 1))), l = new Date(a.getTime()), o2 = new Date(a.getTime());
+    l.setMonth(l.getMonth() - e2.monthsToSwitch), o2.setMonth(o2.getMonth() + e2.monthsToSwitch);
     const s2 = getDate(e2.context.dateMin), i = getDate(e2.context.dateMax);
-    e2.selectionYearsMode || (s2.setFullYear(a3.getFullYear()), i.setFullYear(a3.getFullYear()));
-    const r3 = !e2.selectionMonthsMode || l2.getFullYear() < s2.getFullYear() || l2.getFullYear() === s2.getFullYear() && l2.getMonth() < s2.getMonth(), c3 = !e2.selectionMonthsMode || o3.getFullYear() > i.getFullYear() || o3.getFullYear() === i.getFullYear() && o3.getMonth() > i.getMonth() - (e2.context.displayMonthsCount - 1);
-    setVisibilityArrows(t2, n, r3, c3);
+    e2.selectionYearsMode || (s2.setFullYear(a.getFullYear()), i.setFullYear(a.getFullYear()));
+    const r2 = !e2.selectionMonthsMode || l.getFullYear() < s2.getFullYear() || l.getFullYear() === s2.getFullYear() && l.getMonth() < s2.getMonth(), c = !e2.selectionMonthsMode || o2.getFullYear() > i.getFullYear() || o2.getFullYear() === i.getFullYear() && o2.getMonth() > i.getMonth() - (e2.context.displayMonthsCount - 1);
+    setVisibilityArrows(t2, n, r2, c);
   };
   var handleYearType = (e2, t2, n) => {
-    const a3 = getDate(e2.context.dateMin), l2 = getDate(e2.context.dateMax), o3 = !!(a3.getFullYear() && e2.context.displayYear - 7 <= a3.getFullYear()), s2 = !!(l2.getFullYear() && e2.context.displayYear + 7 >= l2.getFullYear());
-    setVisibilityArrows(t2, n, o3, s2);
+    const a = getDate(e2.context.dateMin), l = getDate(e2.context.dateMax), o2 = !!(a.getFullYear() && e2.context.displayYear - 7 <= a.getFullYear()), s2 = !!(l.getFullYear() && e2.context.displayYear + 7 >= l.getFullYear());
+    setVisibilityArrows(t2, n, o2, s2);
   };
   var visibilityArrows = (e2) => {
     if ("month" === e2.context.currentType) return;
@@ -27407,183 +28544,183 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (!t2 || !n) return;
     ({ default: () => handleDefaultType(e2, t2, n), year: () => handleYearType(e2, t2, n) })["multiple" === e2.context.currentType ? "default" : e2.context.currentType]();
   };
-  var visibilityHandler = (e2, t2, n, a3, l2) => {
-    const o3 = new Date(a3.setFullYear(e2.context.selectedYear, e2.context.selectedMonth + n)).getFullYear(), s2 = new Date(a3.setMonth(e2.context.selectedMonth + n)).getMonth(), i = e2.context.locale.months.long[s2], r3 = t2.closest('[data-vc="column"]');
-    r3 && (r3.ariaLabel = `${i} ${o3}`);
-    const c3 = { month: { id: s2, label: i }, year: { id: o3, label: o3 } };
-    t2.innerText = String(c3[l2].label), t2.dataset[`vc${l2.charAt(0).toUpperCase() + l2.slice(1)}`] = String(c3[l2].id), t2.ariaLabel = `${e2.labels[l2]} ${c3[l2].label}`;
-    const d2 = { month: e2.selectionMonthsMode, year: e2.selectionYearsMode }, u2 = false === d2[l2] || "only-arrows" === d2[l2];
-    u2 && (t2.tabIndex = -1), t2.disabled = u2;
+  var visibilityHandler = (e2, t2, n, a, l) => {
+    const o2 = new Date(a.setFullYear(e2.context.selectedYear, e2.context.selectedMonth + n)).getFullYear(), s2 = new Date(a.setMonth(e2.context.selectedMonth + n)).getMonth(), i = e2.context.locale.months.long[s2], r2 = t2.closest('[data-vc="column"]');
+    r2 && (r2.ariaLabel = `${i} ${o2}`);
+    const c = { month: { id: s2, label: i }, year: { id: o2, label: o2 } };
+    t2.innerText = String(c[l].label), t2.dataset[`vc${l.charAt(0).toUpperCase() + l.slice(1)}`] = String(c[l].id), t2.ariaLabel = `${e2.labels[l]} ${c[l].label}`;
+    const d = { month: e2.selectionMonthsMode, year: e2.selectionYearsMode }, u = false === d[l] || "only-arrows" === d[l];
+    u && (t2.tabIndex = -1), t2.disabled = u;
   };
   var visibilityTitle = (e2) => {
-    const t2 = e2.context.mainElement.querySelectorAll('[data-vc="month"]'), n = e2.context.mainElement.querySelectorAll('[data-vc="year"]'), a3 = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1);
-    [t2, n].forEach((t3) => null == t3 ? void 0 : t3.forEach((t4, n2) => visibilityHandler(e2, t4, n2, a3, t4.dataset.vc)));
+    const t2 = e2.context.mainElement.querySelectorAll('[data-vc="month"]'), n = e2.context.mainElement.querySelectorAll('[data-vc="year"]'), a = new Date(e2.context.selectedYear, e2.context.selectedMonth, 1);
+    [t2, n].forEach((t3) => null == t3 ? void 0 : t3.forEach((t4, n2) => visibilityHandler(e2, t4, n2, a, t4.dataset.vc)));
   };
-  var setYearModifier = (e2, t2, n, a3, l2) => {
-    var o3;
+  var setYearModifier = (e2, t2, n, a, l) => {
+    var o2;
     const s2 = { month: "[data-vc-months-month]", year: "[data-vc-years-year]" }, i = { month: { selected: "data-vc-months-month-selected", aria: "aria-selected", value: "vcMonthsMonth", selectedProperty: "selectedMonth" }, year: { selected: "data-vc-years-year-selected", aria: "aria-selected", value: "vcYearsYear", selectedProperty: "selectedYear" } };
-    l2 && (null == (o3 = e2.context.mainElement.querySelectorAll(s2[n])) || o3.forEach((e3) => {
+    l && (null == (o2 = e2.context.mainElement.querySelectorAll(s2[n])) || o2.forEach((e3) => {
       e3.removeAttribute(i[n].selected), e3.removeAttribute(i[n].aria);
-    }), setContext(e2, i[n].selectedProperty, Number(t2.dataset[i[n].value])), visibilityTitle(e2), "year" === n && visibilityArrows(e2)), a3 && (t2.setAttribute(i[n].selected, ""), t2.setAttribute(i[n].aria, "true"));
+    }), setContext(e2, i[n].selectedProperty, Number(t2.dataset[i[n].value])), visibilityTitle(e2), "year" === n && visibilityArrows(e2)), a && (t2.setAttribute(i[n].selected, ""), t2.setAttribute(i[n].aria, "true"));
   };
   var getColumnID = (e2, t2) => {
     var n;
     if ("multiple" !== e2.type) return { currentValue: null, columnID: 0 };
-    const a3 = e2.context.mainElement.querySelectorAll('[data-vc="column"]'), l2 = Array.from(a3).findIndex((e3) => e3.closest(`[data-vc-column="${t2}"]`));
-    return { currentValue: l2 >= 0 ? Number(null == (n = a3[l2].querySelector(`[data-vc="${t2}"]`)) ? void 0 : n.getAttribute(`data-vc-${t2}`)) : null, columnID: Math.max(l2, 0) };
+    const a = e2.context.mainElement.querySelectorAll('[data-vc="column"]'), l = Array.from(a).findIndex((e3) => e3.closest(`[data-vc-column="${t2}"]`));
+    return { currentValue: l >= 0 ? Number(null == (n = a[l].querySelector(`[data-vc="${t2}"]`)) ? void 0 : n.getAttribute(`data-vc-${t2}`)) : null, columnID: Math.max(l, 0) };
   };
-  var createMonthEl = (e2, t2, n, a3, l2, o3, s2) => {
+  var createMonthEl = (e2, t2, n, a, l, o2, s2) => {
     const i = t2.cloneNode(false);
-    return i.className = e2.styles.monthsMonth, i.innerText = a3, i.ariaLabel = l2, i.role = "gridcell", i.dataset.vcMonthsMonth = `${s2}`, o3 && (i.ariaDisabled = "true"), o3 && (i.tabIndex = -1), i.disabled = o3, setYearModifier(e2, i, "month", n === s2, false), i;
+    return i.className = e2.styles.monthsMonth, i.innerText = a, i.ariaLabel = l, i.role = "gridcell", i.dataset.vcMonthsMonth = `${s2}`, o2 && (i.ariaDisabled = "true"), o2 && (i.tabIndex = -1), i.disabled = o2, setYearModifier(e2, i, "month", n === s2, false), i;
   };
   var createMonths = (e2, t2) => {
-    var n, a3;
-    const l2 = null == (n = null == t2 ? void 0 : t2.closest('[data-vc="header"]')) ? void 0 : n.querySelector('[data-vc="year"]'), o3 = l2 ? Number(l2.dataset.vcYear) : e2.context.selectedYear, s2 = (null == t2 ? void 0 : t2.dataset.vcMonth) ? Number(t2.dataset.vcMonth) : e2.context.selectedMonth;
+    var n, a;
+    const l = null == (n = null == t2 ? void 0 : t2.closest('[data-vc="header"]')) ? void 0 : n.querySelector('[data-vc="year"]'), o2 = l ? Number(l.dataset.vcYear) : e2.context.selectedYear, s2 = (null == t2 ? void 0 : t2.dataset.vcMonth) ? Number(t2.dataset.vcMonth) : e2.context.selectedMonth;
     setContext(e2, "currentType", "month"), createLayouts(e2, t2), visibilityTitle(e2);
     const i = e2.context.mainElement.querySelector('[data-vc="months"]');
     if (!e2.selectionMonthsMode || !i) return;
-    const r3 = e2.monthsToSwitch > 1 ? e2.context.locale.months.long.map((t3, n2) => s2 - e2.monthsToSwitch * n2).concat(e2.context.locale.months.long.map((t3, n2) => s2 + e2.monthsToSwitch * n2)).filter((e3) => e3 >= 0 && e3 <= 12) : Array.from(Array(12).keys()), c3 = document.createElement("button");
-    c3.type = "button";
+    const r2 = e2.monthsToSwitch > 1 ? e2.context.locale.months.long.map((t3, n2) => s2 - e2.monthsToSwitch * n2).concat(e2.context.locale.months.long.map((t3, n2) => s2 + e2.monthsToSwitch * n2)).filter((e3) => e3 >= 0 && e3 <= 12) : Array.from(Array(12).keys()), c = document.createElement("button");
+    c.type = "button";
     for (let t3 = 0; t3 < 12; t3++) {
-      const n2 = getDate(e2.context.dateMin), a4 = getDate(e2.context.dateMax), l3 = e2.context.displayMonthsCount - 1, { columnID: d2 } = getColumnID(e2, "month"), u2 = o3 <= n2.getFullYear() && t3 < n2.getMonth() + d2 || o3 >= a4.getFullYear() && t3 > a4.getMonth() - l3 + d2 || o3 > a4.getFullYear() || t3 !== s2 && !r3.includes(t3), m2 = createMonthEl(e2, c3, s2, e2.context.locale.months.short[t3], e2.context.locale.months.long[t3], u2, t3);
+      const n2 = getDate(e2.context.dateMin), a2 = getDate(e2.context.dateMax), l2 = e2.context.displayMonthsCount - 1, { columnID: d } = getColumnID(e2, "month"), u = o2 <= n2.getFullYear() && t3 < n2.getMonth() + d || o2 >= a2.getFullYear() && t3 > a2.getMonth() - l2 + d || o2 > a2.getFullYear() || t3 !== s2 && !r2.includes(t3), m2 = createMonthEl(e2, c, s2, e2.context.locale.months.short[t3], e2.context.locale.months.long[t3], u, t3);
       i.appendChild(m2), e2.onCreateMonthEls && e2.onCreateMonthEls(e2, m2);
     }
-    null == (a3 = e2.context.mainElement.querySelector("[data-vc-months-month]:not([disabled])")) || a3.focus();
+    null == (a = e2.context.mainElement.querySelector("[data-vc-months-month]:not([disabled])")) || a.focus();
   };
-  var TimeInput = (e2, t2, n, a3, l2) => `
+  var TimeInput = (e2, t2, n, a, l) => `
   <label class="${t2}" data-vc-time-input="${e2}">
-    <input type="text" name="${e2}" maxlength="2" aria-label="${n[`input${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${a3}" ${l2 ? "disabled" : ""}>
+    <input type="text" name="${e2}" maxlength="2" aria-label="${n[`input${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${a}" ${l ? "disabled" : ""}>
   </label>
 `;
-  var TimeRange = (e2, t2, n, a3, l2, o3, s2) => `
+  var TimeRange = (e2, t2, n, a, l, o2, s2) => `
   <label class="${t2}" data-vc-time-range="${e2}">
-    <input type="range" name="${e2}" min="${a3}" max="${l2}" step="${o3}" aria-label="${n[`range${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${s2}">
+    <input type="range" name="${e2}" min="${a}" max="${l}" step="${o2}" aria-label="${n[`range${e2.charAt(0).toUpperCase() + e2.slice(1)}`]}" value="${s2}">
   </label>
 `;
-  var handleActions = (e2, t2, n, a3) => {
-    ({ hour: () => setContext(e2, "selectedHours", n), minute: () => setContext(e2, "selectedMinutes", n) })[a3](), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${e2.context.selectedKeeping ? ` ${e2.context.selectedKeeping}` : ""}`), e2.onChangeTime && e2.onChangeTime(e2, t2, false), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
+  var handleActions = (e2, t2, n, a) => {
+    ({ hour: () => setContext(e2, "selectedHours", n), minute: () => setContext(e2, "selectedMinutes", n) })[a](), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${e2.context.selectedKeeping ? ` ${e2.context.selectedKeeping}` : ""}`), e2.onChangeTime && e2.onChangeTime(e2, t2, false), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
   };
   var transformTime24 = (e2, t2) => {
     var n;
     return (null == (n = { 0: { AM: "00", PM: "12" }, 1: { AM: "01", PM: "13" }, 2: { AM: "02", PM: "14" }, 3: { AM: "03", PM: "15" }, 4: { AM: "04", PM: "16" }, 5: { AM: "05", PM: "17" }, 6: { AM: "06", PM: "18" }, 7: { AM: "07", PM: "19" }, 8: { AM: "08", PM: "20" }, 9: { AM: "09", PM: "21" }, 10: { AM: "10", PM: "22" }, 11: { AM: "11", PM: "23" }, 12: { AM: "00", PM: "12" } }[Number(e2)]) ? void 0 : n[t2]) || String(e2);
   };
-  var handleClickKeepingTime = (e2, t2, n, a3, l2) => {
-    const o3 = (o4) => {
+  var handleClickKeepingTime = (e2, t2, n, a, l) => {
+    const o2 = (o3) => {
       const s2 = "AM" === e2.context.selectedKeeping ? "PM" : "AM", i = transformTime24(e2.context.selectedHours, s2);
-      Number(i) <= a3 && Number(i) >= l2 ? (setContext(e2, "selectedKeeping", s2), n.value = i, handleActions(e2, o4, e2.context.selectedHours, "hour"), t2.ariaLabel = `${e2.labels.btnKeeping} ${e2.context.selectedKeeping}`, t2.innerText = e2.context.selectedKeeping) : e2.onChangeTime && e2.onChangeTime(e2, o4, true);
+      Number(i) <= a && Number(i) >= l ? (setContext(e2, "selectedKeeping", s2), n.value = i, handleActions(e2, o3, e2.context.selectedHours, "hour"), t2.ariaLabel = `${e2.labels.btnKeeping} ${e2.context.selectedKeeping}`, t2.innerText = e2.context.selectedKeeping) : e2.onChangeTime && e2.onChangeTime(e2, o3, true);
     };
-    return t2.addEventListener("click", o3), () => {
-      t2.removeEventListener("click", o3);
+    return t2.addEventListener("click", o2), () => {
+      t2.removeEventListener("click", o2);
     };
   };
   var transformTime12 = (e2) => ({ 0: "12", 13: "01", 14: "02", 15: "03", 16: "04", 17: "05", 18: "06", 19: "07", 20: "08", 21: "09", 22: "10", 23: "11" })[Number(e2)] || String(e2);
-  var updateInputAndRange = (e2, t2, n, a3) => {
-    e2.value = n, t2.value = a3;
+  var updateInputAndRange = (e2, t2, n, a) => {
+    e2.value = n, t2.value = a;
   };
   var updateKeepingTime$1 = (e2, t2, n) => {
     t2 && n && (setContext(e2, "selectedKeeping", n), t2.innerText = n);
   };
-  var handleInput$1 = (e2, t2, n, a3, l2, o3, s2) => {
-    const i = { hour: (i2, r4, c3) => {
+  var handleInput$1 = (e2, t2, n, a, l, o2, s2) => {
+    const i = { hour: (i2, r3, c) => {
       if (!e2.selectionTimeMode) return;
       ({ 12: () => {
         if (!e2.context.selectedKeeping) return;
-        const d2 = Number(transformTime24(r4, e2.context.selectedKeeping));
-        if (!(d2 <= o3 && d2 >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c3, true));
-        updateInputAndRange(n, t2, transformTime12(r4), transformTime24(r4, e2.context.selectedKeeping)), i2 > 12 && updateKeepingTime$1(e2, a3, "PM"), handleActions(e2, c3, transformTime12(r4), l2);
+        const d = Number(transformTime24(r3, e2.context.selectedKeeping));
+        if (!(d <= o2 && d >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c, true));
+        updateInputAndRange(n, t2, transformTime12(r3), transformTime24(r3, e2.context.selectedKeeping)), i2 > 12 && updateKeepingTime$1(e2, a, "PM"), handleActions(e2, c, transformTime12(r3), l);
       }, 24: () => {
-        if (!(i2 <= o3 && i2 >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c3, true));
-        updateInputAndRange(n, t2, r4, r4), handleActions(e2, c3, r4, l2);
+        if (!(i2 <= o2 && i2 >= s2)) return updateInputAndRange(n, t2, e2.context.selectedHours, e2.context.selectedHours), void (e2.onChangeTime && e2.onChangeTime(e2, c, true));
+        updateInputAndRange(n, t2, r3, r3), handleActions(e2, c, r3, l);
       } })[e2.selectionTimeMode]();
-    }, minute: (a4, i2, r4) => {
-      if (!(a4 <= o3 && a4 >= s2)) return n.value = e2.context.selectedMinutes, void (e2.onChangeTime && e2.onChangeTime(e2, r4, true));
-      n.value = i2, t2.value = i2, handleActions(e2, r4, i2, l2);
-    } }, r3 = (e3) => {
-      const t3 = Number(n.value), a4 = n.value.padStart(2, "0");
-      i[l2] && i[l2](t3, a4, e3);
+    }, minute: (a2, i2, r3) => {
+      if (!(a2 <= o2 && a2 >= s2)) return n.value = e2.context.selectedMinutes, void (e2.onChangeTime && e2.onChangeTime(e2, r3, true));
+      n.value = i2, t2.value = i2, handleActions(e2, r3, i2, l);
+    } }, r2 = (e3) => {
+      const t3 = Number(n.value), a2 = n.value.padStart(2, "0");
+      i[l] && i[l](t3, a2, e3);
     };
-    return n.addEventListener("change", r3), () => {
-      n.removeEventListener("change", r3);
+    return n.addEventListener("change", r2), () => {
+      n.removeEventListener("change", r2);
     };
   };
-  var updateInputAndTime = (e2, t2, n, a3, l2) => {
-    t2.value = l2, handleActions(e2, n, l2, a3);
+  var updateInputAndTime = (e2, t2, n, a, l) => {
+    t2.value = l, handleActions(e2, n, l, a);
   };
   var updateKeepingTime = (e2, t2, n) => {
     t2 && (setContext(e2, "selectedKeeping", n), t2.innerText = n);
   };
-  var handleRange = (e2, t2, n, a3, l2) => {
-    const o3 = (o4) => {
-      const s2 = Number(t2.value), i = t2.value.padStart(2, "0"), r3 = "hour" === l2, c3 = 24 === e2.selectionTimeMode, d2 = s2 > 0 && s2 < 12;
-      r3 && !c3 && updateKeepingTime(e2, a3, 0 === s2 || d2 ? "AM" : "PM"), updateInputAndTime(e2, n, o4, l2, !r3 || c3 || d2 ? i : transformTime12(t2.value));
+  var handleRange = (e2, t2, n, a, l) => {
+    const o2 = (o3) => {
+      const s2 = Number(t2.value), i = t2.value.padStart(2, "0"), r2 = "hour" === l, c = 24 === e2.selectionTimeMode, d = s2 > 0 && s2 < 12;
+      r2 && !c && updateKeepingTime(e2, a, 0 === s2 || d ? "AM" : "PM"), updateInputAndTime(e2, n, o3, l, !r2 || c || d ? i : transformTime12(t2.value));
     };
-    return t2.addEventListener("input", o3), () => {
-      t2.removeEventListener("input", o3);
+    return t2.addEventListener("input", o2), () => {
+      t2.removeEventListener("input", o2);
     };
   };
   var handleMouseOver = (e2) => e2.setAttribute("data-vc-input-focus", "");
   var handleMouseOut = (e2) => e2.removeAttribute("data-vc-input-focus");
   var handleTime = (e2, t2) => {
-    const n = t2.querySelector('[data-vc-time-range="hour"] input[name="hour"]'), a3 = t2.querySelector('[data-vc-time-range="minute"] input[name="minute"]'), l2 = t2.querySelector('[data-vc-time-input="hour"] input[name="hour"]'), o3 = t2.querySelector('[data-vc-time-input="minute"] input[name="minute"]'), s2 = t2.querySelector('[data-vc-time="keeping"]');
-    if (!(n && a3 && l2 && o3)) return;
+    const n = t2.querySelector('[data-vc-time-range="hour"] input[name="hour"]'), a = t2.querySelector('[data-vc-time-range="minute"] input[name="minute"]'), l = t2.querySelector('[data-vc-time-input="hour"] input[name="hour"]'), o2 = t2.querySelector('[data-vc-time-input="minute"] input[name="minute"]'), s2 = t2.querySelector('[data-vc-time="keeping"]');
+    if (!(n && a && l && o2)) return;
     const i = (e3) => {
-      e3.target === n && handleMouseOver(l2), e3.target === a3 && handleMouseOver(o3);
-    }, r3 = (e3) => {
-      e3.target === n && handleMouseOut(l2), e3.target === a3 && handleMouseOut(o3);
+      e3.target === n && handleMouseOver(l), e3.target === a && handleMouseOver(o2);
+    }, r2 = (e3) => {
+      e3.target === n && handleMouseOut(l), e3.target === a && handleMouseOut(o2);
     };
-    return t2.addEventListener("mouseover", i), t2.addEventListener("mouseout", r3), handleInput$1(e2, n, l2, s2, "hour", e2.timeMaxHour, e2.timeMinHour), handleInput$1(e2, a3, o3, s2, "minute", e2.timeMaxMinute, e2.timeMinMinute), handleRange(e2, n, l2, s2, "hour"), handleRange(e2, a3, o3, s2, "minute"), s2 && handleClickKeepingTime(e2, s2, n, e2.timeMaxHour, e2.timeMinHour), () => {
-      t2.removeEventListener("mouseover", i), t2.removeEventListener("mouseout", r3);
+    return t2.addEventListener("mouseover", i), t2.addEventListener("mouseout", r2), handleInput$1(e2, n, l, s2, "hour", e2.timeMaxHour, e2.timeMinHour), handleInput$1(e2, a, o2, s2, "minute", e2.timeMaxMinute, e2.timeMinMinute), handleRange(e2, n, l, s2, "hour"), handleRange(e2, a, o2, s2, "minute"), s2 && handleClickKeepingTime(e2, s2, n, e2.timeMaxHour, e2.timeMinHour), () => {
+      t2.removeEventListener("mouseover", i), t2.removeEventListener("mouseout", r2);
     };
   };
   var createTime = (e2) => {
     const t2 = e2.context.mainElement.querySelector('[data-vc="time"]');
     if (!e2.selectionTimeMode || !t2) return;
-    const [n, a3] = [e2.timeMinHour, e2.timeMaxHour], [l2, o3] = [e2.timeMinMinute, e2.timeMaxMinute], s2 = e2.context.selectedKeeping ? transformTime24(e2.context.selectedHours, e2.context.selectedKeeping) : e2.context.selectedHours, i = "range" === e2.timeControls;
-    var r3;
+    const [n, a] = [e2.timeMinHour, e2.timeMaxHour], [l, o2] = [e2.timeMinMinute, e2.timeMaxMinute], s2 = e2.context.selectedKeeping ? transformTime24(e2.context.selectedHours, e2.context.selectedKeeping) : e2.context.selectedHours, i = "range" === e2.timeControls;
+    var r2;
     t2.innerHTML = e2.sanitizerHTML(`
     <div class="${e2.styles.timeContent}" data-vc-time="content">
       ${TimeInput("hour", e2.styles.timeHour, e2.labels, e2.context.selectedHours, i)}
       ${TimeInput("minute", e2.styles.timeMinute, e2.labels, e2.context.selectedMinutes, i)}
-      ${12 === e2.selectionTimeMode ? (r3 = e2.context.selectedKeeping, `<button type="button" class="${e2.styles.timeKeeping}" aria-label="${e2.labels.btnKeeping} ${r3}" data-vc-time="keeping" ${i ? "disabled" : ""}>${r3}</button>`) : ""}
+      ${12 === e2.selectionTimeMode ? (r2 = e2.context.selectedKeeping, `<button type="button" class="${e2.styles.timeKeeping}" aria-label="${e2.labels.btnKeeping} ${r2}" data-vc-time="keeping" ${i ? "disabled" : ""}>${r2}</button>`) : ""}
     </div>
     <div class="${e2.styles.timeRanges}" data-vc-time="ranges">
-      ${TimeRange("hour", e2.styles.timeRange, e2.labels, n, a3, e2.timeStepHour, s2)}
-      ${TimeRange("minute", e2.styles.timeRange, e2.labels, l2, o3, e2.timeStepMinute, e2.context.selectedMinutes)}
+      ${TimeRange("hour", e2.styles.timeRange, e2.labels, n, a, e2.timeStepHour, s2)}
+      ${TimeRange("minute", e2.styles.timeRange, e2.labels, l, o2, e2.timeStepMinute, e2.context.selectedMinutes)}
     </div>
   `), handleTime(e2, t2);
   };
   var createWeek = (e2) => {
-    const t2 = e2.selectedWeekends ? [...e2.selectedWeekends] : [], n = [...e2.context.locale.weekdays.long].reduce((n2, a4, l2) => [...n2, { id: l2, titleShort: e2.context.locale.weekdays.short[l2], titleLong: a4, isWeekend: t2.includes(l2) }], []), a3 = [...n.slice(e2.firstWeekday), ...n.slice(0, e2.firstWeekday)];
+    const t2 = e2.selectedWeekends ? [...e2.selectedWeekends] : [], n = [...e2.context.locale.weekdays.long].reduce((n2, a2, l) => [...n2, { id: l, titleShort: e2.context.locale.weekdays.short[l], titleLong: a2, isWeekend: t2.includes(l) }], []), a = [...n.slice(e2.firstWeekday), ...n.slice(0, e2.firstWeekday)];
     e2.context.mainElement.querySelectorAll('[data-vc="week"]').forEach((t3) => {
       const n2 = e2.onClickWeekDay ? document.createElement("button") : document.createElement("b");
-      e2.onClickWeekDay && (n2.type = "button"), a3.forEach((a4) => {
-        const l2 = n2.cloneNode(true);
-        l2.innerText = a4.titleShort, l2.className = e2.styles.weekDay, l2.role = "columnheader", l2.ariaLabel = a4.titleLong, l2.dataset.vcWeekDay = String(a4.id), a4.isWeekend && (l2.dataset.vcWeekDayOff = ""), t3.appendChild(l2);
+      e2.onClickWeekDay && (n2.type = "button"), a.forEach((a2) => {
+        const l = n2.cloneNode(true);
+        l.innerText = a2.titleShort, l.className = e2.styles.weekDay, l.role = "columnheader", l.ariaLabel = a2.titleLong, l.dataset.vcWeekDay = String(a2.id), a2.isWeekend && (l.dataset.vcWeekDayOff = ""), t3.appendChild(l);
       });
     });
   };
-  var createYearEl = (e2, t2, n, a3, l2) => {
-    const o3 = t2.cloneNode(false);
-    return o3.className = e2.styles.yearsYear, o3.innerText = String(l2), o3.ariaLabel = String(l2), o3.role = "gridcell", o3.dataset.vcYearsYear = `${l2}`, a3 && (o3.ariaDisabled = "true"), a3 && (o3.tabIndex = -1), o3.disabled = a3, setYearModifier(e2, o3, "year", n === l2, false), o3;
+  var createYearEl = (e2, t2, n, a, l) => {
+    const o2 = t2.cloneNode(false);
+    return o2.className = e2.styles.yearsYear, o2.innerText = String(l), o2.ariaLabel = String(l), o2.role = "gridcell", o2.dataset.vcYearsYear = `${l}`, a && (o2.ariaDisabled = "true"), a && (o2.tabIndex = -1), o2.disabled = a, setYearModifier(e2, o2, "year", n === l, false), o2;
   };
   var createYears = (e2, t2) => {
     var n;
-    const a3 = (null == t2 ? void 0 : t2.dataset.vcYear) ? Number(t2.dataset.vcYear) : e2.context.selectedYear;
+    const a = (null == t2 ? void 0 : t2.dataset.vcYear) ? Number(t2.dataset.vcYear) : e2.context.selectedYear;
     setContext(e2, "currentType", "year"), createLayouts(e2, t2), visibilityTitle(e2), visibilityArrows(e2);
-    const l2 = e2.context.mainElement.querySelector('[data-vc="years"]');
-    if (!e2.selectionYearsMode || !l2) return;
-    const o3 = "multiple" !== e2.type || e2.context.selectedYear === a3 ? 0 : 1, s2 = document.createElement("button");
+    const l = e2.context.mainElement.querySelector('[data-vc="years"]');
+    if (!e2.selectionYearsMode || !l) return;
+    const o2 = "multiple" !== e2.type || e2.context.selectedYear === a ? 0 : 1, s2 = document.createElement("button");
     s2.type = "button";
     for (let t3 = e2.context.displayYear - 7; t3 < e2.context.displayYear + 8; t3++) {
-      const n2 = t3 < getDate(e2.context.dateMin).getFullYear() + o3 || t3 > getDate(e2.context.dateMax).getFullYear(), i = createYearEl(e2, s2, a3, n2, t3);
-      l2.appendChild(i), e2.onCreateYearEls && e2.onCreateYearEls(e2, i);
+      const n2 = t3 < getDate(e2.context.dateMin).getFullYear() + o2 || t3 > getDate(e2.context.dateMax).getFullYear(), i = createYearEl(e2, s2, a, n2, t3);
+      l.appendChild(i), e2.onCreateYearEls && e2.onCreateYearEls(e2, i);
     }
     null == (n = e2.context.mainElement.querySelector("[data-vc-years-year]:not([disabled])")) || n.focus();
   };
   var trackChangesHTMLElement = (e2, t2, n) => {
     new MutationObserver((e3) => {
-      for (let a3 = 0; a3 < e3.length; a3++) {
-        if (e3[a3].attributeName === t2) {
+      for (let a = 0; a < e3.length; a++) {
+        if (e3[a].attributeName === t2) {
           n();
           break;
         }
@@ -27601,11 +28738,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     t2.addEventListener ? t2.addEventListener("change", n) : t2.addListener(n), haveListener.set();
   };
   var detectTheme = (e2, t2) => {
-    const n = e2.themeAttrDetect.length ? document.querySelector(e2.themeAttrDetect) : null, a3 = e2.themeAttrDetect.replace(/^.*\[(.+)\]/g, (e3, t3) => t3);
-    if (!n || "system" === n.getAttribute(a3)) return void trackChangesThemeInSystemSettings(e2, t2);
-    const l2 = n.getAttribute(a3);
-    l2 ? (setTheme2(e2.context.mainElement, l2), trackChangesHTMLElement(n, a3, () => {
-      const t3 = n.getAttribute(a3);
+    const n = e2.themeAttrDetect.length ? document.querySelector(e2.themeAttrDetect) : null, a = e2.themeAttrDetect.replace(/^.*\[(.+)\]/g, (e3, t3) => t3);
+    if (!n || "system" === n.getAttribute(a)) return void trackChangesThemeInSystemSettings(e2, t2);
+    const l = n.getAttribute(a);
+    l ? (setTheme2(e2.context.mainElement, l), trackChangesHTMLElement(n, a, () => {
+      const t3 = n.getAttribute(a);
       t3 && setTheme2(e2.context.mainElement, t3);
     })) : trackChangesThemeInSystemSettings(e2, t2);
   };
@@ -27614,20 +28751,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var capitalizeFirstLetter = (e2) => e2.charAt(0).toUpperCase() + e2.slice(1).replace(/\./, "");
   var getLocaleWeekday = (e2, t2, n) => {
-    const a3 = /* @__PURE__ */ new Date(`1978-01-0${t2 + 1}T00:00:00.000Z`), l2 = a3.toLocaleString(n, { weekday: "short", timeZone: "UTC" }), o3 = a3.toLocaleString(n, { weekday: "long", timeZone: "UTC" });
-    e2.context.locale.weekdays.short.push(capitalizeFirstLetter(l2)), e2.context.locale.weekdays.long.push(capitalizeFirstLetter(o3));
+    const a = /* @__PURE__ */ new Date(`1978-01-0${t2 + 1}T00:00:00.000Z`), l = a.toLocaleString(n, { weekday: "short", timeZone: "UTC" }), o2 = a.toLocaleString(n, { weekday: "long", timeZone: "UTC" });
+    e2.context.locale.weekdays.short.push(capitalizeFirstLetter(l)), e2.context.locale.weekdays.long.push(capitalizeFirstLetter(o2));
   };
   var getLocaleMonth = (e2, t2, n) => {
-    const a3 = /* @__PURE__ */ new Date(`1978-${String(t2 + 1).padStart(2, "0")}-01T00:00:00.000Z`), l2 = a3.toLocaleString(n, { month: "short", timeZone: "UTC" }), o3 = a3.toLocaleString(n, { month: "long", timeZone: "UTC" });
-    e2.context.locale.months.short.push(capitalizeFirstLetter(l2)), e2.context.locale.months.long.push(capitalizeFirstLetter(o3));
+    const a = /* @__PURE__ */ new Date(`1978-${String(t2 + 1).padStart(2, "0")}-01T00:00:00.000Z`), l = a.toLocaleString(n, { month: "short", timeZone: "UTC" }), o2 = a.toLocaleString(n, { month: "long", timeZone: "UTC" });
+    e2.context.locale.months.short.push(capitalizeFirstLetter(l)), e2.context.locale.months.long.push(capitalizeFirstLetter(o2));
   };
   var getLocale = (e2) => {
-    var t2, n, a3, l2, o3, s2, i, r3;
+    var t2, n, a, l, o2, s2, i, r2;
     if (!(e2.context.locale.weekdays.short[6] && e2.context.locale.weekdays.long[6] && e2.context.locale.months.short[11] && e2.context.locale.months.long[11])) if ("string" == typeof e2.locale) {
       if ("string" == typeof e2.locale && !e2.locale.length) throw new Error(errorMessages.notLocale);
       Array.from({ length: 7 }, (t3, n2) => getLocaleWeekday(e2, n2, e2.locale)), Array.from({ length: 12 }, (t3, n2) => getLocaleMonth(e2, n2, e2.locale));
     } else {
-      if (!((null == (n = null == (t2 = e2.locale) ? void 0 : t2.weekdays) ? void 0 : n.short[6]) && (null == (l2 = null == (a3 = e2.locale) ? void 0 : a3.weekdays) ? void 0 : l2.long[6]) && (null == (s2 = null == (o3 = e2.locale) ? void 0 : o3.months) ? void 0 : s2.short[11]) && (null == (r3 = null == (i = e2.locale) ? void 0 : i.months) ? void 0 : r3.long[11]))) throw new Error(errorMessages.notLocale);
+      if (!((null == (n = null == (t2 = e2.locale) ? void 0 : t2.weekdays) ? void 0 : n.short[6]) && (null == (l = null == (a = e2.locale) ? void 0 : a.weekdays) ? void 0 : l.long[6]) && (null == (s2 = null == (o2 = e2.locale) ? void 0 : o2.months) ? void 0 : s2.short[11]) && (null == (r2 = null == (i = e2.locale) ? void 0 : i.months) ? void 0 : r2.long[11]))) throw new Error(errorMessages.notLocale);
       setContext(e2, "locale", __spreadValues({}, e2.locale));
     }
   };
@@ -27642,14 +28779,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var handleArrowKeys = (e2) => {
     const t2 = (t3) => {
       var n;
-      const a3 = t3.target;
-      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(t3.key) || "button" !== a3.localName) return;
-      const l2 = Array.from(e2.context.mainElement.querySelectorAll('[data-vc="calendar"] button')), o3 = l2.indexOf(a3);
-      if (-1 === o3) return;
-      const s2 = (i = l2[o3]).hasAttribute("data-vc-date-btn") ? 7 : i.hasAttribute("data-vc-months-month") ? 4 : i.hasAttribute("data-vc-years-year") ? 5 : 1;
+      const a = t3.target;
+      if (!["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(t3.key) || "button" !== a.localName) return;
+      const l = Array.from(e2.context.mainElement.querySelectorAll('[data-vc="calendar"] button')), o2 = l.indexOf(a);
+      if (-1 === o2) return;
+      const s2 = (i = l[o2]).hasAttribute("data-vc-date-btn") ? 7 : i.hasAttribute("data-vc-months-month") ? 4 : i.hasAttribute("data-vc-years-year") ? 5 : 1;
       var i;
-      const r3 = (0, { ArrowUp: () => Math.max(0, o3 - s2), ArrowDown: () => Math.min(l2.length - 1, o3 + s2), ArrowLeft: () => Math.max(0, o3 - 1), ArrowRight: () => Math.min(l2.length - 1, o3 + 1) }[t3.key])();
-      null == (n = l2[r3]) || n.focus();
+      const r2 = (0, { ArrowUp: () => Math.max(0, o2 - s2), ArrowDown: () => Math.min(l.length - 1, o2 + s2), ArrowLeft: () => Math.max(0, o2 - 1), ArrowRight: () => Math.min(l.length - 1, o2 + 1) }[t3.key])();
+      null == (n = l[r2]) || n.focus();
     };
     return e2.context.mainElement.addEventListener("keydown", t2), () => e2.context.mainElement.removeEventListener("keydown", t2);
   };
@@ -27662,31 +28799,31 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (n) {
       if (["default", "multiple"].includes(e2.context.currentType)) handleMonth(e2, n.dataset.vcArrow);
       else if ("year" === e2.context.currentType && void 0 !== e2.context.displayYear) {
-        const a3 = { prev: -15, next: 15 }[n.dataset.vcArrow];
-        setContext(e2, "displayYear", e2.context.displayYear + a3), createYears(e2, t2.target);
+        const a = { prev: -15, next: 15 }[n.dataset.vcArrow];
+        setContext(e2, "displayYear", e2.context.displayYear + a), createYears(e2, t2.target);
       }
       e2.onClickArrow && e2.onClickArrow(e2, t2);
     }
   };
   var canToggleSelection = (e2) => void 0 === e2.enableDateToggle || ("function" == typeof e2.enableDateToggle ? e2.enableDateToggle(e2) : e2.enableDateToggle);
   var handleSelectDate = (e2, t2, n) => {
-    const a3 = t2.dataset.vcDate, l2 = t2.closest("[data-vc-date][data-vc-date-selected]"), o3 = canToggleSelection(e2);
-    if (l2 && !o3) return;
-    const s2 = l2 ? e2.context.selectedDates.filter((e3) => e3 !== a3) : n ? [...e2.context.selectedDates, a3] : [a3];
+    const a = t2.dataset.vcDate, l = t2.closest("[data-vc-date][data-vc-date-selected]"), o2 = canToggleSelection(e2);
+    if (l && !o2) return;
+    const s2 = l ? e2.context.selectedDates.filter((e3) => e3 !== a) : n ? [...e2.context.selectedDates, a] : [a];
     setContext(e2, "selectedDates", s2);
   };
   var createDateRangeTooltip = (e2, t2, n) => {
     if (!t2) return;
     if (!n) return t2.dataset.vcDateRangeTooltip = "hidden", void (t2.textContent = "");
-    const a3 = e2.context.mainElement.getBoundingClientRect(), l2 = n.getBoundingClientRect();
-    t2.style.left = l2.left - a3.left + l2.width / 2 + "px", t2.style.top = l2.bottom - a3.top - l2.height + "px", t2.dataset.vcDateRangeTooltip = "visible", t2.innerHTML = e2.sanitizerHTML(e2.onCreateDateRangeTooltip(e2, n, t2, l2, a3));
+    const a = e2.context.mainElement.getBoundingClientRect(), l = n.getBoundingClientRect();
+    t2.style.left = l.left - a.left + l.width / 2 + "px", t2.style.top = l.bottom - a.top - l.height + "px", t2.dataset.vcDateRangeTooltip = "visible", t2.innerHTML = e2.sanitizerHTML(e2.onCreateDateRangeTooltip(e2, n, t2, l, a));
   };
   var state = { self: null, lastDateEl: null, isHovering: false, rangeMin: void 0, rangeMax: void 0, tooltipEl: null, timeoutId: null };
   var addHoverEffect = (e2, t2, n) => {
-    var a3, l2, o3;
-    if (!(null == (l2 = null == (a3 = state.self) ? void 0 : a3.context) ? void 0 : l2.selectedDates[0])) return;
+    var a, l, o2;
+    if (!(null == (l = null == (a = state.self) ? void 0 : a.context) ? void 0 : l.selectedDates[0])) return;
     const s2 = getDateString(e2);
-    (null == (o3 = state.self.context.disableDates) ? void 0 : o3.includes(s2)) || (state.self.context.mainElement.querySelectorAll(`[data-vc-date="${s2}"]`).forEach((e3) => e3.dataset.vcDateHover = ""), t2.forEach((e3) => e3.dataset.vcDateHover = "first"), n.forEach((e3) => {
+    (null == (o2 = state.self.context.disableDates) ? void 0 : o2.includes(s2)) || (state.self.context.mainElement.querySelectorAll(`[data-vc-date="${s2}"]`).forEach((e3) => e3.dataset.vcDateHover = ""), t2.forEach((e3) => e3.dataset.vcDateHover = "first"), n.forEach((e3) => {
       "first" === e3.dataset.vcDateHover ? e3.dataset.vcDateHover = "first-and-last" : e3.dataset.vcDateHover = "last";
     }));
   };
@@ -27699,11 +28836,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     var t2, n;
     if (!e2.target || !(null == (n = null == (t2 = state.self) ? void 0 : t2.context) ? void 0 : n.selectedDates[0])) return;
     if (!e2.target.closest('[data-vc="dates"]')) return state.lastDateEl = null, createDateRangeTooltip(state.self, state.tooltipEl, null), void removeHoverEffect();
-    const a3 = e2.target.closest("[data-vc-date]");
-    if (!a3 || state.lastDateEl === a3) return;
-    state.lastDateEl = a3, createDateRangeTooltip(state.self, state.tooltipEl, a3), removeHoverEffect();
-    const l2 = a3.dataset.vcDate, o3 = getDate(state.self.context.selectedDates[0]), s2 = getDate(l2), i = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${state.self.context.selectedDates[0]}"]`), r3 = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${l2}"]`), [c3, d2] = o3 < s2 ? [i, r3] : [r3, i], [u2, m2] = o3 < s2 ? [o3, s2] : [s2, o3];
-    for (let e3 = new Date(u2); e3 <= m2; e3.setDate(e3.getDate() + 1)) addHoverEffect(e3, c3, d2);
+    const a = e2.target.closest("[data-vc-date]");
+    if (!a || state.lastDateEl === a) return;
+    state.lastDateEl = a, createDateRangeTooltip(state.self, state.tooltipEl, a), removeHoverEffect();
+    const l = a.dataset.vcDate, o2 = getDate(state.self.context.selectedDates[0]), s2 = getDate(l), i = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${state.self.context.selectedDates[0]}"]`), r2 = state.self.context.mainElement.querySelectorAll(`[data-vc-date="${l}"]`), [c, d] = o2 < s2 ? [i, r2] : [r2, i], [u, m2] = o2 < s2 ? [o2, s2] : [s2, o2];
+    for (let e3 = new Date(u); e3 <= m2; e3.setDate(e3.getDate() + 1)) addHoverEffect(e3, c, d);
   };
   var handleHoverSelectedDatesRangeEvent = (e2) => {
     const t2 = e2.target.closest("[data-vc-date-selected]");
@@ -27726,23 +28863,23 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, 50);
   };
   var updateDisabledDates = () => {
-    var e2, t2, n, a3;
-    if (!(null == (n = null == (t2 = null == (e2 = state.self) ? void 0 : e2.context) ? void 0 : t2.selectedDates) ? void 0 : n[0]) || !(null == (a3 = state.self.context.disableDates) ? void 0 : a3[0])) return;
-    const l2 = getDate(state.self.context.selectedDates[0]), [o3, s2] = state.self.context.disableDates.map((e3) => getDate(e3)).reduce(([e3, t3], n2) => [l2 >= n2 ? n2 : e3, l2 < n2 && null === t3 ? n2 : t3], [null, null]);
-    o3 && setContext(state.self, "displayDateMin", getDateString(new Date(o3.setDate(o3.getDate() + 1)))), s2 && setContext(state.self, "displayDateMax", getDateString(new Date(s2.setDate(s2.getDate() - 1))));
+    var e2, t2, n, a;
+    if (!(null == (n = null == (t2 = null == (e2 = state.self) ? void 0 : e2.context) ? void 0 : t2.selectedDates) ? void 0 : n[0]) || !(null == (a = state.self.context.disableDates) ? void 0 : a[0])) return;
+    const l = getDate(state.self.context.selectedDates[0]), [o2, s2] = state.self.context.disableDates.map((e3) => getDate(e3)).reduce(([e3, t3], n2) => [l >= n2 ? n2 : e3, l < n2 && null === t3 ? n2 : t3], [null, null]);
+    o2 && setContext(state.self, "displayDateMin", getDateString(new Date(o2.setDate(o2.getDate() + 1)))), s2 && setContext(state.self, "displayDateMax", getDateString(new Date(s2.setDate(s2.getDate() - 1))));
     state.self.disableDatesPast && !state.self.disableAllDates && getDate(state.self.context.displayDateMin) < getDate(state.self.context.dateToday) && setContext(state.self, "displayDateMin", state.self.context.dateToday);
   };
   var handleSelectDateRange = (e2, t2) => {
     state.self = e2, state.lastDateEl = t2, removeHoverEffect(), e2.disableDatesGaps && (state.rangeMin = state.rangeMin ? state.rangeMin : e2.context.displayDateMin, state.rangeMax = state.rangeMax ? state.rangeMax : e2.context.displayDateMax), e2.onCreateDateRangeTooltip && (state.tooltipEl = e2.context.mainElement.querySelector("[data-vc-date-range-tooltip]"));
     const n = null == t2 ? void 0 : t2.dataset.vcDate;
     if (n) {
-      const t3 = 1 === e2.context.selectedDates.length && e2.context.selectedDates[0].includes(n), a3 = t3 && !canToggleSelection(e2) ? [n, n] : t3 && canToggleSelection(e2) ? [] : e2.context.selectedDates.length > 1 ? [n] : [...e2.context.selectedDates, n];
-      setContext(e2, "selectedDates", a3), e2.context.selectedDates.length > 1 && e2.context.selectedDates.sort((e3, t4) => +new Date(e3) - +new Date(t4));
+      const t3 = 1 === e2.context.selectedDates.length && e2.context.selectedDates[0].includes(n), a = t3 && !canToggleSelection(e2) ? [n, n] : t3 && canToggleSelection(e2) ? [] : e2.context.selectedDates.length > 1 ? [n] : [...e2.context.selectedDates, n];
+      setContext(e2, "selectedDates", a), e2.context.selectedDates.length > 1 && e2.context.selectedDates.sort((e3, t4) => +new Date(e3) - +new Date(t4));
     }
     ({ set: () => (e2.disableDatesGaps && updateDisabledDates(), createDateRangeTooltip(state.self, state.tooltipEl, t2), state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates), state.self.context.mainElement.addEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.addEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.addEventListener("keydown", handleCancelSelectionDates), () => {
       state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates);
     }), reset: () => {
-      const [n2, a3] = [e2.context.selectedDates[0], e2.context.selectedDates[e2.context.selectedDates.length - 1]], l2 = e2.context.selectedDates[0] !== e2.context.selectedDates[e2.context.selectedDates.length - 1], o3 = parseDates([`${n2}:${a3}`]).filter((t3) => !e2.context.disableDates.includes(t3)), s2 = l2 ? e2.enableEdgeDatesOnly ? [n2, a3] : o3 : [e2.context.selectedDates[0], e2.context.selectedDates[0]];
+      const [n2, a] = [e2.context.selectedDates[0], e2.context.selectedDates[e2.context.selectedDates.length - 1]], l = e2.context.selectedDates[0] !== e2.context.selectedDates[e2.context.selectedDates.length - 1], o2 = parseDates([`${n2}:${a}`]).filter((t3) => !e2.context.disableDates.includes(t3)), s2 = l ? e2.enableEdgeDatesOnly ? [n2, a] : o2 : [e2.context.selectedDates[0], e2.context.selectedDates[0]];
       if (setContext(e2, "selectedDates", s2), e2.disableDatesGaps && (setContext(e2, "displayDateMin", state.rangeMin), setContext(e2, "displayDateMax", state.rangeMax)), state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverDatesEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), state.self.context.mainElement.removeEventListener("keydown", handleCancelSelectionDates), e2.onCreateDateRangeTooltip) return e2.context.selectedDates[0] || (state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave), createDateRangeTooltip(state.self, state.tooltipEl, null)), e2.context.selectedDates[0] && (state.self.context.mainElement.addEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.addEventListener("mouseleave", handleMouseLeave), createDateRangeTooltip(state.self, state.tooltipEl, t2)), () => {
         state.self.context.mainElement.removeEventListener("mousemove", optimizedHandleHoverSelectedDatesRangeEvent), state.self.context.mainElement.removeEventListener("mouseleave", handleMouseLeave);
       };
@@ -27750,40 +28887,40 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var updateDateModifier = (e2) => {
     e2.context.mainElement.querySelectorAll("[data-vc-date]").forEach((t2) => {
-      const n = t2.querySelector("[data-vc-date-btn]"), a3 = t2.dataset.vcDate, l2 = getDate(a3).getDay();
-      setDateModifier(e2, e2.context.selectedYear, t2, n, l2, a3, "current");
+      const n = t2.querySelector("[data-vc-date-btn]"), a = t2.dataset.vcDate, l = getDate(a).getDay();
+      setDateModifier(e2, e2.context.selectedYear, t2, n, l, a, "current");
     });
   };
   var handleClickDate = (e2, t2) => {
     var n;
-    const a3 = t2.target, l2 = a3.closest("[data-vc-date-btn]");
-    if (!e2.selectionDatesMode || !["single", "multiple", "multiple-ranged"].includes(e2.selectionDatesMode) || !l2) return;
-    const o3 = l2.closest("[data-vc-date]");
-    ({ single: () => handleSelectDate(e2, o3, false), multiple: () => handleSelectDate(e2, o3, true), "multiple-ranged": () => handleSelectDateRange(e2, o3) })[e2.selectionDatesMode](), null == (n = e2.context.selectedDates) || n.sort((e3, t3) => +new Date(e3) - +new Date(t3)), e2.onClickDate && e2.onClickDate(e2, t2), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
-    const s2 = a3.closest('[data-vc-date-month="prev"]'), i = a3.closest('[data-vc-date-month="next"]');
+    const a = t2.target, l = a.closest("[data-vc-date-btn]");
+    if (!e2.selectionDatesMode || !["single", "multiple", "multiple-ranged"].includes(e2.selectionDatesMode) || !l) return;
+    const o2 = l.closest("[data-vc-date]");
+    ({ single: () => handleSelectDate(e2, o2, false), multiple: () => handleSelectDate(e2, o2, true), "multiple-ranged": () => handleSelectDateRange(e2, o2) })[e2.selectionDatesMode](), null == (n = e2.context.selectedDates) || n.sort((e3, t3) => +new Date(e3) - +new Date(t3)), e2.onClickDate && e2.onClickDate(e2, t2), e2.inputMode && e2.context.inputElement && e2.context.mainElement && e2.onChangeToInput && e2.onChangeToInput(e2, t2);
+    const s2 = a.closest('[data-vc-date-month="prev"]'), i = a.closest('[data-vc-date-month="next"]');
     ({ prev: () => e2.enableMonthChangeOnDayClick ? handleMonth(e2, "prev") : updateDateModifier(e2), next: () => e2.enableMonthChangeOnDayClick ? handleMonth(e2, "next") : updateDateModifier(e2), current: () => updateDateModifier(e2) })[s2 ? "prev" : i ? "next" : "current"]();
   };
   var typeClick = ["month", "year"];
   var getValue = (e2, t2, n) => {
-    const { currentValue: a3, columnID: l2 } = getColumnID(e2, t2);
-    return "month" === e2.context.currentType && l2 >= 0 ? n - l2 : "year" === e2.context.currentType && e2.context.selectedYear !== a3 ? n - 1 : n;
+    const { currentValue: a, columnID: l } = getColumnID(e2, t2);
+    return "month" === e2.context.currentType && l >= 0 ? n - l : "year" === e2.context.currentType && e2.context.selectedYear !== a ? n - 1 : n;
   };
   var handleMultipleYearSelection = (e2, t2) => {
-    const n = getValue(e2, "year", Number(t2.dataset.vcYearsYear)), a3 = getDate(e2.context.dateMin), l2 = getDate(e2.context.dateMax), o3 = e2.context.displayMonthsCount - 1, { columnID: s2 } = getColumnID(e2, "year"), i = e2.context.selectedMonth < a3.getMonth() && n <= a3.getFullYear(), r3 = e2.context.selectedMonth > l2.getMonth() - o3 + s2 && n >= l2.getFullYear(), c3 = n < a3.getFullYear(), d2 = n > l2.getFullYear(), u2 = i || c3 ? a3.getFullYear() : r3 || d2 ? l2.getFullYear() : n, m2 = i || c3 ? a3.getMonth() : r3 || d2 ? l2.getMonth() - o3 + s2 : e2.context.selectedMonth;
-    setContext(e2, "selectedYear", u2), setContext(e2, "selectedMonth", m2);
+    const n = getValue(e2, "year", Number(t2.dataset.vcYearsYear)), a = getDate(e2.context.dateMin), l = getDate(e2.context.dateMax), o2 = e2.context.displayMonthsCount - 1, { columnID: s2 } = getColumnID(e2, "year"), i = e2.context.selectedMonth < a.getMonth() && n <= a.getFullYear(), r2 = e2.context.selectedMonth > l.getMonth() - o2 + s2 && n >= l.getFullYear(), c = n < a.getFullYear(), d = n > l.getFullYear(), u = i || c ? a.getFullYear() : r2 || d ? l.getFullYear() : n, m2 = i || c ? a.getMonth() : r2 || d ? l.getMonth() - o2 + s2 : e2.context.selectedMonth;
+    setContext(e2, "selectedYear", u), setContext(e2, "selectedMonth", m2);
   };
   var handleMultipleMonthSelection = (e2, t2) => {
-    const n = t2.closest('[data-vc-column="month"]').querySelector('[data-vc="year"]'), a3 = getValue(e2, "month", Number(t2.dataset.vcMonthsMonth)), l2 = Number(n.dataset.vcYear), o3 = getDate(e2.context.dateMin), s2 = getDate(e2.context.dateMax), i = a3 < o3.getMonth() && l2 <= o3.getFullYear(), r3 = a3 > s2.getMonth() && l2 >= s2.getFullYear();
-    setContext(e2, "selectedYear", l2), setContext(e2, "selectedMonth", i ? o3.getMonth() : r3 ? s2.getMonth() : a3);
+    const n = t2.closest('[data-vc-column="month"]').querySelector('[data-vc="year"]'), a = getValue(e2, "month", Number(t2.dataset.vcMonthsMonth)), l = Number(n.dataset.vcYear), o2 = getDate(e2.context.dateMin), s2 = getDate(e2.context.dateMax), i = a < o2.getMonth() && l <= o2.getFullYear(), r2 = a > s2.getMonth() && l >= s2.getFullYear();
+    setContext(e2, "selectedYear", l), setContext(e2, "selectedMonth", i ? o2.getMonth() : r2 ? s2.getMonth() : a);
   };
-  var handleItemClick = (e2, t2, n, a3) => {
-    var l2;
+  var handleItemClick = (e2, t2, n, a) => {
+    var l;
     ({ year: () => {
-      if ("multiple" === e2.type) return handleMultipleYearSelection(e2, a3);
-      setContext(e2, "selectedYear", Number(a3.dataset.vcYearsYear));
+      if ("multiple" === e2.type) return handleMultipleYearSelection(e2, a);
+      setContext(e2, "selectedYear", Number(a.dataset.vcYearsYear));
     }, month: () => {
-      if ("multiple" === e2.type) return handleMultipleMonthSelection(e2, a3);
-      setContext(e2, "selectedMonth", Number(a3.dataset.vcMonthsMonth));
+      if ("multiple" === e2.type) return handleMultipleMonthSelection(e2, a);
+      setContext(e2, "selectedMonth", Number(a.dataset.vcMonthsMonth));
     } })[n]();
     ({ year: () => {
       var n2;
@@ -27791,36 +28928,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }, month: () => {
       var n2;
       return null == (n2 = e2.onClickMonth) ? void 0 : n2.call(e2, e2, t2);
-    } })[n](), e2.context.currentType !== e2.type ? (setContext(e2, "currentType", e2.type), create(e2), null == (l2 = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || l2.focus()) : setYearModifier(e2, a3, n, true, true);
+    } })[n](), e2.context.currentType !== e2.type ? (setContext(e2, "currentType", e2.type), create(e2), null == (l = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || l.focus()) : setYearModifier(e2, a, n, true, true);
   };
   var handleClickType = (e2, t2, n) => {
-    var a3;
-    const l2 = t2.target, o3 = l2.closest(`[data-vc="${n}"]`), s2 = { year: () => createYears(e2, l2), month: () => createMonths(e2, l2) };
-    if (o3 && e2.onClickTitle && e2.onClickTitle(e2, t2), o3 && e2.context.currentType !== n) return s2[n]();
-    const i = l2.closest(`[data-vc-${n}s-${n}]`);
+    var a;
+    const l = t2.target, o2 = l.closest(`[data-vc="${n}"]`), s2 = { year: () => createYears(e2, l), month: () => createMonths(e2, l) };
+    if (o2 && e2.onClickTitle && e2.onClickTitle(e2, t2), o2 && e2.context.currentType !== n) return s2[n]();
+    const i = l.closest(`[data-vc-${n}s-${n}]`);
     if (i) return handleItemClick(e2, t2, n, i);
-    const r3 = l2.closest('[data-vc="grid"]'), c3 = l2.closest('[data-vc="column"]');
-    (e2.context.currentType === n && o3 || "multiple" === e2.type && e2.context.currentType === n && r3 && !c3) && (setContext(e2, "currentType", e2.type), create(e2), null == (a3 = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || a3.focus());
+    const r2 = l.closest('[data-vc="grid"]'), c = l.closest('[data-vc="column"]');
+    (e2.context.currentType === n && o2 || "multiple" === e2.type && e2.context.currentType === n && r2 && !c) && (setContext(e2, "currentType", e2.type), create(e2), null == (a = e2.context.mainElement.querySelector(`[data-vc="${n}"]`)) || a.focus());
   };
   var handleClickMonthOrYear = (e2, t2) => {
     const n = { month: e2.selectionMonthsMode, year: e2.selectionYearsMode };
-    typeClick.forEach((a3) => {
-      n[a3] && t2.target && handleClickType(e2, t2, a3);
+    typeClick.forEach((a) => {
+      n[a] && t2.target && handleClickType(e2, t2, a);
     });
   };
   var handleClickWeekNumber = (e2, t2) => {
     if (!e2.enableWeekNumbers || !e2.onClickWeekNumber) return;
-    const n = t2.target.closest("[data-vc-week-number]"), a3 = e2.context.mainElement.querySelectorAll("[data-vc-date-week-number]");
-    if (!n || !a3[0]) return;
-    const l2 = Number(n.innerText), o3 = Number(n.dataset.vcWeekYear), s2 = Array.from(a3).filter((e3) => Number(e3.dataset.vcDateWeekNumber) === l2);
-    e2.onClickWeekNumber(e2, l2, o3, s2, t2);
+    const n = t2.target.closest("[data-vc-week-number]"), a = e2.context.mainElement.querySelectorAll("[data-vc-date-week-number]");
+    if (!n || !a[0]) return;
+    const l = Number(n.innerText), o2 = Number(n.dataset.vcWeekYear), s2 = Array.from(a).filter((e3) => Number(e3.dataset.vcDateWeekNumber) === l);
+    e2.onClickWeekNumber(e2, l, o2, s2, t2);
   };
   var handleClickWeekDay = (e2, t2) => {
     if (!e2.onClickWeekDay) return;
-    const n = t2.target.closest("[data-vc-week-day]"), a3 = t2.target.closest('[data-vc="column"]'), l2 = a3 ? a3.querySelectorAll("[data-vc-date-week-day]") : e2.context.mainElement.querySelectorAll("[data-vc-date-week-day]");
-    if (!n || !l2[0]) return;
-    const o3 = Number(n.dataset.vcWeekDay), s2 = Array.from(l2).filter((e3) => Number(e3.dataset.vcDateWeekDay) === o3);
-    e2.onClickWeekDay(e2, o3, s2, t2);
+    const n = t2.target.closest("[data-vc-week-day]"), a = t2.target.closest('[data-vc="column"]'), l = a ? a.querySelectorAll("[data-vc-date-week-day]") : e2.context.mainElement.querySelectorAll("[data-vc-date-week-day]");
+    if (!n || !l[0]) return;
+    const o2 = Number(n.dataset.vcWeekDay), s2 = Array.from(l).filter((e3) => Number(e3.dataset.vcDateWeekDay) === o2);
+    e2.onClickWeekDay(e2, o2, s2, t2);
   };
   var handleClick = (e2) => {
     const t2 = (t3) => {
@@ -27839,11 +28976,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var resolveDate = (e2, t2) => "today" === e2 ? getLocalDate() : e2 instanceof Date || "number" == typeof e2 || "string" == typeof e2 ? parseDates([e2])[0] : t2;
   var initRange = (e2) => {
-    var t2, n, a3;
-    const l2 = resolveDate(e2.dateMin, e2.dateMin), o3 = resolveDate(e2.dateMax, e2.dateMax), s2 = resolveDate(e2.displayDateMin, l2), i = resolveDate(e2.displayDateMax, o3);
-    setContext(e2, "dateToday", resolveDate(e2.dateToday, e2.dateToday)), setContext(e2, "displayDateMin", s2 ? getDate(l2) >= getDate(s2) ? l2 : s2 : l2), setContext(e2, "displayDateMax", i ? getDate(o3) <= getDate(i) ? o3 : i : o3);
-    const r3 = e2.disableDatesPast && !e2.disableAllDates && getDate(s2) < getDate(e2.context.dateToday);
-    setContext(e2, "displayDateMin", r3 || e2.disableAllDates ? e2.context.dateToday : s2), setContext(e2, "displayDateMax", e2.disableAllDates ? e2.context.dateToday : i), setContext(e2, "disableDates", e2.disableDates[0] && !e2.disableAllDates ? parseDates(e2.disableDates) : e2.disableAllDates ? [e2.context.displayDateMin] : []), e2.context.disableDates.length > 1 && e2.context.disableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), setContext(e2, "enableDates", e2.enableDates[0] ? parseDates(e2.enableDates) : []), (null == (t2 = e2.context.enableDates) ? void 0 : t2[0]) && (null == (n = e2.context.disableDates) ? void 0 : n[0]) && setContext(e2, "disableDates", e2.context.disableDates.filter((t3) => !e2.context.enableDates.includes(t3))), e2.context.enableDates.length > 1 && e2.context.enableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), (null == (a3 = e2.context.enableDates) ? void 0 : a3[0]) && e2.disableAllDates && (setContext(e2, "displayDateMin", e2.context.enableDates[0]), setContext(e2, "displayDateMax", e2.context.enableDates[e2.context.enableDates.length - 1])), setContext(e2, "dateMin", e2.displayDisabledDates ? l2 : e2.context.displayDateMin), setContext(e2, "dateMax", e2.displayDisabledDates ? o3 : e2.context.displayDateMax);
+    var t2, n, a;
+    const l = resolveDate(e2.dateMin, e2.dateMin), o2 = resolveDate(e2.dateMax, e2.dateMax), s2 = resolveDate(e2.displayDateMin, l), i = resolveDate(e2.displayDateMax, o2);
+    setContext(e2, "dateToday", resolveDate(e2.dateToday, e2.dateToday)), setContext(e2, "displayDateMin", s2 ? getDate(l) >= getDate(s2) ? l : s2 : l), setContext(e2, "displayDateMax", i ? getDate(o2) <= getDate(i) ? o2 : i : o2);
+    const r2 = e2.disableDatesPast && !e2.disableAllDates && getDate(s2) < getDate(e2.context.dateToday);
+    setContext(e2, "displayDateMin", r2 || e2.disableAllDates ? e2.context.dateToday : s2), setContext(e2, "displayDateMax", e2.disableAllDates ? e2.context.dateToday : i), setContext(e2, "disableDates", e2.disableDates[0] && !e2.disableAllDates ? parseDates(e2.disableDates) : e2.disableAllDates ? [e2.context.displayDateMin] : []), e2.context.disableDates.length > 1 && e2.context.disableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), setContext(e2, "enableDates", e2.enableDates[0] ? parseDates(e2.enableDates) : []), (null == (t2 = e2.context.enableDates) ? void 0 : t2[0]) && (null == (n = e2.context.disableDates) ? void 0 : n[0]) && setContext(e2, "disableDates", e2.context.disableDates.filter((t3) => !e2.context.enableDates.includes(t3))), e2.context.enableDates.length > 1 && e2.context.enableDates.sort((e3, t3) => +new Date(e3) - +new Date(t3)), (null == (a = e2.context.enableDates) ? void 0 : a[0]) && e2.disableAllDates && (setContext(e2, "displayDateMin", e2.context.enableDates[0]), setContext(e2, "displayDateMax", e2.context.enableDates[e2.context.enableDates.length - 1])), setContext(e2, "dateMin", e2.displayDisabledDates ? l : e2.context.displayDateMin), setContext(e2, "dateMax", e2.displayDisabledDates ? o2 : e2.context.displayDateMax);
   };
   var initSelectedDates = (e2) => {
     var t2;
@@ -27858,27 +28995,27 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const t3 = getDate(parseDates(e2.selectedDates)[0]);
       return void setInitialContext(e2, t3.getMonth(), t3.getFullYear());
     }
-    const n = void 0 !== e2.selectedMonth && Number(e2.selectedMonth) >= 0 && Number(e2.selectedMonth) < 12, a3 = void 0 !== e2.selectedYear && Number(e2.selectedYear) >= 0 && Number(e2.selectedYear) <= 9999;
-    setInitialContext(e2, n ? Number(e2.selectedMonth) : getDate(e2.context.dateToday).getMonth(), a3 ? Number(e2.selectedYear) : getDate(e2.context.dateToday).getFullYear());
+    const n = void 0 !== e2.selectedMonth && Number(e2.selectedMonth) >= 0 && Number(e2.selectedMonth) < 12, a = void 0 !== e2.selectedYear && Number(e2.selectedYear) >= 0 && Number(e2.selectedYear) <= 9999;
+    setInitialContext(e2, n ? Number(e2.selectedMonth) : getDate(e2.context.dateToday).getMonth(), a ? Number(e2.selectedYear) : getDate(e2.context.dateToday).getFullYear());
   };
   var initTime = (e2) => {
-    var t2, n, a3;
+    var t2, n, a;
     if (!e2.selectionTimeMode) return;
     if (![12, 24].includes(e2.selectionTimeMode)) throw new Error(errorMessages.incorrectTime);
-    const l2 = 12 === e2.selectionTimeMode, o3 = l2 ? /^(0[1-9]|1[0-2]):([0-5][0-9]) ?(AM|PM)?$/i : /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/;
-    let [s2, i, r3] = null != (a3 = null == (n = null == (t2 = e2.selectedTime) ? void 0 : t2.match(o3)) ? void 0 : n.slice(1)) ? a3 : [];
-    s2 ? l2 && !r3 && (r3 = "AM") : (s2 = l2 ? transformTime12(String(e2.timeMinHour)) : String(e2.timeMinHour), i = String(e2.timeMinMinute), r3 = l2 ? Number(transformTime12(String(e2.timeMinHour))) >= 12 ? "PM" : "AM" : null), setContext(e2, "selectedHours", s2.padStart(2, "0")), setContext(e2, "selectedMinutes", i.padStart(2, "0")), setContext(e2, "selectedKeeping", r3), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${r3 ? ` ${r3}` : ""}`);
+    const l = 12 === e2.selectionTimeMode, o2 = l ? /^(0[1-9]|1[0-2]):([0-5][0-9]) ?(AM|PM)?$/i : /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    let [s2, i, r2] = null != (a = null == (n = null == (t2 = e2.selectedTime) ? void 0 : t2.match(o2)) ? void 0 : n.slice(1)) ? a : [];
+    s2 ? l && !r2 && (r2 = "AM") : (s2 = l ? transformTime12(String(e2.timeMinHour)) : String(e2.timeMinHour), i = String(e2.timeMinMinute), r2 = l ? Number(transformTime12(String(e2.timeMinHour))) >= 12 ? "PM" : "AM" : null), setContext(e2, "selectedHours", s2.padStart(2, "0")), setContext(e2, "selectedMinutes", i.padStart(2, "0")), setContext(e2, "selectedKeeping", r2), setContext(e2, "selectedTime", `${e2.context.selectedHours}:${e2.context.selectedMinutes}${r2 ? ` ${r2}` : ""}`);
   };
   var initAllVariables = (e2) => {
     setContext(e2, "currentType", e2.type), initMonthsCount(e2), initRange(e2), initSelectedMonthYear(e2), initSelectedDates(e2), initTime(e2);
   };
-  var reset = (e2, { year: t2, month: n, dates: a3, time: l2, locale: o3 }, s2 = true) => {
+  var reset = (e2, { year: t2, month: n, dates: a, time: l, locale: o2 }, s2 = true) => {
     var i;
-    const r3 = { year: e2.selectedYear, month: e2.selectedMonth, dates: e2.selectedDates, time: e2.selectedTime };
-    if (e2.selectedYear = t2 ? r3.year : e2.context.selectedYear, e2.selectedMonth = n ? r3.month : e2.context.selectedMonth, e2.selectedTime = l2 ? r3.time : e2.context.selectedTime, e2.selectedDates = "only-first" === a3 && (null == (i = e2.context.selectedDates) ? void 0 : i[0]) ? [e2.context.selectedDates[0]] : true === a3 ? r3.dates : e2.context.selectedDates, o3) {
+    const r2 = { year: e2.selectedYear, month: e2.selectedMonth, dates: e2.selectedDates, time: e2.selectedTime };
+    if (e2.selectedYear = t2 ? r2.year : e2.context.selectedYear, e2.selectedMonth = n ? r2.month : e2.context.selectedMonth, e2.selectedTime = l ? r2.time : e2.context.selectedTime, e2.selectedDates = "only-first" === a && (null == (i = e2.context.selectedDates) ? void 0 : i[0]) ? [e2.context.selectedDates[0]] : true === a ? r2.dates : e2.context.selectedDates, o2) {
       setContext(e2, "locale", { months: { short: [], long: [] }, weekdays: { short: [], long: [] } });
     }
-    initAllVariables(e2), s2 && create(e2), e2.selectedYear = r3.year, e2.selectedMonth = r3.month, e2.selectedDates = r3.dates, e2.selectedTime = r3.time, "multiple-ranged" === e2.selectionDatesMode && a3 && handleSelectDateRange(e2, null);
+    initAllVariables(e2), s2 && create(e2), e2.selectedYear = r2.year, e2.selectedMonth = r2.month, e2.selectedDates = r2.dates, e2.selectedTime = r2.time, "multiple-ranged" === e2.selectionDatesMode && a && handleSelectDateRange(e2, null);
   };
   var createToInput = (e2) => {
     const t2 = document.createElement("div");
@@ -27900,9 +29037,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var replaceProperties = (e2, t2) => {
     const n = Object.keys(t2);
-    for (let a3 = 0; a3 < n.length; a3++) {
-      const l2 = n[a3];
-      "object" != typeof e2[l2] || "object" != typeof t2[l2] || t2[l2] instanceof Date || Array.isArray(t2[l2]) ? void 0 !== t2[l2] && (e2[l2] = t2[l2]) : replaceProperties(e2[l2], t2[l2]);
+    for (let a = 0; a < n.length; a++) {
+      const l = n[a];
+      "object" != typeof e2[l] || "object" != typeof t2[l] || t2[l] instanceof Date || Array.isArray(t2[l]) ? void 0 !== t2[l] && (e2[l] = t2[l]) : replaceProperties(e2[l], t2[l]);
     }
   };
   var set2 = (e2, t2, n) => {
@@ -27911,21 +29048,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function findBestPickerPosition(e2, t2) {
     const n = "left";
     if (!t2 || !e2) return n;
-    const { canShow: a3, parentPositions: l2 } = getAvailablePosition(e2, t2), o3 = a3.left && a3.right;
-    return (o3 && a3.bottom ? "center" : o3 && a3.top ? ["top", "center"] : Array.isArray(l2) ? ["bottom" === l2[0] ? "top" : "bottom", ...l2.slice(1)] : l2) || n;
+    const { canShow: a, parentPositions: l } = getAvailablePosition(e2, t2), o2 = a.left && a.right;
+    return (o2 && a.bottom ? "center" : o2 && a.top ? ["top", "center"] : Array.isArray(l) ? ["bottom" === l[0] ? "top" : "bottom", ...l.slice(1)] : l) || n;
   }
   var setPosition = (e2, t2, n) => {
     if (!e2) return;
-    const a3 = "auto" === n ? findBestPickerPosition(e2, t2) : n, l2 = { top: -t2.offsetHeight, bottom: e2.offsetHeight, left: 0, center: e2.offsetWidth / 2 - t2.offsetWidth / 2, right: e2.offsetWidth - t2.offsetWidth }, o3 = Array.isArray(a3) ? a3[0] : "bottom", s2 = Array.isArray(a3) ? a3[1] : a3;
-    t2.dataset.vcPosition = o3;
-    const { top: i, left: r3 } = getOffset(e2), c3 = i + l2[o3];
-    let d2 = r3 + l2[s2];
-    const { vw: u2 } = getViewportDimensions();
-    if (d2 + t2.clientWidth > u2) {
+    const a = "auto" === n ? findBestPickerPosition(e2, t2) : n, l = { top: -t2.offsetHeight, bottom: e2.offsetHeight, left: 0, center: e2.offsetWidth / 2 - t2.offsetWidth / 2, right: e2.offsetWidth - t2.offsetWidth }, o2 = Array.isArray(a) ? a[0] : "bottom", s2 = Array.isArray(a) ? a[1] : a;
+    t2.dataset.vcPosition = o2;
+    const { top: i, left: r2 } = getOffset(e2), c = i + l[o2];
+    let d = r2 + l[s2];
+    const { vw: u } = getViewportDimensions();
+    if (d + t2.clientWidth > u) {
       const e3 = window.innerWidth - document.body.clientWidth;
-      d2 = u2 - t2.clientWidth - e3;
-    } else d2 < 0 && (d2 = 0);
-    Object.assign(t2.style, { left: `${d2}px`, top: `${c3}px` });
+      d = u - t2.clientWidth - e3;
+    } else d < 0 && (d = 0);
+    Object.assign(t2.style, { left: `${d}px`, top: `${c}px` });
   };
   var show = (e2) => {
     if (e2.context.isShowInInputMode) return;
@@ -27939,10 +29076,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       "Escape" === t3.key && hide(e2);
     };
     document.addEventListener("keydown", n), e2.context.cleanupHandlers.push(() => document.removeEventListener("keydown", n));
-    const a3 = (t3) => {
+    const a = (t3) => {
       t3.target === e2.context.inputElement || e2.context.mainElement.contains(t3.target) || hide(e2);
     };
-    document.addEventListener("click", a3, { capture: true }), e2.context.cleanupHandlers.push(() => document.removeEventListener("click", a3, { capture: true })), e2.onShow && e2.onShow(e2);
+    document.addEventListener("click", a, { capture: true }), e2.context.cleanupHandlers.push(() => document.removeEventListener("click", a, { capture: true })), e2.onShow && e2.onShow(e2);
   };
   var labels = { application: "Calendar", navigation: "Calendar Navigation", arrowNext: { month: "Next month", year: "Next list of years" }, arrowPrev: { month: "Previous month", year: "Previous list of years" }, month: "Select month, current selected month:", months: "List of months", year: "Select year, current selected year:", years: "List of years", week: "Days of the week", weekNumber: "Numbers of weeks in a year", dates: "Dates in the current month", selectingTime: "Selecting a time ", inputHour: "Hours", inputMinute: "Minutes", rangeHour: "Slider for selecting hours", rangeMinute: "Slider for selecting minutes", btnKeeping: "Switch AM/PM, current position:" };
   var styles2 = { calendar: "vc", controls: "vc-controls", grid: "vc-grid", column: "vc-column", header: "vc-header", headerContent: "vc-header__content", month: "vc-month", year: "vc-year", arrowPrev: "vc-arrow vc-arrow_prev", arrowNext: "vc-arrow vc-arrow_next", wrapper: "vc-wrapper", content: "vc-content", months: "vc-months", monthsMonth: "vc-months__month", years: "vc-years", yearsYear: "vc-years__year", week: "vc-week", weekDay: "vc-week__day", weekNumbers: "vc-week-numbers", weekNumbersTitle: "vc-week-numbers__title", weekNumbersContent: "vc-week-numbers__content", weekNumber: "vc-week-number", dates: "vc-dates", date: "vc-date", dateBtn: "vc-date__btn", datePopup: "vc-date__popup", dateRangeTooltip: "vc-date-range-tooltip", time: "vc-time", timeContent: "vc-time__content", timeHour: "vc-time__hour", timeMinute: "vc-time__minute", timeKeeping: "vc-time__keeping", timeRanges: "vc-time__ranges", timeRange: "vc-time__range" };
@@ -27953,8 +29090,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   var _Calendar = class e extends OptionsCalendar {
     constructor(t2, n) {
-      var a3;
-      super(), __publicField(this, "init", () => init(this)), __publicField(this, "update", (e2) => update(this, e2)), __publicField(this, "destroy", () => destroy(this)), __publicField(this, "show", () => show(this)), __publicField(this, "hide", () => hide(this)), __publicField(this, "set", (e2, t3) => set2(this, e2, t3)), __publicField(this, "context"), this.context = __spreadProps(__spreadValues({}, this.context), { locale: { months: { short: [], long: [] }, weekdays: { short: [], long: [] } } }), setContext(this, "mainElement", "string" == typeof t2 ? null != (a3 = e.memoizedElements.get(t2)) ? a3 : this.queryAndMemoize(t2) : t2), n && replaceProperties(this, n);
+      var a;
+      super(), __publicField(this, "init", () => init(this)), __publicField(this, "update", (e2) => update(this, e2)), __publicField(this, "destroy", () => destroy(this)), __publicField(this, "show", () => show(this)), __publicField(this, "hide", () => hide(this)), __publicField(this, "set", (e2, t3) => set2(this, e2, t3)), __publicField(this, "context"), this.context = __spreadProps(__spreadValues({}, this.context), { locale: { months: { short: [], long: [] }, weekdays: { short: [], long: [] } } }), setContext(this, "mainElement", "string" == typeof t2 ? null != (a = e.memoizedElements.get(t2)) ? a : this.queryAndMemoize(t2) : t2), n && replaceProperties(this, n);
     }
     queryAndMemoize(t2) {
       const n = document.querySelector(t2);
@@ -28313,7 +29450,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (classes2 === void 0) {
       classes2 = "";
     }
-    return classes2.trim().split(" ").filter((c3) => !!c3.trim());
+    return classes2.trim().split(" ").filter((c) => !!c.trim());
   }
   function deleteProps(obj) {
     const object = obj;
@@ -28363,7 +29500,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     if (window2.WebKitCSSMatrix) {
       curTransform = curStyle.transform || curStyle.webkitTransform;
       if (curTransform.split(",").length > 6) {
-        curTransform = curTransform.split(", ").map((a3) => a3.replace(",", ".")).join(", ");
+        curTransform = curTransform.split(", ").map((a) => a.replace(",", ".")).join(", ");
       }
       transformMatrix = new window2.WebKitCSSMatrix(curTransform === "none" ? "" : curTransform);
     } else {
@@ -28382,8 +29519,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     return curTransform || 0;
   }
-  function isObject3(o3) {
-    return typeof o3 === "object" && o3 !== null && o3.constructor && Object.prototype.toString.call(o3).slice(8, -1) === "Object";
+  function isObject3(o2) {
+    return typeof o2 === "object" && o2 !== null && o2.constructor && Object.prototype.toString.call(o2).slice(8, -1) === "Object";
   }
   function isNode(node) {
     if (typeof window !== "undefined" && typeof window.HTMLElement !== "undefined") {
@@ -28614,11 +29751,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     return (Array.isArray(el) ? el : [el]).filter((e2) => !!e2);
   }
   function getRotateFix(swiper) {
-    return (v) => {
-      if (Math.abs(v) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v) % 90 === 0) {
-        return v + 1e-3;
+    return (v2) => {
+      if (Math.abs(v2) > 0 && swiper.browser && swiper.browser.need3dFix && Math.abs(v2) % 90 === 0) {
+        return v2 + 1e-3;
       }
-      return v;
+      return v2;
     };
   }
   function setInnerHTML(el, html) {
@@ -28658,22 +29795,22 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const support2 = getSupport();
     const window2 = getWindow();
     const platform = window2.navigator.platform;
-    const ua = userAgent2 || window2.navigator.userAgent;
+    const ua2 = userAgent2 || window2.navigator.userAgent;
     const device = {
       ios: false,
       android: false
     };
     const screenWidth = window2.screen.width;
     const screenHeight = window2.screen.height;
-    const android = ua.match(/(Android);?[\s\/]+([\d.]+)?/);
-    let ipad = ua.match(/(iPad).*OS\s([\d_]+)/);
-    const ipod = ua.match(/(iPod)(.*OS\s([\d_]+))?/);
-    const iphone = !ipad && ua.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
+    const android = ua2.match(/(Android);?[\s\/]+([\d.]+)?/);
+    let ipad = ua2.match(/(iPad).*OS\s([\d_]+)/);
+    const ipod = ua2.match(/(iPod)(.*OS\s([\d_]+))?/);
+    const iphone = !ipad && ua2.match(/(iPhone\sOS|iOS)\s([\d_]+)/);
     const windows = platform === "Win32";
     let macos = platform === "MacIntel";
     const iPadScreens = ["1024x1366", "1366x1024", "834x1194", "1194x834", "834x1112", "1112x834", "768x1024", "1024x768", "820x1180", "1180x820", "810x1080", "1080x810"];
     if (!ipad && macos && support2.touch && iPadScreens.indexOf(`${screenWidth}x${screenHeight}`) >= 0) {
-      ipad = ua.match(/(Version)\/([\d.]+)/);
+      ipad = ua2.match(/(Version)\/([\d.]+)/);
       if (!ipad) ipad = [0, 1, "13_0_0"];
       macos = false;
     }
@@ -28702,13 +29839,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     const device = getDevice();
     let needPerspectiveFix = false;
     function isSafari() {
-      const ua = window2.navigator.userAgent.toLowerCase();
-      return ua.indexOf("safari") >= 0 && ua.indexOf("chrome") < 0 && ua.indexOf("android") < 0;
+      const ua2 = window2.navigator.userAgent.toLowerCase();
+      return ua2.indexOf("safari") >= 0 && ua2.indexOf("chrome") < 0 && ua2.indexOf("android") < 0;
     }
     if (isSafari()) {
-      const ua = String(window2.navigator.userAgent);
-      if (ua.includes("Version/")) {
-        const [major, minor] = ua.split("Version/")[1].split(" ")[0].split(".").map((num) => Number(num));
+      const ua2 = String(window2.navigator.userAgent);
+      if (ua2.includes("Version/")) {
+        const [major, minor] = ua2.split("Version/")[1].split(" ")[0].split(".").map((num) => Number(num));
         needPerspectiveFix = major < 16 || major === 16 && minor < 2;
       }
     }
@@ -29228,8 +30365,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       setCSSProperty(wrapperEl, "--swiper-centered-offset-after", `${swiper.size / 2 - slidesSizesGrid[slidesSizesGrid.length - 1] / 2}px`);
       const addToSnapGrid = -swiper.snapGrid[0];
       const addToSlidesGrid = -swiper.slidesGrid[0];
-      swiper.snapGrid = swiper.snapGrid.map((v) => v + addToSnapGrid);
-      swiper.slidesGrid = swiper.slidesGrid.map((v) => v + addToSlidesGrid);
+      swiper.snapGrid = swiper.snapGrid.map((v2) => v2 + addToSnapGrid);
+      swiper.slidesGrid = swiper.slidesGrid.map((v2) => v2 + addToSlidesGrid);
     }
     if (slidesLength !== previousSlidesLength) {
       swiper.emit("slidesLengthChange");
@@ -29723,29 +30860,29 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       wrapperEl,
       progress
     } = swiper;
-    let x = 0;
-    let y2 = 0;
-    const z = 0;
+    let x3 = 0;
+    let y = 0;
+    const z2 = 0;
     if (swiper.isHorizontal()) {
-      x = rtl ? -translate2 : translate2;
+      x3 = rtl ? -translate2 : translate2;
     } else {
-      y2 = translate2;
+      y = translate2;
     }
     if (params.roundLengths) {
-      x = Math.floor(x);
-      y2 = Math.floor(y2);
+      x3 = Math.floor(x3);
+      y = Math.floor(y);
     }
     swiper.previousTranslate = swiper.translate;
-    swiper.translate = swiper.isHorizontal() ? x : y2;
+    swiper.translate = swiper.isHorizontal() ? x3 : y;
     if (params.cssMode) {
-      wrapperEl[swiper.isHorizontal() ? "scrollLeft" : "scrollTop"] = swiper.isHorizontal() ? -x : -y2;
+      wrapperEl[swiper.isHorizontal() ? "scrollLeft" : "scrollTop"] = swiper.isHorizontal() ? -x3 : -y;
     } else if (!params.virtualTranslate) {
       if (swiper.isHorizontal()) {
-        x -= swiper.cssOverflowAdjustment();
+        x3 -= swiper.cssOverflowAdjustment();
       } else {
-        y2 -= swiper.cssOverflowAdjustment();
+        y -= swiper.cssOverflowAdjustment();
       }
-      wrapperEl.style.transform = `translate3d(${x}px, ${y2}px, ${z}px)`;
+      wrapperEl.style.transform = `translate3d(${x3}px, ${y}px, ${z2}px)`;
     }
     let newProgress;
     const translatesDiff = swiper.maxTranslate() - swiper.minTranslate();
@@ -30605,10 +31742,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         byController: true
       };
       if (Array.isArray(swiper.controller.control)) {
-        swiper.controller.control.forEach((c3) => {
-          if (!c3.destroyed && c3.params.loop) c3.loopFix({
+        swiper.controller.control.forEach((c) => {
+          if (!c.destroyed && c.params.loop) c.loopFix({
             ...loopParams,
-            slideTo: c3.params.slidesPerView === params.slidesPerView ? slideTo2 : false
+            slideTo: c.params.slidesPerView === params.slidesPerView ? slideTo2 : false
           });
         });
       } else if (swiper.controller.control instanceof swiper.constructor && swiper.controller.control.params.loop) {
@@ -31502,7 +32639,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         point
       };
     });
-    points.sort((a3, b) => parseInt(a3.value, 10) - parseInt(b.value, 10));
+    points.sort((a, b2) => parseInt(a.value, 10) - parseInt(b2.value, 10));
     for (let i = 0; i < points.length; i += 1) {
       const {
         point,
@@ -32549,7 +33686,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           swiper.slidesEl.prepend(renderSlide(slides[index], index));
         }
       } else {
-        prependIndexes.sort((a3, b) => b - a3);
+        prependIndexes.sort((a, b2) => b2 - a);
         prependIndexes.forEach((index) => {
           swiper.slidesEl.prepend(renderSlide(slides[index], index));
         });
@@ -34156,36 +35293,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       } = swiper;
       const rtlFactor = rtl ? -1 : 1;
       const p2 = el.getAttribute("data-swiper-parallax") || "0";
-      let x = el.getAttribute("data-swiper-parallax-x");
-      let y2 = el.getAttribute("data-swiper-parallax-y");
+      let x3 = el.getAttribute("data-swiper-parallax-x");
+      let y = el.getAttribute("data-swiper-parallax-y");
       const scale = el.getAttribute("data-swiper-parallax-scale");
       const opacity = el.getAttribute("data-swiper-parallax-opacity");
       const rotate = el.getAttribute("data-swiper-parallax-rotate");
-      if (x || y2) {
-        x = x || "0";
-        y2 = y2 || "0";
+      if (x3 || y) {
+        x3 = x3 || "0";
+        y = y || "0";
       } else if (swiper.isHorizontal()) {
-        x = p2;
-        y2 = "0";
+        x3 = p2;
+        y = "0";
       } else {
-        y2 = p2;
-        x = "0";
+        y = p2;
+        x3 = "0";
       }
-      if (x.indexOf("%") >= 0) {
-        x = `${parseInt(x, 10) * progress * rtlFactor}%`;
+      if (x3.indexOf("%") >= 0) {
+        x3 = `${parseInt(x3, 10) * progress * rtlFactor}%`;
       } else {
-        x = `${x * progress * rtlFactor}px`;
+        x3 = `${x3 * progress * rtlFactor}px`;
       }
-      if (y2.indexOf("%") >= 0) {
-        y2 = `${parseInt(y2, 10) * progress}%`;
+      if (y.indexOf("%") >= 0) {
+        y = `${parseInt(y, 10) * progress}%`;
       } else {
-        y2 = `${y2 * progress}px`;
+        y = `${y * progress}px`;
       }
       if (typeof opacity !== "undefined" && opacity !== null) {
         const currentOpacity = opacity - (opacity - 1) * (1 - Math.abs(progress));
         el.style.opacity = currentOpacity;
       }
-      let transform = `translate3d(${x}, ${y2}, 0px)`;
+      let transform = `translate3d(${x3}, ${y}, 0px)`;
       if (typeof scale !== "undefined" && scale !== null) {
         const currentScale = scale - (scale - 1) * (1 - Math.abs(progress));
         transform += ` scale(${currentScale})`;
@@ -34345,9 +35482,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (evCache.length < 2) return 1;
       const x1 = evCache[0].pageX;
       const y1 = evCache[0].pageY;
-      const x2 = evCache[1].pageX;
+      const x22 = evCache[1].pageX;
       const y2 = evCache[1].pageY;
-      const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+      const distance = Math.sqrt((x22 - x1) ** 2 + (y2 - y1) ** 2);
       return distance;
     }
     function getMaxRatio() {
@@ -34952,7 +36089,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     swiper.controller = {
       control: void 0
     };
-    function LinearSpline(x, y2) {
+    function LinearSpline(x3, y) {
       const binarySearch = /* @__PURE__ */ function search() {
         let maxIndex;
         let minIndex;
@@ -34971,48 +36108,48 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           return maxIndex;
         };
       }();
-      this.x = x;
-      this.y = y2;
-      this.lastIndex = x.length - 1;
+      this.x = x3;
+      this.y = y;
+      this.lastIndex = x3.length - 1;
       let i1;
       let i3;
-      this.interpolate = function interpolate(x2) {
-        if (!x2) return 0;
-        i3 = binarySearch(this.x, x2);
+      this.interpolate = function interpolate(x22) {
+        if (!x22) return 0;
+        i3 = binarySearch(this.x, x22);
         i1 = i3 - 1;
-        return (x2 - this.x[i1]) * (this.y[i3] - this.y[i1]) / (this.x[i3] - this.x[i1]) + this.y[i1];
+        return (x22 - this.x[i1]) * (this.y[i3] - this.y[i1]) / (this.x[i3] - this.x[i1]) + this.y[i1];
       };
       return this;
     }
-    function getInterpolateFunction(c3) {
-      swiper.controller.spline = swiper.params.loop ? new LinearSpline(swiper.slidesGrid, c3.slidesGrid) : new LinearSpline(swiper.snapGrid, c3.snapGrid);
+    function getInterpolateFunction(c) {
+      swiper.controller.spline = swiper.params.loop ? new LinearSpline(swiper.slidesGrid, c.slidesGrid) : new LinearSpline(swiper.snapGrid, c.snapGrid);
     }
     function setTranslate2(_t, byController) {
       const controlled = swiper.controller.control;
       let multiplier;
       let controlledTranslate;
       const Swiper2 = swiper.constructor;
-      function setControlledTranslate(c3) {
-        if (c3.destroyed) return;
+      function setControlledTranslate(c) {
+        if (c.destroyed) return;
         const translate2 = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
         if (swiper.params.controller.by === "slide") {
-          getInterpolateFunction(c3);
+          getInterpolateFunction(c);
           controlledTranslate = -swiper.controller.spline.interpolate(-translate2);
         }
         if (!controlledTranslate || swiper.params.controller.by === "container") {
-          multiplier = (c3.maxTranslate() - c3.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+          multiplier = (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
           if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) {
             multiplier = 1;
           }
-          controlledTranslate = (translate2 - swiper.minTranslate()) * multiplier + c3.minTranslate();
+          controlledTranslate = (translate2 - swiper.minTranslate()) * multiplier + c.minTranslate();
         }
         if (swiper.params.controller.inverse) {
-          controlledTranslate = c3.maxTranslate() - controlledTranslate;
+          controlledTranslate = c.maxTranslate() - controlledTranslate;
         }
-        c3.updateProgress(controlledTranslate);
-        c3.setTranslate(controlledTranslate, swiper);
-        c3.updateActiveIndex();
-        c3.updateSlidesClasses();
+        c.updateProgress(controlledTranslate);
+        c.setTranslate(controlledTranslate, swiper);
+        c.updateActiveIndex();
+        c.updateSlidesClasses();
       }
       if (Array.isArray(controlled)) {
         for (let i = 0; i < controlled.length; i += 1) {
@@ -35028,19 +36165,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const Swiper2 = swiper.constructor;
       const controlled = swiper.controller.control;
       let i;
-      function setControlledTransition(c3) {
-        if (c3.destroyed) return;
-        c3.setTransition(duration, swiper);
+      function setControlledTransition(c) {
+        if (c.destroyed) return;
+        c.setTransition(duration, swiper);
         if (duration !== 0) {
-          c3.transitionStart();
-          if (c3.params.autoHeight) {
+          c.transitionStart();
+          if (c.params.autoHeight) {
             nextTick(() => {
-              c3.updateAutoHeight();
+              c.updateAutoHeight();
             });
           }
-          elementTransitionEnd(c3.wrapperEl, () => {
+          elementTransitionEnd(c.wrapperEl, () => {
             if (!controlled) return;
-            c3.transitionEnd();
+            c.transitionEnd();
           });
         }
       }
@@ -36310,9 +37447,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           if (params.loop && params.centeredSlides) needsLoopFix = true;
         } else if (params.freeMode.sticky) {
           let nextSlide;
-          for (let j = 0; j < snapGrid.length; j += 1) {
-            if (snapGrid[j] > -newPosition) {
-              nextSlide = j;
+          for (let j2 = 0; j2 < snapGrid.length; j2 += 1) {
+            if (snapGrid[j2] > -newPosition) {
+              nextSlide = j2;
               break;
             }
           }
@@ -36966,7 +38103,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         size: swiperSize,
         browser: browser2
       } = swiper;
-      const r3 = getRotateFix(swiper);
+      const r2 = getRotateFix(swiper);
       const params = swiper.params.cubeEffect;
       const isHorizontal = swiper.isHorizontal();
       const isVirtual = swiper.virtual && swiper.params.virtual.enabled;
@@ -37024,7 +38161,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           ty = tx;
           tx = 0;
         }
-        const transform = `rotateX(${r3(isHorizontal ? 0 : -slideAngle)}deg) rotateY(${r3(isHorizontal ? slideAngle : 0)}deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
+        const transform = `rotateX(${r2(isHorizontal ? 0 : -slideAngle)}deg) rotateY(${r2(isHorizontal ? slideAngle : 0)}deg) translate3d(${tx}px, ${ty}px, ${tz}px)`;
         if (progress <= 1 && progress > -1) {
           wrapperRotate = slideIndex * 90 + progress * 90;
           if (rtl) wrapperRotate = -slideIndex * 90 - progress * 90;
@@ -37049,7 +38186,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
       }
       const zFactor = (browser2.isSafari || browser2.isWebView) && browser2.needPerspectiveFix ? -swiperSize / 2 : 0;
-      wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${r3(swiper.isHorizontal() ? 0 : wrapperRotate)}deg) rotateY(${r3(swiper.isHorizontal() ? -wrapperRotate : 0)}deg)`;
+      wrapperEl.style.transform = `translate3d(0px,0,${zFactor}px) rotateX(${r2(swiper.isHorizontal() ? 0 : wrapperRotate)}deg) rotateY(${r2(swiper.isHorizontal() ? -wrapperRotate : 0)}deg)`;
       wrapperEl.style.setProperty("--swiper-cube-translate-z", `${zFactor}px`);
     };
     const setTransition2 = (duration) => {
@@ -37235,7 +38372,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       const center = isHorizontal ? -transform + swiperWidth / 2 : -transform + swiperHeight / 2;
       const rotate = isHorizontal ? params.rotate : -params.rotate;
       const translate2 = params.depth;
-      const r3 = getRotateFix(swiper);
+      const r2 = getRotateFix(swiper);
       for (let i = 0, length = slides.length; i < length; i += 1) {
         const slideEl = slides[i];
         const slideSize = slidesSizesGrid[i];
@@ -37258,7 +38395,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         if (Math.abs(rotateY) < 1e-3) rotateY = 0;
         if (Math.abs(rotateX) < 1e-3) rotateX = 0;
         if (Math.abs(scale) < 1e-3) scale = 0;
-        const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${r3(rotateX)}deg) rotateY(${r3(rotateY)}deg) scale(${scale})`;
+        const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${r2(rotateX)}deg) rotateY(${r2(rotateY)}deg) scale(${scale})`;
         const targetEl = effectTarget(params, slideEl);
         targetEl.style.transform = slideTransform;
         slideEl.style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
@@ -37355,7 +38492,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
         const offset = slideEl.swiperSlideOffset;
         const t2 = [swiper.params.cssMode ? -offset - swiper.translate : -offset, 0, 0];
-        const r3 = [0, 0, 0];
+        const r2 = [0, 0, 0];
         let custom = false;
         if (!swiper.isHorizontal()) {
           t2[1] = t2[0];
@@ -37377,13 +38514,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         t2.forEach((value, index) => {
           t2[index] = `calc(${value}px + (${getTranslateValue(data.translate[index])} * ${Math.abs(progress * multiplier)}))`;
         });
-        r3.forEach((value, index) => {
+        r2.forEach((value, index) => {
           let val = data.rotate[index] * Math.abs(progress * multiplier);
-          r3[index] = val;
+          r2[index] = val;
         });
         slideEl.style.zIndex = -Math.abs(Math.round(slideProgress)) + slides.length;
         const translateString = t2.join(", ");
-        const rotateString = `rotateX(${rotateFix(r3[0])}deg) rotateY(${rotateFix(r3[1])}deg) rotateZ(${rotateFix(r3[2])}deg)`;
+        const rotateString = `rotateX(${rotateFix(r2[0])}deg) rotateY(${rotateFix(r2[1])}deg) rotateZ(${rotateFix(r2[2])}deg)`;
         const scaleString = originalProgress < 0 ? `scale(${1 + (1 - data.scale) * originalProgress * multiplier})` : `scale(${1 - (1 - data.scale) * originalProgress * multiplier})`;
         const opacityString = originalProgress < 0 ? 1 + (1 - data.opacity) * originalProgress * multiplier : 1 - (1 - data.opacity) * originalProgress * multiplier;
         const transform = `translate3d(${translateString}) ${rotateString} ${scaleString}`;
@@ -37553,7 +38690,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   var modules = [Virtual, Keyboard, Mousewheel, Navigation, Pagination, Scrollbar, Parallax, Zoom, Controller, A11y, History, HashNavigation, Autoplay, Thumb, freeMode, Grid, Manipulation, EffectFade, EffectCube, EffectFlip, EffectCoverflow, EffectCreative, EffectCards];
   Swiper.use(modules);
 
-  // src/app/components/cj-sliders/src/components/CjSwiper.js
+  // node_modules/@customerjourney/cj-sliders/src/components/CjSwiper.js
   var CjSwiper = class {
     constructor(context = { lang: "en" }) {
       this.context = context;
@@ -37579,16 +38716,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 ${item.content != void 0 ? `
                 <div class="is-overlay" style="padding:5%;">
                     <div ${this.#getClasses([""], item.content?.classList)} style="width:50%; padding:3%; position: relative; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%);transform: translateY(-50%);">
-                    ${item.content?.title?.text[this.context.lang] != void 0 ? `
-                    <p ${this.#getClasses(["title"], item.title?.classList)}>${item.content.title.text[this.context.lang]}</p>
-                    ` : ""}
-                    ${item.content?.subtitle?.text[this.context.lang] != void 0 ? `
-                    <p ${this.#getClasses(["subtitle"], item.subtitle?.classList)}>${item.content.subtitle.text[this.context.lang]}</p>
-                    ` : ""}
-                    ${item.content?.description?.text[this.context.lang] != void 0 ? `
-                    <div ${this.#getClasses(["content"], item.content?.classList)}>${this.md.render(item.content.description.text[this.context.lang])}</div>
-                    ` : ""}                    
-                    ${item.content?.buttons != void 0 ? this.#buttonsRender(item.content.buttons) : ""} 
+                        ${item.content?.title?.text[this.context.lang] != void 0 ? `
+                        <p ${this.#getClasses(["title"], item.content.title?.classList)}>${item.content.title.text[this.context.lang]}</p>
+                        ` : ""}
+                        ${item.content?.subtitle?.text[this.context.lang] != void 0 ? `
+                        <p ${this.#getClasses(["subtitle"], item.content.subtitle?.classList)}>${item.content.subtitle.text[this.context.lang]}</p>
+                        ` : ""}
+                        ${item.content?.description?.text[this.context.lang] != void 0 ? `
+                        <div ${this.#getClasses(["content"], item.content.description?.classList)}>${this.md.render(item.content.description.text[this.context.lang])}</div>
+                        ` : ""} 
                     </div>
                 </div>                    
                     ` : ""}
@@ -37618,36 +38754,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return classes2;
     }
-    /**
-    * Create the CTA buttons of the component from the props sent
-    * @param {Object} props 
-    */
-    #getButtons(props) {
-      if (props != void 0) {
-        let buttons = "";
-        props.forEach((el) => {
-          buttons += `<${el.href != void 0 ? "a" : "button"} id="${el.id}" ${this.#getClasses(["button", "m-2"], el.classList)} ${el.href != void 0 ? `href="${el.href}"` : ""}>${el?.text[this.context.lang]}</${el.href != void 0 ? "a" : "button"}>`;
-        });
-        return buttons;
-      } else return "";
-    }
-    /**
-     * Generate the CTA button container and insert the buttons described in the props
-     * @param {Object} props 
-     */
-    #buttonsRender(props) {
-      if (props != void 0) {
-        let buttons = (
-          /* html */
-          `
-                <div ${props.align === "center" ? 'style="text-align: center;"' : props.align === "right" ? 'style="text-align: right;"' : ""}>
-                    ${this.#getButtons(props.buttons)}
-                </div>
-            `
-        );
-        return buttons;
-      } else return "";
-    }
     #getFooter(props) {
       if (props != void 0) {
         let render2 = "";
@@ -37673,7 +38779,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     ${item.image?.src != void 0 ? `
                     <div class="card-image">
                         <figure ${this.#getClasses(["image"], item.image.classList)} >
-                            ${item.image?.src != void 0 ? item.image.src.includes("https://www.youtu") ? this.#getYoutube(item.image.src) : `<img src="${item.image.src}" />` : ""}
+                            ${item.image?.src != void 0 ? item.image.src.includes("youtu") ? this.#getYoutube(item.image.src) : `<img src="${item.image.src}" />` : ""}
                         </figure>
                     </div>
                         ` : ""}
@@ -37697,7 +38803,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                       </div>  
                         ` : ""}
                         ${item.footer?.buttons != void 0 ? `
-                            <footer class="card-footer">
+                            <footer ${this.#getClasses(["card-footer"], item.footer?.classList)}>
                                  ${this.#getFooter(item.footer.buttons)}
                             </footer>
                                 ` : ""}
@@ -37715,7 +38821,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           let slide2 = (
             /*html*/
             `
-                <div class="swiper-slide${swiper.setup?.effect != void 0 ? ` swiper-slide-${swiper.setup.effect}` : ""}" >
+                <div class="swiper-slide swiper-slide-parallax" >
                     ${item.title?.text[this.context.lang] != void 0 ? `
                     <div class="title" data-swiper-parallax="-300"> ${item.title.text[this.context.lang]}</div>` : ""}
                     ${item.subtitle?.text[this.context.lang] != void 0 ? `
@@ -37725,7 +38831,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                         ${this.md.render(item.description.text[this.context.lang])}
                     </div>
                         ` : ""}
-                     ${item.buttons != void 0 ? this.#buttonsRender(item.buttons) : ""} 
                 </div>
                 `
           );
@@ -37748,7 +38853,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             `
                 <div style="--swiper-navigation-color: ${navigationColor}; --swiper-pagination-color: ${paginationColor}" class="swiper ${swiper.id}${swiper.setup?.effect != void 0 ? ` swiper-${swiper.setup.effect}` : ""}">
                     ${effect === "parallax" ? `
-                    <div class="bjs-parallax-bg" style="background-image: url(${swiper.setup.imgSrc});" data-swiper-parallax="-23%"></div>` : ""}
+                    <div class="bjs-parallax-bg" style="background-image: url(${swiper.setup.parallaxImage});" data-swiper-parallax="-23%"></div>` : ""}
                     <div class="swiper-wrapper"${paginationGap === true ? ' style="margin-bottom:30px;"' : ""}>
                         ${cards == true ? this.#getCards(swiper) : effect === "parallax" ? this.#getParallax(swiper) : this.#getSlides(swiper)}
                     </div>
@@ -37842,6 +38947,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         setup.parallax = true;
       }
       switch (props.effect) {
+        case "parallax":
+          setup.parallax = true;
         case "fade":
           setup.effect = "fade";
           setup.spaceBetween = 30;
@@ -37862,7 +38969,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   };
 
-  // src/app/components/cj-sliders/src/components/MultiSlider.js
+  // node_modules/@customerjourney/cj-sliders/src/components/MultiSlider.js
   var MultiSlider = class extends AppElement {
     #defaultData = {
       context: {
@@ -37942,6 +39049,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       text-shadow: 2px 2px 4px #000000;
     }
     .swiper-slide-parallax .content {
+      max-width: 400px;
+      line-height: 1.3;
+    }
+    .swiper-slide-parallax .subtitle {
       max-width: 400px;
       line-height: 1.3;
     }
@@ -38278,8 +39389,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               slides: [
                 {
                   id: "sdsf",
+                  header: {
+                    text: {
+                      en: "Furniture",
+                      es: "Muebles",
+                      fr: "Meubles"
+                    },
+                    classList: ["is-size-2"]
+                  },
                   image: {
-                    src: "/images/cama.webp",
+                    src: "https://c.pxhere.com/photos/5e/c1/sunset_lake_abendstimmung_nature_romance_sun_landscape_atmospheric-626848.jpg!d",
                     classList: ["is-4by3"]
                   },
                   content: {
@@ -38288,15 +39407,38 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                         en: "Beds",
                         es: "Camas",
                         fr: "Lits"
-                      }
+                      },
+                      classList: ["is-size-2"]
                     },
                     subtitle: {
                       text: {
                         en: "Economic and Luxury",
                         es: "Econ\xF3micas y de Lujo",
                         fr: "Economic and Luxury"
-                      }
+                      },
+                      classList: ["is-size-2"]
+                    },
+                    description: {
+                      text: {
+                        en: "Discover our range of beds, from economic to luxury options, designed to provide comfort and style for every bedroom.",
+                        es: "Descubre nuestra gama de camas, desde opciones econ\xF3micas hasta de lujo, dise\xF1adas para proporcionar comodidad y estilo a cada dormitorio.",
+                        fr: "D\xE9couvrez notre gamme de lits, des options \xE9conomiques aux options de luxe, con\xE7ues pour offrir confort et style \xE0 chaque chambre."
+                      },
+                      classList: ["is-size-2"]
                     }
+                  },
+                  footer: {
+                    buttons: [
+                      {
+                        id: "sdsf-button",
+                        text: {
+                          en: "Explore Beds",
+                          es: "Explorar Camas",
+                          fr: "Explorer les Lits"
+                        }
+                      }
+                    ],
+                    classList: ["is-centered"]
                   }
                 },
                 {
@@ -38350,43 +39492,87 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             {
               id: "slider2",
               setup: {
-                cards: true,
-                slidesPerView: 2,
                 navigation: true,
-                navigationColor: "#ffb70f",
-                pagination: "dots",
-                paginationColor: "#ffb70f",
-                paginationGap: true
+                pagination: true,
+                effect: "parallax",
+                speed: 600,
+                parallaxImage: "https://images.unsplash.com/photo-1558637845-c8b7ead71a3e"
               },
               slides: [
                 {
-                  image: {
-                    src: "/images/sofa.webp",
-                    ratio: "is-16by9"
+                  title: {
+                    text: {
+                      en: "Luxury Furniture",
+                      es: "Muebles de Lujo",
+                      fr: "Meubles de Luxe"
+                    },
+                    classList: ["is-size-2"]
+                  },
+                  subtitle: {
+                    text: {
+                      en: "Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                      es: "Descubre nuestra colecci\xF3n exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                      fr: "D\xE9couvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'\xE9l\xE9gance et de confort."
+                    },
+                    classList: ["is-size-4"]
+                  },
+                  description: {
+                    text: {
+                      en: "From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                      es: "Desde camas hechas a mano hasta sof\xE1s exquisitos, cada pieza est\xE1 dise\xF1ada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adici\xF3n perfecta para tu hogar.",
+                      fr: "Des lits faits \xE0 la main aux canap\xE9s exquis, chaque pi\xE8ce est con\xE7ue pour \xE9lever votre exp\xE9rience de vie. Explorez notre gamme et trouvez l'ajout parfait \xE0 votre maison."
+                    },
+                    classList: ["is-size-4"]
                   }
                 },
                 {
-                  image: {
-                    src: "/images/armario.webp",
-                    ratio: "is-16by9"
+                  title: {
+                    text: {
+                      en: "Luxury Furniture",
+                      es: "Muebles de Lujo",
+                      fr: "Meubles de Luxe"
+                    },
+                    classList: ["is-size-2"]
+                  },
+                  subtitle: {
+                    text: {
+                      en: "Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                      es: "Descubre nuestra colecci\xF3n exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                      fr: "D\xE9couvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'\xE9l\xE9gance et de confort."
+                    },
+                    classList: ["is-size-4"]
+                  },
+                  description: {
+                    text: {
+                      en: "From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                      es: "Desde camas hechas a mano hasta sof\xE1s exquisitos, cada pieza est\xE1 dise\xF1ada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adici\xF3n perfecta para tu hogar.",
+                      fr: "Des lits faits \xE0 la main aux canap\xE9s exquis, chaque pi\xE8ce est con\xE7ue pour \xE9lever votre exp\xE9rience de vie. Explorez notre gamme et trouvez l'ajout parfait \xE0 votre maison."
+                    }
                   }
                 },
                 {
-                  image: {
-                    src: "/images/cama.webp",
-                    ratio: "is-16by9"
-                  }
-                },
-                {
-                  image: {
-                    src: "/images/sofa.webp",
-                    ratio: "is-16by9"
-                  }
-                },
-                {
-                  image: {
-                    src: "/images/armario.webp",
-                    ratio: "is-16by9"
+                  title: {
+                    text: {
+                      en: "Luxury Furniture",
+                      es: "Muebles de Lujo",
+                      fr: "Meubles de Luxe"
+                    },
+                    classList: ["is-size-2"]
+                  },
+                  subtitle: {
+                    text: {
+                      en: "Discover our exclusive collection of luxury furniture that transforms your space into a haven of elegance and comfort.",
+                      es: "Descubre nuestra colecci\xF3n exclusiva de muebles de lujo que transforman tu espacio en un refugio de elegancia y confort.",
+                      fr: "D\xE9couvrez notre collection exclusive de meubles de luxe qui transforme votre espace en un havre d'\xE9l\xE9gance et de confort."
+                    },
+                    classList: ["is-size-4"]
+                  },
+                  description: {
+                    text: {
+                      en: "From handcrafted beds to exquisite sofas, each piece is designed to elevate your living experience. Explore our range and find the perfect addition to your home.",
+                      es: "Desde camas hechas a mano hasta sof\xE1s exquisitos, cada pieza est\xE1 dise\xF1ada para elevar tu experiencia de vida. Explora nuestra gama y encuentra la adici\xF3n perfecta para tu hogar.",
+                      fr: "Des lits faits \xE0 la main aux canap\xE9s exquis, chaque pi\xE8ce est con\xE7ue pour \xE9lever votre exp\xE9rience de vie. Explorez notre gamme et trouvez l'ajout parfait \xE0 votre maison."
+                    }
                   }
                 }
               ]
@@ -38685,6 +39871,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 })();
 /*! Bundled license information:
 
+react/cjs/react.development.js:
+  (**
+   * @license React
+   * react.development.js
+   *
+   * Copyright (c) Meta Platforms, Inc. and affiliates.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *)
+
+@fortawesome/fontawesome-svg-core/index.mjs:
+@fortawesome/free-solid-svg-icons/index.mjs:
 @fortawesome/free-regular-svg-icons/index.mjs:
   (*!
    * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com

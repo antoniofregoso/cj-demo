@@ -2,6 +2,11 @@
     "props":{
         "id":"BJ App",
         "noCache":true,
+        "events":{
+        "trackViewed":["desire", "interest", "footer"],
+        "leavingapp":true,
+        "leavedapp":true
+        },
         "title":{
             "es":"App|BuyerJourney.js",
             "en":"App|BuyerJourney.js",

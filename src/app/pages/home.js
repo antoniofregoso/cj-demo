@@ -1,7 +1,7 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
 import { HeroBanner, ImageText, TextColumns, ImageBanner, CtaBanner } from "@customerjourney/cj-components";
 import { FormAppoinment } from "@customerjourney/cj-forms";
-import { MultiSlider } from "../components/cj-sliders/src/components/MultiSlider";
+import { MultiSlider } from "@customerjourney/cj-sliders";
 import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
@@ -55,7 +55,6 @@ export function home(req, router){
                         }
                     break;
                 case 'submitappoinment':
-                    console.log(e.detail.click)
                     if (e.detail.click==='cancel-lead'){
                         store.dispatch(setStage('action/close'));
                     }
@@ -66,6 +65,20 @@ export function home(req, router){
                         
                     }
                     break;
+                    case 'viewedelement':
+                        console.log('Viewede:', e.detail)
+                     case 'leavingapp':
+                        if (counter.leavingapp===0)
+                            {
+                                store.dispatch(setStage('escape'));                                
+                                counter.leavingapp++;
+                                console.log('leaving');
+                            };
+                    break;
+                    case 'leavedapp':
+                        counter.leavedapp++;
+                        store.dispatch(setBreadcrumb(counter));
+                        break;
                 }
             }
         }
