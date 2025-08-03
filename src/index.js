@@ -15,8 +15,7 @@ let currentValue = store.getState();
     }
 
 persistor.subscribe(()=>{
-    const rehydratedState = store.getState();   
-    store.dispatch(setStage('start'));
-    App.run();
-    whithAnimations();
+    const rehydratedState = store.getState();  
 })
+App.run();
+whithAnimations();

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { generateSessionToken } from '@customerjourney/cj-core';
 const contextSlice = createSlice({
     name: 'context',
     initialState:{
         lang:'es',
-        theme:'light'
+        theme:'light',
+        sessionToken:generateSessionToken(32)
     },
     reducers:{
         setLanguaje:(state, action) => {

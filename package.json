@@ -22,10 +22,7 @@
         "sass": "^1.71.1"
     },
     "dependencies": {
-        "@customerjourney/cj-sliders": "^0.10.0",
-        "@customerjourney/cj-components": "^0.9.4",
-        "@customerjourney/cj-core": "^1.4.0",
-        "@customerjourney/cj-forms": "^0.10.3",
+        "@customerjourney/cj-components": "^0.9.6",
         "@customerjourney/cj-router": "^1.2.1",
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",

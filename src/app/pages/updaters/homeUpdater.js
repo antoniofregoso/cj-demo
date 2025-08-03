@@ -9,6 +9,9 @@ export function homeUpdater(previousValue, currentValue){
     }else if(previousValue.home.stage!=currentValue.home.stage){
         let appoinment = page.querySelector('#appoinment');
         switch (currentValue.home.stage){
+            case 'landing/click':
+                document.getElementById("action").scrollIntoView({ behavior: "smooth"});
+                break;
             case 'action/open':
                appoinment.setAttribute('stage', 'open');
                 break;

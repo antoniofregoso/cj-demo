@@ -1,0 +1,173 @@
+{
+    "props":{
+        "id":"ArteConference",
+        "noCache":true,
+        "events":{
+            "trackViewed":["attention", "interest", "desire", "action"],
+            "leavingapp":true,
+            "leavedapp":true
+            },
+        "title":{
+            "es":"Arte|Conference",
+            "en":"Arte|Conference",
+            "fr":"Arte|Conference"
+
+        },
+        "description":{
+            "es":"Galeria de Arte de Conference Corporativo",
+            "en":"Conference Corporativo Art Gallery",
+            "fr":"Galerie d'art de Conference Corporativo"
+        },
+        "components":[
+            {
+                "id":"header",
+                "brand":{
+                    "src":"/images/conference.webp",
+                    "srcDark":"/images/conference-dark.webp"
+                },
+                "i18n":{
+                    "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
+                }
+            },
+            {
+                "id":"atention",
+                "caption":{
+                    "text":{
+                        "es":"¿Estás perdiendo ventas por no tener un seguimiento adecuado?",
+                        "en":"Are you losing sales due to inadequate follow-up?",
+                        "fr":""
+                    }
+                },
+                "title":{
+                    "text":{
+                        "es":"¡Incrementa tus ventas y optimiza tu gestión de clientes!",
+                        "en":"Increase your sales and optimize your customer management!",
+                        "fr":"Augmentez vos ventes et optimisez votre gestion client !"
+                    }
+                },
+                "subtitle":{
+                    "text":{
+                        "es":"Nuestro CRM es la herramienta que necesitas para organizar, automatizar y hacer crecer tu negocio. ¡Todo en un solo lugar!",
+                        "en":"Our CRM is the tool you need to organize, automate, and grow your business. Everything in one place!",
+                        "fr":"Notre CRM est l'outil dont vous avez besoin pour organiser, automatiser et développer votre entreprise. Tout en un seul endroit !"
+                    }
+                },
+                "buttons":{
+                    "eventName":"appclick",
+                    "buttons":[
+                        {
+                            "id":"landing-button",
+                            "text":{
+                             "es":"¡Pruébalo gratis ahora!",
+                             "en":"Try it for free now!",
+                             "fr":"Essayez-le gratuitement maintenant!"
+                            },
+                            "classList":["is-rounded","is-info"]
+                         }
+                    ]
+                }
+            },
+            {
+                "id":"interest",
+                "cardsWidth":"is-3",
+                "cards":[
+                    {
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"Gestión de leads",
+                                    "en":"Lead Management",
+                                    "fr":"Gestion des leads"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Organiza y prioriza tus contactos para un seguimiento efectivo.",
+                                    "en":"Organize and prioritize your contacts for effective follow-up.",
+                                    "fr":"Organisez et priorisez vos contacts pour un suivi efficace."
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"Automatización",
+                                    "en":"Automation",
+                                    "fr":"Automatisation"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Automatiza tareas repetitivas y gana tiempo valioso.",
+                                    "en":"Automate repetitive tasks and save valuable time.",
+                                    "fr":"Automatisez les tâches répétitives et gagnez du temps précieux."
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"Análisis de datos",
+                                    "en":"Data Analysis",
+                                    "fr":"Analyse des données"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Toma decisiones inteligentes con reportes y métricas claras.",
+                                    "en":"Make smart decisions with clear reports and metrics.",
+                                    "fr":"Prenez des décisions intelligentes avec des rapports et des métriques clairs."
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"Colaboración",
+                                    "en":"Collaboration",
+                                    "fr":"Collaboration"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Mejora la comunicación entre tus equipos de venta y marketing.",
+                                    "en":"Improve communication between your sales and marketing teams.",
+                                    "fr":"Améliorez la communication entre vos équipes de vente et de marketing."
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "id":"message",
+                "message":{
+                    "classList":["is-warning"],
+                    "header":{
+                        "text":{
+                            "es":"¿Te vas? 😏",
+                            "en":"You go? 😏",
+                            "fr":"Tu t'en vas? 😏"
+                        }
+            
+                    },
+                    "body":{
+                        "text":{
+                            "es":"__Espera:__\n\n _¿Ya sacaste tu cupón de descuento?_\n\n _¡Sacalo de volada que se acaban los muebles!_",
+                            "en":"__Wait:__\n\n _Have you already taken out your discount coupon?_\n\n _Take it out quickly, we're running out of furniture!_",
+                            "fr":"__Attendez :__\n\n _Avez-vous déjà reçu votre coupon de réduction ?_\n\n _Sortez-le vite car les meubles sont épuisés !_"
+                    }
+            
+                    }
+                }
+            }
+        ]       
+    }
+}
+    

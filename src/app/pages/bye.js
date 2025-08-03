@@ -1,6 +1,6 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
 import { HeroBanner, TextSection, CtaBanner } from "@customerjourney/cj-components";
-import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
+import { setStage } from "../store/slices/byeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { byeUpdater } from "./updaters/byeUpdater";
@@ -21,6 +21,7 @@ export function bye(req, router){
     data.context = currentValue.context;
     document.documentElement.setAttribute('data-theme', data.context.theme);
     page =  new AppPage(data, template);
+    store.dispatch(setStage('goal'));
 
     const pageEvents = {
         handleEvent: (e) => {
@@ -43,7 +44,7 @@ export function bye(req, router){
               }
         }
 
-    page.eventsToListen(["user:select-lang","user:select-theme"], pageEvents)
+    page.setEvents(pageEvents);
 
     store.subscribe(handleChange);
 }

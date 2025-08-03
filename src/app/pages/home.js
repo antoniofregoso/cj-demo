@@ -1,35 +1,31 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
-import { HeroBanner, ImageText, TextColumns, ImageBanner, CtaBanner } from "@customerjourney/cj-components";
-import { FormAppoinment } from "@customerjourney/cj-forms";
-import { MultiSlider } from "@customerjourney/cj-sliders";
+import { HeroBanner, LevelCentered, MediaList, CardsList, ModalBox } from "@customerjourney/cj-components";
 import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
-import data from "../data/home.json";
-import { getSchedules } from '../components/appoinments'
+import data from "../data/demo.json";
 
 export function home(req, router){
 
-    let counter = {atention:0, interest:0, desire:0, action:0, leavingapp:0, leavedapp:0 }
+    let go = Date.now();
+
+    let counter = {go:go, time:0, atention:0, interest:0, desire:0, action:0, conversion:0, leavingapp:0, leavedapp:0 }
 
     let template =`
     <page-header id="header"></page-header>
-    <hero-banner id="attention"></hero-banner>
-    <image-text id="interest"></image-text>
-    <text-columns id="desire"></text-columns>
-    <image-banner id="action"></image-banner>
-    <cta-banner id="cta"></cta-banner>
-    <multi-slider id="slider"></multi-slider>
+    <hero-banner id="atention"></hero-banner>
+    <cards-list id="interest"></cards-list>
+    <media-list id="desire"></media-list>
+    <cards-list id="action"></cards-list>
     <page-footer id="footer"></page-footer>
-    <form-appoinment id="appoinment"></form-appoinment>
+    <modal-box id="message"></modal-box>
     `;
     
     let currentValue = store.getState();
-    data.context = currentValue.context;
-    document.documentElement.setAttribute('data-theme', data.context.theme);
+    store.dispatch(setStage('start'));
+    data.context = currentValue;    ;
     page =  new AppPage(data, template);
-
     const pageEvents = {
         handleEvent: (e) => {
             switch(e.type){
@@ -42,45 +38,98 @@ export function home(req, router){
                 case 'app-click':
                     switch (e.detail.source){
                         case "appoinment-button":
-                             store.dispatch(setStage('action/open'));
+                            counter.leavingapp++; 
+                            store.dispatch(setStage('action/open'));
                             break;
-                    break;
+                        case "landing-button":
+                            store.dispatch(setStage('landing/click'));
+                            break;
                     }
-                case 'date-selected':
-                    let calendar = data.props.components.find(el => el.id === 'appoinment').calendar;
-                    if (e.detail.date) {
-                        let options = getSchedules(e.detail.date, calendar);
-                        let appoinment = page.querySelector('#appoinment');
-                        appoinment.enableTimes(options);
+                    break;
+                case 'viewedelement':
+                    switch (e.detail.source){
+                        case 'landing':
+                            if (counter.landing===0) {
+                                store.dispatch(setStage('landing/viewed'));
+                                counter.landing++;
+                            }
+                            break;
+                        case 'attention':
+                            if (counter.atention===0) {
+                                store.dispatch(setStage('attention/viewed'));
+                                counter.atention++;
+                            }
+                            break;
+                        case 'interest':
+                            if (counter.interest===0) {
+                                store.dispatch(setStage('interest/viewed'));
+                                counter.interest++;
+                            }
+                            break;
+                        case 'desire':
+                            if (counter.desire===0) {
+                                store.dispatch(setStage('desire/viewed'));
+                                counter.desire++;
+                            }
+                            break;
+                        case 'action':
+                            if (counter.action===0) {
+                                store.dispatch(setStage('action/viewed'));
+                                counter.action++;
+                            }
+                            break;
+                        case 'conversion':
+                            if (counter.conversion===0) {
+                                store.dispatch(setStage('conversion/viewed'));
+                                counter.conversion++;
+                            }
+                            break;
                         }
                     break;
-                case 'submitappoinment':
-                    if (e.detail.click==='cancel-lead'){
-                        store.dispatch(setStage('action/close'));
-                    }
-                    if (e.detail.click==='appoinment-form'){
-                        console.log("Submitting appoinment form", e.detail.lead);
-                        store.dispatch(setStage('action/appoinment'));                        
-                        window.location.href = router.pathFor("bye");   
-                        
-                    }
+                case 'unviewedelement':
+                    switch (e.detail.source){
+                        case 'landing':
+                            if (counter.landing>0) {
+                                store.dispatch(setStage('landing/unviewed'));
+                            }
+                            break;
+                        case 'attention':
+                            if (counter.atention>0) {
+                                store.dispatch(setStage('attention/unviewed'));
+                            }
+                            break;
+                        case 'interest':
+                            if (counter.interest>0) {
+                                store.dispatch(setStage('interest/unviewed'));
+                            }
+                            break;
+                        case 'desire':
+                            if (counter.desire>0) {
+                                store.dispatch(setStage('desire/unviewed'));
+                            }
+                            break;
+                        case 'action':
+                            if (counter.action>0) {
+                                store.dispatch(setStage('action/unviewed'));
+                            }
+                            break;
+                        }
                     break;
-                    case 'viewedelement':
-                        console.log('Viewede:', e.detail)
-                     case 'leavingapp':
-                        if (counter.leavingapp===0)
-                            {
-                                store.dispatch(setStage('escape'));                                
-                                counter.leavingapp++;
-                                console.log('leaving');
-                            };
+                case 'leavingapp':
+                    if (counter.leavingapp===0)
+                        {
+                            store.dispatch(setStage('escape'));
+                            document.getElementById("message").setAttribute("active", "")
+                            counter.leavingapp++;
+                        };
                     break;
-                    case 'leavedapp':
-                        counter.leavedapp++;
-                        store.dispatch(setBreadcrumb(counter));
-                        break;
-                }
-            }
+                case 'leavedapp':
+                    counter.leavedapp++;
+                    counter.time = Math.round((Date.now() - go) / 1000);
+                    store.dispatch(setBreadcrumb(counter));
+                    break;
+            }}
+            
         }
 
     function handleChange(){
@@ -89,10 +138,10 @@ export function home(req, router){
             if (previousValue !== currentValue) {
                 homeUpdater(previousValue, currentValue);
               }
+              console.log(counter)
         }
 
-    page.eventsToListen(["user:select-lang","user:select-theme", "viewedelement", 
-        "leavingapp", "leavedapp", "app-click","date-selected","submitappoinment"], pageEvents)
+    page.setEvents(pageEvents);
 
     store.subscribe(handleChange);
 }

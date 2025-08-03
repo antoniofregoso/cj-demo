@@ -19,7 +19,8 @@
             {
                 "id":"header",
                 "brand":{
-                    "src":"/images/Buyer Journey.png"
+                    "src":"/images/conference.webp",
+                    "srcDark":"/images/conference-dark.webp"
                 },
                 "i18n":{
                     "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
@@ -28,11 +29,11 @@
             {
                 "id":"hero",
                 "backgroundImage":{
-                    "url":"/images/atention.jpg"
+                    "url":"https://lscw.s3.us-east-2.amazonaws.com/images/santerra.webp"
                 },
                 "classList":["is-fullheight-with-navbar", " is-link"],
                 "title":{
-                    "classList":["is-size-1"],
+                    "classList":["is-size-1","has-text-shadow"],
                     "text":{
                         "es":"Gracias por concertar una cita en nuestra galería",
                         "en":"Thank you for making an appointment at our gallery.",
@@ -43,11 +44,11 @@
                     }
                 },
                 "subtitle":{
-                    "classList":["is-size-3"],
+                    "classList":["is-size-3","has-text-shadow"],
                     "text":{
-                        "es":"Descubre 'Mara', la fragancia que no solo se usa, se vive. Envuélvete en la esencia de la elegancia y el misterio.",
-                        "en":"Discover 'Mara', the fragrance that no one wears, lives on. Envuelvete in the essence of elegance and mistery.",
-                        "fr":"Découvrez 'Mara', la fragancia que no solo se usa, se vive. Découvrez l'essence de l'élégance et du mystère."
+                        "es":"Arte Conference: Galeria de Arte de Conference Corporativo.",
+                        "en":"Arte Conference: Conference Corporate Art Gallery.",
+                        "fr":"Arte Conference: Galerie d'art de Conference Corporate."
                     },
                     "animation":{
                         "effect":"fadeIn",
@@ -77,7 +78,8 @@
             {
                 "id":"footer",
                 "brand":{
-                    "src":"/images/Buyer Journey.png"
+                    "src":"/images/conference.webp",
+                    "srcDark":"/images/conference-dark.webp"
                 },
                 "content":{
                     "text":{
@@ -92,7 +94,7 @@
                         "en":"Privacy Policy",
                         "fr":"Politique de confidentialité"
                     },
-                    "url":"/"
+                    "url":"https://arte.conference.com.mx/es/legal/privacy-policy"
                 }
             }
         ]       
