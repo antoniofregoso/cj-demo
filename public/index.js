@@ -23225,7 +23225,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       id: "ArteConference",
       noCache: true,
       events: {
-        trackViewed: ["landing", "attention", "interest", "desire", "action"],
+        trackViewed: ["attention", "interest", "desire", "action"],
         leavingapp: true,
         leavedapp: true
       },
@@ -23239,8 +23239,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         en: "Conference Corporativo Art Gallery",
         fr: "Galerie d'art de Conference Corporativo"
       },
-      image: "/images/og.webp",
-      type: "business.business",
       components: [
         {
           id: "header",
@@ -23253,26 +23251,120 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           }
         },
         {
-          id: "footer",
-          brand: {
-            src: "/images/conference.webp",
-            srcDark: "/images/conference-dark.webp"
-          },
-          content: {
+          id: "atention",
+          caption: {
             text: {
-              es: "Galeria de Arte de Conference Corporativo",
-              en: "Conference CorporativoArt Gallery",
-              fr: "Galerie d'art de Conference Corporativo"
+              es: "\xBFEst\xE1s perdiendo ventas por no tener un seguimiento adecuado?",
+              en: "Are you losing sales due to inadequate follow-up?",
+              fr: ""
             }
           },
-          privacyPolicy: {
+          title: {
             text: {
-              es: "Pol\xEDtica de Privacidad",
-              en: "Privacy Policy",
-              fr: "Politique de confidentialit\xE9"
-            },
-            url: "https://arte.conference.com.mx/es/legal/privacy-policy"
+              es: "\xA1Incrementa tus ventas y optimiza tu gesti\xF3n de clientes!",
+              en: "Increase your sales and optimize your customer management!",
+              fr: "Augmentez vos ventes et optimisez votre gestion client !"
+            }
+          },
+          subtitle: {
+            text: {
+              es: "Nuestro CRM es la herramienta que necesitas para organizar, automatizar y hacer crecer tu negocio. \xA1Todo en un solo lugar!",
+              en: "Our CRM is the tool you need to organize, automate, and grow your business. Everything in one place!",
+              fr: "Notre CRM est l'outil dont vous avez besoin pour organiser, automatiser et d\xE9velopper votre entreprise. Tout en un seul endroit !"
+            }
+          },
+          buttons: {
+            eventName: "appclick",
+            buttons: [
+              {
+                id: "landing-button",
+                text: {
+                  es: "\xA1Pru\xE9balo gratis ahora!",
+                  en: "Try it for free now!",
+                  fr: "Essayez-le gratuitement maintenant!"
+                },
+                classList: ["is-rounded", "is-info"]
+              }
+            ]
           }
+        },
+        {
+          id: "interest",
+          cardsWidth: "is-3",
+          cards: [
+            {
+              content: {
+                title: {
+                  text: {
+                    es: "Gesti\xF3n de leads",
+                    en: "Lead Management",
+                    fr: "Gestion des leads"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Organiza y prioriza tus contactos para un seguimiento efectivo.",
+                    en: "Organize and prioritize your contacts for effective follow-up.",
+                    fr: "Organisez et priorisez vos contacts pour un suivi efficace."
+                  }
+                }
+              }
+            },
+            {
+              content: {
+                title: {
+                  text: {
+                    es: "Automatizaci\xF3n",
+                    en: "Automation",
+                    fr: "Automatisation"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Automatiza tareas repetitivas y gana tiempo valioso.",
+                    en: "Automate repetitive tasks and save valuable time.",
+                    fr: "Automatisez les t\xE2ches r\xE9p\xE9titives et gagnez du temps pr\xE9cieux."
+                  }
+                }
+              }
+            },
+            {
+              content: {
+                title: {
+                  text: {
+                    es: "An\xE1lisis de datos",
+                    en: "Data Analysis",
+                    fr: "Analyse des donn\xE9es"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Toma decisiones inteligentes con reportes y m\xE9tricas claras.",
+                    en: "Make smart decisions with clear reports and metrics.",
+                    fr: "Prenez des d\xE9cisions intelligentes avec des rapports et des m\xE9triques clairs."
+                  }
+                }
+              }
+            },
+            {
+              content: {
+                title: {
+                  text: {
+                    es: "Colaboraci\xF3n",
+                    en: "Collaboration",
+                    fr: "Collaboration"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Mejora la comunicaci\xF3n entre tus equipos de venta y marketing.",
+                    en: "Improve communication between your sales and marketing teams.",
+                    fr: "Am\xE9liorez la communication entre vos \xE9quipes de vente et de marketing."
+                  }
+                }
+              }
+            }
+          ]
         },
         {
           id: "message",
@@ -23301,9 +23393,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // src/app/pages/home.js
   function home(req, router) {
     let go = Date.now();
-    let counter2 = { go, time: 0, landing: 1, atention: 0, interest: 0, desire: 0, action: 0, conversion: 0, leavingapp: 0, leavedapp: 0 };
+    let counter2 = { go, time: 0, atention: 0, interest: 0, desire: 0, action: 0, conversion: 0, leavingapp: 0, leavedapp: 0 };
     let template = `
     <page-header id="header"></page-header>
+    <hero-banner id="atention"></hero-banner>
+    <cards-list id="interest"></cards-list>
+    <media-list id="desire"></media-list>
+    <cards-list id="action"></cards-list>
     <page-footer id="footer"></page-footer>
     <modal-box id="message"></modal-box>
     `;
