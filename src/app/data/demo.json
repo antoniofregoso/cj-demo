@@ -146,6 +146,76 @@
                 ]
             },
             {
+                "id":"desire",
+                "items":[
+                    {
+                        "imageL":{
+                            "src":"/images/crm-dashboard.webp"
+                            },
+                        "title":{
+                            "text":{
+                                "es":"Juan Pérez, Gerente de Ventas",
+                                "en":"John Smith, Sales Manager",
+                                "fr":"Jean Dupont, Directeur des Ventes"
+
+                            }
+                        },
+                        "description":{
+                            "text":{
+                                "es":"Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es increíble.",
+                                "en":"Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
+                                "fr":"Depuis que nous avons mis en place ce CRM, nous avons réduit notre cycle de vente de 30 %. La visibilité que nous avons maintenant est incroyable."
+                            }
+                        }
+                    },
+                    {
+                        "imageL":{
+                            "src":"/images/crm-dashboard.webp"
+                            },
+                        "title":{
+                            "text":{
+
+                            }
+                        },
+                        "description":{
+                            "text":{
+                                
+                            }
+                        }
+                    },
+                    {
+                        "imageL":{
+                            "src":"/images/crm-dashboard.webp"
+                            },
+                        "title":{
+                            "text":{
+
+                            }
+                        },
+                        "description":{
+                            "text":{
+                                
+                            }
+                        }
+                    },
+                    {
+                        "imageL":{
+                            "src":"/images/crm-dashboard.webp"
+                            },
+                        "title":{
+                            "text":{
+
+                            }
+                        },
+                        "description":{
+                            "text":{
+                                
+                            }
+                        }
+                    }
+                ]
+            },
+            {
                 "id":"message",
                 "message":{
                     "classList":["is-warning"],
