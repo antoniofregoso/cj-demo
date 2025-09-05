@@ -6,8 +6,10 @@
     "module": "src/index.js",
     "scripts": {
         "scss": "sass --load-path=node_modules src/app/scss/assets.scss public/assets.css",
+        "config": "mkdir -p src/.env && echo '{\"google\":{\"gtag\":\"G-XXXXXXXXXX\"}}' > src/.env/conf.json",
         "build": "esbuild src/index.js --bundle  --outfile=public/index.js",
         "prod": "esbuild src/index.js --bundle --minify  --outfile=public/index.js",
+        "deploy": "npm-run-all config scss prod",
         "serve": "esbuild src/index.js --bundle  --outfile=public/index.js  --servedir=public",
         "watching": "esbuild src/index.js --bundle  --outfile=public/index.js --watch --serve-fallback=public/index.html --servedir=public",
         "start": "npm-run-all scss build serve",
