@@ -147,71 +147,210 @@
             },
             {
                 "id":"desire",
-                "items":[
-                    {
-                        "imageL":{
-                            "src":"/images/crm-dashboard.webp"
-                            },
-                        "title":{
-                            "text":{
-                                "es":"Juan Pérez, Gerente de Ventas",
-                                "en":"John Smith, Sales Manager",
-                                "fr":"Jean Dupont, Directeur des Ventes"
+                "mediaObjects":{
+                    "items":[
+                        {
+                            "imageL":{
+                                "src":"/images/social_proof_1.png"
+                                },
+                            "title":{
+                                "text":{
+                                    "es":"Juan Pérez, Gerente de Ventas",
+                                    "en":"John Smith, Sales Manager",
+                                    "fr":"Jean Dupont, Directeur des Ventes"
 
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es increíble.",
+                                    "en":"Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
+                                    "fr":"Depuis que nous avons mis en place ce CRM, nous avons réduit notre cycle de vente de 30 %. La visibilité que nous avons maintenant est incroyable."
+                                }
                             }
                         },
-                        "description":{
-                            "text":{
-                                "es":"Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es increíble.",
-                                "en":"Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
-                                "fr":"Depuis que nous avons mis en place ce CRM, nous avons réduit notre cycle de vente de 30 %. La visibilité que nous avons maintenant est incroyable."
+                        {
+                            "imageL":{
+                                "src":"/images/social_proof_2.png"
+                                },
+                            "title":{
+                                "text":{
+                                    "es":"Sofía Ramírez, Emprendedora",
+                                    "en":"Sophia Johnson, Entrepreneur",
+                                    "fr":"Sophie Martin, Entrepreneure"
+
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Como dueña de mi negocio, necesitaba una herramienta simple y potente. Este CRM superó mis expectativas, ¡es mi mano derecha!",
+                                    "en":"As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!",
+                                    "fr":"En tant que propriétaire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a dépassé mes attentes, c'est ma main droite !"
+                                }
                             }
+                        },
+                        {
+                            "imageL":{
+                                "src":"/images/social_proof_3.png"
+                                },
+                            "title":{
+                                "text":{
+                                    "es":"Carlos Gutiérrez, Director de Marketing",
+                                    "en":"Charles Brown, Marketing Director",
+                                    "fr":"Charles Dubois, Directeur Marketing"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"La integración entre marketing y ventas es perfecta. Ahora sé exactamente qué campañas generan los mejores clientes potenciales.",
+                                    "en":"The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads.",
+                                    "fr":"L'intégration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes génèrent les meilleurs prospects."
+                                }
+                            }
+                        },
+                        {
+                            "imageL":{
+                                "src":"/images/social_proof_4.png"
+                                },
+                            "title":{
+                                "text":{
+                                    "es":"Ana Morales, Asesora de Negocios",
+                                    "en":"Anna White, Business Consultant",
+                                    "fr":"Anne Lefèvre, Consultante en Affaires"
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes.",
+                                    "en":"I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients.",
+                                    "fr":"J'adore la facilité d'utilisation et le support client. Cela a été un véritable changement dans la façon dont j'organise mes projets et fais le suivi de mes clients."
+                                }
+                            }
+                        }
+                    ]
+            }
+            },
+            {
+                "id":"action",
+                "cards":[
+                    {
+                        "header":{
+                            "text":{
+                                "es":"Plan Básico",
+                                "en":"Basic Plan",
+                                "fr":"Plan de Base"
+                            }
+                        },
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"$29 USD / mes",
+                                    "en":"$29 USD / month",
+                                    "fr":"29 $ USD / mois"
+                                    }
+                                },
+                            "subtitle":{
+                                "text":{
+                                    "es":"Ideal para pequeñas empresas que están comenzando.",
+                                    "en":"Ideal for small businesses that are starting out.",
+                                    "fr":"Idéal pour les petites entreprises qui débutent."
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Características:\n\n- Gestión ilimitada de contactos.\n\n- Múltiples pipelines de ventas.\n\n- Automatización de correos.\n\n- Soporte prioritario. ",
+                                    "en":"Features:\n\n- Unlimited contact management.\n\n- Multiple sales pipelines.\n\n- Email automation.\n\n- Priority support.",
+                                    "fr":"Caractéristiques :\n\n- Gestion illimitée des contacts.\n\n- Multiples pipelines de vente.\n\n- Automatisation des e-mails.\n\n- Support prioritaire."
+                                }
+                            }
+                        },
+                        "footer":{
+                            "buttons":[
+                                {
+                                    "text":{
+                                        "es":"¡Comienza tu prueba gratis!",
+                                        "en":"Start your free trial!",
+                                        "fr":"Commencez votre essai gratuit!"
+                                    },
+                                    "href":"#"
+                                }
+                            ]
                         }
                     },
                     {
-                        "imageL":{
-                            "src":"/images/crm-dashboard.webp"
-                            },
-                        "title":{
+                        "header":{
                             "text":{
-
+                                "es":"Plan Pro",
+                                "en":"Pro Plan",
+                                "fr":"Plan Pro"
                             }
                         },
-                        "description":{
-                            "text":{
-                                
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"$59 USD / mes",
+                                    "en":"$59 USD / month",
+                                    "fr":"59 $ USD / mois"
+                                    }
+                                },
+                            "subtitle":{
+                                "text":{
+                                    "es":"Perfecto para equipos de ventas en crecimiento.",
+                                    "en":"Perfect for growing sales teams.",
+                                    "fr":"Parfait pour les équipes de vente en croissance."
+                                }
+                            },
+                            "description":{
+                                "text":{
+                                    "es":"Características:\n\n- Todo en el Plan Básico.\n\n- Informes avanzados.\n\n- Integraciones con terceros.\n\n- Automatización avanzada.",
+                                    "en":"Features:\n\n- Everything in the Basic Plan.\n\n- Advanced reporting.\n\n- Third-party integrations.\n\n- Advanced automation.",
+                                    "fr":"Caractéristiques :\n\n- Tout dans le plan de base.\n\n- Rapports avancés.\n\n- Intégrations tierces.\n\n- Automatisation avancée."
+                                }
                             }
+                        },
+                        "footer":{
+                            "buttons":[
+                                {
+                                    "text":{
+                                        "es":"¡Comienza tu prueba gratis!",
+                                        "en":"Start your free trial!",
+                                        "fr":"Commencez votre essai gratuit!"
+                                    }
+                                }
+                            ]
                         }
                     },
                     {
-                        "imageL":{
-                            "src":"/images/crm-dashboard.webp"
-                            },
-                        "title":{
+                        "header":{
                             "text":{
-
+                                "es":"Plan Empresarial",
+                                "en":"Business Plan",
+                                "fr":"Plan d'Entreprise"
                             }
                         },
-                        "description":{
-                            "text":{
-                                
-                            }
-                        }
-                    },
-                    {
-                        "imageL":{
-                            "src":"/images/crm-dashboard.webp"
+                        "content":{
+                            "title":{
+                                "text":{
+                                    "es":"$99 USD / mes",
+                                    "en":"$99 USD / month",
+                                    "fr":"99 $ USD / mois"
+                                    }
+                                },
+                            "subtitle":{
+                                "text":{
+                                    "es":"La solución definitiva para grandes equipos y empresas.",
+                                    "en":"The ultimate solution for large teams and enterprises.",
+                                    "fr":"La solution ultime pour les grandes équipes et entreprises."
+                                }
                             },
-                        "title":{
-                            "text":{
-
-                            }
-                        },
-                        "description":{
-                            "text":{
-                                
-                            }
-                        }
+                            "description":{
+                                "text":{
+                                    "es":"Características:\n\n- Todo en el Plan Pro.\n\n- Gestión avanzada de usuarios.\n\n- Soporte dedicado.\n\n- Capacitación personalizada.",
+                                    "en":"Features:\n\n- Everything in the Pro Plan.\n\n- Advanced user management.\n\n- Dedicated support.\n\n- Personalized training.",
+                                    "fr":"Caractéristiques :\n\n- Tout dans le plan Pro.\n\n- Gestion avancée des utilisateurs.\n\n- Support dédié.\n\n- Formation personnalisée."
+                                }
+                            } 
+                        }      
                     }
                 ]
             },

@@ -2986,13 +2986,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return titles;
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event.target.id },
+          detail: { source: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -15853,12 +15853,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.setAttribute("i18n", this.state.context?.lang);
       this.setAttribute("theme", this.state.context?.theme);
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         let theme2 = "";
-        switch (event.currentTarget.id) {
+        switch (event2.currentTarget.id) {
           case "themes":
-            let themes = document.getElementById(event.currentTarget.id);
+            let themes = document.getElementById(event2.currentTarget.id);
             themes.parentNode.classList.toggle("is-active");
             break;
           case "light-theme":
@@ -15876,7 +15876,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             break;
           default:
             const selectLang = new CustomEvent("user:select-lang", {
-              detail: event.target.id.slice(4),
+              detail: event2.target.id.slice(4),
               bubbles: true,
               composed: true
             });
@@ -20271,6 +20271,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       cardsWidth: "is-4",
       context: {
         lang: "en"
+      },
+      footer: {
+        eventName: "user:click-cards-list"
       }
     };
     constructor(props = {}) {
@@ -20279,6 +20282,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.state = this.initState(this.#default, props);
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
+    }
+    registerExtraEvents() {
+      if (event.type === "click") {
+        if (this.state.footer?.eventName != void 0) {
+          this.eventName = this.state.footer.eventName;
+        }
+        const clickFunnel = new CustomEvent(this.eventName, {
+          detail: { source: event.target.id },
+          bubbles: true,
+          composed: true
+        });
+        this.dispatchEvent(clickFunnel);
+      }
     }
     #card(props) {
       let card = (
@@ -20324,13 +20340,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     #getFooter(props) {
       if (props != void 0) {
         let render2 = "";
-        Object.entries(props).forEach(([key, value]) => {
-          render2 += `<button class="card-footer-item"  id="${props[key]["id"]}" ${this.setAnimation(props[key]["animation"])}>
-                    ${props[key]["text"][this.state.context.lang]}
-                </button>`;
+        props.forEach((el) => {
+          if (el.href != void 0) {
+            render2 += `<a href="#" class="card-footer-item ${el.classList != void 0 ? el.classList : ""}">${el.text[this.state.context.lang]}</a>`;
+          } else {
+            render2 += `<button id="${el?.id}" class="card-footer-item button ${el.classList != void 0 ? el.classList : ""}" >${el.text[this.state.context.lang]}</button>`;
+          }
         });
         return render2;
-      } else return "";
+      } else {
+        return "";
+      }
     }
     #getCards() {
       let cardsHtml = ``;
@@ -20581,19 +20601,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
-        if (event.target.tagName === "BUTTON") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
+        if (event2.target.tagName === "BUTTON") {
           if (this.state.buttons?.eventName != void 0) {
             this.eventName = this.state.buttons.eventName;
           }
           const clickFunnel = new CustomEvent(this.eventName, {
-            detail: { source: event.target.id },
+            detail: { source: event2.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
-        } else if (event.target.tagName === "path" || event.target.tagName === "svg") {
+        } else if (event2.target.tagName === "path" || event2.target.tagName === "svg") {
           this.scrollDown();
         }
       }
@@ -22222,8 +22242,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return itemsHtml;
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         let eventName;
         if (this.state.eventName === void 0) {
           eventName = "user:click-card";
@@ -22231,7 +22251,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           eventName = this.state.eventName;
         }
         const clickFunnel = new CustomEvent(eventName, {
-          detail: { click: event.target.id },
+          detail: { click: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -22274,8 +22294,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         let eventName;
         if (this.state.buttons.eventName === void 0) {
           eventName = "user:click-image-text";
@@ -22283,7 +22303,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(eventName, {
-          detail: { source: event.target.id },
+          detail: { source: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -22370,9 +22390,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.querySelector(".modal").classList.add("is-active");
       }
     }
-    handleEvent(event) {
-      if (event.type === "click") {
-        if (event.target.ariaLabel === "close") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
+        if (event2.target.ariaLabel === "close") {
           this.querySelector(".modal").classList.remove("is-active");
           this.removeAttribute("active");
         }
@@ -22527,36 +22547,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
     `
     );
-    handleEvent(event) {
-      if (event.type === "click") {
-        if (event.currentTarget.id === "chatToggle") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
+        if (event2.currentTarget.id === "chatToggle") {
           let chat = this.shadowRoot.querySelector(".chat-content");
           if (this.state.isExpanded === true) {
             this.setAttribute("value", "closed");
             this.state.isExpanded = false;
             chat.style.display = "none";
-            event.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+            event2.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
           } else {
             this.setAttribute("value", "open");
             this.state.isExpanded = true;
             chat.style.display = "block";
-            event.currentTarget.innerHTML = icon(faCircleXmark, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+            event2.currentTarget.innerHTML = icon(faCircleXmark, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
           }
-        } else if (event.currentTarget.id === "chatAI") {
+        } else if (event2.currentTarget.id === "chatAI") {
           const clickFunnel = new CustomEvent(this.state.ai.eventName, {
-            detail: { click: event.target.id },
+            detail: { click: event2.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
         }
-      } else if (event.type === "mouseover") {
-        if (event.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
-          event.currentTarget.innerHTML = icon(faFaceSmile, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+      } else if (event2.type === "mouseover") {
+        if (event2.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
+          event2.currentTarget.innerHTML = icon(faFaceSmile, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
         }
-      } else if (event.type === "mouseleave") {
-        if (event.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
-          event.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+      } else if (event2.type === "mouseleave") {
+        if (event2.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
+          event2.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
         }
       }
     }
@@ -22620,27 +22640,27 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
-        if (event.target.tagName === "BUTTON") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
+        if (event2.target.tagName === "BUTTON") {
           if (this.state.buttons.eventName != void 0) {
             this.eventName = this.state.buttons.eventName;
           }
           const clickFunnel = new CustomEvent(this.eventName, {
-            detail: { source: event.target.id },
+            detail: { source: event2.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
-        } else if (event.target.tagName === "DIV") {
+        } else if (event2.target.tagName === "DIV") {
           let items = this.querySelectorAll(".message");
           items.forEach((item) => {
             item.querySelector(".message-header  span").innerHTML = "&plus;";
             let content2 = item.querySelector(".message-body");
             content2.classList.add("is-hidden");
           });
-          event.target.querySelector("span").innerHTML = "&minus;";
-          let content = event.target.parentNode.querySelector(".message-body");
+          event2.target.querySelector("span").innerHTML = "&minus;";
+          let content = event2.target.parentNode.querySelector(".message-body");
           content.classList.remove("is-hidden");
         }
       }
@@ -22784,13 +22804,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event.target.id },
+          detail: { source: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -22846,13 +22866,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event.target.id },
+          detail: { source: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -22897,13 +22917,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event.target.id },
+          detail: { source: event2.target.id },
           bubbles: true,
           composed: true
         });
@@ -23052,12 +23072,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
     }
-    handleEvent(event) {
-      if (event.type === "click") {
+    handleEvent(event2) {
+      if (event2.type === "click") {
         if (this.state.eventName != void 0) {
           this.eventName = this.state.eventName;
         }
-        if (event.target.id === "download-ical") {
+        if (event2.target.id === "download-ical") {
           console.log("iCal Downloaded");
         } else {
           const clickFunnel = new CustomEvent(this.eventName, {
@@ -23360,6 +23380,213 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     es: "Mejora la comunicaci\xF3n entre tus equipos de venta y marketing.",
                     en: "Improve communication between your sales and marketing teams.",
                     fr: "Am\xE9liorez la communication entre vos \xE9quipes de vente et de marketing."
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          id: "desire",
+          mediaObjects: {
+            items: [
+              {
+                imageL: {
+                  src: "/images/social_proof_1.png"
+                },
+                title: {
+                  text: {
+                    es: "Juan P\xE9rez, Gerente de Ventas",
+                    en: "John Smith, Sales Manager",
+                    fr: "Jean Dupont, Directeur des Ventes"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es incre\xEDble.",
+                    en: "Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
+                    fr: "Depuis que nous avons mis en place ce CRM, nous avons r\xE9duit notre cycle de vente de 30 %. La visibilit\xE9 que nous avons maintenant est incroyable."
+                  }
+                }
+              },
+              {
+                imageL: {
+                  src: "/images/social_proof_2.png"
+                },
+                title: {
+                  text: {
+                    es: "Sof\xEDa Ram\xEDrez, Emprendedora",
+                    en: "Sophia Johnson, Entrepreneur",
+                    fr: "Sophie Martin, Entrepreneure"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Como due\xF1a de mi negocio, necesitaba una herramienta simple y potente. Este CRM super\xF3 mis expectativas, \xA1es mi mano derecha!",
+                    en: "As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!",
+                    fr: "En tant que propri\xE9taire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a d\xE9pass\xE9 mes attentes, c'est ma main droite !"
+                  }
+                }
+              },
+              {
+                imageL: {
+                  src: "/images/social_proof_3.png"
+                },
+                title: {
+                  text: {
+                    es: "Carlos Guti\xE9rrez, Director de Marketing",
+                    en: "Charles Brown, Marketing Director",
+                    fr: "Charles Dubois, Directeur Marketing"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "La integraci\xF3n entre marketing y ventas es perfecta. Ahora s\xE9 exactamente qu\xE9 campa\xF1as generan los mejores clientes potenciales.",
+                    en: "The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads.",
+                    fr: "L'int\xE9gration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes g\xE9n\xE8rent les meilleurs prospects."
+                  }
+                }
+              },
+              {
+                imageL: {
+                  src: "/images/social_proof_4.png"
+                },
+                title: {
+                  text: {
+                    es: "Ana Morales, Asesora de Negocios",
+                    en: "Anna White, Business Consultant",
+                    fr: "Anne Lef\xE8vre, Consultante en Affaires"
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes.",
+                    en: "I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients.",
+                    fr: "J'adore la facilit\xE9 d'utilisation et le support client. Cela a \xE9t\xE9 un v\xE9ritable changement dans la fa\xE7on dont j'organise mes projets et fais le suivi de mes clients."
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          id: "action",
+          cards: [
+            {
+              header: {
+                text: {
+                  es: "Plan B\xE1sico",
+                  en: "Basic Plan",
+                  fr: "Plan de Base"
+                }
+              },
+              content: {
+                title: {
+                  text: {
+                    es: "$29 USD / mes",
+                    en: "$29 USD / month",
+                    fr: "29 $ USD / mois"
+                  }
+                },
+                subtitle: {
+                  text: {
+                    es: "Ideal para peque\xF1as empresas que est\xE1n comenzando.",
+                    en: "Ideal for small businesses that are starting out.",
+                    fr: "Id\xE9al pour les petites entreprises qui d\xE9butent."
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Caracter\xEDsticas:\n\n- Gesti\xF3n ilimitada de contactos.\n\n- M\xFAltiples pipelines de ventas.\n\n- Automatizaci\xF3n de correos.\n\n- Soporte prioritario. ",
+                    en: "Features:\n\n- Unlimited contact management.\n\n- Multiple sales pipelines.\n\n- Email automation.\n\n- Priority support.",
+                    fr: "Caract\xE9ristiques\xA0:\n\n- Gestion illimit\xE9e des contacts.\n\n- Multiples pipelines de vente.\n\n- Automatisation des e-mails.\n\n- Support prioritaire."
+                  }
+                }
+              },
+              footer: {
+                buttons: [
+                  {
+                    text: {
+                      es: "\xA1Comienza tu prueba gratis!",
+                      en: "Start your free trial!",
+                      fr: "Commencez votre essai gratuit!"
+                    },
+                    href: "#"
+                  }
+                ]
+              }
+            },
+            {
+              header: {
+                text: {
+                  es: "Plan Pro",
+                  en: "Pro Plan",
+                  fr: "Plan Pro"
+                }
+              },
+              content: {
+                title: {
+                  text: {
+                    es: "$59 USD / mes",
+                    en: "$59 USD / month",
+                    fr: "59 $ USD / mois"
+                  }
+                },
+                subtitle: {
+                  text: {
+                    es: "Perfecto para equipos de ventas en crecimiento.",
+                    en: "Perfect for growing sales teams.",
+                    fr: "Parfait pour les \xE9quipes de vente en croissance."
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Caracter\xEDsticas:\n\n- Todo en el Plan B\xE1sico.\n\n- Informes avanzados.\n\n- Integraciones con terceros.\n\n- Automatizaci\xF3n avanzada.",
+                    en: "Features:\n\n- Everything in the Basic Plan.\n\n- Advanced reporting.\n\n- Third-party integrations.\n\n- Advanced automation.",
+                    fr: "Caract\xE9ristiques\xA0:\n\n- Tout dans le plan de base.\n\n- Rapports avanc\xE9s.\n\n- Int\xE9grations tierces.\n\n- Automatisation avanc\xE9e."
+                  }
+                }
+              },
+              footer: {
+                buttons: [
+                  {
+                    text: {
+                      es: "\xA1Comienza tu prueba gratis!",
+                      en: "Start your free trial!",
+                      fr: "Commencez votre essai gratuit!"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              header: {
+                text: {
+                  es: "Plan Empresarial",
+                  en: "Business Plan",
+                  fr: "Plan d'Entreprise"
+                }
+              },
+              content: {
+                title: {
+                  text: {
+                    es: "$99 USD / mes",
+                    en: "$99 USD / month",
+                    fr: "99 $ USD / mois"
+                  }
+                },
+                subtitle: {
+                  text: {
+                    es: "La soluci\xF3n definitiva para grandes equipos y empresas.",
+                    en: "The ultimate solution for large teams and enterprises.",
+                    fr: "La solution ultime pour les grandes \xE9quipes et entreprises."
+                  }
+                },
+                description: {
+                  text: {
+                    es: "Caracter\xEDsticas:\n\n- Todo en el Plan Pro.\n\n- Gesti\xF3n avanzada de usuarios.\n\n- Soporte dedicado.\n\n- Capacitaci\xF3n personalizada.",
+                    en: "Features:\n\n- Everything in the Pro Plan.\n\n- Advanced user management.\n\n- Dedicated support.\n\n- Personalized training.",
+                    fr: "Caract\xE9ristiques\xA0:\n\n- Tout dans le plan Pro.\n\n- Gestion avanc\xE9e des utilisateurs.\n\n- Support d\xE9di\xE9.\n\n- Formation personnalis\xE9e."
                   }
                 }
               }
