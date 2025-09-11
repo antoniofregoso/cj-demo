@@ -119,6 +119,22 @@
             },
             {
                 "id":"desire",
+                "title":{
+                    "text":{
+                        "es":"Lo que dicen nuestros clientes",
+                        "en":"What our clients say",
+                        "fr":"Ce que disent nos clients"
+                    },
+                    "classList":["has-text-centered"]
+                },
+                "subtitle":{
+                    "text":{
+                        "es":"Historias reales de éxito con nuestro CRM",
+                        "en":"Real success stories with our CRM",
+                        "fr":"Des histoires de réussite réelles avec notre CRM"
+                    },
+                    "classList":["has-text-centered","mb-5"]
+                },
                 "mediaObjects":{
                     "items":[
                         {
@@ -204,6 +220,22 @@
             },
             {
                 "id":"action",
+                "title":{
+                    "text":{
+                        "es":"Elige el plan perfecto para ti",
+                        "en":"Choose the perfect plan for you",
+                        "fr":"Choisissez le plan parfait pour vous"
+                    },
+                    "classList":["has-text-centered"]
+                },
+                "subtitle":{
+                    "text":{
+                        "es":"Planes flexibles que se adaptan a las necesidades de tu negocio",
+                        "en":"Flexible plans that adapt to your business needs",
+                        "fr":"Des plans flexibles qui s'adaptent aux besoins de votre entreprise"
+                    },
+                    "classList":["has-text-centered","mb-5"]
+                },
                 "cards":[
                     {
                         "header":{

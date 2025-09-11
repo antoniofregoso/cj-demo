@@ -23219,8 +23219,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
   }
 
-  // src/app/data/demo.json
-  var demo_default = {
+  // src/app/data/home.json
+  var home_default = {
     props: {
       id: "ArteConference",
       noCache: true,
@@ -23305,54 +23305,33 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             },
             {
               content: {
-                title: {
-                  text: {
-                    es: "Automatizaci\xF3n",
-                    en: "Automation",
-                    fr: "Automatisation"
-                  }
-                },
                 description: {
                   text: {
-                    es: "Automatiza tareas repetitivas y gana tiempo valioso.",
-                    en: "Automate repetitive tasks and save valuable time.",
-                    fr: "Automatisez les t\xE2ches r\xE9p\xE9titives et gagnez du temps pr\xE9cieux."
+                    es: "### Automatizaci\xF3n\n\nAutomatiza tareas repetitivas y gana tiempo valioso.",
+                    en: "### Automation\n\nAutomate repetitive tasks and save valuable time.",
+                    fr: "### Automatisation\n\nAutomatisez les t\xE2ches r\xE9p\xE9titives et gagnez du temps pr\xE9cieux."
                   }
                 }
               }
             },
             {
               content: {
-                title: {
-                  text: {
-                    es: "An\xE1lisis de datos",
-                    en: "Data Analysis",
-                    fr: "Analyse des donn\xE9es"
-                  }
-                },
                 description: {
                   text: {
-                    es: "Toma decisiones inteligentes con reportes y m\xE9tricas claras.",
-                    en: "Make smart decisions with clear reports and metrics.",
-                    fr: "Prenez des d\xE9cisions intelligentes avec des rapports et des m\xE9triques clairs."
+                    es: "### An\xE1lisis de datos\n\nToma decisiones inteligentes con reportes y m\xE9tricas claras.",
+                    en: "### Data Analysis\n\nMake smart decisions with clear reports and metrics.",
+                    fr: "### Analyse des donn\xE9es\n\nPrenez des d\xE9cisions intelligentes avec des rapports et des m\xE9triques clairs."
                   }
                 }
               }
             },
             {
               content: {
-                title: {
-                  text: {
-                    es: "Colaboraci\xF3n",
-                    en: "Collaboration",
-                    fr: "Collaboration"
-                  }
-                },
                 description: {
                   text: {
-                    es: "Mejora la comunicaci\xF3n entre tus equipos de venta y marketing.",
-                    en: "Improve communication between your sales and marketing teams.",
-                    fr: "Am\xE9liorez la communication entre vos \xE9quipes de vente et de marketing."
+                    es: "### Colaboraci\xF3n\n\nMejora la comunicaci\xF3n entre tus equipos de venta y marketing.",
+                    en: "### Collaboration\n\nImprove communication between your sales and marketing teams.",
+                    fr: "### Collaboration\n\nAm\xE9liorez la communication entre vos \xE9quipes de vente et de marketing."
                   }
                 }
               }
@@ -23361,6 +23340,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         },
         {
           id: "desire",
+          title: {
+            text: {
+              es: "Lo que dicen nuestros clientes",
+              en: "What our clients say",
+              fr: "Ce que disent nos clients"
+            }
+          },
+          subtitle: {
+            text: {
+              es: "Historias reales de \xE9xito con nuestro CRM",
+              en: "Real success stories with our CRM",
+              fr: "Des histoires de r\xE9ussite r\xE9elles avec notre CRM"
+            }
+          },
           mediaObjects: {
             items: [
               {
@@ -23605,9 +23598,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     `;
     let currentValue2 = store.getState();
     store.dispatch(setStage("start"));
-    demo_default.context = currentValue2;
+    home_default.context = currentValue2;
     ;
-    page = new AppPage(demo_default, template);
+    page = new AppPage(home_default, template);
     const pageEvents = {
       handleEvent: (e) => {
         switch (e.type) {
