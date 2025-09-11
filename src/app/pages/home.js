@@ -4,7 +4,7 @@ import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
-import data from "../data/demo.json";
+import data from "../data/home.json";
 
 export function home(req, router){
 

@@ -2986,13 +2986,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return titles;
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event2.target.id },
+          detail: { source: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -15853,12 +15853,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.setAttribute("i18n", this.state.context?.lang);
       this.setAttribute("theme", this.state.context?.theme);
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         let theme2 = "";
-        switch (event2.currentTarget.id) {
+        switch (event.currentTarget.id) {
           case "themes":
-            let themes = document.getElementById(event2.currentTarget.id);
+            let themes = document.getElementById(event.currentTarget.id);
             themes.parentNode.classList.toggle("is-active");
             break;
           case "light-theme":
@@ -15876,7 +15876,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             break;
           default:
             const selectLang = new CustomEvent("user:select-lang", {
-              detail: event2.target.id.slice(4),
+              detail: event.target.id.slice(4),
               bubbles: true,
               composed: true
             });
@@ -20271,9 +20271,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       cardsWidth: "is-4",
       context: {
         lang: "en"
-      },
-      footer: {
-        eventName: "user:click-cards-list"
       }
     };
     constructor(props = {}) {
@@ -20282,19 +20279,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.state = this.initState(this.#default, props);
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
-    }
-    registerExtraEvents() {
-      if (event.type === "click") {
-        if (this.state.footer?.eventName != void 0) {
-          this.eventName = this.state.footer.eventName;
-        }
-        const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event.target.id },
-          bubbles: true,
-          composed: true
-        });
-        this.dispatchEvent(clickFunnel);
-      }
     }
     #card(props) {
       let card = (
@@ -20340,17 +20324,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     #getFooter(props) {
       if (props != void 0) {
         let render2 = "";
-        props.forEach((el) => {
-          if (el.href != void 0) {
-            render2 += `<a href="#" class="card-footer-item ${el.classList != void 0 ? el.classList : ""}">${el.text[this.state.context.lang]}</a>`;
-          } else {
-            render2 += `<button id="${el?.id}" class="card-footer-item button ${el.classList != void 0 ? el.classList : ""}" >${el.text[this.state.context.lang]}</button>`;
-          }
+        Object.entries(props).forEach(([key, value]) => {
+          render2 += `<button class="card-footer-item"  id="${props[key]["id"]}" ${this.setAnimation(props[key]["animation"])}>
+                    ${props[key]["text"][this.state.context.lang]}
+                </button>`;
         });
         return render2;
-      } else {
-        return "";
-      }
+      } else return "";
     }
     #getCards() {
       let cardsHtml = ``;
@@ -20601,19 +20581,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
-        if (event2.target.tagName === "BUTTON") {
+    handleEvent(event) {
+      if (event.type === "click") {
+        if (event.target.tagName === "BUTTON") {
           if (this.state.buttons?.eventName != void 0) {
             this.eventName = this.state.buttons.eventName;
           }
           const clickFunnel = new CustomEvent(this.eventName, {
-            detail: { source: event2.target.id },
+            detail: { source: event.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
-        } else if (event2.target.tagName === "path" || event2.target.tagName === "svg") {
+        } else if (event.target.tagName === "path" || event.target.tagName === "svg") {
           this.scrollDown();
         }
       }
@@ -22242,8 +22222,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       return itemsHtml;
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         let eventName;
         if (this.state.eventName === void 0) {
           eventName = "user:click-card";
@@ -22251,7 +22231,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           eventName = this.state.eventName;
         }
         const clickFunnel = new CustomEvent(eventName, {
-          detail: { click: event2.target.id },
+          detail: { click: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -22294,8 +22274,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         let eventName;
         if (this.state.buttons.eventName === void 0) {
           eventName = "user:click-image-text";
@@ -22303,7 +22283,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(eventName, {
-          detail: { source: event2.target.id },
+          detail: { source: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -22390,9 +22370,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.querySelector(".modal").classList.add("is-active");
       }
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
-        if (event2.target.ariaLabel === "close") {
+    handleEvent(event) {
+      if (event.type === "click") {
+        if (event.target.ariaLabel === "close") {
           this.querySelector(".modal").classList.remove("is-active");
           this.removeAttribute("active");
         }
@@ -22547,36 +22527,36 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         }
     `
     );
-    handleEvent(event2) {
-      if (event2.type === "click") {
-        if (event2.currentTarget.id === "chatToggle") {
+    handleEvent(event) {
+      if (event.type === "click") {
+        if (event.currentTarget.id === "chatToggle") {
           let chat = this.shadowRoot.querySelector(".chat-content");
           if (this.state.isExpanded === true) {
             this.setAttribute("value", "closed");
             this.state.isExpanded = false;
             chat.style.display = "none";
-            event2.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+            event.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
           } else {
             this.setAttribute("value", "open");
             this.state.isExpanded = true;
             chat.style.display = "block";
-            event2.currentTarget.innerHTML = icon(faCircleXmark, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+            event.currentTarget.innerHTML = icon(faCircleXmark, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
           }
-        } else if (event2.currentTarget.id === "chatAI") {
+        } else if (event.currentTarget.id === "chatAI") {
           const clickFunnel = new CustomEvent(this.state.ai.eventName, {
-            detail: { click: event2.target.id },
+            detail: { click: event.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
         }
-      } else if (event2.type === "mouseover") {
-        if (event2.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
-          event2.currentTarget.innerHTML = icon(faFaceSmile, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+      } else if (event.type === "mouseover") {
+        if (event.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
+          event.currentTarget.innerHTML = icon(faFaceSmile, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
         }
-      } else if (event2.type === "mouseleave") {
-        if (event2.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
-          event2.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
+      } else if (event.type === "mouseleave") {
+        if (event.currentTarget.id === "chatToggle" && this.state.isExpanded === false) {
+          event.currentTarget.innerHTML = icon(faCommentDots, { transform: { size: 12 }, styles: { "color": this.state.color } }).html[0];
         }
       }
     }
@@ -22640,27 +22620,27 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
-        if (event2.target.tagName === "BUTTON") {
+    handleEvent(event) {
+      if (event.type === "click") {
+        if (event.target.tagName === "BUTTON") {
           if (this.state.buttons.eventName != void 0) {
             this.eventName = this.state.buttons.eventName;
           }
           const clickFunnel = new CustomEvent(this.eventName, {
-            detail: { source: event2.target.id },
+            detail: { source: event.target.id },
             bubbles: true,
             composed: true
           });
           this.dispatchEvent(clickFunnel);
-        } else if (event2.target.tagName === "DIV") {
+        } else if (event.target.tagName === "DIV") {
           let items = this.querySelectorAll(".message");
           items.forEach((item) => {
             item.querySelector(".message-header  span").innerHTML = "&plus;";
             let content2 = item.querySelector(".message-body");
             content2.classList.add("is-hidden");
           });
-          event2.target.querySelector("span").innerHTML = "&minus;";
-          let content = event2.target.parentNode.querySelector(".message-body");
+          event.target.querySelector("span").innerHTML = "&minus;";
+          let content = event.target.parentNode.querySelector(".message-body");
           content.classList.remove("is-hidden");
         }
       }
@@ -22804,13 +22784,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event2.target.id },
+          detail: { source: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -22866,13 +22846,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event2.target.id },
+          detail: { source: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -22917,13 +22897,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     attributeChangedCallback(name, old, now) {
       this.render();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         if (this.state.buttons?.eventName != void 0) {
           this.eventName = this.state.buttons.eventName;
         }
         const clickFunnel = new CustomEvent(this.eventName, {
-          detail: { source: event2.target.id },
+          detail: { source: event.target.id },
           bubbles: true,
           composed: true
         });
@@ -23072,12 +23052,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       this.getAttribute("id") || this.setAttribute("id", this.state.id || `component-${Math.floor(Math.random() * 100)}`);
       this.md = new Remarkable();
     }
-    handleEvent(event2) {
-      if (event2.type === "click") {
+    handleEvent(event) {
+      if (event.type === "click") {
         if (this.state.eventName != void 0) {
           this.eventName = this.state.eventName;
         }
-        if (event2.target.id === "download-ical") {
+        if (event.target.id === "download-ical") {
           console.log("iCal Downloaded");
         } else {
           const clickFunnel = new CustomEvent(this.eventName, {
@@ -23314,18 +23294,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           cards: [
             {
               content: {
-                title: {
-                  text: {
-                    es: "Gesti\xF3n de leads",
-                    en: "Lead Management",
-                    fr: "Gestion des leads"
-                  }
-                },
                 description: {
                   text: {
-                    es: "Organiza y prioriza tus contactos para un seguimiento efectivo.",
-                    en: "Organize and prioritize your contacts for effective follow-up.",
-                    fr: "Organisez et priorisez vos contacts pour un suivi efficace."
+                    es: "### Gesti\xF3n de leads\n\nOrganiza y prioriza tus contactos para un seguimiento efectivo.",
+                    en: "### Lead Management\n\nOrganize and prioritize your contacts for effective follow-up.",
+                    fr: "### Gestion des leads\n\nOrganisez et priorisez vos contacts pour un suivi efficace."
                   }
                 }
               }
