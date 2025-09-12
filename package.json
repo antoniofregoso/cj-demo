@@ -24,7 +24,7 @@
         "sass": "^1.71.1"
     },
     "dependencies": {
-        "@customerjourney/cj-components": "^0.9.6",
+        "@customerjourney/cj-components": "github:antoniofregoso/cj-components",
         "@customerjourney/cj-router": "^1.2.1",
         "@fortawesome/fontawesome-svg-core": "^6.5.1",
         "@fortawesome/free-brands-svg-icons": "^6.5.1",

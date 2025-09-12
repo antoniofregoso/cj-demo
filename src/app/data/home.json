@@ -31,29 +31,37 @@
             },
             {
                 "id":"atention",
+                "backgroundImage":{
+                    "url":"/images/crm-hero.webp",
+                    "fixed":true
+                },
+                "classList":["is-fullheight-with-navbar", "hero is-link"],
                 "caption":{
                     "text":{
                         "es":"¿Estás perdiendo ventas por no tener un seguimiento adecuado?",
-                        "en":"Are you losing sales due to inadequate follow-up?",
-                        "fr":""
-                    }
+                        "en":"Are you losing sales due to inadequate follow-up?"
+                    },
+                    "classList":["has-text-shadow"]
                 },
                 "title":{
                     "text":{
                         "es":"¡Incrementa tus ventas y optimiza tu gestión de clientes!",
                         "en":"Increase your sales and optimize your customer management!",
                         "fr":"Augmentez vos ventes et optimisez votre gestion client !"
-                    }
+                    },
+                    "classList":["has-text-shadow"]
                 },
                 "subtitle":{
                     "text":{
                         "es":"Nuestro CRM es la herramienta que necesitas para organizar, automatizar y hacer crecer tu negocio. ¡Todo en un solo lugar!",
                         "en":"Our CRM is the tool you need to organize, automate, and grow your business. Everything in one place!",
                         "fr":"Notre CRM est l'outil dont vous avez besoin pour organiser, automatiser et développer votre entreprise. Tout en un seul endroit !"
-                    }
+                    },
+                    "classList":["has-text-shadow"]
                 },
                 "buttons":{
                     "eventName":"appclick",
+                    "classList":["is-centered"],
                     "buttons":[
                         {
                             "id":"landing-button",
@@ -65,6 +73,9 @@
                             "classList":["is-rounded","is-info"]
                          }
                     ]
+                },
+                "scrollButton":{
+                    "color":"has-text-info"
                 }
             },
             {
@@ -72,6 +83,10 @@
                 "cardsWidth":"is-3",
                 "cards":[
                     {
+                        "image":{
+                            "src":"/images/lead-management.webp",
+                            "classList":["is-square"]
+                        },
                         "content":{
                             "description":{
                                 "text":{
@@ -83,6 +98,10 @@
                         }
                     },
                     {
+                        "image":{
+                            "src":"/images/automation.webp",
+                            "classList":["is-square"]
+                        },
                         "content":{
                             "description":{
                                 "text":{
@@ -94,6 +113,10 @@
                         }
                     },
                     {
+                        "image":{
+                            "src":"/images/data-analysis.webp",
+                            "classList":["is-square"]
+                        },
                         "content":{
                             "description":{
                                 "text":{
@@ -105,6 +128,10 @@
                         }
                     },
                     {
+                        "image":{
+                            "src":"/images/collaboration.webp",
+                            "alt":"Collaboration"
+                        },
                         "content":{
                             "description":{
                                 "text":{
@@ -136,6 +163,7 @@
                     "classList":["has-text-centered","mb-5"]
                 },
                 "mediaObjects":{
+                    "width":"is-8",
                     "items":[
                         {
                             "imageL":{
@@ -276,7 +304,7 @@
                                         "en":"Start your free trial!",
                                         "fr":"Commencez votre essai gratuit!"
                                     },
-                                    "href":"#"
+                                    "href":"/#thanks"
                                 }
                             ]
                         }
@@ -319,7 +347,8 @@
                                         "es":"¡Comienza tu prueba gratis!",
                                         "en":"Start your free trial!",
                                         "fr":"Commencez votre essai gratuit!"
-                                    }
+                                    },
+                                    "href":"/#thanks"
                                 }
                             ]
                         }
@@ -354,7 +383,19 @@
                                     "fr":"Caractéristiques :\n\n- Tout dans le plan Pro.\n\n- Gestion avancée des utilisateurs.\n\n- Support dédié.\n\n- Formation personnalisée."
                                 }
                             } 
-                        }      
+                        } ,
+                        "footer":{
+                            "buttons":[
+                                {
+                                    "text":{
+                                        "es":"¡Comienza tu prueba gratis!",
+                                        "en":"Start your free trial!",
+                                        "fr":"Commencez votre essai gratuit!"
+                                    },
+                                    "href":"/#thanks"
+                                }
+                            ]
+                        }     
                     }
                 ]
             },

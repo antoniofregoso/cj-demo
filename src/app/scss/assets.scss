@@ -6,23 +6,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
 
 
-.has-background-brand {
-	background: linear-gradient(-45deg, #152738, #337eb8,  #050c11,  #36abcc);
-	background-size: 400% 400%;
-	margin: 0;
-	padding: 0;
-	min-height: 100vh;
-	animation: gradient 10s ease infinite;
-}
-
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+.has-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
