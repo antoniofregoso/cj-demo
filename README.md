@@ -1,7 +1,5 @@
 # bj-app
 Template for creating bj applications
-## Sponsors
-[<img src="https://www.conference.com.mx/web/image/website/3/logo/Conference?unique=cb769b7">](https://www.conference.com.mx/comercializacion-digital)
 ## Install
 
 1. Install the dependencies
@@ -12,9 +10,6 @@ Template for creating bj applications
 
  ```
 npm install
-mkdir src/.env
-echo "{}" | cat > src/.env/conf.json
-npm run scss
 npm run watch
 ```
 

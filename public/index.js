@@ -20307,8 +20307,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     ${props.header.text[this.state.context.lang]}
                     </p>
                 </header>` : ""}
-                ${props.image?.src != void 0 ? `<div ${this.getClasses(["card-image"], props.image.classList)} ${this.setAnimation(props.image?.animation)}>
-                        <figure class="image is-4by3">
+                ${props.image?.src != void 0 ? `<div class="card-image" ${this.setAnimation(props.image?.animation)}>
+                        <figure ${this.getClasses(["image"], props.image.classList)} >
                             <img src="${props.image.src}" ${props.image.alt != void 0 ? `alt="${props.image.alt[this.state.context.lang]}"` : ""} >
                         </figure>
                     </div>` : ""}
@@ -20342,7 +20342,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         let render2 = "";
         props.forEach((el) => {
           if (el.href != void 0) {
-            render2 += `<a href="#" class="card-footer-item ${el.classList != void 0 ? el.classList : ""}">${el.text[this.state.context.lang]}</a>`;
+            render2 += `<a href="${el.href}" class="card-footer-item ${el.classList != void 0 ? el.classList : ""}">${el.text[this.state.context.lang]}</a>`;
           } else {
             render2 += `<button id="${el?.id}" class="card-footer-item button ${el.classList != void 0 ? el.classList : ""}" >${el.text[this.state.context.lang]}</button>`;
           }
@@ -23263,8 +23263,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         {
           id: "header",
           brand: {
-            src: "/images/conference.webp",
-            srcDark: "/images/conference-dark.webp"
+            src: "/images/cj.webp",
+            srcDark: "/images/cj-light.webp"
           },
           i18n: {
             lang: { es: "\u{1F1F2}\u{1F1FD}", en: "\u{1F1FA}\u{1F1F8}", fr: "\u{1F1EB}\u{1F1F7}" }
@@ -23290,7 +23290,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               en: "Increase your sales and optimize your customer management!",
               fr: "Augmentez vos ventes et optimisez votre gestion client !"
             },
-            classList: ["has-text-shadow"]
+            classList: ["has-text-shadow"],
+            animation: {
+              effect: "zoomIn"
+            }
           },
           subtitle: {
             text: {
@@ -23326,7 +23329,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             {
               image: {
                 src: "/images/lead-management.webp",
-                alt: "Lead Management"
+                classList: ["is-square"]
               },
               content: {
                 description: {
@@ -23341,7 +23344,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             {
               image: {
                 src: "/images/automation.webp",
-                alt: "Automation"
+                classList: ["is-square"]
               },
               content: {
                 description: {
@@ -23356,7 +23359,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             {
               image: {
                 src: "/images/data-analysis.webp",
-                alt: "Data Analysis"
+                classList: ["is-square"]
               },
               content: {
                 description: {
@@ -23419,9 +23422,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 },
                 description: {
                   text: {
-                    es: "Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es incre\xEDble.",
-                    en: "Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
-                    fr: "Depuis que nous avons mis en place ce CRM, nous avons r\xE9duit notre cycle de vente de 30 %. La visibilit\xE9 que nous avons maintenant est incroyable."
+                    es: "_Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es incre\xEDble._",
+                    en: "_Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible._",
+                    fr: "_Depuis que nous avons mis en place ce CRM, nous avons r\xE9duit notre cycle de vente de 30 %. La visibilit\xE9 que nous avons maintenant est incroyable._"
                   }
                 }
               },
@@ -23438,9 +23441,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 },
                 description: {
                   text: {
-                    es: "Como due\xF1a de mi negocio, necesitaba una herramienta simple y potente. Este CRM super\xF3 mis expectativas, \xA1es mi mano derecha!",
-                    en: "As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!",
-                    fr: "En tant que propri\xE9taire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a d\xE9pass\xE9 mes attentes, c'est ma main droite !"
+                    es: "_Como due\xF1a de mi negocio, necesitaba una herramienta simple y potente. Este CRM super\xF3 mis expectativas, \xA1es mi mano derecha!_",
+                    en: "_As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!_",
+                    fr: "_En tant que propri\xE9taire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a d\xE9pass\xE9 mes attentes, c'est ma main droite !_"
                   }
                 }
               },
@@ -23457,9 +23460,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 },
                 description: {
                   text: {
-                    es: "La integraci\xF3n entre marketing y ventas es perfecta. Ahora s\xE9 exactamente qu\xE9 campa\xF1as generan los mejores clientes potenciales.",
-                    en: "The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads.",
-                    fr: "L'int\xE9gration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes g\xE9n\xE8rent les meilleurs prospects."
+                    es: "_La integraci\xF3n entre marketing y ventas es perfecta. Ahora s\xE9 exactamente qu\xE9 campa\xF1as generan los mejores clientes potenciales._",
+                    en: "_The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads._",
+                    fr: "_L'int\xE9gration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes g\xE9n\xE8rent les meilleurs prospects._"
                   }
                 }
               },
@@ -23476,9 +23479,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 },
                 description: {
                   text: {
-                    es: "Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes.",
-                    en: "I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients.",
-                    fr: "J'adore la facilit\xE9 d'utilisation et le support client. Cela a \xE9t\xE9 un v\xE9ritable changement dans la fa\xE7on dont j'organise mes projets et fais le suivi de mes clients."
+                    es: "_Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes._",
+                    en: "_I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients._",
+                    fr: "_J'adore la facilit\xE9 d'utilisation et le support client. Cela a \xE9t\xE9 un v\xE9ritable changement dans la fa\xE7on dont j'organise mes projets et fais le suivi de mes clients._"
                   }
                 }
               }
@@ -23637,6 +23640,28 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               }
             }
           ]
+        },
+        {
+          id: "footer",
+          brand: {
+            src: "/images/cj.webp",
+            srcDark: "/images/cj-light.webp"
+          },
+          content: {
+            text: {
+              es: "Galeria de Arte de Conference Corporativo",
+              en: "Conference CorporativoArt Gallery",
+              fr: "Galerie d'art de Conference Corporativo"
+            }
+          },
+          privacyPolicy: {
+            text: {
+              es: "Pol\xEDtica de Privacidad",
+              en: "Privacy Policy",
+              fr: "Politique de confidentialit\xE9"
+            },
+            url: "https://arte.conference.com.mx/es/legal/privacy-policy"
+          }
         },
         {
           id: "message",
@@ -23837,15 +23862,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         {
           id: "hero",
           backgroundImage: {
-            url: "https://lscw.s3.us-east-2.amazonaws.com/images/santerra.webp"
+            url: "/images/crm-hero.webp",
+            fixed: true
           },
-          classList: ["is-fullheight-with-navbar", " is-link"],
+          classList: ["is-fullheight-with-navbar", "hero is-link"],
           title: {
             classList: ["is-size-1", "has-text-shadow"],
             text: {
-              es: "Gracias por concertar una cita en nuestra galer\xEDa",
-              en: "Thank you for making an appointment at our gallery.",
-              fr: "Merci d'avoir pris rendez-vous dans notre galerie."
+              es: "Gracias por poner a prueba nuestro CRM",
+              en: "Thank you for trying our CRM",
+              fr: "Merci d'avoir essay\xE9 notre CRM"
             },
             animation: {
               effect: "fadeIn"
@@ -23854,32 +23880,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           subtitle: {
             classList: ["is-size-3", "has-text-shadow"],
             text: {
-              es: "Arte Conference: Galeria de Arte de Conference Corporativo.",
-              en: "Arte Conference: Conference Corporate Art Gallery.",
-              fr: "Arte Conference: Galerie d'art de Conference Corporate."
+              es: "Esperamos que te haya gustado la experiencia",
+              en: "We hope you enjoyed the experience",
+              fr: "Nous esp\xE9rons que vous avez appr\xE9ci\xE9 l'exp\xE9rience"
             },
             animation: {
               effect: "fadeIn",
               speed: "slower"
-            }
-          }
-        },
-        {
-          id: "message",
-          title: {
-            classList: ["has-text-centered"],
-            text: {
-              es: "Dale un vistazo a nuestra colecci\xF3n de arte",
-              en: "Take a look at our art collection",
-              fr: "Jetez un \u0153il \xE0 notre collection d'art"
-            }
-          },
-          content: {
-            classList: ["has-text-centered"],
-            text: {
-              es: "_Nos dedicamos a exhibir y vender obras cuidadosamente seleccionadas, contribuyendo al reconocimiento de estos creadores y enriqueciendo el panorama art\xEDstico de nuestro pa\xEDs._\n\n[Galer\xEDa Arte Conference](https://arte.conference.com.mx/es/shop)",
-              en: "_We are dedicated to exhibiting and selling carefully selected works, contributing to the recognition of these creators and enriching our country's artistic landscape._\n\n[Gallery Arte Conference](https://arte.conference.com.mx/es/shop)",
-              fr: "_Nous nous consacrons \xE0 l'exposition et \xE0 la vente d'\u0153uvres soigneusement s\xE9lectionn\xE9es, contribuant ainsi \xE0 la reconnaissance de ces cr\xE9ateurs et enrichissant le paysage artistique de notre pays._\n\n[Galerie Arte Conference](https://arte.conference.com.mx/es/shop)"
             }
           }
         },
@@ -23915,7 +23922,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     let template = `
     <page-header id="header"></page-header>
     <hero-banner id="hero"></hero-banner>
-    <text-section id="message"></text-section>
     <page-footer id="footer"></page-footer>
     `;
     let currentValue2 = store.getState();

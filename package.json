@@ -12,7 +12,7 @@
         "deploy": "npm-run-all config scss prod",
         "serve": "esbuild src/index.js --bundle  --outfile=public/index.js  --servedir=public",
         "watching": "esbuild src/index.js --bundle  --outfile=public/index.js --watch --serve-fallback=public/index.html --servedir=public",
-        "start": "npm-run-all scss build serve",
+        "init": "npm-run-all config scss build serve",
         "watch": "npm-run-all build watching",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

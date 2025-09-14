@@ -29,15 +29,16 @@
             {
                 "id":"hero",
                 "backgroundImage":{
-                    "url":"https://lscw.s3.us-east-2.amazonaws.com/images/santerra.webp"
+                    "url":"/images/crm-hero.webp",
+                    "fixed":true
                 },
-                "classList":["is-fullheight-with-navbar", " is-link"],
+                "classList":["is-fullheight-with-navbar", "hero is-link"],
                 "title":{
                     "classList":["is-size-1","has-text-shadow"],
                     "text":{
-                        "es":"Gracias por concertar una cita en nuestra galería",
-                        "en":"Thank you for making an appointment at our gallery.",
-                        "fr":"Merci d'avoir pris rendez-vous dans notre galerie."
+                        "es":"Gracias por poner a prueba nuestro CRM",
+                        "en":"Thank you for trying our CRM",
+                        "fr":"Merci d'avoir essayé notre CRM"
                     },
                     "animation":{
                         "effect":"fadeIn"
@@ -46,32 +47,13 @@
                 "subtitle":{
                     "classList":["is-size-3","has-text-shadow"],
                     "text":{
-                        "es":"Arte Conference: Galeria de Arte de Conference Corporativo.",
-                        "en":"Arte Conference: Conference Corporate Art Gallery.",
-                        "fr":"Arte Conference: Galerie d'art de Conference Corporate."
+                        "es":"Esperamos que te haya gustado la experiencia",
+                        "en":"We hope you enjoyed the experience",
+                        "fr":"Nous espérons que vous avez apprécié l'expérience"
                     },
                     "animation":{
                         "effect":"fadeIn",
                         "speed":"slower"
-                    }
-                }
-            },
-            {
-                "id":"message",
-                "title":{
-                    "classList":["has-text-centered"],
-                    "text":{
-                        "es":"Dale un vistazo a nuestra colección de arte",
-                        "en":"Take a look at our art collection",
-                        "fr":"Jetez un œil à notre collection d'art"
-                    }
-                },
-                "content":{
-                    "classList":["has-text-centered"],
-                    "text":{
-                        "es":"_Nos dedicamos a exhibir y vender obras cuidadosamente seleccionadas, contribuyendo al reconocimiento de estos creadores y enriqueciendo el panorama artístico de nuestro país._\n\n[Galería Arte Conference](https://arte.conference.com.mx/es/shop)",
-                        "en":"_We are dedicated to exhibiting and selling carefully selected works, contributing to the recognition of these creators and enriching our country's artistic landscape._\n\n[Gallery Arte Conference](https://arte.conference.com.mx/es/shop)",
-                        "fr":"_Nous nous consacrons à l'exposition et à la vente d'œuvres soigneusement sélectionnées, contribuant ainsi à la reconnaissance de ces créateurs et enrichissant le paysage artistique de notre pays._\n\n[Galerie Arte Conference](https://arte.conference.com.mx/es/shop)"
                     }
                 }
             },

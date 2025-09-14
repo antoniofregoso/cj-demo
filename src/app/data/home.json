@@ -22,8 +22,8 @@
             {
                 "id":"header",
                 "brand":{
-                    "src":"/images/conference.webp",
-                    "srcDark":"/images/conference-dark.webp"
+                    "src":"/images/cj.webp",
+                    "srcDark":"/images/cj-light.webp"
                 },
                 "i18n":{
                     "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
@@ -49,7 +49,10 @@
                         "en":"Increase your sales and optimize your customer management!",
                         "fr":"Augmentez vos ventes et optimisez votre gestion client !"
                     },
-                    "classList":["has-text-shadow"]
+                    "classList":["has-text-shadow"],
+                    "animation":{
+                        "effect":"zoomIn"
+                    }
                 },
                 "subtitle":{
                     "text":{
@@ -179,9 +182,9 @@
                             },
                             "description":{
                                 "text":{
-                                    "es":"Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es increíble.",
-                                    "en":"Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible.",
-                                    "fr":"Depuis que nous avons mis en place ce CRM, nous avons réduit notre cycle de vente de 30 %. La visibilité que nous avons maintenant est incroyable."
+                                    "es":"_Desde que implementamos este CRM, hemos reducido nuestro ciclo de ventas en un 30%. La visibilidad que tenemos ahora es increíble._",
+                                    "en":"_Since we implemented this CRM, we've reduced our sales cycle by 30%. The visibility we have now is incredible._",
+                                    "fr":"_Depuis que nous avons mis en place ce CRM, nous avons réduit notre cycle de vente de 30 %. La visibilité que nous avons maintenant est incroyable._"
                                 }
                             }
                         },
@@ -199,9 +202,9 @@
                             },
                             "description":{
                                 "text":{
-                                    "es":"Como dueña de mi negocio, necesitaba una herramienta simple y potente. Este CRM superó mis expectativas, ¡es mi mano derecha!",
-                                    "en":"As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!",
-                                    "fr":"En tant que propriétaire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a dépassé mes attentes, c'est ma main droite !"
+                                    "es":"_Como dueña de mi negocio, necesitaba una herramienta simple y potente. Este CRM superó mis expectativas, ¡es mi mano derecha!_",
+                                    "en":"_As a business owner, I needed a simple yet powerful tool. This CRM exceeded my expectations, it's my right hand!_",
+                                    "fr":"_En tant que propriétaire d'entreprise, j'avais besoin d'un outil simple mais puissant. Ce CRM a dépassé mes attentes, c'est ma main droite !_"
                                 }
                             }
                         },
@@ -218,9 +221,9 @@
                             },
                             "description":{
                                 "text":{
-                                    "es":"La integración entre marketing y ventas es perfecta. Ahora sé exactamente qué campañas generan los mejores clientes potenciales.",
-                                    "en":"The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads.",
-                                    "fr":"L'intégration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes génèrent les meilleurs prospects."
+                                    "es":"_La integración entre marketing y ventas es perfecta. Ahora sé exactamente qué campañas generan los mejores clientes potenciales._",
+                                    "en":"_The integration between marketing and sales is seamless. Now I know exactly which campaigns generate the best leads._",
+                                    "fr":"_L'intégration entre le marketing et les ventes est parfaite. Maintenant, je sais exactement quelles campagnes génèrent les meilleurs prospects._"
                                 }
                             }
                         },
@@ -237,9 +240,9 @@
                             },
                             "description":{
                                 "text":{
-                                    "es":"Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes.",
-                                    "en":"I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients.",
-                                    "fr":"J'adore la facilité d'utilisation et le support client. Cela a été un véritable changement dans la façon dont j'organise mes projets et fais le suivi de mes clients."
+                                    "es":"_Me encanta la facilidad de uso y el soporte al cliente. Ha sido un cambio total en la forma en que organizo mis proyectos y doy seguimiento a mis clientes._",
+                                    "en":"_I love the ease of use and customer support. It has been a total game-changer in how I organize my projects and follow up with my clients._",
+                                    "fr":"_J'adore la facilité d'utilisation et le support client. Cela a été un véritable changement dans la façon dont j'organise mes projets et fais le suivi de mes clients._"
                                 }
                             }
                         }
@@ -398,6 +401,28 @@
                         }     
                     }
                 ]
+            },
+            {
+                "id":"footer",
+                "brand":{
+                    "src":"/images/cj.webp",
+                    "srcDark":"/images/cj-light.webp"
+                },
+                "content":{
+                    "text":{
+                        "es":"Galeria de Arte de Conference Corporativo",
+                        "en":"Conference CorporativoArt Gallery",
+                        "fr":"Galerie d'art de Conference Corporativo"
+                    }
+                },
+                "privacyPolicy":{
+                    "text":{
+                        "es":"Política de Privacidad",
+                        "en":"Privacy Policy",
+                        "fr":"Politique de confidentialité"
+                    },
+                    "url":"https://arte.conference.com.mx/es/legal/privacy-policy"
+                }
             },
             {
                 "id":"message",
