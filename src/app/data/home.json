@@ -1,6 +1,6 @@
 {
     "props":{
-        "id":"ArteConference",
+        "id":"home",
         "noCache":true,
         "events":{
             "trackViewed":["attention", "interest", "desire", "action"],
@@ -8,15 +8,15 @@
             "leavedapp":true
             },
         "title":{
-            "es":"Arte|Conference",
-            "en":"Arte|Conference",
-            "fr":"Arte|Conference"
+            "es":"Demo|CustumerJourney.js",
+            "en":"Demo|CustumerJourney.js",
+            "fr":"Démo|CustumerJourney.js"
 
         },
         "description":{
-            "es":"Galeria de Arte de Conference Corporativo",
-            "en":"Conference Corporativo Art Gallery",
-            "fr":"Galerie d'art de Conference Corporativo"
+            "es":"Demo de CustomerJourney.js - La herramienta definitiva para crear embudos de ventas hiper-personalizables.",
+            "en":"CustomerJourney.js Demo - The ultimate tool to create hyper-customizable sales funnels.",
+            "fr":"Démo de CustomerJourney.js - L'outil ultime pour créer des entonnoirs de vente hyper-personnalisables."
         },
         "components":[
             {
@@ -410,9 +410,9 @@
                 },
                 "content":{
                     "text":{
-                        "es":"Galeria de Arte de Conference Corporativo",
-                        "en":"Conference CorporativoArt Gallery",
-                        "fr":"Galerie d'art de Conference Corporativo"
+                        "es":"Open Source CRM | Hecho con ❤️ con CustomerJourney.js",
+                        "en":"Open Source CRM | Made with ❤️ with CustomerJourney.js",
+                        "fr":"CRM Open Source | Fait avec ❤️ avec CustomerJourney.js"
                     }
                 },
                 "privacyPolicy":{
@@ -421,7 +421,7 @@
                         "en":"Privacy Policy",
                         "fr":"Politique de confidentialité"
                     },
-                    "url":"https://arte.conference.com.mx/es/legal/privacy-policy"
+                    "url":"https://customerjourney.ninja/privacy-policy/"
                 }
             },
             {

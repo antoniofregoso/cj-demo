@@ -1,6 +1,6 @@
 {
     "props":{
-        "id":"BJ App",
+        "id":"Bye",
         "noCache":true,
         "title":{
             "es":"App|BuyerJourney.js",
@@ -9,9 +9,9 @@
 
         },
         "description":{
-            "es":"Aplicación BJ Mínima",
-            "en":"Minimal BJ App",
-            "fr":"Application BJ Minimale"
+            "es":"Demo de CustomerJourney.js - La herramienta definitiva para crear embudos de ventas hiper-personalizables.",
+            "en":"CustomerJourney.js Demo - The ultimate tool to create hyper-customizable sales funnels.",
+            "fr":"Démo de CustomerJourney.js - L'outil ultime pour créer des entonnoirs de vente hyper-personnalisables."
         },
         "image":"/images/og.webp",
         "type":"business.business",
@@ -19,8 +19,8 @@
             {
                 "id":"header",
                 "brand":{
-                    "src":"/images/conference.webp",
-                    "srcDark":"/images/conference-dark.webp"
+                    "src":"/images/cj.webp",
+                    "srcDark":"/images/cj-light.webp"
                 },
                 "i18n":{
                     "lang":{"es":"🇲🇽","en":"🇺🇸","fr":"🇫🇷"}
@@ -60,14 +60,14 @@
             {
                 "id":"footer",
                 "brand":{
-                    "src":"/images/conference.webp",
-                    "srcDark":"/images/conference-dark.webp"
+                    "src":"/images/cj.webp",
+                    "srcDark":"/images/cj-light.webp"
                 },
                 "content":{
                     "text":{
-                        "es":"Tu esencia, elevada",
-                        "en":"Your essence, elevated",
-                        "fr":"Votre essence, élevée"
+                        "es":"Open Source CRM | Hecho con ❤️ con CustomerJourney.js",
+                        "en":"Open Source CRM | Made with ❤️ with CustomerJourney.js",
+                        "fr":"CRM Open Source | Fait avec ❤️ avec CustomerJourney.js"
                     }
                 },
                 "privacyPolicy":{
@@ -76,7 +76,7 @@
                         "en":"Privacy Policy",
                         "fr":"Politique de confidentialité"
                     },
-                    "url":"https://arte.conference.com.mx/es/legal/privacy-policy"
+                    "url":"https://customerjourney.ninja/privacy-policy/"
                 }
             }
         ]       

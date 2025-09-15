@@ -3436,7 +3436,12 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // node_modules/@customerjourney/cj-core/src/components/PageFooter.js
   var PageFooter = class extends AppElement {
-    #default = {};
+    #default = {
+      brand: {
+        name: "CustumerJourney.js",
+        url: "https://customerjourney.ninja/"
+      }
+    };
     constructor(props = {}) {
       super();
       this.state = this.initState(this.#default, props);
@@ -3452,7 +3457,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 <p><a href="${this.state.privacyPolicy?.url}">${this.state.privacyPolicy?.text === void 0 ? "" : this.state.privacyPolicy?.text[this.state.context.lang]}</a></p>
             </div>
             <div class="has-text-left" >
-                <h4>Powered by <a href="https://www.conference.com.mx/comercializacion-digital">Conference</a></h4>
+                <h4>Powered by <a href="${this.state.brand?.url}">${this.state.brand.name}</a></h4>
             </div>
         </footer>
         `;
@@ -15941,7 +15946,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             <header>
             <nav ${this.getClasses(["navbar"], this.state.classList)} role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
-                <img class="navbar-item"  src="${this.state.context?.theme === "light" ? this.state.brand?.src : this.state.brand?.srcDark === void 0 ? this.state.brand?.src : this.state.brand?.srcDark}" width="180" height="28">
+                <img class="navbar-item"  src="${this.state.context?.theme === "light" ? this.state.brand?.src : this.state.brand?.srcDark === void 0 ? this.state.brand?.src : this.state.brand?.srcDark}" width="160" height="40">
                 <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
