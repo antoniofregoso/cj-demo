@@ -35,7 +35,7 @@
                     "url":"/images/crm-hero.webp",
                     "fixed":true
                 },
-                "classList":["is-fullheight-with-navbar", "hero is-link"],
+                "classList":["is-fullheight-with-navbar", "is-link"],
                 "caption":{
                     "text":{
                         "es":"¿Estás perdiendo ventas por no tener un seguimiento adecuado?",

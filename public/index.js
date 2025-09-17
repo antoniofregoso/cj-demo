@@ -23281,7 +23281,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             url: "/images/crm-hero.webp",
             fixed: true
           },
-          classList: ["is-fullheight-with-navbar", "hero is-link"],
+          classList: ["is-fullheight-with-navbar", "is-link"],
           caption: {
             text: {
               es: "\xBFEst\xE1s perdiendo ventas por no tener un seguimiento adecuado?",
@@ -23708,7 +23708,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     let currentValue2 = store.getState();
     store.dispatch(setStage("start"));
     home_default.context = currentValue2;
-    ;
     page = new AppPage(home_default, template);
     const pageEvents = {
       handleEvent: (e) => {
