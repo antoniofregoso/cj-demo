@@ -23247,7 +23247,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // src/app/data/home.json
   var home_default = {
     props: {
-      id: "ArteConference",
+      id: "home",
       noCache: true,
       events: {
         trackViewed: ["attention", "interest", "desire", "action"],
@@ -23255,14 +23255,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         leavedapp: true
       },
       title: {
-        es: "Arte|Conference",
-        en: "Arte|Conference",
-        fr: "Arte|Conference"
+        es: "Demo|CustumerJourney.js",
+        en: "Demo|CustumerJourney.js",
+        fr: "D\xE9mo|CustumerJourney.js"
       },
       description: {
-        es: "Galeria de Arte de Conference Corporativo",
-        en: "Conference Corporativo Art Gallery",
-        fr: "Galerie d'art de Conference Corporativo"
+        es: "Demo de CustomerJourney.js - La herramienta definitiva para crear embudos de ventas hiper-personalizables.",
+        en: "CustomerJourney.js Demo - The ultimate tool to create hyper-customizable sales funnels.",
+        fr: "D\xE9mo de CustomerJourney.js - L'outil ultime pour cr\xE9er des entonnoirs de vente hyper-personnalisables."
       },
       components: [
         {
@@ -23654,9 +23654,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           },
           content: {
             text: {
-              es: "Galeria de Arte de Conference Corporativo",
-              en: "Conference CorporativoArt Gallery",
-              fr: "Galerie d'art de Conference Corporativo"
+              es: "Open Source CRM | Hecho con \u2764\uFE0F con CustomerJourney.js",
+              en: "Open Source CRM | Made with \u2764\uFE0F with CustomerJourney.js",
+              fr: "CRM Open Source | Fait avec \u2764\uFE0F avec CustomerJourney.js"
             }
           },
           privacyPolicy: {
@@ -23665,7 +23665,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               en: "Privacy Policy",
               fr: "Politique de confidentialit\xE9"
             },
-            url: "https://arte.conference.com.mx/es/legal/privacy-policy"
+            url: "https://customerjourney.ninja/privacy-policy/"
           }
         },
         {
@@ -23839,7 +23839,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // src/app/data/bye.json
   var bye_default = {
     props: {
-      id: "BJ App",
+      id: "Bye",
       noCache: true,
       title: {
         es: "App|BuyerJourney.js",
@@ -23847,9 +23847,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         fr: "App|BuyerJourney.js"
       },
       description: {
-        es: "Aplicaci\xF3n BJ M\xEDnima",
-        en: "Minimal BJ App",
-        fr: "Application BJ Minimale"
+        es: "Demo de CustomerJourney.js - La herramienta definitiva para crear embudos de ventas hiper-personalizables.",
+        en: "CustomerJourney.js Demo - The ultimate tool to create hyper-customizable sales funnels.",
+        fr: "D\xE9mo de CustomerJourney.js - L'outil ultime pour cr\xE9er des entonnoirs de vente hyper-personnalisables."
       },
       image: "/images/og.webp",
       type: "business.business",
@@ -23857,8 +23857,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         {
           id: "header",
           brand: {
-            src: "/images/conference.webp",
-            srcDark: "/images/conference-dark.webp"
+            src: "/images/cj.webp",
+            srcDark: "/images/cj-light.webp"
           },
           i18n: {
             lang: { es: "\u{1F1F2}\u{1F1FD}", en: "\u{1F1FA}\u{1F1F8}", fr: "\u{1F1EB}\u{1F1F7}" }
@@ -23898,14 +23898,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         {
           id: "footer",
           brand: {
-            src: "/images/conference.webp",
-            srcDark: "/images/conference-dark.webp"
+            src: "/images/cj.webp",
+            srcDark: "/images/cj-light.webp"
           },
           content: {
             text: {
-              es: "Tu esencia, elevada",
-              en: "Your essence, elevated",
-              fr: "Votre essence, \xE9lev\xE9e"
+              es: "Open Source CRM | Hecho con \u2764\uFE0F con CustomerJourney.js",
+              en: "Open Source CRM | Made with \u2764\uFE0F with CustomerJourney.js",
+              fr: "CRM Open Source | Fait avec \u2764\uFE0F avec CustomerJourney.js"
             }
           },
           privacyPolicy: {
@@ -23914,7 +23914,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               en: "Privacy Policy",
               fr: "Politique de confidentialit\xE9"
             },
-            url: "https://arte.conference.com.mx/es/legal/privacy-policy"
+            url: "https://customerjourney.ninja/privacy-policy/"
           }
         }
       ]

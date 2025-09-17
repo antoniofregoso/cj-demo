@@ -4,14 +4,28 @@ import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
+/**
+ * home.json data describe the content of the page, design and animations
+ * @type {object}
+ */
 import data from "../data/home.json";
-
+/**
+ * Declare callback funtion for home page
+ * @param {object} req 
+ * @param {object} router 
+ */
 export function home(req, router){
-
+    /**
+     * Set date time when user enter to the page
+     */
     let go = Date.now();
-
+    /**
+     * Customer behavior within the page. Saved in the state when user leave the page
+     */
     let counter = {go:go, time:0, atention:0, interest:0, desire:0, action:0, conversion:0, leavingapp:0, leavedapp:0 }
-
+    /**
+     * Template for the page
+     */
     let template =`
     <page-header id="header"></page-header>
     <hero-banner id="atention"></hero-banner>
@@ -21,11 +35,26 @@ export function home(req, router){
     <page-footer id="footer"></page-footer>
     <modal-box id="message"></modal-box>
     `;
-    
+    /**
+     * current state of the app
+     * @type {object}
+     */
     let currentValue = store.getState();
+    /**
+     * dispath start stage
+     */
     store.dispatch(setStage('start'));
-    data.context = currentValue;    ;
+    /**
+     * Add context to the data
+     */
+    data.context = currentValue;
+    /**
+     * Page instance
+     */
     page =  new AppPage(data, template);
+    /**
+     * event handlers for the page
+     */
     const pageEvents = {
         handleEvent: (e) => {
             switch(e.type){
@@ -131,7 +160,9 @@ export function home(req, router){
             }}
             
         }
-
+     /**
+      * Handle state changes in the store
+      */   
     function handleChange(){
             let previousValue = currentValue;
             currentValue = store.getState();
@@ -140,8 +171,12 @@ export function home(req, router){
               }
               console.log(counter)
         }
-
+    /**
+     * set event handlers for the page
+     */ 
     page.setEvents(pageEvents);
-
+    /**
+     * Suscribe to the store to listen for state changes
+     */
     store.subscribe(handleChange);
 }

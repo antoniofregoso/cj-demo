@@ -1,8 +1,19 @@
 
-
+/**
+ * Manage changes in the home page state
+ * @param {object} previousValue 
+ * @param {objecy} currentValue 
+ */
 export function homeUpdater(previousValue, currentValue){
+    /**
+     * Page instance
+     * @type {object}
+     */
     let page = document.querySelector('app-page');
-    
+     /**
+     * If there are changes in language or theme, update the context and reload data.
+     * If there are changes in the home stage, update the appoinment component accordingly.
+     */
     if (previousValue.context.lang!=currentValue.context.lang||previousValue.context.theme!=currentValue.context.theme){
         page.data.context = currentValue.context;
         page.loadData();
