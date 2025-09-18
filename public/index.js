@@ -23297,7 +23297,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             },
             classList: ["has-text-shadow"],
             animation: {
-              effect: "zoomIn"
+              effect: "heartBeat"
             }
           },
           subtitle: {

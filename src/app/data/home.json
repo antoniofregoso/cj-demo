@@ -49,9 +49,9 @@
                         "en":"Increase your sales and optimize your customer management!",
                         "fr":"Augmentez vos ventes et optimisez votre gestion client !"
                     },
-                    "classList":["has-text-shadow"],
+                    "classList":["has-text-shadow"],                    
                     "animation":{
-                        "effect":"zoomIn"
+                        "effect":"heartBeat"
                     }
                 },
                 "subtitle":{
