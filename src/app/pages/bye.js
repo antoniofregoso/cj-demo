@@ -8,17 +8,14 @@ import data from "../data/bye.json";
 
 export function bye(req, router){
 
-    let counter = {atention:0, interest:0, desire:0, action:0, leavingapp:0, leavedapp:0 }
-
     let template =`
     <page-header id="header"></page-header>
     <hero-banner id="hero"></hero-banner>
     <page-footer id="footer"></page-footer>
     `;
     
-    let currentValue = store.getState();
-    data.context = currentValue.context;
-    document.documentElement.setAttribute('data-theme', data.context.theme);
+    let currentState = store.getState();
+    data.context = currentState.context;
     page =  new AppPage(data, template);
     store.dispatch(setStage('goal'));
 
@@ -36,10 +33,10 @@ export function bye(req, router){
         }
 
     function handleChange(){
-            let previousValue = currentValue;
-            currentValue = store.getState();
-            if (previousValue !== currentValue) {
-                byeUpdater(previousValue, currentValue);
+            let previousState = currentState;
+            currentState = store.getState();
+            if (previousState !== currentState) {
+                byeUpdater(previousState, currentState);
               }
         }
 

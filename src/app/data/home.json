@@ -39,9 +39,14 @@
                 "caption":{
                     "text":{
                         "es":"¿Estás perdiendo ventas por no tener un seguimiento adecuado?",
-                        "en":"Are you losing sales due to inadequate follow-up?"
+                        "en":"Are you losing sales due to inadequate follow-up?",
+                        "fr":"Perdez-vous des ventes en raison d'un suivi inadéquat ?"
                     },
-                    "classList":["has-text-shadow"]
+                    "classList":["has-text-shadow"],
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }
                 },
                 "title":{
                     "text":{
@@ -49,9 +54,9 @@
                         "en":"Increase your sales and optimize your customer management!",
                         "fr":"Augmentez vos ventes et optimisez votre gestion client !"
                     },
-                    "classList":["has-text-shadow"],                    
+                    "classList":["has-text-shadow"],
                     "animation":{
-                        "effect":"heartBeat"
+                        "effect":"fadeIn"
                     }
                 },
                 "subtitle":{
@@ -60,14 +65,18 @@
                         "en":"Our CRM is the tool you need to organize, automate, and grow your business. Everything in one place!",
                         "fr":"Notre CRM est l'outil dont vous avez besoin pour organiser, automatiser et développer votre entreprise. Tout en un seul endroit !"
                     },
-                    "classList":["has-text-shadow"]
+                    "classList":["has-text-shadow"],
+                    "animation":{
+                        "effect":"fadeIn",
+                        "speed":"slower"
+                    }
                 },
                 "buttons":{
-                    "eventName":"appclick",
+                    "eventName":"app-click",
                     "classList":["is-centered"],
                     "buttons":[
                         {
-                            "id":"landing-button",
+                            "id":"atention-button",
                             "text":{
                              "es":"¡Pruébalo gratis ahora!",
                              "en":"Try it for free now!",
@@ -98,6 +107,9 @@
                                     "fr":"### Gestion des leads\n\nOrganisez et priorisez vos contacts pour un suivi efficace."
                                 }
                             }
+                        },
+                        "animation":{
+                            "effect":"bounce"
                         }
                     },
                     {
@@ -113,6 +125,9 @@
                                     "fr":"### Automatisation\n\nAutomatisez les tâches répétitives et gagnez du temps précieux."
                                 }
                             }
+                        },
+                        "animation":{
+                            "effect":"bounce"
                         }
                     },
                     {
@@ -128,6 +143,9 @@
                                     "fr":"### Analyse des données\n\nPrenez des décisions intelligentes avec des rapports et des métriques clairs."
                                 }
                             }
+                        },
+                        "animation":{
+                            "effect":"bounce"
                         }
                     },
                     {
@@ -143,6 +161,9 @@
                                     "fr":"### Collaboration\n\nAméliorez la communication entre vos équipes de vente et de marketing."
                                 }
                             }
+                        },
+                        "animation":{
+                            "effect":"bounce"
                         }
                     }
                 ]
@@ -167,6 +188,9 @@
                 },
                 "mediaObjects":{
                     "width":"is-8",
+                    "animation":{
+                        "effect":"flipInX"
+                    },
                     "items":[
                         {
                             "imageL":{
@@ -310,6 +334,9 @@
                                     "href":"/#thanks"
                                 }
                             ]
+                        },
+                        "animation":{
+                            "effect":"rubberBand"
                         }
                     },
                     {
@@ -354,6 +381,9 @@
                                     "href":"/#thanks"
                                 }
                             ]
+                        },
+                        "animation":{
+                            "effect":"rubberBand"
                         }
                     },
                     {
@@ -398,6 +428,9 @@
                                     "href":"/#thanks"
                                 }
                             ]
+                        },
+                        "animation":{
+                            "effect":"rubberBand"
                         }     
                     }
                 ]

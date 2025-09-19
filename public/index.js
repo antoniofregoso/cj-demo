@@ -616,11 +616,16 @@
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
       return obj;
     if (getArchtype(obj) > 1) {
-      obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
+      Object.defineProperties(obj, {
+        set: { value: dontMutateFrozenCollections },
+        add: { value: dontMutateFrozenCollections },
+        clear: { value: dontMutateFrozenCollections },
+        delete: { value: dontMutateFrozenCollections }
+      });
     }
     Object.freeze(obj);
     if (deep)
-      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
+      Object.values(obj).forEach((value) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
@@ -775,7 +780,7 @@
         return;
       }
       finalize(rootScope, childValue);
-      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && (isMap(targetObject) ? targetObject.has(prop) : Object.prototype.propertyIsEnumerable.call(targetObject, prop)))
         maybeFreeze(rootScope, childValue);
     }
   }
@@ -1124,14 +1129,6 @@
   }
   var immer = new Immer2();
   var produce = immer.produce;
-  var produceWithPatches = immer.produceWithPatches.bind(
-    immer
-  );
-  var setAutoFreeze = immer.setAutoFreeze.bind(immer);
-  var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
-  var applyPatches = immer.applyPatches.bind(immer);
-  var createDraft = immer.createDraft.bind(immer);
-  var finishDraft = immer.finishDraft.bind(immer);
 
   // node_modules/redux-thunk/dist/redux-thunk.mjs
   function createThunkMiddleware(extraArgument) {
@@ -1255,19 +1252,9 @@ It is disabled in production builds, so you don't need to worry about that.`);
     return isDraftable(val) ? produce(val, () => {
     }) : val;
   }
-  function emplace(map, key, handler) {
-    if (map.has(key)) {
-      let value = map.get(key);
-      if (handler.update) {
-        value = handler.update(value, key, map);
-        map.set(key, value);
-      }
-      return value;
-    }
-    if (!handler.insert) throw new Error(false ? formatProdErrorMessage(10) : "No insert provided for key not already in map");
-    const inserted = handler.insert(key, map);
-    map.set(key, inserted);
-    return inserted;
+  function getOrInsertComputed(map, key, compute) {
+    if (map.has(key)) return map.get(key);
+    return map.set(key, compute(key)).get(key);
   }
   function isImmutableDefault(value) {
     return typeof value !== "object" || value == null || Object.isFrozen(value);
@@ -1559,7 +1546,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       setTimeout(notify, timeout);
     };
   };
-  var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
   var autoBatchEnhancer = (options = {
     type: "raf"
   }) => (next) => (...args) => {
@@ -1568,7 +1554,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     let shouldNotifyAtEndOfTick = false;
     let notificationQueued = false;
     const listeners = /* @__PURE__ */ new Set();
-    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? rAF : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
+    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? (
+      // requestAnimationFrame won't exist in SSR environments. Fall back to a vague approximation just to keep from erroring.
+      typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10)
+    ) : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
     const notifyListeners = () => {
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
@@ -1623,6 +1612,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       reducer = void 0,
       middleware,
       devTools = true,
+      duplicateMiddlewareCheck = true,
       preloadedState = void 0,
       enhancers = void 0
     } = options || {};
@@ -1648,6 +1638,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     if (finalMiddleware.some((item) => typeof item !== "function")) {
       throw new Error(false ? formatProdErrorMessage(4) : "each middleware provided to configureStore must be a function");
+    }
+    if (duplicateMiddlewareCheck) {
+      let middlewareReferences = /* @__PURE__ */ new Set();
+      finalMiddleware.forEach((middleware2) => {
+        if (middlewareReferences.has(middleware2)) {
+          throw new Error(false ? formatProdErrorMessage(42) : "Duplicate middleware references found when creating the store. Ensure that each middleware is only included once.");
+        }
+        middlewareReferences.add(middleware2);
+      });
     }
     let finalCompose = compose;
     if (devTools) {
@@ -1697,6 +1696,21 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
         }
         actionsMap[type] = reducer;
+        return builder;
+      },
+      addAsyncThunk(asyncThunk, reducers) {
+        if (true) {
+          if (defaultCaseReducer) {
+            throw new Error(false ? formatProdErrorMessage(43) : "`builder.addAsyncThunk` should only be called before calling `builder.addDefaultCase`");
+          }
+        }
+        if (reducers.pending) actionsMap[asyncThunk.pending.type] = reducers.pending;
+        if (reducers.rejected) actionsMap[asyncThunk.rejected.type] = reducers.rejected;
+        if (reducers.fulfilled) actionsMap[asyncThunk.fulfilled.type] = reducers.fulfilled;
+        if (reducers.settled) actionMatchers.push({
+          matcher: asyncThunk.settled,
+          reducer: reducers.settled
+        });
         return builder;
       },
       addMatcher(matcher, reducer) {
@@ -1765,7 +1779,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               if (previousState === null) {
                 return previousState;
               }
-              throw new Error(false ? formatProdErrorMessage(9) : "A case reducer on a non-draftable value must not return undefined");
+              throw Error("A case reducer on a non-draftable value must not return undefined");
             }
             return result;
           } else {
@@ -1838,6 +1852,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       message: String(value)
     };
   };
+  var externalAbortMessage = "External signal was aborted";
   var createAsyncThunk = /* @__PURE__ */ (() => {
     function createAsyncThunk2(typePrefix, payloadCreator, options) {
       const fulfilled = createAction(typePrefix + "/fulfilled", (payload, requestId, arg, meta) => ({
@@ -1871,7 +1886,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           condition: error?.name === "ConditionError"
         }
       }));
-      function actionCreator(arg) {
+      function actionCreator(arg, {
+        signal
+      } = {}) {
         return (dispatch, getState, extra) => {
           const requestId = options?.idGenerator ? options.idGenerator(arg) : nanoid();
           const abortController = new AbortController();
@@ -1881,7 +1898,16 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             abortReason = reason;
             abortController.abort();
           }
-          const promise = async function() {
+          if (signal) {
+            if (signal.aborted) {
+              abort(externalAbortMessage);
+            } else {
+              signal.addEventListener("abort", () => abort(externalAbortMessage), {
+                once: true
+              });
+            }
+          }
+          const promise = (async function() {
             let finalAction;
             try {
               let conditionResult = options?.condition?.(arg, {
@@ -1947,7 +1973,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               dispatch(finalAction);
             }
             return finalAction;
-          }();
+          })();
           return Object.assign(promise, {
             abort,
             requestId,
@@ -2082,6 +2108,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const selectSelf = (state) => state;
       const injectedSelectorCache = /* @__PURE__ */ new Map();
+      const injectedStateCache = /* @__PURE__ */ new WeakMap();
       let _reducer;
       function reducer(state, action) {
         if (!_reducer) _reducer = buildReducer();
@@ -2096,7 +2123,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           let sliceState = state[reducerPath2];
           if (typeof sliceState === "undefined") {
             if (injected) {
-              sliceState = getInitialState();
+              sliceState = getOrInsertComputed(injectedStateCache, selectSlice, getInitialState);
             } else if (true) {
               throw new Error(false ? formatProdErrorMessage(15) : "selectSlice returned undefined for an uninjected slice reducer");
             }
@@ -2104,17 +2131,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           return sliceState;
         }
         function getSelectors(selectState = selectSelf) {
-          const selectorCache = emplace(injectedSelectorCache, injected, {
-            insert: () => /* @__PURE__ */ new WeakMap()
-          });
-          return emplace(selectorCache, selectState, {
-            insert: () => {
-              const map = {};
-              for (const [name2, selector] of Object.entries(options.selectors ?? {})) {
-                map[name2] = wrapSelector(selector, selectState, getInitialState, injected);
-              }
-              return map;
+          const selectorCache = getOrInsertComputed(injectedSelectorCache, injected, () => /* @__PURE__ */ new WeakMap());
+          return getOrInsertComputed(selectorCache, selectState, () => {
+            const map = {};
+            for (const [name2, selector] of Object.entries(options.selectors ?? {})) {
+              map[name2] = wrapSelector(selector, selectState, () => getOrInsertComputed(injectedStateCache, selectState, getInitialState), injected);
             }
+            return map;
           });
         }
         return {
@@ -3255,7 +3278,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      */
     #addEvents() {
       if (Array.isArray(this.data.props.events.trackViewed)) {
-        const observer = new IntersectionObserver(
+        const observerUser = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               const id = entry.target.id;
@@ -3288,7 +3311,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.data.props.events.trackViewed.forEach((id) => {
           const el = this.querySelector(`#${id}`);
           if (el) {
-            observer.observe(el);
+            observerUser.observe(el);
           }
         });
       }
@@ -3396,7 +3419,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function whithAnimations() {
     let objs = document.querySelectorAll("[data-animation]");
     let options = { threshold: 0.1 };
-    var observer = new IntersectionObserver((entries) => {
+    var observerAnimations = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setupAnimation(entry.target);
@@ -3410,7 +3433,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
     });
     objs.forEach((obj) => {
-      observer.observe(obj);
+      observerAnimations.observe(obj);
     });
   }
   function setupAnimation(el) {
@@ -20696,7 +20719,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("hero-banner", HeroBanner);
 
-  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
+  // node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
   var h = (i) => NodeList.prototype.isPrototypeOf(i) || HTMLCollection.prototype.isPrototypeOf(i) ? Array.from(i) : typeof i == "string" || i instanceof String ? document.querySelectorAll(i) : [i];
   var d = () => Element.prototype.closest && "IntersectionObserver" in window;
   var c = class {
@@ -23287,7 +23310,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               es: "\xBFEst\xE1s perdiendo ventas por no tener un seguimiento adecuado?",
               en: "Are you losing sales due to inadequate follow-up?"
             },
-            classList: ["has-text-shadow"]
+            classList: ["has-text-shadow"],
+            animation: {
+              effect: "fadeIn",
+              speed: "slower"
+            }
           },
           title: {
             text: {
@@ -23306,7 +23333,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               en: "Our CRM is the tool you need to organize, automate, and grow your business. Everything in one place!",
               fr: "Notre CRM est l'outil dont vous avez besoin pour organiser, automatiser et d\xE9velopper votre entreprise. Tout en un seul endroit !"
             },
-            classList: ["has-text-shadow"]
+            classList: ["has-text-shadow"],
+            animation: {
+              effect: "fadeIn",
+              speed: "slower"
+            }
           },
           buttons: {
             eventName: "appclick",
@@ -23820,7 +23851,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       if (previousValue !== currentValue2) {
         homeUpdater(previousValue, currentValue2);
       }
-      console.log(counter2);
     }
     page.setEvents(pageEvents);
     store.subscribe(handleChange);
@@ -23979,6 +24009,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 @fortawesome/fontawesome-svg-core/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
 @fortawesome/free-regular-svg-icons/index.mjs:
+@fortawesome/free-brands-svg-icons/index.mjs:
   (*!
    * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

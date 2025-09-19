@@ -22,7 +22,7 @@ export function home(req, router){
     /**
      * Customer behavior within the page. Saved in the state when user leave the page
      */
-    let counter = {go:go, time:0, atention:0, interest:0, desire:0, action:0, conversion:0, leavingapp:0, leavedapp:0 }
+    let counter = {go:go, time:0, views:0, atention:1, interest:0, desire:0, action:0, conversion:0, leavingapp:0, leavedapp:0 }
     /**
      * Template for the page
      */
@@ -39,7 +39,7 @@ export function home(req, router){
      * current state of the app
      * @type {object}
      */
-    let currentValue = store.getState();
+    let currentState = store.getState();
     /**
      * dispath start stage
      */
@@ -47,7 +47,7 @@ export function home(req, router){
     /**
      * Add context to the data
      */
-    data.context = currentValue;
+    data.context = currentState.context;
     /**
      * Page instance
      */
@@ -58,6 +58,7 @@ export function home(req, router){
     const pageEvents = {
         handleEvent: (e) => {
             switch(e.type){
+                /* User change language or theme */
                 case 'user:select-lang':
                     store.dispatch(setLanguaje(e.detail));
                     break;
@@ -66,23 +67,14 @@ export function home(req, router){
                     break;
                 case 'app-click':
                     switch (e.detail.source){
-                        case "appoinment-button":
-                            counter.leavingapp++; 
-                            store.dispatch(setStage('action/open'));
-                            break;
-                        case "landing-button":
-                            store.dispatch(setStage('landing/click'));
+                        case "atention-button":
+                            store.dispatch(setStage('atention/click'));
                             break;
                     }
                     break;
+                /* User interaction with the page: User view a section */
                 case 'viewedelement':
                     switch (e.detail.source){
-                        case 'landing':
-                            if (counter.landing===0) {
-                                store.dispatch(setStage('landing/viewed'));
-                                counter.landing++;
-                            }
-                            break;
                         case 'attention':
                             if (counter.atention===0) {
                                 store.dispatch(setStage('attention/viewed'));
@@ -115,13 +107,9 @@ export function home(req, router){
                             break;
                         }
                     break;
+                /* User interaction with the page: User leave a section */
                 case 'unviewedelement':
                     switch (e.detail.source){
-                        case 'landing':
-                            if (counter.landing>0) {
-                                store.dispatch(setStage('landing/unviewed'));
-                            }
-                            break;
                         case 'attention':
                             if (counter.atention>0) {
                                 store.dispatch(setStage('attention/unviewed'));
@@ -144,32 +132,33 @@ export function home(req, router){
                             break;
                         }
                     break;
+                /* User is leaving the app */
                 case 'leavingapp':
                     if (counter.leavingapp===0)
                         {
                             store.dispatch(setStage('escape'));
-                            document.getElementById("message").setAttribute("active", "")
                             counter.leavingapp++;
                         };
                     break;
+                /* User has left the app */
                 case 'leavedapp':
                     counter.leavedapp++;
                     counter.time = Math.round((Date.now() - go) / 1000);
                     store.dispatch(setBreadcrumb(counter));
                     break;
-            }}
+            }
+        }
             
         }
      /**
       * Handle state changes in the store
       */   
     function handleChange(){
-            let previousValue = currentValue;
-            currentValue = store.getState();
-            if (previousValue !== currentValue) {
-                homeUpdater(previousValue, currentValue);
+            let previousState = currentState;
+            currentState = store.getState();
+            if (previousState !== currentState) {
+                homeUpdater(previousState, currentState);
               }
-              console.log(counter)
         }
     /**
      * set event handlers for the page
@@ -179,4 +168,13 @@ export function home(req, router){
      * Suscribe to the store to listen for state changes
      */
     store.subscribe(handleChange);
+    /**
+     * Wait for the state to be fully loaded and add one more page view.
+     */
+    store.subscribe(() => {
+        const lastAction = store.getState()._persist?.rehydrated;
+        if (lastAction) {
+            counter.views = store.getState().home.breadcrumb.views + 1;
+        }
+    });
 }
