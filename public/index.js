@@ -1,3 +1,4 @@
+/*! Page generated with CustomerJourney.js */
 (() => {
   var __create = Object.create;
   var __defProp = Object.defineProperty;
@@ -616,16 +617,11 @@
     if (isFrozen(obj) || isDraft(obj) || !isDraftable(obj))
       return obj;
     if (getArchtype(obj) > 1) {
-      Object.defineProperties(obj, {
-        set: { value: dontMutateFrozenCollections },
-        add: { value: dontMutateFrozenCollections },
-        clear: { value: dontMutateFrozenCollections },
-        delete: { value: dontMutateFrozenCollections }
-      });
+      obj.set = obj.add = obj.clear = obj.delete = dontMutateFrozenCollections;
     }
     Object.freeze(obj);
     if (deep)
-      Object.values(obj).forEach((value) => freeze(value, true));
+      Object.entries(obj).forEach(([key, value]) => freeze(value, true));
     return obj;
   }
   function dontMutateFrozenCollections() {
@@ -780,7 +776,7 @@
         return;
       }
       finalize(rootScope, childValue);
-      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && (isMap(targetObject) ? targetObject.has(prop) : Object.prototype.propertyIsEnumerable.call(targetObject, prop)))
+      if ((!parentState || !parentState.scope_.parent_) && typeof prop !== "symbol" && Object.prototype.propertyIsEnumerable.call(targetObject, prop))
         maybeFreeze(rootScope, childValue);
     }
   }
@@ -1129,6 +1125,14 @@
   }
   var immer = new Immer2();
   var produce = immer.produce;
+  var produceWithPatches = immer.produceWithPatches.bind(
+    immer
+  );
+  var setAutoFreeze = immer.setAutoFreeze.bind(immer);
+  var setUseStrictShallowCopy = immer.setUseStrictShallowCopy.bind(immer);
+  var applyPatches = immer.applyPatches.bind(immer);
+  var createDraft = immer.createDraft.bind(immer);
+  var finishDraft = immer.finishDraft.bind(immer);
 
   // node_modules/redux-thunk/dist/redux-thunk.mjs
   function createThunkMiddleware(extraArgument) {
@@ -1252,9 +1256,19 @@ It is disabled in production builds, so you don't need to worry about that.`);
     return isDraftable(val) ? produce(val, () => {
     }) : val;
   }
-  function getOrInsertComputed(map, key, compute) {
-    if (map.has(key)) return map.get(key);
-    return map.set(key, compute(key)).get(key);
+  function emplace(map, key, handler) {
+    if (map.has(key)) {
+      let value = map.get(key);
+      if (handler.update) {
+        value = handler.update(value, key, map);
+        map.set(key, value);
+      }
+      return value;
+    }
+    if (!handler.insert) throw new Error(false ? formatProdErrorMessage(10) : "No insert provided for key not already in map");
+    const inserted = handler.insert(key, map);
+    map.set(key, inserted);
+    return inserted;
   }
   function isImmutableDefault(value) {
     return typeof value !== "object" || value == null || Object.isFrozen(value);
@@ -1546,6 +1560,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       setTimeout(notify, timeout);
     };
   };
+  var rAF = typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10);
   var autoBatchEnhancer = (options = {
     type: "raf"
   }) => (next) => (...args) => {
@@ -1554,10 +1569,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     let shouldNotifyAtEndOfTick = false;
     let notificationQueued = false;
     const listeners = /* @__PURE__ */ new Set();
-    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? (
-      // requestAnimationFrame won't exist in SSR environments. Fall back to a vague approximation just to keep from erroring.
-      typeof window !== "undefined" && window.requestAnimationFrame ? window.requestAnimationFrame : createQueueWithTimer(10)
-    ) : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
+    const queueCallback = options.type === "tick" ? queueMicrotask : options.type === "raf" ? rAF : options.type === "callback" ? options.queueNotification : createQueueWithTimer(options.timeout);
     const notifyListeners = () => {
       notificationQueued = false;
       if (shouldNotifyAtEndOfTick) {
@@ -1612,7 +1624,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       reducer = void 0,
       middleware,
       devTools = true,
-      duplicateMiddlewareCheck = true,
       preloadedState = void 0,
       enhancers = void 0
     } = options || {};
@@ -1638,15 +1649,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     }
     if (finalMiddleware.some((item) => typeof item !== "function")) {
       throw new Error(false ? formatProdErrorMessage(4) : "each middleware provided to configureStore must be a function");
-    }
-    if (duplicateMiddlewareCheck) {
-      let middlewareReferences = /* @__PURE__ */ new Set();
-      finalMiddleware.forEach((middleware2) => {
-        if (middlewareReferences.has(middleware2)) {
-          throw new Error(false ? formatProdErrorMessage(42) : "Duplicate middleware references found when creating the store. Ensure that each middleware is only included once.");
-        }
-        middlewareReferences.add(middleware2);
-      });
     }
     let finalCompose = compose;
     if (devTools) {
@@ -1696,21 +1698,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           throw new Error(false ? formatProdErrorMessage(29) : `\`builder.addCase\` cannot be called with two reducers for the same action type '${type}'`);
         }
         actionsMap[type] = reducer;
-        return builder;
-      },
-      addAsyncThunk(asyncThunk, reducers) {
-        if (true) {
-          if (defaultCaseReducer) {
-            throw new Error(false ? formatProdErrorMessage(43) : "`builder.addAsyncThunk` should only be called before calling `builder.addDefaultCase`");
-          }
-        }
-        if (reducers.pending) actionsMap[asyncThunk.pending.type] = reducers.pending;
-        if (reducers.rejected) actionsMap[asyncThunk.rejected.type] = reducers.rejected;
-        if (reducers.fulfilled) actionsMap[asyncThunk.fulfilled.type] = reducers.fulfilled;
-        if (reducers.settled) actionMatchers.push({
-          matcher: asyncThunk.settled,
-          reducer: reducers.settled
-        });
         return builder;
       },
       addMatcher(matcher, reducer) {
@@ -1779,7 +1766,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               if (previousState === null) {
                 return previousState;
               }
-              throw Error("A case reducer on a non-draftable value must not return undefined");
+              throw new Error(false ? formatProdErrorMessage(9) : "A case reducer on a non-draftable value must not return undefined");
             }
             return result;
           } else {
@@ -1852,7 +1839,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       message: String(value)
     };
   };
-  var externalAbortMessage = "External signal was aborted";
   var createAsyncThunk = /* @__PURE__ */ (() => {
     function createAsyncThunk2(typePrefix, payloadCreator, options) {
       const fulfilled = createAction(typePrefix + "/fulfilled", (payload, requestId, arg, meta) => ({
@@ -1886,9 +1872,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           condition: error?.name === "ConditionError"
         }
       }));
-      function actionCreator(arg, {
-        signal
-      } = {}) {
+      function actionCreator(arg) {
         return (dispatch, getState, extra) => {
           const requestId = options?.idGenerator ? options.idGenerator(arg) : nanoid();
           const abortController = new AbortController();
@@ -1898,16 +1882,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             abortReason = reason;
             abortController.abort();
           }
-          if (signal) {
-            if (signal.aborted) {
-              abort(externalAbortMessage);
-            } else {
-              signal.addEventListener("abort", () => abort(externalAbortMessage), {
-                once: true
-              });
-            }
-          }
-          const promise = (async function() {
+          const promise = async function() {
             let finalAction;
             try {
               let conditionResult = options?.condition?.(arg, {
@@ -1973,7 +1948,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
               dispatch(finalAction);
             }
             return finalAction;
-          })();
+          }();
           return Object.assign(promise, {
             abort,
             requestId,
@@ -2108,7 +2083,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
       const selectSelf = (state) => state;
       const injectedSelectorCache = /* @__PURE__ */ new Map();
-      const injectedStateCache = /* @__PURE__ */ new WeakMap();
       let _reducer;
       function reducer(state, action) {
         if (!_reducer) _reducer = buildReducer();
@@ -2123,7 +2097,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           let sliceState = state[reducerPath2];
           if (typeof sliceState === "undefined") {
             if (injected) {
-              sliceState = getOrInsertComputed(injectedStateCache, selectSlice, getInitialState);
+              sliceState = getInitialState();
             } else if (true) {
               throw new Error(false ? formatProdErrorMessage(15) : "selectSlice returned undefined for an uninjected slice reducer");
             }
@@ -2131,13 +2105,17 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           return sliceState;
         }
         function getSelectors(selectState = selectSelf) {
-          const selectorCache = getOrInsertComputed(injectedSelectorCache, injected, () => /* @__PURE__ */ new WeakMap());
-          return getOrInsertComputed(selectorCache, selectState, () => {
-            const map = {};
-            for (const [name2, selector] of Object.entries(options.selectors ?? {})) {
-              map[name2] = wrapSelector(selector, selectState, () => getOrInsertComputed(injectedStateCache, selectState, getInitialState), injected);
+          const selectorCache = emplace(injectedSelectorCache, injected, {
+            insert: () => /* @__PURE__ */ new WeakMap()
+          });
+          return emplace(selectorCache, selectState, {
+            insert: () => {
+              const map = {};
+              for (const [name2, selector] of Object.entries(options.selectors ?? {})) {
+                map[name2] = wrapSelector(selector, selectState, getInitialState, injected);
+              }
+              return map;
             }
-            return map;
           });
         }
         return {
@@ -3278,7 +3256,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
      */
     #addEvents() {
       if (Array.isArray(this.data.props.events.trackViewed)) {
-        const observerUser = new IntersectionObserver(
+        const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               const id = entry.target.id;
@@ -3311,7 +3289,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
         this.data.props.events.trackViewed.forEach((id) => {
           const el = this.querySelector(`#${id}`);
           if (el) {
-            observerUser.observe(el);
+            observer.observe(el);
           }
         });
       }
@@ -3419,7 +3397,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   function whithAnimations() {
     let objs = document.querySelectorAll("[data-animation]");
     let options = { threshold: 0.1 };
-    var observerAnimations = new IntersectionObserver((entries) => {
+    var observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setupAnimation(entry.target);
@@ -3433,7 +3411,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       });
     });
     objs.forEach((obj) => {
-      observerAnimations.observe(obj);
+      observer.observe(obj);
     });
   }
   function setupAnimation(el) {
@@ -20719,7 +20697,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   };
   customElements.define("hero-banner", HeroBanner);
 
-  // node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
+  // node_modules/@customerjourney/cj-components/node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.es.js
   var h = (i) => NodeList.prototype.isPrototypeOf(i) || HTMLCollection.prototype.isPrototypeOf(i) ? Array.from(i) : typeof i == "string" || i instanceof String ? document.querySelectorAll(i) : [i];
   var d = () => Element.prototype.closest && "IntersectionObserver" in window;
   var c = class {
@@ -23243,25 +23221,19 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   customElements.define("webinar-invitation", WebinarInvitation);
 
   // src/app/pages/updaters/homeUpdater.js
-  function homeUpdater(previousValue, currentValue2) {
+  function homeUpdater(previousState, currentState) {
     let page2 = document.querySelector("app-page");
-    if (previousValue.context.lang != currentValue2.context.lang || previousValue.context.theme != currentValue2.context.theme) {
-      page2.data.context = currentValue2.context;
+    if (previousState.context.lang != currentState.context.lang || previousState.context.theme != currentState.context.theme) {
+      page2.data.context = currentState.context;
       page2.loadData();
-    } else if (previousValue.home.stage != currentValue2.home.stage) {
-      let appoinment = page2.querySelector("#appoinment");
-      switch (currentValue2.home.stage) {
-        case "landing/click":
+    } else if (previousState.home.stage != currentState.home.stage) {
+      console.log("Home stage changed to: ", currentState.home.stage);
+      switch (currentState.home.stage) {
+        case "atention/click":
           document.getElementById("action").scrollIntoView({ behavior: "smooth" });
           break;
-        case "action/open":
-          appoinment.setAttribute("stage", "open");
-          break;
-        case "action/close":
-          appoinment.setAttribute("stage", "awaiting");
-          break;
-        case "action/appoinment":
-          appoinment.setAttribute("stage", "appoinment");
+        case "escape":
+          document.getElementById("message").setAttribute("active", "");
           break;
       }
     }
@@ -23308,7 +23280,8 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           caption: {
             text: {
               es: "\xBFEst\xE1s perdiendo ventas por no tener un seguimiento adecuado?",
-              en: "Are you losing sales due to inadequate follow-up?"
+              en: "Are you losing sales due to inadequate follow-up?",
+              fr: "Perdez-vous des ventes en raison d'un suivi inad\xE9quat ?"
             },
             classList: ["has-text-shadow"],
             animation: {
@@ -23324,7 +23297,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             },
             classList: ["has-text-shadow"],
             animation: {
-              effect: "heartBeat"
+              effect: "fadeIn"
             }
           },
           subtitle: {
@@ -23340,11 +23313,11 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             }
           },
           buttons: {
-            eventName: "appclick",
+            eventName: "app-click",
             classList: ["is-centered"],
             buttons: [
               {
-                id: "landing-button",
+                id: "atention-button",
                 text: {
                   es: "\xA1Pru\xE9balo gratis ahora!",
                   en: "Try it for free now!",
@@ -23375,6 +23348,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     fr: "### Gestion des leads\n\nOrganisez et priorisez vos contacts pour un suivi efficace."
                   }
                 }
+              },
+              animation: {
+                effect: "bounce"
               }
             },
             {
@@ -23390,6 +23366,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     fr: "### Automatisation\n\nAutomatisez les t\xE2ches r\xE9p\xE9titives et gagnez du temps pr\xE9cieux."
                   }
                 }
+              },
+              animation: {
+                effect: "bounce"
               }
             },
             {
@@ -23405,6 +23384,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     fr: "### Analyse des donn\xE9es\n\nPrenez des d\xE9cisions intelligentes avec des rapports et des m\xE9triques clairs."
                   }
                 }
+              },
+              animation: {
+                effect: "bounce"
               }
             },
             {
@@ -23420,6 +23402,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     fr: "### Collaboration\n\nAm\xE9liorez la communication entre vos \xE9quipes de vente et de marketing."
                   }
                 }
+              },
+              animation: {
+                effect: "bounce"
               }
             }
           ]
@@ -23444,6 +23429,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
           },
           mediaObjects: {
             width: "is-8",
+            animation: {
+              effect: "flipInX"
+            },
             items: [
               {
                 imageL: {
@@ -23585,6 +23573,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     href: "/#thanks"
                   }
                 ]
+              },
+              animation: {
+                effect: "rubberBand"
               }
             },
             {
@@ -23629,6 +23620,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     href: "/#thanks"
                   }
                 ]
+              },
+              animation: {
+                effect: "rubberBand"
               }
             },
             {
@@ -23673,6 +23667,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                     href: "/#thanks"
                   }
                 ]
+              },
+              animation: {
+                effect: "rubberBand"
               }
             }
           ]
@@ -23726,7 +23723,7 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
   // src/app/pages/home.js
   function home(req, router) {
     let go = Date.now();
-    let counter2 = { go, time: 0, atention: 0, interest: 0, desire: 0, action: 0, conversion: 0, leavingapp: 0, leavedapp: 0 };
+    let counter2 = { go, time: 0, views: 0, atention: 1, interest: 0, desire: 0, action: 0, conversion: 0, leavingapp: 0, leavedapp: 0 };
     let template = `
     <page-header id="header"></page-header>
     <hero-banner id="atention"></hero-banner>
@@ -23736,13 +23733,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
     <page-footer id="footer"></page-footer>
     <modal-box id="message"></modal-box>
     `;
-    let currentValue2 = store.getState();
+    let currentState = store.getState();
     store.dispatch(setStage("start"));
-    home_default.context = currentValue2;
+    home_default.context = currentState.context;
     page = new AppPage(home_default, template);
     const pageEvents = {
       handleEvent: (e) => {
         switch (e.type) {
+          /* User change language or theme */
           case "user:select-lang":
             store.dispatch(setLanguaje(e.detail));
             break;
@@ -23751,23 +23749,14 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
             break;
           case "app-click":
             switch (e.detail.source) {
-              case "appoinment-button":
-                counter2.leavingapp++;
-                store.dispatch(setStage("action/open"));
-                break;
-              case "landing-button":
-                store.dispatch(setStage("landing/click"));
+              case "atention-button":
+                store.dispatch(setStage("atention/click"));
                 break;
             }
             break;
+          /* User interaction with the page: User view a section */
           case "viewedelement":
             switch (e.detail.source) {
-              case "landing":
-                if (counter2.landing === 0) {
-                  store.dispatch(setStage("landing/viewed"));
-                  counter2.landing++;
-                }
-                break;
               case "attention":
                 if (counter2.atention === 0) {
                   store.dispatch(setStage("attention/viewed"));
@@ -23800,13 +23789,9 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 break;
             }
             break;
+          /* User interaction with the page: User leave a section */
           case "unviewedelement":
             switch (e.detail.source) {
-              case "landing":
-                if (counter2.landing > 0) {
-                  store.dispatch(setStage("landing/unviewed"));
-                }
-                break;
               case "attention":
                 if (counter2.atention > 0) {
                   store.dispatch(setStage("attention/unviewed"));
@@ -23829,14 +23814,15 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
                 break;
             }
             break;
+          /* User is leaving the app */
           case "leavingapp":
             if (counter2.leavingapp === 0) {
               store.dispatch(setStage("escape"));
-              document.getElementById("message").setAttribute("active", "");
               counter2.leavingapp++;
             }
             ;
             break;
+          /* User has left the app */
           case "leavedapp":
             counter2.leavedapp++;
             counter2.time = Math.round((Date.now() - go) / 1e3);
@@ -23846,14 +23832,20 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     };
     function handleChange() {
-      let previousValue = currentValue2;
-      currentValue2 = store.getState();
-      if (previousValue !== currentValue2) {
-        homeUpdater(previousValue, currentValue2);
+      let previousState = currentState;
+      currentState = store.getState();
+      if (previousState !== currentState) {
+        homeUpdater(previousState, currentState);
       }
     }
     page.setEvents(pageEvents);
     store.subscribe(handleChange);
+    store.subscribe(() => {
+      const lastAction = store.getState()._persist?.rehydrated;
+      if (lastAction) {
+        counter2.views = store.getState().home.breadcrumb.views + 1;
+      }
+    });
   }
 
   // src/app/pages/updaters/byeUpdater.js
@@ -23952,15 +23944,13 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 
   // src/app/pages/bye.js
   function bye(req, router) {
-    let counter2 = { atention: 0, interest: 0, desire: 0, action: 0, leavingapp: 0, leavedapp: 0 };
     let template = `
     <page-header id="header"></page-header>
     <hero-banner id="hero"></hero-banner>
     <page-footer id="footer"></page-footer>
     `;
-    let currentValue2 = store.getState();
-    bye_default.context = currentValue2.context;
-    document.documentElement.setAttribute("data-theme", bye_default.context.theme);
+    let currentState = store.getState();
+    bye_default.context = currentState.context;
     page = new AppPage(bye_default, template);
     store.dispatch(setStage2("goal"));
     const pageEvents = {
@@ -23976,10 +23966,10 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
       }
     };
     function handleChange() {
-      let previousValue = currentValue2;
-      currentValue2 = store.getState();
-      if (previousValue !== currentValue2) {
-        byeUpdater(previousValue, currentValue2);
+      let previousState = currentState;
+      currentState = store.getState();
+      if (previousState !== currentState) {
+        byeUpdater(previousState, currentState);
       }
     }
     page.setEvents(pageEvents);
@@ -24009,7 +23999,6 @@ Take a look at the reducer(s) handling this action type: ${action.type}.
 @fortawesome/fontawesome-svg-core/index.mjs:
 @fortawesome/free-solid-svg-icons/index.mjs:
 @fortawesome/free-regular-svg-icons/index.mjs:
-@fortawesome/free-brands-svg-icons/index.mjs:
   (*!
    * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
    * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

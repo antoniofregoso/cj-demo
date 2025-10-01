@@ -7,11 +7,11 @@
     "scripts": {
         "scss": "sass --load-path=node_modules src/app/scss/assets.scss public/assets.css",
         "config": "mkdir -p src/.env && echo '{\"google\":{\"gtag\":\"G-XXXXXXXXXX\"}}' > src/.env/conf.json",
-        "build": "esbuild src/index.js --bundle  --outfile=public/index.js",
-        "prod": "esbuild src/index.js --bundle --minify  --outfile=public/index.js",
+        "build": "esbuild src/index.js --bundle  --outfile=public/index.js --banner:js='/*! Page generated with CustomerJourney.js */'",
+        "prod": "esbuild src/index.js --bundle --minify  --outfile=public/index.js --banner:js='/*! Page generated with CustomerJourney.js */'",
         "deploy": "npm-run-all config scss prod",
-        "serve": "esbuild src/index.js --bundle  --outfile=public/index.js  --servedir=public",
-        "watching": "esbuild src/index.js --bundle  --outfile=public/index.js --watch --serve-fallback=public/index.html --servedir=public",
+        "serve": "esbuild src/index.js --bundle  --outfile=public/index.js--banner:js='/*! Page generated with CustomerJourney.js */' --servedir=public",
+        "watching": "esbuild src/index.js --bundle  --outfile=public/index.js --banner:js='/*! Page generated with CustomerJourney.js */' --watch --serve-fallback=public/index.html --servedir=public",
         "init": "npm-run-all config scss build serve",
         "watch": "npm-run-all build watching",
         "test": "echo \"Error: no test specified\" && exit 1"
