@@ -9,11 +9,11 @@
         "config": "mkdir -p src/.env && echo '{\"google\":{\"gtag\":\"G-XXXXXXXXXX\"}}' > src/.env/conf.json",
         "esbuild:base": "esbuild src/index.js --bundle --outfile=public/index.js --banner:js='/*! Page generated with CustomerJourney.js */'",
         
+        "serve": "npm run esbuild:base -- --servedir=public",
         "init": "npm-run-all config scss serve",
         "build": "npm run esbuild:base",
         "build:prod": "npm run esbuild:base -- --minify",
-        "dev": "npm run esbuild:base -- --watch --serve-fallback=public/index.html --servedir=public",
-        "serve": "npm run esbuild:base -- --servedir=public"
+        "dev": "npm run esbuild:base -- --watch --serve-fallback=public/index.html --servedir=public"
 
     },
     "author": "Antonio Fregoso",
