@@ -3,9 +3,9 @@
         "id":"Bye",
         "noCache":true,
         "title":{
-            "es":"App|BuyerJourney.js",
-            "en":"App|BuyerJourney.js",
-            "fr":"App|BuyerJourney.js"
+            "es":"Demo|CustumerJourney.js",
+            "en":"Demo|CustumerJourney.js",
+            "fr":"Demo|CustumerJourney.js"
 
         },
         "description":{

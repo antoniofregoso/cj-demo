@@ -27,17 +27,9 @@
         "@customerjourney/cj-components": "^0.10.1",
         "@customerjourney/cj-core": "^1.6.0",
         "@customerjourney/cj-router": "^1.2.1",
-        "@fortawesome/fontawesome-svg-core": "^6.5.1",
-        "@fortawesome/free-brands-svg-icons": "^6.5.1",
-        "@fortawesome/free-regular-svg-icons": "^6.7.2",
-        "@fortawesome/free-solid-svg-icons": "^6.5.1",
         "@reduxjs/toolkit": "^2.2.7",
-        "animate.css": "^4.1.1",
-        "bulma": "^1.0.2",
-        "libphonenumber-js": "^1.12.9",
         "redux-persist": "^6.0.0",
-        "remarkable": "^2.0.1",
-        "swiper": "^11.2.10",
-        "vanilla-calendar-pro": "^3.0.4"
+        "animate.css": "^4.1.1",
+        "bulma": "^1.0.2"
     }
 }
