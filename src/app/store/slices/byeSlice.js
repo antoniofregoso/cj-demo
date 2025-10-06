@@ -4,18 +4,29 @@ const byeSlice = createSlice({
     name: 'bye',
     initialState:{
         stage:'awaiting',
-        breadcrumb:[]
+        scrollStopping:{
+            page:{
+                req:{},
+                name:'',
+                session:'',
+                start:0,
+                end:0,
+                time:0,
+                leavingApp:0,
+                views:0
+            },
+        }
         
     },
     reducers:{
         setStage:(state, action) => {
             state.stage = action.payload;
         },
-        setBreadcrumb:(state, action) => {
-            state.breadcrumb = action.payload;
+        setScrollStopping:(state, action) => {
+            state.scrollStopping = action.payload;
         } 
     }
 });
 
-export const { setStage, setBreadcrumb } =  byeSlice.actions;
+export const { setStage, setScrollStopping } =  byeSlice.actions;
 export default byeSlice.reducer;

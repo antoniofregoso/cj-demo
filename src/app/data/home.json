@@ -30,7 +30,7 @@
                 }
             },
             {
-                "id":"atention",
+                "id":"attention",
                 "backgroundImage":{
                     "url":"/images/crm-hero.webp",
                     "fixed":true

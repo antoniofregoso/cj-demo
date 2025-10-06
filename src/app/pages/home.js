@@ -1,6 +1,6 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
 import { HeroBanner, LevelCentered, MediaList, CardsList, ModalBox } from "@customerjourney/cj-components";
-import { setStage, setBreadcrumb } from "../store/slices/homeSlice";
+import { setStage, setScrollStopping } from "../store/slices/homeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { homeUpdater } from "./updaters/homeUpdater";
@@ -16,19 +16,11 @@ import data from "../data/home.json";
  */
 export function home(req, router){
     /**
-     * Set date time when user enter to the page
-     */
-    let go = Date.now();
-    /**
-     * Customer behavior within the page. Saved in the state when user leave the page
-     */
-    let counter = {go:go, time:0, views:0, atention:1, interest:0, desire:0, action:0, conversion:0, leavingapp:0, leavedapp:0 }
-    /**
      * Template for the page
      */
     let template =`
     <page-header id="header"></page-header>
-    <hero-banner id="atention"></hero-banner>
+    <hero-banner id="attention"></hero-banner>
     <cards-list id="interest"></cards-list>
     <media-list id="desire"></media-list>
     <cards-list id="action"></cards-list>
@@ -49,9 +41,18 @@ export function home(req, router){
      */
     data.context = currentState.context;
     /**
-     * Page instance
+     * Page object created with the data and the template
      */
     page =  new AppPage(data, template);
+    /**
+     * Initialize scrollStopping tracking object
+     */ 
+    let track = page.scrollStopping;
+    track.page.req=req;
+    track.name=data.props.title.en;
+    track.session=currentState.context.sessionToken;
+    track.page.views = currentState.home.scrollStopping.page.views + 1;
+    store.dispatch(setScrollStopping(track));
     /**
      * event handlers for the page
      */
@@ -67,8 +68,8 @@ export function home(req, router){
                     break;
                 case 'app-click':
                     switch (e.detail.source){
-                        case "atention-button":
-                            store.dispatch(setStage('atention/click'));
+                        case "attention-button":
+                            store.dispatch(setStage('attention/click'));
                             break;
                     }
                     break;
@@ -76,33 +77,43 @@ export function home(req, router){
                 case 'viewedelement':
                     switch (e.detail.source){
                         case 'attention':
-                            if (counter.atention===0) {
+                            if (track.sections.attention.views===0) {
+                                track.sections.attention.views++;
+                                track.sections.attention.start=Date.now();
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('attention/viewed'));
-                                counter.atention++;
                             }
                             break;
                         case 'interest':
-                            if (counter.interest===0) {
+                            if (track.sections.interest.views===0) {
+                                track.sections.interest.views++;
+                                track.sections.interest.start=Date.now();
+                                console.log('Interest viewed', track);
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('interest/viewed'));
-                                counter.interest++;
                             }
                             break;
                         case 'desire':
-                            if (counter.desire===0) {
+                            if (track.sections.desire.views===0) {
+                                track.sections.desire.views++;
+                                track.sections.desire.start=Date.now();
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('desire/viewed'));
-                                counter.desire++;
                             }
                             break;
                         case 'action':
-                            if (counter.action===0) {
+                            if (track.sections.action.views===0) {
+                                track.sections.action.views++;
+                                track.sections.action.start=Date.now();
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('action/viewed'));
-                                counter.action++;
                             }
                             break;
                         case 'conversion':
-                            if (counter.conversion===0) {
+                            if (track.sections.conversion.views===0) {
+                                track.sections.conversion.views++;
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('conversion/viewed'));
-                                counter.conversion++;
                             }
                             break;
                         }
@@ -111,22 +122,34 @@ export function home(req, router){
                 case 'unviewedelement':
                     switch (e.detail.source){
                         case 'attention':
-                            if (counter.atention>0) {
+                            if (track.sections.attention.views>0) {
+                                track.sections.attention.end=Date.now();
+                                track.sections.attention.time = Math.round((track.sections.attention.end - track.sections.attention.start) / 1000);
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('attention/unviewed'));
                             }
                             break;
                         case 'interest':
-                            if (counter.interest>0) {
+                            if (track.sections.interest.views>0) {
+                                track.sections.interest.end=Date.now();
+                                track.sections.interest.time = Math.round((track.sections.interest.end - track.sections.interest.start) / 1000);
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('interest/unviewed'));
                             }
                             break;
                         case 'desire':
-                            if (counter.desire>0) {
+                            if (track.sections.desire.views>0) {
+                                track.sections.desire.end=Date.now();
+                                track.sections.desire.time = Math.round((track.sections.desire.end - track.sections.desire.start) / 1000);
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('desire/unviewed'));
                             }
                             break;
                         case 'action':
-                            if (counter.action>0) {
+                            if (track.sections.action.views>0) {
+                                track.sections.action.end=Date.now();
+                                track.sections.action.time = Math.round((track.sections.action.end - track.sections.action.start) / 1000);
+                                store.dispatch(setScrollStopping(track));
                                 store.dispatch(setStage('action/unviewed'));
                             }
                             break;
@@ -134,17 +157,19 @@ export function home(req, router){
                     break;
                 /* User is leaving the app */
                 case 'leavingapp':
-                    if (counter.leavingapp===0)
+                    if (track.page.leavingapp===0)
                         {
+                            
+                            track.page.leavingpp++;
+                            store.dispatch(setScrollStopping(track));
                             store.dispatch(setStage('escape'));
-                            counter.leavingapp++;
                         };
                     break;
                 /* User has left the app */
                 case 'leavedapp':
-                    counter.leavedapp++;
-                    counter.time = Math.round((Date.now() - go) / 1000);
-                    store.dispatch(setBreadcrumb(counter));
+                    track.page.end=Date.now();
+                    track.page.time = Math.round((track.page.end - track.page.start) / 1000); 
+                    store.dispatch(setScrollStopping(track));
                     break;
             }
         }
@@ -174,7 +199,7 @@ export function home(req, router){
     store.subscribe(() => {
         const lastAction = store.getState()._persist?.rehydrated;
         if (lastAction) {
-            counter.views = store.getState().home.breadcrumb.views + 1;
+            track.page.views = store.getState().home.scrollStopping.page.views + 1;
         }
     });
 }
