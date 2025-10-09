@@ -10,7 +10,7 @@ export function homeUpdater(previousState, currentState){
      * @type {object}
      */
     let page = document.querySelector('app-page');
-     /**
+    /**
      * If there are changes in language or theme, update the context and reload data.
      * If there are changes in the home stage, update the appoinment component accordingly.
      */
@@ -30,5 +30,3 @@ export function homeUpdater(previousState, currentState){
     }
 }
 
-
-                            

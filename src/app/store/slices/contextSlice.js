@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { generateSessionToken } from '@customerjourney/cj-core';
 /**
  * Context slice to manage application context such as language, theme, and session token.
  */
@@ -7,8 +6,7 @@ const contextSlice = createSlice({
     name: 'context',
     initialState:{
         lang:'es',
-        theme:'light',
-        sessionToken:generateSessionToken(32)
+        theme:'light'
     },
     reducers:{
         setLanguaje:(state, action) => {
@@ -16,7 +14,9 @@ const contextSlice = createSlice({
         },
         setTheme:(state, action) => {
             state.theme = action.payload;
-            document.documentElement.setAttribute('data-theme', action.payload);
+        },
+        setSession:(state, action) => {
+            state.session = action.payload;
         }
     }
 });

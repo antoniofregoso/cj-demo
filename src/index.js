@@ -1,6 +1,6 @@
 import config from './.env/conf.json';
 import { store, persistor } from './app/store/store';
-import { loading, whithAnimations } from "@customerjourney/cj-core"
+import { generateSessionToken, loading, whithAnimations } from "@customerjourney/cj-core"
 import 'animate.css';
 import '@customerjourney/cj-core/src/pageloader.css';
 import { App } from './App';
@@ -12,20 +12,20 @@ loading({color:"is-dark", direction:"is-right-to-left"});
 let isRehydrated = false;
 
 function startApp() {
-    // Si no se ha rehidratado, salimos.
+    // If you haven't rehydrated, we're leaving.
     if (!isRehydrated) {
-        console.warn('¡Atención! La rehidratación no ha finalizado. Esperando...');
-        // Puedes actualizar un elemento de carga en el DOM aquí.
-        loading({color:"is-dark", direction:"is-right-to-left"});
+        console.warn('Attention! Rehydration is not complete. Waiting...');
         return;
     }
 
-    // Ocultar la pantalla de carga
+    console.log('✅ Complete rehydration. Data is ready.');
 
-    console.log('✅ Rehidratación completa. Los datos están listos.');
-
-    // Acceder a datos persistidos, por ejemplo:
     const currentState = store.getState();
+    const session  = currentState?.context?.session;
+    if(!session){
+        const newSession = generateSessionToken(32);
+        store.dispatch({ type: 'context/setSession', payload: newSession });
+    }
     if(currentState?.context?.theme){
         document.documentElement.setAttribute('data-theme', currentState.context.theme);
     }
@@ -34,14 +34,13 @@ function startApp() {
 }
 
 const unsubscribe = persistor.subscribe(() => {
-    // El estado del persistor se puede obtener llamando a getState()
+
     const persistorState = persistor.getState();
 
-    // La bandera 'bootstrapped' es la que indica que la rehidratación se completó
     if (persistorState.bootstrapped && !isRehydrated) {
         isRehydrated = true;
-        unsubscribe(); // Dejar de escuchar para evitar ejecuciones futuras innecesarias
-        startApp();    // ¡Lanzar la aplicación principal!
+        unsubscribe(); // Stop listening to avoid unnecessary future executions
+        startApp();    // Launch the main application!
         whithAnimations();
     }
 });

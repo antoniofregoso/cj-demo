@@ -32,6 +32,7 @@ export function home(req, router){
      * @type {object}
      */
     let currentState = store.getState();
+    console.log('Current state', currentState);
     /**
      * dispath start stage
      */
@@ -48,10 +49,10 @@ export function home(req, router){
      * Initialize scrollStopping tracking object
      */ 
     let track = page.scrollStopping;
+    track.page.views = currentState.home.scrollStopping.page.views + 1;
     track.page.req=req;
     track.name=data.props.title.en;
-    track.session=currentState.context.sessionToken;
-    track.page.views = currentState.home.scrollStopping.page.views + 1;
+    track.session=currentState.context.session;
     store.dispatch(setScrollStopping(track));
     /**
      * event handlers for the page
@@ -64,6 +65,7 @@ export function home(req, router){
                     store.dispatch(setLanguaje(e.detail));
                     break;
                 case 'user:select-theme':
+                    console.log('Theme changed to: ', e.detail);
                     store.dispatch(setTheme(e.detail));
                     break;
                 case 'app-click':
@@ -175,7 +177,7 @@ export function home(req, router){
         }
             
         }
-     /**
+    /**
       * Handle state changes in the store
       */   
     function handleChange(){
@@ -183,7 +185,7 @@ export function home(req, router){
             currentState = store.getState();
             if (previousState !== currentState) {
                 homeUpdater(previousState, currentState);
-              }
+            }
         }
     /**
      * set event handlers for the page
@@ -193,13 +195,5 @@ export function home(req, router){
      * Suscribe to the store to listen for state changes
      */
     store.subscribe(handleChange);
-    /**
-     * Wait for the state to be fully loaded and add one more page view.
-     */
-    store.subscribe(() => {
-        const lastAction = store.getState()._persist?.rehydrated;
-        if (lastAction) {
-            track.page.views = store.getState().home.scrollStopping.page.views + 1;
-        }
-    });
+    
 }
