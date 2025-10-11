@@ -1,5 +1,6 @@
 import config from './.env/conf.json';
 import { store, persistor } from './app/store/store';
+import { setSession } from './app/store/slices/contextSlice';
 import { generateSessionToken, loading, whithAnimations } from "@customerjourney/cj-core"
 import 'animate.css';
 import '@customerjourney/cj-core/src/pageloader.css';
@@ -24,7 +25,7 @@ function startApp() {
     const session  = currentState?.context?.session;
     if(!session){
         const newSession = generateSessionToken(32);
-        store.dispatch({ type: 'context/setSession', payload: newSession });
+        store.dispatch(setSession(newSession));
     }
     if(currentState?.context?.theme){
         document.documentElement.setAttribute('data-theme', currentState.context.theme);
@@ -41,7 +42,7 @@ const unsubscribe = persistor.subscribe(() => {
         isRehydrated = true;
         unsubscribe(); // Stop listening to avoid unnecessary future executions
         startApp();    // Launch the main application!
-        whithAnimations();
+        whithAnimations();  //Enable animations
     }
 });
 

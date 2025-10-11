@@ -21,5 +21,5 @@ const contextSlice = createSlice({
     }
 });
 
-export const { setLanguaje,  setTheme } =  contextSlice.actions;
+export const { setLanguaje,  setTheme, setSession } =  contextSlice.actions;
 export default contextSlice.reducer;

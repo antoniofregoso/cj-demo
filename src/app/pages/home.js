@@ -32,7 +32,6 @@ export function home(req, router){
      * @type {object}
      */
     let currentState = store.getState();
-    console.log('Current state', currentState);
     /**
      * dispath start stage
      */
@@ -65,7 +64,6 @@ export function home(req, router){
                     store.dispatch(setLanguaje(e.detail));
                     break;
                 case 'user:select-theme':
-                    console.log('Theme changed to: ', e.detail);
                     store.dispatch(setTheme(e.detail));
                     break;
                 case 'app-click':
@@ -79,44 +77,19 @@ export function home(req, router){
                 case 'viewedelement':
                     switch (e.detail.source){
                         case 'attention':
-                            if (track.sections.attention.views===0) {
-                                track.sections.attention.views++;
-                                track.sections.attention.start=Date.now();
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('attention/viewed'));
-                            }
+                            store.dispatch(setStage('attention/viewed'));
                             break;
                         case 'interest':
-                            if (track.sections.interest.views===0) {
-                                track.sections.interest.views++;
-                                track.sections.interest.start=Date.now();
-                                console.log('Interest viewed', track);
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('interest/viewed'));
-                            }
+                            store.dispatch(setStage('interest/viewed'));
                             break;
                         case 'desire':
-                            if (track.sections.desire.views===0) {
-                                track.sections.desire.views++;
-                                track.sections.desire.start=Date.now();
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('desire/viewed'));
-                            }
+                            store.dispatch(setStage('desire/viewed'));
                             break;
                         case 'action':
-                            if (track.sections.action.views===0) {
-                                track.sections.action.views++;
-                                track.sections.action.start=Date.now();
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('action/viewed'));
-                            }
+                            store.dispatch(setStage('action/viewed'));
                             break;
                         case 'conversion':
-                            if (track.sections.conversion.views===0) {
-                                track.sections.conversion.views++;
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('conversion/viewed'));
-                            }
+                            store.dispatch(setStage('conversion/viewed'));
                             break;
                         }
                     break;
@@ -124,54 +97,26 @@ export function home(req, router){
                 case 'unviewedelement':
                     switch (e.detail.source){
                         case 'attention':
-                            if (track.sections.attention.views>0) {
-                                track.sections.attention.end=Date.now();
-                                track.sections.attention.time = Math.round((track.sections.attention.end - track.sections.attention.start) / 1000);
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('attention/unviewed'));
-                            }
+                            store.dispatch(setStage('attention/unviewed'));
                             break;
                         case 'interest':
-                            if (track.sections.interest.views>0) {
-                                track.sections.interest.end=Date.now();
-                                track.sections.interest.time = Math.round((track.sections.interest.end - track.sections.interest.start) / 1000);
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('interest/unviewed'));
-                            }
+                            store.dispatch(setStage('interest/unviewed'));
                             break;
                         case 'desire':
-                            if (track.sections.desire.views>0) {
-                                track.sections.desire.end=Date.now();
-                                track.sections.desire.time = Math.round((track.sections.desire.end - track.sections.desire.start) / 1000);
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('desire/unviewed'));
-                            }
+                            store.dispatch(setStage('desire/unviewed'));
                             break;
                         case 'action':
-                            if (track.sections.action.views>0) {
-                                track.sections.action.end=Date.now();
-                                track.sections.action.time = Math.round((track.sections.action.end - track.sections.action.start) / 1000);
-                                store.dispatch(setScrollStopping(track));
-                                store.dispatch(setStage('action/unviewed'));
-                            }
+                            store.dispatch(setStage('action/unviewed'));
                             break;
                         }
                     break;
                 /* User is leaving the app */
                 case 'leavingapp':
-                    if (track.page.leavingapp===0)
-                        {
-                            
-                            track.page.leavingpp++;
-                            store.dispatch(setScrollStopping(track));
-                            store.dispatch(setStage('escape'));
-                        };
+                    store.dispatch(setStage('escape'));
                     break;
                 /* User has left the app */
                 case 'leavedapp':
-                    track.page.end=Date.now();
-                    track.page.time = Math.round((track.page.end - track.page.start) / 1000); 
-                    store.dispatch(setScrollStopping(track));
+                    store.dispatch(setStage('quit'));
                     break;
             }
         }

@@ -1,4 +1,5 @@
-
+import { store } from "../../store/store";
+import { setScrollStopping } from "../../store/slices/homeSlice";
 /**
  * Manage changes in the home page state
  * @param {object} previousState 
@@ -19,12 +20,34 @@ export function homeUpdater(previousState, currentState){
         page.loadData();
     }else if(previousState.home.stage!=currentState.home.stage){
         console.log("Home stage changed to: ", currentState.home.stage);
+        console.log('test*****************', page.scrollStopping)
         switch (currentState.home.stage){
             case 'atention/click':
                 document.getElementById("action").scrollIntoView({ behavior: "smooth"});
                 break;
+            case 'attention/viewed':
+                page.scrollStopping.sections.attention.start = Date.now();
+                page.scrollStopping.sections.attention.views += 1;
+                store.dispatch(setScrollStopping(page.scrollStopping));
+                break;
+            case 'interest/viewed':
+                break;
+            case 'desire/viewed':
+                break;
+            case 'action/viewed':
+                break;
+            case 'attention/unviewed':
+                break;
+            case 'interest/unviewed':
+                break;
+            case 'desire/unviewed':
+                break;
+            case 'action/unviewed':
+                break;                
             case 'escape':
                 document.getElementById("message").setAttribute("active", "")
+                break;
+            case 'quit':
                 break;
         }
     }
