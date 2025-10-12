@@ -26,9 +26,13 @@ const homeSlice = createSlice({
         },
         setScrollStopping:(state, action) => {
             state.scrollStopping = action.payload;
-        } 
+        },
+        setSectionTracking:(state, action) => {
+            let section = Object.keys(action.payload)[0];
+            state.scrollStopping.sections[section] = action.payload[section];
+        }
     }
 });
 
-export const { setStage, setScrollStopping } =  homeSlice.actions;
+export const { setStage, setScrollStopping, setSectionTracking } =  homeSlice.actions;
 export default homeSlice.reducer;
