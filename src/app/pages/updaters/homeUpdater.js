@@ -1,5 +1,5 @@
 import { store } from "../../store/store";
-import { setSectionTracking } from "../../store/slices/homeSlice";
+import { setSectionTracking, setEscapeAttempt } from "../../store/slices/homeSlice";
 /**
  * Manage changes in the home page state
  * @param {object} previousState 
@@ -20,46 +20,50 @@ export function homeUpdater(previousState, currentState){
         page.loadData();
     }else if(previousState.home.stage!=currentState.home.stage){
         console.log("Home stage changed to: ", currentState.home.stage);
-        let track = currentState.home.scrollStopping.sections;
+        let track = currentState.home.scrollStopping;
         let payload = {};
         switch (currentState.home.stage){
             case 'atention/click':
                 document.getElementById("action").scrollIntoView({ behavior: "smooth"});
                 break;
             case 'attention/viewed':
-                payload = page.setSectionViewed('attention',track.attention);
+                payload = page.setSectionViewed('attention',track.sections.attention);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'interest/viewed':
-                payload = page.setSectionViewed('interest',track.interest);
+                payload = page.setSectionViewed('interest',track.sections.interest);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'desire/viewed':
-                payload = page.setSectionViewed('desire',track.desire);
+                payload = page.setSectionViewed('desire',track.sections.desire);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'action/viewed':
-                payload = page.setSectionViewed('action',track.action);
+                payload = page.setSectionViewed('action',track.sections.action);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'attention/unviewed':
-                payloasd = page.setSectionUnviewed('attention',track.attention);
+                payloasd = page.setSectionUnviewed('attention',track.sections.attention);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'interest/unviewed':
-                payload = page.setSectionUnviewed('interest',track.interest);
+                payload = page.setSectionUnviewed('interest',track.sections.interest);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'desire/unviewed':
-                payload = page.setSectionUnviewed('desire',track.desire);
+                payload = page.setSectionUnviewed('desire',track.sections.desire);
                 store.dispatch(setSectionTracking(payload));
                 break;
             case 'action/unviewed':
-                payload = page.setSectionUnviewed('action',track.action);
+                payload = page.setSectionUnviewed('action',track.sections.action);
                 store.dispatch(setSectionTracking(payload));
                 break;                
             case 'escape':
-                document.getElementById("message").setAttribute("active", "")
+                let leavingApp = track.page.leavingapp + 1;
+                store.dispatch(setEscapeAttempt(leavingApp));
+                if (leavingApp===1){
+                    document.getElementById("message").setAttribute("active", "")
+                }
                 break;
             case 'quit':
                 break;
