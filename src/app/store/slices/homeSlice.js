@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 /**
- * Home slice to manage the state of the home component, including stage and breadcrumb.
+ * Home slice to manage the state of the home component, including stage and scroll stoping.
  */
 const homeSlice = createSlice({
     name: 'home',
