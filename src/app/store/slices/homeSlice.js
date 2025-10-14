@@ -32,7 +32,7 @@ const homeSlice = createSlice({
             state.scrollStopping.sections[section] = action.payload[section];
         },
         setEscapeAttempt:(state, action) => {
-            state.scrollStopping.page.leavingApp = action.payload;
+            state.scrollStopping.page.leavingapp = action.payload;
         }
     }
 });

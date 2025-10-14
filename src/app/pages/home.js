@@ -48,7 +48,11 @@ export function home(req, router){
      * Initialize scrollStopping tracking object
      */ 
     let track = page.scrollStopping;
-    track.page.views = currentState.home.scrollStopping.page.views + 1;
+    if (!currentState.home.scrollStopping){
+        track.page.views = 0;
+    }else{
+        track.page.views = currentState.home.scrollStopping.page.views + 1;
+    }
     track.page.req=req;
     track.name=data.props.title.en;
     track.session=currentState.context.session;

@@ -59,7 +59,9 @@ export function homeUpdater(previousState, currentState){
                 store.dispatch(setSectionTracking(payload));
                 break;                
             case 'escape':
+                console.log("User is trying to leave the app", track.page.leavingapp);
                 let leavingApp = track.page.leavingapp + 1;
+                console.log("Escape attempts: ", leavingApp);
                 store.dispatch(setEscapeAttempt(leavingApp));
                 if (leavingApp===1){
                     document.getElementById("message").setAttribute("active", "")
