@@ -33,9 +33,12 @@ const homeSlice = createSlice({
         },
         setEscapeAttempt:(state, action) => {
             state.scrollStopping.page.leavingapp = action.payload;
+        },
+        setPageQuit:(state, action) => {
+            state.scrollStopping.page = action.payload;
         }
     }
 });
 
-export const { setStage, setScrollStopping, setSectionTracking, setEscapeAttempt } =  homeSlice.actions;
+export const { setStage, setScrollStopping, setSectionTracking, setEscapeAttempt, setPageQuit } =  homeSlice.actions;
 export default homeSlice.reducer;

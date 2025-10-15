@@ -1,5 +1,8 @@
 {
     "props":{
+        "events":{
+            "leavedapp":true
+            },
         "id":"Bye",
         "noCache":true,
         "title":{

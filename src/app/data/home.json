@@ -76,7 +76,7 @@
                     "classList":["is-centered"],
                     "buttons":[
                         {
-                            "id":"atention-button",
+                            "id":"attention-button",
                             "text":{
                             "es":"¡Pruébalo gratis ahora!",
                             "en":"Try it for free now!",

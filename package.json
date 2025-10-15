@@ -24,8 +24,8 @@
         "sass": "^1.71.1"
     },
     "dependencies": {
-        "@customerjourney/cj-components": "^0.10.1",
-        "@customerjourney/cj-core": "^1.6.0",
+        "@customerjourney/cj-components": "^0.10.3",
+        "@customerjourney/cj-core": "^1.9.0",
         "@customerjourney/cj-router": "^1.2.1",
         "@reduxjs/toolkit": "^2.2.7",
         "redux-persist": "^6.0.0",

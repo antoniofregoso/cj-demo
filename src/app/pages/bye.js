@@ -13,11 +13,39 @@ export function bye(req, router){
     <hero-banner id="hero"></hero-banner>
     <page-footer id="footer"></page-footer>
     `;
-    
+    /**
+     * current state of the app
+     * @type {object}
+     */    
     let currentState = store.getState();
+    /**
+     * dispath start stage
+     */
+    store.dispatch(setStage('start'));
+    /**
+     * Add context to the data
+     */
     data.context = currentState.context;
+    /**
+     * Page object created with the data and the template
+     */
     page =  new AppPage(data, template);
-    store.dispatch(setStage('goal'));
+    /**
+     * Initialize scrollStopping tracking object
+     */ 
+    let track = page.scrollStopping;
+    if (!currentState.home.scrollStopping){
+        track.page.views = 0;
+    }else{
+        track.page.views = currentState.home.scrollStopping.page.views + 1;
+    }
+    track.page.req=req;
+    track.name=data.props.title.en;
+    track.session=currentState.context.session;
+    store.dispatch(setScrollStopping(track));
+    /**
+     * event handlers for the page
+     */
 
     const pageEvents = {
         handleEvent: (e) => {
@@ -27,6 +55,10 @@ export function bye(req, router){
                     break;
                 case 'user:select-theme':
                     store.dispatch(setTheme(e.detail));
+                    break;
+                /* User has left the app */
+                case 'leavedapp':
+                    store.dispatch(setStage('quit'));
                     break;
                 }
             }
@@ -39,8 +71,12 @@ export function bye(req, router){
                 byeUpdater(previousState, currentState);
               }
         }
-
+    /**
+     * set event handlers for the page
+     */ 
     page.setEvents(pageEvents);
-
+    /**
+     * Suscribe to the store to listen for state changes
+     */
     store.subscribe(handleChange);
 }
