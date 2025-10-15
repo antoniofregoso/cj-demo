@@ -62,6 +62,7 @@ export function home(req, router){
      */
     const pageEvents = {
         handleEvent: (e) => {
+            console.log("Event received in page:", e.type, e.detail);
             switch(e.type){
                 /* User change language or theme */
                 case 'user:select-lang':
@@ -76,6 +77,10 @@ export function home(req, router){
                             store.dispatch(setStage('attention/click'));
                             break;
                     }
+                    break;
+                case 'cta-click':
+                    console.log("User clicked CTA button", e.detail.source);
+                    //store.dispatch(setStage('conversion/click'));
                     break;
                 /* User interaction with the page: User view a section */
                 case 'viewedelement':

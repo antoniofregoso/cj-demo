@@ -78,12 +78,12 @@
                         {
                             "id":"atention-button",
                             "text":{
-                             "es":"¡Pruébalo gratis ahora!",
-                             "en":"Try it for free now!",
-                             "fr":"Essayez-le gratuitement maintenant!"
+                            "es":"¡Pruébalo gratis ahora!",
+                            "en":"Try it for free now!",
+                            "fr":"Essayez-le gratuitement maintenant!"
                             },
                             "classList":["is-rounded","is-info"]
-                         }
+                        }
                     ]
                 },
                 "scrollButton":{
@@ -291,6 +291,7 @@
                     },
                     "classList":["has-text-centered","mb-5"]
                 },
+                "eventName":"cta-click",
                 "cards":[
                     {
                         "header":{
@@ -326,12 +327,12 @@
                         "footer":{
                             "buttons":[
                                 {
+                                    "id":"cta-1",
                                     "text":{
                                         "es":"¡Comienza tu prueba gratis!",
                                         "en":"Start your free trial!",
                                         "fr":"Commencez votre essai gratuit!"
-                                    },
-                                    "href":"/#thanks"
+                                    }
                                 }
                             ]
                         },
@@ -373,12 +374,12 @@
                         "footer":{
                             "buttons":[
                                 {
+                                    "id":"cta-2",
                                     "text":{
                                         "es":"¡Comienza tu prueba gratis!",
                                         "en":"Start your free trial!",
                                         "fr":"Commencez votre essai gratuit!"
-                                    },
-                                    "href":"/#thanks"
+                                    }
                                 }
                             ]
                         },
@@ -420,12 +421,12 @@
                         "footer":{
                             "buttons":[
                                 {
+                                    "id":"cta-3",
                                     "text":{
                                         "es":"¡Comienza tu prueba gratis!",
                                         "en":"Start your free trial!",
                                         "fr":"Commencez votre essai gratuit!"
-                                    },
-                                    "href":"/#thanks"
+                                    }
                                 }
                             ]
                         },
