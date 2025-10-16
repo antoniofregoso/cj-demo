@@ -19,15 +19,17 @@ export function homeUpdater(previousState, currentState){
         page.data.context = currentState.context;
         page.loadData();
     }else if(previousState.home.stage!=currentState.home.stage){
-        console.log("Home stage changed to: ", currentState.home.stage);
         let track = currentState.home.scrollStopping;
         let payload = {};
+        console.log(`Home stage changed to ${currentState.home.stage}`);
         switch (true){
             case currentState.home.stage === 'attention/click':
                 document.getElementById("action").scrollIntoView({ behavior: "smooth"});
                 break;
             case currentState.home.stage.startsWith('action/click-'):
-                window.location.href = `/#thanks?product=${currentState.home.stagestr.match(/click-([\w-]+)$/)?.[1]}`
+                payload = page.setPageQuit(track.page);
+                store.dispatch(setPageQuit(payload));
+                window.location.href = `/#thanks?product=${currentState.home.stage.match(/click-([\w-]+)$/)?.[1]}`
                 break;
             case currentState.home.stage === 'atenttion/viewed':
                 payload = page.setSectionViewed('attention',track.sections.attention);

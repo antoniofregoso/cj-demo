@@ -24,9 +24,12 @@ const byeSlice = createSlice({
         },
         setScrollStopping:(state, action) => {
             state.scrollStopping = action.payload;
-        } 
+        },
+        setPageQuit:(state, action) => {
+            state.scrollStopping.page = action.payload;
+        }
     }
 });
 
-export const { setStage, setScrollStopping } =  byeSlice.actions;
+export const { setStage, setScrollStopping, setPageQuit } =  byeSlice.actions;
 export default byeSlice.reducer;

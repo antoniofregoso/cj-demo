@@ -1,5 +1,5 @@
 {
-    "name": "cj-app",
+    "name": "cj-demo",
     "version": "1.0.0",
     "description": "",
     "main": "public/index.js",
@@ -17,6 +17,8 @@
 
     },
     "author": "Antonio Fregoso",
+    "website": "https://customerjourney.ninja",
+    
     "license": "GPL-3.0-or-later",
     "devDependencies": {
         "esbuild": "^0.25.5",
@@ -25,7 +27,7 @@
     },
     "dependencies": {
         "@customerjourney/cj-components": "^0.10.3",
-        "@customerjourney/cj-core": "^1.9.0",
+        "@customerjourney/cj-core": "^1.9.1",
         "@customerjourney/cj-router": "^1.2.1",
         "@reduxjs/toolkit": "^2.2.7",
         "redux-persist": "^6.0.0",

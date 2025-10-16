@@ -1,6 +1,6 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
 import { HeroBanner} from "@customerjourney/cj-components";
-import { setStage } from "../store/slices/byeSlice";
+import { setStage, setScrollStopping } from "../store/slices/byeSlice";
 import { setLanguaje, setTheme } from "../store/slices/contextSlice"
 import { store } from "../store/store";
 import { byeUpdater } from "./updaters/byeUpdater";
@@ -34,7 +34,7 @@ export function bye(req, router){
      * Initialize scrollStopping tracking object
      */ 
     let track = page.scrollStopping;
-    if (!currentState.home.scrollStopping){
+    if (!currentState.bye.scrollStopping){
         track.page.views = 0;
     }else{
         track.page.views = currentState.home.scrollStopping.page.views + 1;
@@ -63,13 +63,15 @@ export function bye(req, router){
                 }
             }
         }
-
+    /**
+      * Handle state changes in the store
+      */   
     function handleChange(){
             let previousState = currentState;
             currentState = store.getState();
             if (previousState !== currentState) {
                 byeUpdater(previousState, currentState);
-              }
+            }
         }
     /**
      * set event handlers for the page
