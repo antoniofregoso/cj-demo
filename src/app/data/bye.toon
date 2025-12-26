@@ -1,0 +1,62 @@
+props:
+  events:
+    leavedapp: true
+  id: Bye
+  noCache: true
+  title:
+    es: Demo|CustumerJourney.js
+    en: Demo|CustumerJourney.js
+    fr: Demo|CustumerJourney.js
+  description:
+    es: Demo de CustomerJourney.js - La herramienta definitiva para crear embudos de ventas hiper-personalizables.
+    en: CustomerJourney.js Demo - The ultimate tool to create hyper-customizable sales funnels.
+    fr: Démo de CustomerJourney.js - L'outil ultime pour créer des entonnoirs de vente hyper-personnalisables.
+  image: /images/og.webp
+  type: business.business
+  components[3]:
+    - id: header
+      brand:
+        src: /images/cj.webp
+        srcDark: /images/cj-light.webp
+      i18n:
+        lang:
+          es: 🇲🇽
+          en: 🇺🇸
+          fr: 🇫🇷
+    - id: hero
+      backgroundImage:
+        url: /images/crm-hero.webp
+        fixed: true
+      classList[2]: is-fullheight-with-navbar,hero is-link
+      title:
+        classList[2]: is-size-1,has-text-shadow
+        text:
+          es: Gracias por poner a prueba nuestro CRM
+          en: Thank you for trying our CRM
+          fr: Merci d'avoir essayé notre CRM
+        animation:
+          effect: fadeIn
+      subtitle:
+        classList[2]: is-size-3,has-text-shadow
+        text:
+          es: Esperamos que te haya gustado la experiencia
+          en: We hope you enjoyed the experience
+          fr: Nous espérons que vous avez apprécié l'expérience
+        animation:
+          effect: fadeIn
+          speed: slower
+    - id: footer
+      brand:
+        src: /images/cj.webp
+        srcDark: /images/cj-light.webp
+      content:
+        text:
+          es: Open Source CRM | Hecho con ❤️ con CustomerJourney.js
+          en: Open Source CRM | Made with ❤️ with CustomerJourney.js
+          fr: CRM Open Source | Fait avec ❤️ avec CustomerJourney.js
+      privacyPolicy:
+        text:
+          es: Política de Privacidad
+          en: Privacy Policy
+          fr: Politique de confidentialité
+        url: "https://customerjourney.ninja/privacy-policy/"
