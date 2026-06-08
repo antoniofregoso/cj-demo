@@ -1,5 +1,5 @@
-import { Router } from "@customerjourney/cj-router";
-import { home, bye } from "./app/pages";
+import { Router } from '@customerjourney/cj-router';
+import { home, bye} from './app/pages';
 
 export const App = new Router({ hashSensitive:true});
 App.on('/', home);

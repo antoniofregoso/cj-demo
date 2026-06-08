@@ -1,0 +1,11 @@
+// 1. Importar fuentes primero
+@import url("https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap");
+
+// 2. Configurar y cargar Bulma (Vite entiende la ruta directa a node_modules)
+@use "bulma/sass" with ($family-primary: '"Play", sans-serif'
+);
+
+// 3. Tus estilos personalizados
+.has-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

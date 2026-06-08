@@ -1,5 +1,4 @@
-@use "bulma/sass" with (
-  $family-primary: '"Play", sans-serif'
+@use "bulma/sass" with ($family-primary: '"Play", sans-serif'
 );
 
 
@@ -7,5 +6,32 @@
 
 
 .has-text-shadow {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.has-text-width {
+    max-width: 35rem;
+}
+
+.as-seen-in {
+    width: 10rem;
+}
+
+.is-brand {
+    background-color: #e69e6c;
+    color: white;
+    width: 18rem;
+}
+
+.brand-theme {
+    background-color: #fefaf4;
+
+    .title,
+    .heading {
+        color: #767170;
+    }
+
+    .subtitle {
+        color: #e69e6c;
+    }
 }

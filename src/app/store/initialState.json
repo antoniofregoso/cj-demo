@@ -1,0 +1,53 @@
+{
+    "app_id": "",
+    "app_name": "CJ Demo",
+    "stage": "awaiting",
+    "context": {
+        "lang": "es",
+        "theme": "light",
+        "session_token": null
+    },
+    "meta": {
+        "start": 0,
+        "end": 0,
+        "time": 0,
+        "leavingapp": 0,
+        "views": 0,
+        "req": {
+            "uri": "/",
+            "referrer": "",
+            "query": null,
+            "params": {}
+        },
+        "sections": {
+            "attention": {
+                "order": 0,
+                "start": 0,
+                "end": 0,
+                "time": 0,
+                "views": 0
+            },
+            "interest": {
+                "order": 0,
+                "start": 0,
+                "end": 0,
+                "time": 0,
+                "views": 0
+            },
+            "desire": {
+                "order": 0,
+                "start": 0,
+                "end": 0,
+                "time": 0,
+                "views": 0
+            },
+            "action": {
+                "order": 0,
+                "start": 0,
+                "end": 0,
+                "time": 0,
+                "views": 0
+            }
+        }
+    }
+}
