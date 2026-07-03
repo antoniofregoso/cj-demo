@@ -1,5 +1,5 @@
 import { signal, effect, computed } from "@preact/signals-core";
-import initialStateJson from "./initialState.json";
+import initialStateJson from "./state.json";
 import { generateSessionId } from "../utils/crypto";
 
 const INITIAL_STATE = initialStateJson;
@@ -47,52 +47,7 @@ effect(() => {
 });
 
 
-// 3. AQUÍ AGREGAS LAS ACCIONES DEL USUARIO
-// Exportamos un objeto con funciones semánticas y descriptivas
-export const appActions = {
 
-    setLang(lang) {
-        appSignal.value = {
-            ...appSignal.value,
-            context: {
-                ...appSignal.value.context,
-                lang
-            }
-        };
-    },
-
-    setTheme(theme) {
-        appSignal.value = {
-            ...appSignal.value,
-            context: {
-                ...appSignal.value.context,
-                theme
-            }
-        };
-    },
-
-
-    // Controlar estados de carga (útil para cuando mandas datos a Odoo o n8n)
-    setLoading(isLoading, errorMessage = null) {
-        appSignal.value = {
-            ...appSignal.value,
-            meta: {
-                ...appSignal.value.meta,
-                is_loading: isLoading,
-                error_message: errorMessage
-            }
-        };
-    },
-
-    // Reset completo (Para cuando terminen en la página '#thanks')
-    clearStore() {
-        localStorage.removeItem("cj_demo_state");
-        const freshState = JSON.parse(JSON.stringify(INITIAL_STATE));
-        freshState.context.session_token = generateSessionId();
-        freshState.meta.start = Date.now();
-        appSignal.value = freshState;
-    }
-};
 
 // 4. SELECTORES COMPUTADOS (Opcionales, muy limpios para tu interfaz)
 export const currentStep = computed(() => appSignal.value.meta.current_step);

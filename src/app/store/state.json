@@ -1,0 +1,12 @@
+{
+    "app_id": "",
+    "app_name": "CJ Demo",
+    "context": {
+        "lang": "es",
+        "theme": "light",
+        "session_token": null,
+        "stage": "awaiting",
+        "last_visit": 0
+    },
+    "meta": {}
+}

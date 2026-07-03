@@ -1,7 +1,8 @@
 import { AppPage, PageHeader, PageFooter } from "@customerjourney/cj-core";
 import { HeroBanner, LevelCentered, MediaList, CardsList, ModalBox } from "@customerjourney/cj-components";
-import { appActions } from "../store/appStore";
-import { initHomeUpdater } from "../pages/updaters/homeUpdater";
+import { contextActions } from "../store/actions";
+import { initHomeUpdater } from "./updaters";
+
 
 import data from "../data/home.json";
 
@@ -29,8 +30,9 @@ export function home(req, router) {
     `;
 
     let page = new AppPage(data, template);
-    let track = page.scrollStopping;
     initHomeUpdater();
+    let track = page.scrollStopping;
+    console.log('*********************')
     console.log(track);
 
     const pageEvents = {
@@ -38,67 +40,27 @@ export function home(req, router) {
 
             switch (e.type) {
                 /* User change language or theme */
-                case 'user:select-lang':
-                    appActions.setLang(e.detail);
-                    break;
-                case 'user:select-theme':
-                    appActions.setTheme(e.detail);
-                    break;
+                case 'user:select-lang': contextActions.setLang(e.detail); break;
+                case 'user:select-theme': contextActions.setTheme(e.detail); break;
                 case 'app-click':
                     switch (e.detail.source) {
                         case "attention-button":
-                            console.log(e.detail);
+                            document.getElementById("action").scrollIntoView({ behavior: "smooth" });
                             break;
                     }
                     break;
                 case 'cta-click':
-                    console.log(e.detail);
+                    router.goTo("bye");
                     break;
                 /* User interaction with the page: User view a section */
                 case 'viewedelement':
-                    switch (e.detail.source) {
-                        case 'attention':
-                            console.log(e.detail);
-                            break;
-                        case 'interest':
-                            console.log(e.detail);
-                            break;
-                        case 'desire':
-                            console.log(e.detail);
-                            break;
-                        case 'action':
-                            console.log(e.detail);
-                            break;
-                        case 'conversion':
-                            console.log(e.detail);
-                            break;
-                    }
-                    break;
-                /* User interaction with the page: User leave a section */
-                case 'unviewedelement':
-                    switch (e.detail.source) {
-                        case 'attention':
-                            console.log(e.detail);
-                            break;
-                        case 'interest':
-                            console.log(e.detail);
-                            break;
-                        case 'desire':
-                            console.log(e.detail);
-                            break;
-                        case 'action':
-                            console.log(e.detail);
-                            break;
-                    }
-                    break;
+                    contextActions.setStage(e.detail); break;
                 /* User is leaving the app */
                 case 'leavingapp':
-                    console.log(e.detail);
-                    break;
+                    contextActions.setStage(e.detail); break;
                 /* User has left the app */
                 case 'leavedapp':
-                    console.log(e.detail);
-                    break;
+                    contextActions.setStage(e.detail); break;
             }
         }
     }
